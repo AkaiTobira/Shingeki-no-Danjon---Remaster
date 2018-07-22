@@ -1,0 +1,113 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/Tilesets/Dungeon.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends StaticBody2D
+
+var player;
+var value;
+
+func _ready():
+	player = get_tree().get_root().find_node(\"Player\", true, false)
+	value = position.y + get_parent().get_parent().position.y + 100
+	
+	#var temp = randi()%4
+	
+	$Sprite2.frame = 48# + temp
+	$Sprite.frame  = 32 #+ temp
+
+
+func _process(delta):
+	if( value > player.position.y ):	
+		self.z_index = 5;
+	else:
+		self.z_index = 0;
+
+
+func _on_Area2D_body_entered(body):
+	if body.is_in_group(\"enemies\"):
+		body.z_index = 6;
+	pass # replace with function body
+
+
+func _on_Area2D_body_exited(body):
+	if body.is_in_group(\"enemies\"):
+		body.z_index = 1;
+	pass # replace with function body
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10.4152, 10 )
+
+[node name="Node2D" type="StaticBody2D" groups=[
+"wall",
+]]
+
+position = Vector2( 0, -41 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script = SubResource( 1 )
+_sections_unfolded = [ "Collision", "Pause", "Transform" ]
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+position = Vector2( 0, -1 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 16
+_sections_unfolded = [ "Animation", "Transform" ]
+
+[node name="Sprite2" type="Sprite" parent="." index="1"]
+
+position = Vector2( 0, 79 )
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 16
+_sections_unfolded = [ "Animation" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+
+position = Vector2( 0.599304, 40.8922 )
+scale = Vector2( 3.87337, 7.69019 )
+shape = SubResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." index="3"]
+
+position = Vector2( 2.60476, 154.444 )
+scale = Vector2( 5.00159, 5.63373 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 0
+collision_mask = 513
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
+
+[node name="Wallkers" type="CollisionShape2D" parent="Area2D" index="0"]
+
+position = Vector2( -0.814256, 0 )
+scale = Vector2( 1.07105, 1 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
+
+

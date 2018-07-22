@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/Tilesets/Dungeon.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+resource_name = "Stairs"
+script/source = "extends Sprite
+
+export var change = 1
+var player_in
+var released
+
+func set_stairs(updown, tileset):
+	if updown == \"down\": change = -1
+	var pos = tileset[\"stairs_\" + updown]
+	region_rect = Rect2(Vector2(pos[0], pos[1]), Vector2(160, 160))
+
+func _process(delta):
+	if player_in and Input.is_action_pressed(\"Up\") and released:
+		Res.ui_sample(\"Stairs\")
+		get_tree().current_scene.change_floor(change)
+	
+	if !Input.is_action_pressed(\"Up\"): released = true
+
+func _on_enter(body): if body.is_in_group(\"players\"): player_in = true
+func _on_exit(body): if body.is_in_group(\"players\"): player_in = false"
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 40, 10 )
+
+[node name="Stairs" type="Sprite"]
+
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 480, 160, 160 )
+script = SubResource( 1 )
+_sections_unfolded = [ "Region" ]
+change = 1
+
+[node name="Enter" type="Area2D" parent="." index="0"]
+
+editor/display_folded = true
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="Shape" type="CollisionShape2D" parent="Enter" index="0"]
+
+position = Vector2( 0, 80 )
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="Enter" to="." method="_on_enter"]
+
+[connection signal="body_exited" from="Enter" to="." method="_on_exit"]
+
+

@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
+[ext_resource path="res://Nodes/GhostLayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Nodes/Player.tscn" type="PackedScene" id=3]
+
+[node name="Game" type="Node2D"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Sort" ]
+
+[node name="GhostLayer" parent="." index="0" instance=ExtResource( 2 )]
+
+[node name="Player" parent="." index="1" instance=ExtResource( 3 )]
+
+position = Vector2( 124.122, 184.554 )
+_sections_unfolded = [ "Collision", "Material", "Pickable", "Transform", "Visibility", "Z Index", "collision" ]
+
+

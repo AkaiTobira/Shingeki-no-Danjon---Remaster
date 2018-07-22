@@ -1,0 +1,3112 @@
+[gd_scene load_steps=70 format=2]
+
+[ext_resource path="res://Sprites/Intro/Dying.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Intro/Ded.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Intro/EngineerOfDoom.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Intro/Engineer.png" type="Texture" id=4]
+[ext_resource path="res://Resources/Fonts/Font36.tres" type="DynamicFont" id=5]
+[ext_resource path="res://Sprites/Title.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Intro/Landscape.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Intro/Burnscape.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Intro/Flame.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Intro/Fire.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Intro/Sky.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Intro/Dinosaur.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Intro/StarSky.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Intro/StarExplosion.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Intro/Building.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Intro/Creators.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Intro/StarPower.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/Intro/Human.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/Intro/StarRays.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/Intro/Eyeflash.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/Intro/DivineSeal.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/Intro/SealFX.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Intro/LabyrinthLocation.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Intro/LabyrinthLocation2.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Intro/LabyrinthLocation3.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/Intro/LabyrinthLocation4.png" type="Texture" id=26]
+[ext_resource path="res://Sprites/Intro/Labyrinth.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/Intro/Adventurer.png" type="Texture" id=28]
+[ext_resource path="res://Sprites/Intro/Spooky.png" type="Texture" id=29]
+[ext_resource path="res://Sprites/Intro/World.png" type="Texture" id=30]
+[ext_resource path="res://Sprites/Intro/Dungeon1.png" type="Texture" id=31]
+[ext_resource path="res://Sprites/Intro/Dungeon2.png" type="Texture" id=32]
+[ext_resource path="res://Sprites/Intro/Dungeon3.png" type="Texture" id=33]
+[ext_resource path="res://Sprites/Intro/Dungeon4.png" type="Texture" id=34]
+[ext_resource path="res://Sprites/Intro/Dungeon5.png" type="Texture" id=35]
+[ext_resource path="res://Sprites/Intro/Castle.png" type="Texture" id=36]
+[ext_resource path="res://Sprites/Intro/Lifeforce.png" type="Texture" id=37]
+[ext_resource path="res://Sprites/Intro/City.png" type="Texture" id=38]
+[ext_resource path="res://Sprites/Intro/Smuteczek.png" type="Texture" id=39]
+[ext_resource path="res://Sprites/Intro/Warrior.png" type="Texture" id=40]
+[ext_resource path="res://Sprites/Intro/WariorHead.png" type="Texture" id=41]
+[ext_resource path="res://Sprites/Intro/Slash.png" type="Texture" id=42]
+[ext_resource path="res://Sprites/Intro/Slasher.png" type="Texture" id=43]
+
+[sub_resource type="GDScript" id=1]
+
+resource_name = "Intro"
+script/source = "extends Node2D
+
+onready var texts = $Camera/Texts
+
+var appear_humans
+var build_city
+var move_seals
+var seal_fx
+var appear_dungeons
+var move_humans
+
+func _ready():
+	seed(2)
+	for human in $Phase2/Mover/Civilization.get_children():
+		human.frame = randi()%4
+		human.modulate.a = 0
+	
+	for dungeon in $Phase6/Dungeons.get_children():
+		dungeon.modulate.a = 0
+	
+	$Phase1.visible = true
+	$Phase2.visible = false
+	$Phase3.visible = false
+	$Phase3a.visible = false
+	$Phase5.visible = false
+	$Phase7.visible = false
+	$Phase8.visible = false
+	$Phase8/City.visible = false
+	
+	recursive_invisible($Phase3/Buildings)
+
+func _process(delta):
+	if Input.is_action_pressed(\"ui_accept\"): get_tree().change_scene(\"res://Scenes/TitleScreen.tscn\")
+	
+	if appear_humans:
+		$Phase2/Mover/Civilization.get_child(randi() % $Phase2/Mover/Civilization.get_child_count()).modulate.a += delta*10
+	
+	if build_city: recursive_visible($Phase3/Buildings)
+	
+	if move_seals and move_seals < 128:
+		for seal in $Phase4/SealLayer/Seals.get_children():
+			seal.position.x = sin(seal.get_index() * PI/4) * move_seals
+			seal.position.y = cos(seal.get_index() * PI/4) * move_seals
+		move_seals += delta*100
+	
+	if seal_fx and seal_fx < 1.016472:
+		var sc = 5 - seal_fx*5
+		if sc < 3: $Shader/Effect.visible = false
+		
+		for seal in $Phase4/SealLayer/Seals.get_children():
+			var fx = seal.get_node(\"SealFX\")
+			
+			fx.visible = true
+			fx.rotation = seal_fx
+			fx.scale = Vector2(sc, sc)
+		
+		seal_fx += delta
+	elif seal_fx and seal_fx < 128:
+		$Camera/Landscape/Fire.visible = false
+		for seal in $Phase4/SealLayer/Seals.get_children():
+			seal.position.x = sin(seal.get_index() * PI/4) * (128 - seal_fx)
+			seal.position.y = cos(seal.get_index() * PI/4) * (128 - seal_fx)
+		seal_fx += delta*100
+	
+	if appear_dungeons:
+		var dungeon = $Phase6/Dungeons.get_child(randi() % $Phase6/Dungeons.get_child_count())
+		if dungeon.modulate.a < 1: dungeon.modulate.a += delta*2
+	
+	if move_humans:
+		for human in $Phase8/City/People.get_children():
+			human.position += Vector2(-1 + randi()%3, -1 + randi()%3)
+
+func _on_phase_finished(phase):
+	match phase:
+		\"Phase1\":
+			$Phase1.visible = false
+			$Phase2.visible = true
+			$Animator.play(\"Phase2\")
+			
+		\"Phase2\":
+			appear_humans = false
+			$Phase3.visible = true
+			$Camera/Landscape.visible = true
+			$Animator.play(\"Phase3\")
+			
+		\"Phase3\":
+			build_city = false
+			$Phase3/StarPower.texture = preload(\"res://Sprites/Intro/EvilStar.png\")
+			$Animator.play(\"Phase4\")
+			$Phase3a/Engineer/AnimationPlayer.play(\"Walk\")
+			$Phase3a/Engineer2/AnimationPlayer.play(\"Walk\")
+			$Phase3a/Engineer3/AnimationPlayer.play(\"Walk\")
+			$Phase3a/Engineer4/AnimationPlayer.play(\"Walk\")
+			recursive_retexture($Phase3/Buildings)
+		
+		\"Phase4\":
+			$Shader/Effect.visible = true
+			$Phase4/SealLayer/Seals.visible = true
+			$Phase3a/Engineer/AnimationPlayer.stop()
+			$Phase3a/Engineer2/AnimationPlayer.stop()
+			$Phase3a/Engineer3/AnimationPlayer.stop()
+			$Phase3a/Engineer4/AnimationPlayer.stop()
+			$Camera/Landscape/Fire/AnimationPlayer.stop()
+			$Camera/Landscape/Burnscape/Particles2D.speed_scale = 0
+			$Camera/Texts/TextAnimator.playback_speed = 0.8
+			animate_text(\"Text10\")
+			seals()
+			yield(get_tree().create_timer(4), \"timeout\")
+			$Phase5.visible = true
+			$Animator.play(\"Phase5\")
+			seal_fx()
+		
+		\"Phase5\":
+			$Animator.play(\"Phase6\")
+		
+		\"Phase6\":
+			$Phase7.visible = true
+			$Animator.play(\"Phase7\")
+		
+		\"Phase7\":
+			$Animator.play(\"Phase8\")
+			$Phase8.visible = true
+		
+		\"Phase8\":
+			get_tree().change_scene(\"res://Scenes/TitleScreen.tscn\")
+
+func animate_text(text):
+	texts.get_node(\"TextAnimator\").get_animation(\"AnimateText\").track_set_path(0, text + \":percent_visible\")
+	texts.get_node(\"TextAnimator\").get_animation(\"AnimateText\").track_set_path(1, text + \":modulate\")
+	texts.get_node(\"TextAnimator\").play(\"AnimateText\")
+
+func appear_humans(): appear_humans = true
+func build_city(): build_city = true
+func seals(): move_seals = 0.1
+func seal_fx(): seal_fx = 0.1
+func appear_dungeons(): appear_dungeons = true
+func move_humans(): move_humans = true
+func music(): Res.play_music(\"Intro\")
+
+func kill_dinosaurs():
+	$Phase1/Sky/Dinosaur.texture  = preload(\"res://Sprites/Intro/Deadosaur.png\")
+	$Phase1/Sky/Dinosaur2.texture = preload(\"res://Sprites/Intro/Deadosaur.png\")
+	$Phase1/Sky/Dinosaur3.texture = preload(\"res://Sprites/Intro/Deadosaur.png\")
+	$Phase1/Sky/Dinosaur4.texture = preload(\"res://Sprites/Intro/Deadosaur.png\")
+
+func world_burns():
+	$Phase3/Creators.texture  = preload(\"res://Sprites/Intro/Panic.png\")
+	$Phase3/Creators2.texture = preload(\"res://Sprites/Intro/Panic.png\")
+	$Phase3/Creators3.texture = preload(\"res://Sprites/Intro/Panic.png\")
+	redeyize($Phase3a/Engineer)
+	redeyize($Phase3a/Engineer2)
+	redeyize($Phase3a/Engineer3)
+	redeyize($Phase3a/Engineer4)
+	$Phase3a/Eyeflash.visible = true
+	$Phase3a/Eyeflash2.visible = true
+
+func redeyize(node):
+	node.texture = preload(\"res://Sprites/Intro/Redeye.png\")
+	node.hframes = 3
+
+func give_hope():
+	for human in $Phase8/City/People.get_children(): if randi()%2 ==0:
+		human.texture = preload(\"res://Sprites/Intro/Nadzieja.png\")
+	
+func recursive_invisible(node):
+	node.self_modulate.a = 0
+	for node2 in node.get_children(): recursive_invisible(node2)
+
+func recursive_visible(node):
+	if node.self_modulate.a < 1:
+		node.self_modulate.a += 0.02
+	else:
+		for node2 in node.get_children(): recursive_visible(node2)
+	
+func recursive_retexture(node):
+	if node is Sprite: node.texture = preload(\"res://Sprites/Intro/BuildingRuined.png\")
+	for node2 in node.get_children(): recursive_retexture(node2)"
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="Shader" id=2]
+
+code = "shader_type canvas_item;
+
+void fragment() {
+	vec3 c = textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0).rgb;
+	COLOR.rgb = vec3(1.0-c.r, 1.0-c.g, 1.0-c.b);
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+
+render_priority = 0
+shader = SubResource( 2 )
+_sections_unfolded = [ "shader_param" ]
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "Phase1"
+length = 10.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Phase1/StarSky:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -743, -82 ), Vector2( 707, 617 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Phase1/Sky:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1366, 768 ), Vector2( 683, 768 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Phase1/StarExplosion:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 5, 8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 683, 640 ), Vector2( 683, 255 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Phase1/StarExplosion:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 5, 8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 4, 4 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Phase1/StarExplosion:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Phase1/StarExplosion:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 5, 8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 3, 6, 6.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [ "Text1" ],
+"method": "animate_text"
+}, {
+"args": [  ],
+"method": "music"
+}, {
+"args": [ "Text2" ],
+"method": "animate_text"
+}, {
+"args": [  ],
+"method": "kill_dinosaurs"
+} ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Camera:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Camera:zoom")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "Phase2"
+length = 9.0
+loop = false
+step = 0.1
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 4.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ "Text3" ],
+"method": "animate_text"
+}, {
+"args": [  ],
+"method": "appear_humans"
+}, {
+"args": [ "Text4" ],
+"method": "animate_text"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Phase2/Mover:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 3, 6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -1366, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Phase2/Mover:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 8, 9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Phase3a:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 8 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=6]
+
+resource_name = "Phase3"
+length = 13.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Phase2/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1, 2, 5, 9, 9.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ "Text5" ],
+"method": "animate_text"
+}, {
+"args": [  ],
+"method": "build_city"
+}, {
+"args": [ "Text6" ],
+"method": "animate_text"
+}, {
+"args": [  ],
+"method": "world_burns"
+}, {
+"args": [ "Text7" ],
+"method": "animate_text"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Camera:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 5, 7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 1366, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Camera/Landscape/Fire:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 9, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2050, 820 ), Vector2( 0, 434 ), Vector2( 0, 333 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Camera/Landscape/Burnscape:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 9, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Phase3a/Eyeflash:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 9, 9.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -180.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Phase3a/Eyeflash:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 9, 9.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Phase3a/Eyeflash:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 9, 9.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Phase3a/Eyeflash2:rotation_degrees")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 9, 9.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -180.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Phase3a/Eyeflash2:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 9, 9.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Phase3a/Eyeflash2:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 9, 9.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+
+length = 9.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 4, 4.1, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1366, 0 ), Vector2( 1203, -123 ), Vector2( 1203, -123 ), Vector2( 1366, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Camera:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 4, 4.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.4, 0.4 ), Vector2( 0.4, 0.4 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "Text8" ],
+"method": "animate_text"
+}, {
+"args": [ "Text9" ],
+"method": "animate_text"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Phase3a:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 4.1, 9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( -677, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+
+resource_name = "Phase5"
+length = 12.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Phase5/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 4.5, 5.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Phase5/Labyrinth:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.5, 6.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "Text11" ],
+"method": "animate_text"
+}, {
+"args": [ "Text12" ],
+"method": "animate_text"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Phase4/SealLayer/Seals:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 2.5, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Phase5/LabyrinthLocation:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 3.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Phase3:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 3.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Phase3a:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 3.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Camera/Landscape:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 3.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Phase5/LabyrinthLocation/LabyrinthLocation2:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Phase5/LabyrinthLocation/LabyrinthLocation2/LabyrinthLocation3:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 8, 9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Phase5/LabyrinthLocation/LabyrinthLocation2/LabyrinthLocation3/LabyrinthLocation4:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 10, 11 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+
+resource_name = "Phase6"
+length = 12.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 5, 6, 11, 12 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 199 ), Vector2( 0, 199 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( -711, 132 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Camera:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2, 5, 6, 11, 12 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.1, 0.1 ), Vector2( 0.1, 0.1 ), Vector2( 3, 3 ), Vector2( 3, 3 ), Vector2( 0.01, 0.01 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 6, 6.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ "Text13" ],
+"method": "animate_text"
+}, {
+"args": [  ],
+"method": "appear_dungeons"
+}, {
+"args": [ "Text14" ],
+"method": "animate_text"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Phase6/Adventurer:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 1.5, 5, 6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Phase6/Spooky:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 2.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Phase5/LabyrinthLocation:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=10]
+
+resource_name = "Phase7"
+length = 6.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Camera:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 5.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "Text15" ],
+"method": "animate_text"
+}, {
+"args": [ "Text16" ],
+"method": "animate_text"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Phase7/Panic:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ), ExtResource( 2 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Phase7/Lifeforce:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Phase7/Engineer:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 3 ), ExtResource( 4 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+
+resource_name = "Phase8"
+length = 22.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Phase7:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Phase8/City:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1, 5, 6, 10, 15.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "move_humans"
+}, {
+"args": [ "Text17" ],
+"method": "animate_text"
+}, {
+"args": [  ],
+"method": "give_hope"
+}, {
+"args": [ "Text18" ],
+"method": "animate_text"
+}, {
+"args": [ "Text19" ],
+"method": "animate_text"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Phase8/City:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 8, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 341, 384 ), Vector2( 341, 384 ), Vector2( 1024, 384 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Phase8/City/Warrior:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 12 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Phase8/City/Warrior:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 12, 18, 18.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -273, 344 ), Vector2( -739, 344 ), Vector2( -739, 357.265 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Camera:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 12, 16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( -392, 269 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Camera:zoom")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 12, 16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.3, 0.3 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Phase8/City/Warrior/AnimationPlayer:current_animation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 18 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ "" ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Phase8/City/Warrior:frame")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 18 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Phase8/City/Warrior/WariorHead:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Phase8/City/Warrior/WariorHead:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 18, 18.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 6, -13 ), Vector2( 5.46985, -39.9125 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Phase8/City/Warrior:rotation_degrees")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 18, 18.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 90.0 ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Phase8/ColorRect:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 1, 2, 17.9, 18.1, 18.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.712706 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Phase8/City/Slash:frame")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 17.7, 17.8, 17.9, 18, 18.1, 18.2, 18.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6 ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Phase8/City/Slash:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 17.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Phase8/City/Slash:modulate")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 17.7, 18.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Phase8/ColorRect:color")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0, 17.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Phase8/City/Slasher:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0, 18.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Phase8/City/Slasher:position")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 18.1, 18.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -704, 332 ), Vector2( -654, 332 ) ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Phase8/City/Slasher:modulate")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 18.1, 18.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("Phase8/City/Slasher:frame")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 17.7, 19 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("Camera/Texts/Title:visible")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0, 21 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Camera/Texts/Title:modulate")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 21, 22 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+
+length = 4.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:percent_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Gradient" id=13]
+
+offsets = PoolRealArray( 0.512953, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=14]
+
+flags = 4
+gradient = SubResource( 13 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=15]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 2
+emission_box_extents = Vector3( 683, 1, 1 )
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, -100, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color_ramp = SubResource( 14 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 16.0
+anim_speed_random = 0.0
+anim_offset = 1.0
+anim_offset_random = 1.0
+anim_loop = true
+_sections_unfolded = [ "Animation", "Color", "Emission Shape", "Gravity", "Scale" ]
+
+[sub_resource type="Animation" id=16]
+
+length = 8.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 0, 0, 1366, 101 ), Rect2( 0, 101, 1366, 101 ), Rect2( 0, 202, 1366, 101 ), Rect2( 0, 303, 1366, 101 ), Rect2( 0, 404, 1366, 101 ), Rect2( 0, 505, 1366, 101 ), Rect2( 0, 606, 1366, 101 ), Rect2( 0, 707, 1366, 101 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+
+length = 12.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3, 9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:flip_v")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=18]
+
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=19]
+
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0, 2 ]
+}
+
+[sub_resource type="Animation" id=20]
+
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0, 2 ]
+}
+
+[sub_resource type="Animation" id=21]
+
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0, 2 ]
+}
+
+[sub_resource type="Animation" id=22]
+
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0, 2 ]
+}
+
+[sub_resource type="Gradient" id=23]
+
+offsets = PoolRealArray( 0.533679, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=24]
+
+flags = 4
+gradient = SubResource( 23 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=25]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 90.0
+flatness = 0.0
+gravity = Vector3( -100, -50, 0 )
+initial_velocity = 50.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color_ramp = SubResource( 24 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angle", "Spread" ]
+
+[sub_resource type="Animation" id=26]
+
+resource_name = "Run"
+length = 2.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[node name="Intro" type="Node2D"]
+
+editor/display_folded = true
+script = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Shader" type="CanvasLayer" parent="." index="0"]
+
+editor/display_folded = true
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="Effect" type="ColorRect" parent="Shader" index="0"]
+
+visible = false
+material = SubResource( 3 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1366.0
+margin_bottom = 768.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+_sections_unfolded = [ "Material", "Rect" ]
+
+[node name="Animator" type="AnimationPlayer" parent="." index="1"]
+
+root_node = NodePath("..")
+autoplay = "Phase1"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/Phase1 = SubResource( 4 )
+anims/Phase2 = SubResource( 5 )
+anims/Phase3 = SubResource( 6 )
+anims/Phase4 = SubResource( 7 )
+anims/Phase5 = SubResource( 8 )
+anims/Phase6 = SubResource( 9 )
+anims/Phase7 = SubResource( 10 )
+anims/Phase8 = SubResource( 11 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Camera" type="Camera2D" parent="." index="2"]
+
+z_index = 4
+offset = Vector2( 683, 384 )
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
+limit_smoothed = false
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
+smoothing_enabled = false
+smoothing_speed = 5.0
+offset_v = 0.0
+offset_h = 0.0
+drag_margin_left = 0.0
+drag_margin_top = 0.0
+drag_margin_right = 0.0
+drag_margin_bottom = 0.0
+editor_draw_screen = true
+editor_draw_limits = false
+editor_draw_drag_margin = false
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Texts" type="CanvasLayer" parent="Camera" index="0"]
+
+editor/display_folded = true
+layer = 3
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="TextAnimator" type="AnimationPlayer" parent="Camera/Texts" index="0"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/AnimateText = SubResource( 12 )
+blend_times = [  ]
+
+[node name="Text1" type="Label" parent="Camera/Texts" index="1"]
+
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 380.0
+margin_top = 329.0
+margin_right = 1062.0
+margin_bottom = 414.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+text = "Thousands of years ago,
+a star has fallen from the sky."
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_fonts" ]
+
+[node name="Text2" type="Label" parent="Camera/Texts" index="2"]
+
+modulate = Color( 1, 1, 1, 0.5 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 277.0
+margin_top = 329.0
+margin_right = 1157.0
+margin_bottom = 414.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "It brought a devastation upon the world,
+causing nearly all life to go extinct."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text3" type="Label" parent="Camera/Texts" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 183.0
+margin_top = 329.0
+margin_right = 1217.0
+margin_bottom = 414.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "On the ruins of the former world,
+centuries later a civilization has established."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text4" type="Label" parent="Camera/Texts" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 161.0
+margin_top = 297.0
+margin_right = 1239.0
+margin_bottom = 426.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The so called Ancient Ones, utilized the fallen
+star’s power to create beings known as Engineers."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text5" type="Label" parent="Camera/Texts" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 136.0
+margin_top = 297.0
+margin_right = 1324.0
+margin_bottom = 426.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "These artificial beings made of all kinds of materials
+were the main builders of ancient great cities."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text6" type="Label" parent="Camera/Texts" index="6"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 53.0
+margin_top = 297.0
+margin_right = 1307.0
+margin_bottom = 426.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "For their hard work, Ancient Ones bestowed Engineers with
+the gift of sentience, using the star’s power again."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text7" type="Label" parent="Camera/Texts" index="7"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 53.0
+margin_top = 297.0
+margin_right = 1307.0
+margin_bottom = 426.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "That was a grave mistake."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text8" type="Label" parent="Camera/Texts" index="8"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 321.0
+margin_top = 297.0
+margin_right = 1113.0
+margin_bottom = 426.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The great cataclysm of the past was
+caused by star’s own malicious will."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text9" type="Label" parent="Camera/Texts" index="9"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 271.0
+margin_top = 297.0
+margin_right = 1173.0
+margin_bottom = 426.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "This will was now inherited by Engineers."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text10" type="Label" parent="Camera/Texts" index="10"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 204.0
+margin_top = 42.0
+margin_right = 1194.0
+margin_bottom = 171.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The world was met with another crisis,
+but Ancient Ones were able to fix their
+mistake with the power of Eight Divine Seals."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text11" type="Label" parent="Camera/Texts" index="11"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 204.0
+margin_top = 45.0
+margin_right = 1128.0
+margin_bottom = 174.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Engineers were stopped and sealed in
+a great structure, known as The Labyrinth."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text12" type="Label" parent="Camera/Texts" index="12"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 249.0
+margin_top = 46.0
+margin_right = 1085.0
+margin_bottom = 175.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Over hundreds of years,
+that place became shrouded in legends."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text13" type="Label" parent="Camera/Texts" index="13"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 101.0
+margin_top = 48.0
+margin_right = 1223.0
+margin_bottom = 177.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "The nightmare of Engineers has ultimately returned,
+accidentally released by a curious adventurer."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text14" type="Label" parent="Camera/Texts" index="14"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 338.0
+margin_top = 81.0
+margin_right = 1042.0
+margin_bottom = 210.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "All over the world, structures
+known as Dungeons have appeared."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text15" type="Label" parent="Camera/Texts" index="15"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 107.0
+margin_top = 77.0
+margin_right = 1251.0
+margin_bottom = 206.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "They were the source of Engineers’ new power,
+serving as outposts for extracting human lifeforce."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text16" type="Label" parent="Camera/Texts" index="16"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 244.0
+margin_top = 79.0
+margin_right = 1124.0
+margin_bottom = 208.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Without the ancient power,
+mankind had no other choice than to hide
+inside the walls of its great ancestors."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text17" type="Label" parent="Camera/Texts" index="17"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 244.0
+margin_top = 58.0
+margin_right = 1278.0
+margin_bottom = 187.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "With a constant terror and fear of death,
+their only hope was to find the 8 Divine Seals,
+to stop Engineers’ genocide."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text18" type="Label" parent="Camera/Texts" index="18"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 102.0
+margin_top = 118.0
+margin_right = 1224.0
+margin_bottom = 247.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "But that would require delving into enemy territory
+to destroy Dungeons and reclaim stolen lands."
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Text19" type="Label" parent="Camera/Texts" index="19"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 147.0
+margin_top = 333.0
+margin_right = 1225.0
+margin_bottom = 374.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "Does a human brave enough exist to save his kind?"
+align = 1
+percent_visible = 0.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Title" type="TextureRect" parent="Camera/Texts" index="20"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 6 )
+stretch_mode = 0
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Landscape" type="Sprite" parent="Camera" index="1"]
+
+editor/display_folded = true
+visible = false
+position = Vector2( 683, 384 )
+z_as_relative = false
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Burnscape" type="Sprite" parent="Camera/Landscape" index="0"]
+
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 8 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Particles2D" type="Particles2D" parent="Camera/Landscape/Burnscape" index="0"]
+
+position = Vector2( 0, 374 )
+emitting = true
+amount = 200
+lifetime = 4.0
+one_shot = false
+preprocess = 4.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 15 )
+texture = ExtResource( 9 )
+normal_map = null
+h_frames = 1
+v_frames = 8
+_sections_unfolded = [ "Process Material", "Time" ]
+
+[node name="Fire" type="Sprite" parent="Camera/Landscape" index="1"]
+
+editor/display_folded = true
+position = Vector2( 2050, 820 )
+z_index = 2
+texture = ExtResource( 10 )
+vframes = 8
+region_enabled = true
+region_rect = Rect2( 0, 303, 1366, 101 )
+_sections_unfolded = [ "Animation", "Region", "Transform", "Z Index" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/Landscape/Fire" index="0"]
+
+root_node = NodePath("..")
+autoplay = "Idle"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 16.0
+anims/Idle = SubResource( 16 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Phase1" type="Node2D" parent="." index="3"]
+
+editor/display_folded = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sky" type="Sprite" parent="Phase1" index="0"]
+
+editor/display_folded = true
+position = Vector2( 1366, 768 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2732, 1536 )
+_sections_unfolded = [ "Region", "Transform" ]
+
+[node name="Dinosaur" type="Sprite" parent="Phase1/Sky" index="0"]
+
+position = Vector2( -1103, 557 )
+texture = ExtResource( 12 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="Dinosaur2" type="Sprite" parent="Phase1/Sky" index="1"]
+
+position = Vector2( -428, 451 )
+texture = ExtResource( 12 )
+
+[node name="Dinosaur4" type="Sprite" parent="Phase1/Sky" index="2"]
+
+position = Vector2( 1093, 532 )
+texture = ExtResource( 12 )
+
+[node name="Dinosaur3" type="Sprite" parent="Phase1/Sky" index="3"]
+
+position = Vector2( 405, 519 )
+texture = ExtResource( 12 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="StarSky" type="Sprite" parent="Phase1" index="1"]
+
+editor/display_folded = true
+position = Vector2( -743, -82 )
+texture = ExtResource( 13 )
+flip_v = true
+hframes = 3
+frame = 2
+_sections_unfolded = [ "Animation", "Offset", "Transform" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase1/StarSky" index="0"]
+
+root_node = NodePath("..")
+autoplay = "Idle"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 8.0
+anims/Idle = SubResource( 17 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="StarExplosion" type="Sprite" parent="Phase1" index="2"]
+
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 683, 640 )
+texture = ExtResource( 14 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Phase3" type="Node2D" parent="." index="4"]
+
+editor/display_folded = true
+visible = false
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Buildings" type="Node2D" parent="Phase3" index="0"]
+
+editor/display_folded = true
+
+[node name="Building6" type="Sprite" parent="Phase3/Buildings" index="0"]
+
+editor/display_folded = true
+position = Vector2( 348, 422 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 15 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building6" index="0"]
+
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building6/Building2" index="0"]
+
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building" type="Sprite" parent="Phase3/Buildings" index="1"]
+
+editor/display_folded = true
+position = Vector2( 219, 582 )
+texture = ExtResource( 15 )
+
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building" index="0"]
+
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building2" type="Sprite" parent="Phase3/Buildings" index="2"]
+
+editor/display_folded = true
+position = Vector2( 695, 463 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 15 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building2" index="0"]
+
+editor/display_folded = true
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building2/Building2" index="0"]
+
+editor/display_folded = true
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building4" type="Sprite" parent="Phase3/Buildings/Building2/Building2/Building3" index="0"]
+
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building3" type="Sprite" parent="Phase3/Buildings" index="3"]
+
+editor/display_folded = true
+position = Vector2( 1162, 491 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 15 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building3" index="0"]
+
+editor/display_folded = true
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building3/Building2" index="0"]
+
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building4" type="Sprite" parent="Phase3/Buildings" index="4"]
+
+editor/display_folded = true
+position = Vector2( 487, 521 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 15 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building4" index="0"]
+
+position = Vector2( 0, -260 )
+texture = ExtResource( 15 )
+
+[node name="Building5" type="Sprite" parent="Phase3/Buildings" index="5"]
+
+position = Vector2( 977, 591 )
+scale = Vector2( 1.2, 1.2 )
+z_index = 1
+texture = ExtResource( 15 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Creators" type="Sprite" parent="Phase3" index="1"]
+
+position = Vector2( 2166, 610 )
+texture = ExtResource( 16 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="Creators2" type="Sprite" parent="Phase3" index="2"]
+
+position = Vector2( 2303, 610 )
+texture = ExtResource( 16 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="Creators3" type="Sprite" parent="Phase3" index="3"]
+
+position = Vector2( 2440, 610 )
+texture = ExtResource( 16 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="StarPower" type="Sprite" parent="Phase3" index="4"]
+
+position = Vector2( 1897, 263 )
+texture = ExtResource( 17 )
+
+[node name="Phase2" type="Node2D" parent="." index="5"]
+
+editor/display_folded = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Phase2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1366.0
+margin_bottom = 768.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+_sections_unfolded = [ "Rect", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Mover" type="Node2D" parent="Phase2" index="1"]
+
+editor/display_folded = true
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Civilization" type="Node2D" parent="Phase2/Mover" index="0"]
+
+editor/display_folded = true
+
+[node name="Human" type="Sprite" parent="Phase2/Mover/Civilization" index="0"]
+
+position = Vector2( 128, 618 )
+texture = ExtResource( 18 )
+hframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Human2" type="Sprite" parent="Phase2/Mover/Civilization" index="1"]
+
+position = Vector2( 308, 550 )
+texture = ExtResource( 18 )
+hframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Human3" type="Sprite" parent="Phase2/Mover/Civilization" index="2"]
+
+position = Vector2( 522, 626 )
+texture = ExtResource( 18 )
+hframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Human4" type="Sprite" parent="Phase2/Mover/Civilization" index="3"]
+
+position = Vector2( 703, 551 )
+texture = ExtResource( 18 )
+hframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Human5" type="Sprite" parent="Phase2/Mover/Civilization" index="4"]
+
+position = Vector2( 926, 627 )
+texture = ExtResource( 18 )
+hframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Human6" type="Sprite" parent="Phase2/Mover/Civilization" index="5"]
+
+position = Vector2( 1109, 552 )
+texture = ExtResource( 18 )
+hframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Human7" type="Sprite" parent="Phase2/Mover/Civilization" index="6"]
+
+position = Vector2( 1275, 621 )
+texture = ExtResource( 18 )
+hframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Creators" type="Sprite" parent="Phase2/Mover" index="1"]
+
+position = Vector2( 1480, 608 )
+texture = ExtResource( 16 )
+
+[node name="Creators3" type="Sprite" parent="Phase2/Mover" index="2"]
+
+position = Vector2( 1706, 608 )
+texture = ExtResource( 16 )
+
+[node name="Creators2" type="Sprite" parent="Phase2/Mover" index="3"]
+
+position = Vector2( 1593, 608 )
+texture = ExtResource( 16 )
+
+[node name="Creators4" type="Sprite" parent="Phase2/Mover" index="4"]
+
+position = Vector2( 1815, 608 )
+texture = ExtResource( 16 )
+
+[node name="Engineer" type="Sprite" parent="Phase2/Mover" index="5"]
+
+position = Vector2( 2178, 516 )
+texture = ExtResource( 4 )
+
+[node name="Engineer2" type="Sprite" parent="Phase2/Mover" index="6"]
+
+position = Vector2( 2412, 516 )
+texture = ExtResource( 4 )
+
+[node name="Engineer3" type="Sprite" parent="Phase2/Mover" index="7"]
+
+position = Vector2( 2641, 516 )
+texture = ExtResource( 4 )
+
+[node name="StarPower" type="Sprite" parent="Phase2/Mover" index="8"]
+
+position = Vector2( 1822, 270 )
+texture = ExtResource( 17 )
+
+[node name="StarRays" type="Sprite" parent="Phase2/Mover" index="9"]
+
+editor/display_folded = true
+position = Vector2( 2201.5, 390 )
+texture = ExtResource( 19 )
+vframes = 4
+frame = 2
+_sections_unfolded = [ "Animation" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase2/Mover/StarRays" index="0"]
+
+root_node = NodePath("..")
+autoplay = "Idle"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 16.0
+anims/Idle = SubResource( 18 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Phase3a" type="Node2D" parent="." index="6"]
+
+editor/display_folded = true
+visible = false
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Engineer" type="Sprite" parent="Phase3a" index="0"]
+
+editor/display_folded = true
+position = Vector2( 812, 516 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Animation" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer" index="0"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 8.0
+anims/Walk = SubResource( 19 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Engineer2" type="Sprite" parent="Phase3a" index="1"]
+
+editor/display_folded = true
+position = Vector2( 1046, 516 )
+texture = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer2" index="0"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 8.0
+anims/Walk = SubResource( 20 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Engineer3" type="Sprite" parent="Phase3a" index="2"]
+
+editor/display_folded = true
+position = Vector2( 1275, 516 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer3" index="0"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 8.0
+anims/Walk = SubResource( 21 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Engineer4" type="Sprite" parent="Phase3a" index="3"]
+
+editor/display_folded = true
+position = Vector2( 1506, 516 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer4" index="0"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 8.0
+anims/Walk = SubResource( 22 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Eyeflash" type="Sprite" parent="Phase3a" index="4"]
+
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 1531, 360 )
+rotation = -3.14159
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 20 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Eyeflash2" type="Sprite" parent="Phase3a" index="5"]
+
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 1476, 360 )
+rotation = -3.14159
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 20 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Phase4" type="Node2D" parent="." index="7"]
+
+editor/display_folded = true
+
+[node name="SealLayer" type="CanvasLayer" parent="Phase4" index="0"]
+
+editor/display_folded = true
+layer = 2
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="Seals" type="Node2D" parent="Phase4/SealLayer" index="0"]
+
+editor/display_folded = true
+visible = false
+position = Vector2( 683, 384 )
+z_index = 1
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="Seal1" type="Sprite" parent="Phase4/SealLayer/Seals" index="0"]
+
+editor/display_folded = true
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 98, -205 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal1" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Seal2" type="Sprite" parent="Phase4/SealLayer/Seals" index="1"]
+
+editor/display_folded = true
+modulate = Color( 0, 0.0859375, 1, 1 )
+position = Vector2( 234, -77 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal2" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Seal3" type="Sprite" parent="Phase4/SealLayer/Seals" index="2"]
+
+editor/display_folded = true
+modulate = Color( 0.945313, 0, 1, 1 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal3" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Seal4" type="Sprite" parent="Phase4/SealLayer/Seals" index="3"]
+
+editor/display_folded = true
+modulate = Color( 0, 1, 0.953125, 1 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal4" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Seal5" type="Sprite" parent="Phase4/SealLayer/Seals" index="4"]
+
+editor/display_folded = true
+modulate = Color( 0.101563, 1, 0, 1 )
+position = Vector2( -85, 79 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal5" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Seal6" type="Sprite" parent="Phase4/SealLayer/Seals" index="5"]
+
+editor/display_folded = true
+modulate = Color( 1, 0.9375, 0, 1 )
+position = Vector2( -55, -42 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal6" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Seal7" type="Sprite" parent="Phase4/SealLayer/Seals" index="6"]
+
+editor/display_folded = true
+modulate = Color( 1, 0.539063, 0, 1 )
+position = Vector2( -191, 23 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal7" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Seal8" type="Sprite" parent="Phase4/SealLayer/Seals" index="7"]
+
+editor/display_folded = true
+position = Vector2( -76, 219 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal8" index="0"]
+
+visible = false
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Phase5" type="Node2D" parent="." index="8"]
+
+editor/display_folded = true
+z_index = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="LabyrinthLocation" type="Sprite" parent="Phase5" index="0"]
+
+editor/display_folded = true
+position = Vector2( 683, 384 )
+texture = ExtResource( 23 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="LabyrinthLocation2" type="Sprite" parent="Phase5/LabyrinthLocation" index="0"]
+
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 24 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="LabyrinthLocation3" type="Sprite" parent="Phase5/LabyrinthLocation/LabyrinthLocation2" index="0"]
+
+modulate = Color( 1, 1, 1, 0 )
+z_index = 1
+texture = ExtResource( 25 )
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="LabyrinthLocation4" type="Sprite" parent="Phase5/LabyrinthLocation/LabyrinthLocation2/LabyrinthLocation3" index="0"]
+
+modulate = Color( 1, 1, 1, 0 )
+z_index = 1
+texture = ExtResource( 26 )
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="ColorRect" type="ColorRect" parent="Phase5" index="1"]
+
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1366.0
+margin_bottom = 768.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 0, 0, 0, 1 )
+_sections_unfolded = [ "Rect", "Visibility" ]
+
+[node name="Labyrinth" type="Sprite" parent="Phase5" index="2"]
+
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 683.5, 284.5 )
+texture = ExtResource( 27 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Phase6" type="Node2D" parent="." index="9"]
+
+editor/display_folded = true
+z_index = 1
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Adventurer" type="Sprite" parent="Phase6" index="0"]
+
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 678, 593 )
+texture = ExtResource( 28 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Spooky" type="Sprite" parent="Phase6" index="1"]
+
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 689, 569 )
+texture = ExtResource( 29 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="World" type="Sprite" parent="Phase6" index="2"]
+
+position = Vector2( 683, 384 )
+z_index = -2
+texture = ExtResource( 30 )
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Dungeons" type="Node2D" parent="Phase6" index="3"]
+
+editor/display_folded = true
+
+[node name="Dungeon1" type="Sprite" parent="Phase6/Dungeons" index="0"]
+
+position = Vector2( 1942, 1043 )
+texture = ExtResource( 31 )
+
+[node name="Dungeon2" type="Sprite" parent="Phase6/Dungeons" index="1"]
+
+position = Vector2( 2007, -323 )
+texture = ExtResource( 32 )
+
+[node name="Dungeon3" type="Sprite" parent="Phase6/Dungeons" index="2"]
+
+position = Vector2( -810, -335 )
+texture = ExtResource( 33 )
+
+[node name="Dungeon4" type="Sprite" parent="Phase6/Dungeons" index="3"]
+
+position = Vector2( -1088, 1183 )
+texture = ExtResource( 34 )
+
+[node name="Dungeon5" type="Sprite" parent="Phase6/Dungeons" index="4"]
+
+position = Vector2( -32, 330 )
+texture = ExtResource( 35 )
+
+[node name="Phase7" type="Node2D" parent="." index="10"]
+
+editor/display_folded = true
+z_index = 2
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="Castle" type="Sprite" parent="Phase7" index="0"]
+
+position = Vector2( 683, 384 )
+texture = ExtResource( 36 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Engineer" type="Sprite" parent="Phase7" index="1"]
+
+position = Vector2( 653, 407 )
+texture = ExtResource( 4 )
+
+[node name="Panic" type="Sprite" parent="Phase7" index="2"]
+
+position = Vector2( 879, 512 )
+texture = ExtResource( 2 )
+
+[node name="Lifeforce" type="Particles2D" parent="Phase7" index="3"]
+
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 859, 452 )
+emitting = true
+amount = 50
+lifetime = 2.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.2
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 25 )
+texture = ExtResource( 37 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Visibility" ]
+
+[node name="Phase8" type="Node2D" parent="." index="11"]
+
+z_index = 2
+_sections_unfolded = [ "Visibility" ]
+
+[node name="City" type="Sprite" parent="Phase8" index="0"]
+
+visible = false
+position = Vector2( 341, 384 )
+texture = ExtResource( 38 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="People" type="YSort" parent="Phase8/City" index="0"]
+
+editor/display_folded = true
+position = Vector2( -341, -384 )
+sort_enabled = true
+
+[node name="Smuteczek" type="Sprite" parent="Phase8/City/People" index="0"]
+
+position = Vector2( 521, 500 )
+texture = ExtResource( 39 )
+
+[node name="Smuteczek5" type="Sprite" parent="Phase8/City/People" index="1"]
+
+position = Vector2( 825, 462 )
+texture = ExtResource( 39 )
+
+[node name="Smuteczek6" type="Sprite" parent="Phase8/City/People" index="2"]
+
+position = Vector2( 197, 347 )
+texture = ExtResource( 39 )
+
+[node name="Smuteczek7" type="Sprite" parent="Phase8/City/People" index="3"]
+
+position = Vector2( 239, 103 )
+texture = ExtResource( 39 )
+
+[node name="Smuteczek8" type="Sprite" parent="Phase8/City/People" index="4"]
+
+position = Vector2( 883, 342 )
+texture = ExtResource( 39 )
+
+[node name="Smuteczek2" type="Sprite" parent="Phase8/City/People" index="5"]
+
+position = Vector2( 796, 272 )
+texture = ExtResource( 39 )
+
+[node name="Smuteczek3" type="Sprite" parent="Phase8/City/People" index="6"]
+
+position = Vector2( 1014, 310 )
+texture = ExtResource( 39 )
+
+[node name="Smuteczek4" type="Sprite" parent="Phase8/City/People" index="7"]
+
+position = Vector2( 1099, 478 )
+texture = ExtResource( 39 )
+
+[node name="Warrior" type="Sprite" parent="Phase8/City" index="1"]
+
+editor/display_folded = true
+visible = false
+position = Vector2( -358.433, 344 )
+texture = ExtResource( 40 )
+hframes = 3
+frame = 2
+_sections_unfolded = [ "Animation", "Transform", "Visibility" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase8/City/Warrior" index="0"]
+
+root_node = NodePath("..")
+autoplay = "Run"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 8.0
+anims/Run = SubResource( 26 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="WariorHead" type="Sprite" parent="Phase8/City/Warrior" index="1"]
+
+visible = false
+position = Vector2( 5.46985, -39.9125 )
+texture = ExtResource( 41 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Slash" type="Sprite" parent="Phase8/City" index="2"]
+
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -730, 337 )
+texture = ExtResource( 42 )
+vframes = 7
+frame = 6
+_sections_unfolded = [ "Animation", "Visibility" ]
+
+[node name="Slasher" type="Sprite" parent="Phase8/City" index="3"]
+
+visible = false
+position = Vector2( -654, 332 )
+texture = ExtResource( 43 )
+hframes = 2
+frame = 1
+_sections_unfolded = [ "Animation", "Transform", "Visibility" ]
+
+[node name="ColorRect" type="ColorRect" parent="Phase8" index="1"]
+
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1.0
+margin_top = 3.0
+margin_right = 1367.0
+margin_bottom = 771.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 0, 0, 0, 1 )
+_sections_unfolded = [ "Visibility" ]
+
+[connection signal="animation_finished" from="Animator" to="." method="_on_phase_finished"]
+
+

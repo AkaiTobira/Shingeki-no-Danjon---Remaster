@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/UI/LevelUpPanel.png" type="Texture" id=1]
+[ext_resource path="res://Resources/Fonts/Font80.tres" type="DynamicFont" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+resource_name = "LevelUpLabel"
+script/source = "extends TextureRect
+
+func _process(delta):
+	if visible and (Input.is_action_just_pressed(\"Menu\") or Input.is_action_just_pressed(\"Interact\")):
+		visible = false
+		if !Res.game.player.UI.get_node(\"PlayerMenu\").visible: get_tree().paused = false
+
+func level_up():
+	Res.play_sample(get_parent().player, \"LevelUp\", false)
+	$Level.text = str(PlayerStats.level)
+	visible = true
+	get_tree().paused = true
+	yield(get_tree().create_timer(2), \"timeout\")
+	if !Res.game.player.UI.get_node(\"PlayerMenu\").visible: get_tree().paused = false
+	visible = false"
+_sections_unfolded = [ "Resource" ]
+
+[node name="LevelUpLabel" type="TextureRect"]
+
+pause_mode = 2
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 423.0
+margin_top = 236.0
+margin_right = -423.0
+margin_bottom = -236.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+texture = ExtResource( 1 )
+stretch_mode = 0
+script = SubResource( 1 )
+_sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Level" type="Label" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 188.0
+margin_top = 92.0
+margin_right = 332.0
+margin_bottom = 184.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.803922, 0.678431, 0.521569, 1 )
+text = "1"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+

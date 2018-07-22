@@ -1,0 +1,32 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/Symbol of block.png-78c5ce4214c8357d42296b6c5f042943.stex"
+
+[deps]
+
+source_file="res://Sprites/Enemies/Mechanic/Symbol of block.png"
+source_md5="44b2418b54b71a9705815d88f8c15e87"
+
+dest_files=[ "res://.import/Symbol of block.png-78c5ce4214c8357d42296b6c5f042943.stex" ]
+dest_md5="5431dd6aadd1e5af5e244c18ee3ab2ae"
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=1.0

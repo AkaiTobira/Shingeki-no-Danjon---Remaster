@@ -1,0 +1,7 @@
+{
+	"type": "misc",
+	"name": "Flamethrower Part",
+	"description": "A part of flametrhower wielded by Trochnalis.",
+	"max_stack": 5,
+	"price": 30
+}

@@ -1,0 +1,224 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scripts/EnvironmentObject.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Environment/FlamePipe.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 32.1872, 20 )
+
+[sub_resource type="Animation" id=2]
+
+resource_name = "Flame"
+length = 3.0
+loop = false
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=3]
+
+resource_name = "FlameEnd"
+length = 2.0
+loop = false
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 8, 9 ]
+}
+
+[sub_resource type="Animation" id=4]
+
+length = 5.0
+loop = false
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+
+[sub_resource type="Animation" id=5]
+
+length = 1.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="GDScript" id=6]
+
+resource_name = "FirePipe"
+script/source = "extends Node
+
+var timeout = 3
+var flames = 3
+var steam
+
+var position = Vector2()
+
+onready var animation = $\"../Animation\"
+onready var shape = $\"../Area2D/CollisionShape2D\"
+
+func _ready():
+	if randi()%2 == 0:
+		steam = true
+		$\"../Sprite\".texture = preload(\"res://Sprites/Environment/SteamPipe.png\")
+	animation.play(\"Idle\")
+
+func _process(delta):
+	timeout -= delta
+	
+	if timeout <= 0 and animation.current_animation == \"Idle\":
+		if steam: Res.play_sample(get_parent(), \"Steam\")
+		else: Res.play_sample(get_parent(), \"Flame\")
+		animation.play(\"FlameStart\")
+
+func _on_animation_finished(anim_name):
+	if anim_name == \"FlameStart\":
+		animation.play(\"Flame\")
+		shape.disabled = false
+	elif anim_name == \"Flame\":
+		flames -= 1
+		
+		if flames == 0:
+			animation.play(\"FlameEnd\")
+			shape.disabled = true
+		else:
+			animation.play(\"Flame\")
+	elif anim_name == \"FlameEnd\":
+		animation.play(\"Idle\")
+		timeout = 3
+		flames = 3
+
+func _on_attack(body):
+	if body.get_parent().is_in_group(\"players\"):
+		body.get_parent().damage(self, 10, 0)"
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="RectangleShape2D" id=7]
+
+custom_solver_bias = 0.0
+extents = Vector2( 58.4806, 32.4634 )
+
+[node name="FlamePipe" type="StaticBody2D"]
+
+position = Vector2( 139.962, 135.573 )
+z_index = 1
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script = ExtResource( 1 )
+_sections_unfolded = [ "Animation", "Transform", "Z Index" ]
+placement = 3
+offset_position = Vector2( 11, 0 )
+size = Vector2( 1, 1 )
+variants = ""
+can_flip_h = false
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+position = Vector2( 58, -47 )
+texture = ExtResource( 2 )
+vframes = 10
+frame = 7
+_sections_unfolded = [ "Animation" ]
+
+[node name="Shape" type="CollisionShape2D" parent="." index="1"]
+
+position = Vector2( -19.8531, -14 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Animation" type="AnimationPlayer" parent="." index="2"]
+
+root_node = NodePath("..")
+autoplay = "Idle"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 16.0
+anims/Flame = SubResource( 2 )
+anims/FlameEnd = SubResource( 3 )
+anims/FlameStart = SubResource( 4 )
+anims/Idle = SubResource( 5 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Behavior" type="Node" parent="." index="3"]
+
+script = SubResource( 6 )
+_sections_unfolded = [ "Pause" ]
+
+[node name="Area2D" type="Area2D" parent="." index="4"]
+
+editor/display_folded = true
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+
+position = Vector2( 65.3528, -51.6497 )
+shape = SubResource( 7 )
+disabled = true
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="5"]
+
+position = Vector2( -66.8652, -86.1364 )
+rect = Rect2( 0, 0, 200, 100 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
+
+[connection signal="animation_finished" from="Animation" to="Behavior" method="_on_animation_finished"]
+
+[connection signal="area_entered" from="Area2D" to="Behavior" method="_on_attack"]
+
+

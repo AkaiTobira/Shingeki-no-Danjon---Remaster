@@ -1,0 +1,8 @@
+{
+	"type": "consumable",
+	"name": "Mana Potion",
+	"description": "A mana recovery potion.",
+	"max_stack": 6,
+	"mana": 50,
+	"price": 200
+}

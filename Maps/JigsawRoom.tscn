@@ -1,0 +1,196 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=1]
+[ext_resource path="res://Nodes/Objects/Stairs.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Nodes/Objects/WorkshopCrafting.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Nodes/NPC.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/NPC.gd" type="Script" id=5]
+[ext_resource path="res://Sprites/NPC/Shopkeeper.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/Interact.gd" type="Script" id=7]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node2D
+
+var jigsawd
+
+func initialize():
+	Res.play_music(\"Jigsaw\")
+	Res.game.player.position = $Position2D.position
+
+func _process(delta):
+	if !PlayerStats.events.has(\"jigsaw\") and Res.game.player.position.y < 400:
+		Res.game.player.UI.get_node(\"DialogueBox\").initiate_dialogue(\"Jigsaw\")
+		PlayerStats.events[\"jigsaw\"] = true"
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 32, 22.5213 )
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 53.5912, 43.976 )
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "Idle"
+length = 8.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="GDScript" id=5]
+
+script/source = "extends Node
+
+func _ready():
+	get_parent().UI = Res.game.player.UI.get_node(\"DialogueBox\")"
+
+[node name="JigsawRoom" type="YSort"]
+
+sort_enabled = true
+script = SubResource( 1 )
+
+[node name="BottomTiles" type="TileMap" parent="." index="0"]
+
+mode = 0
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 80, 80 )
+cell_quadrant_size = 16
+cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+cell_half_offset = 2
+cell_tile_origin = 0
+cell_y_sort = false
+cell_clip_uv = false
+collision_use_kinematic = false
+collision_friction = 1.0
+collision_bounce = 0.0
+collision_layer = 5
+collision_mask = 1
+occluder_light_mask = 1
+format = 1
+tile_data = PoolIntArray( 65538, 9, 0, 65539, 10, 0, 65540, 10, 0, 65541, 10, 0, 65542, 10, 0, 65543, 11, 0, 131074, 12, 0, 131075, 13, 0, 131076, 13, 0, 131077, 13, 0, 131078, 13, 0, 131079, 14, 0, 196610, 19, 0, 196611, 19, 0, 196612, 19, 0, 196613, 19, 0, 196614, 19, 0, 196615, 19, 0, 262146, 19, 0, 262147, 19, 0, 262148, 19, 0, 262149, 19, 0, 262150, 19, 0, 262151, 19, 0, 327682, 19, 0, 327683, 19, 0, 327684, 19, 0, 327685, 19, 0, 327686, 19, 0, 327687, 19, 0, 393218, 19, 0, 393219, 19, 0, 393220, 19, 0, 393221, 19, 0, 393222, 19, 0, 393223, 19, 0, 458754, 19, 0, 458755, 19, 0, 458756, 19, 0, 458757, 19, 0, 458758, 19, 0, 458759, 19, 0, 524290, 19, 0, 524291, 19, 0, 524292, 19, 0, 524293, 19, 0, 524294, 19, 0, 524295, 19, 0 )
+_sections_unfolded = [ "Cell" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TopTiles" type="TileMap" parent="." index="1"]
+
+z_index = 5
+mode = 0
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 80, 80 )
+cell_quadrant_size = 16
+cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+cell_half_offset = 2
+cell_tile_origin = 0
+cell_y_sort = false
+cell_clip_uv = false
+collision_use_kinematic = false
+collision_friction = 1.0
+collision_bounce = 0.0
+collision_layer = 5
+collision_mask = 1
+occluder_light_mask = 1
+format = 1
+tile_data = PoolIntArray( 0, 4, 0, 1, 17, 0, 2, 7, 0, 3, 7, 0, 4, 7, 0, 5, 7, 0, 6, 7, 0, 7, 7, 0, 8, 18, 0, 9, 4, 0, 65536, 4, 0, 65537, 5, 0, 65544, 3, 0, 65545, 4, 0, 131072, 4, 0, 131073, 5, 0, 131080, 3, 0, 131081, 4, 0, 196608, 4, 0, 196609, 5, 0, 196616, 3, 0, 196617, 4, 0, 262144, 4, 0, 262145, 5, 0, 262152, 3, 0, 262153, 4, 0, 327680, 4, 0, 327681, 5, 0, 327688, 3, 0, 327689, 4, 0, 393216, 4, 0, 393217, 5, 0, 393224, 3, 0, 393225, 4, 0, 458752, 4, 0, 458753, 5, 0, 458760, 3, 0, 458761, 4, 0, 524288, 4, 0, 524289, 16, 0, 524290, 1, 0, 524291, 1, 0, 524292, 1, 0, 524293, 1, 0, 524294, 1, 0, 524295, 1, 0, 524296, 15, 0, 524297, 4, 0, 589824, 4, 0, 589825, 4, 0, 589826, 4, 0, 589827, 4, 0, 589828, 4, 0, 589829, 4, 0, 589830, 4, 0, 589831, 4, 0, 589832, 4, 0, 589833, 4, 0 )
+_sections_unfolded = [ "Z Index" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Stairs" parent="." index="2" instance=ExtResource( 2 )]
+
+position = Vector2( 400, 160 )
+region_rect = Rect2( 160, 480, 160, 160 )
+
+[node name="Position2D" type="Position2D" parent="." index="3"]
+
+position = Vector2( 400, 440 )
+
+[node name="WorkshopCrafting" parent="." index="4" instance=ExtResource( 3 )]
+
+position = Vector2( 260.062, 211.415 )
+
+[node name="NPC" parent="." index="5" instance=ExtResource( 4 )]
+
+position = Vector2( 544.929, 266.566 )
+dialogue = 1
+skin = 2
+
+[node name="NPC2" type="KinematicBody2D" parent="." index="6"]
+
+position = Vector2( 209.903, 384.655 )
+z_index = 1
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 5 )
+_sections_unfolded = [ "Z Index" ]
+dialogue = 2
+skin = 0
+
+[node name="Sprite" type="Sprite" parent="NPC2" index="0"]
+
+position = Vector2( 0, -48 )
+texture = ExtResource( 6 )
+hframes = 8
+_sections_unfolded = [ "Animation" ]
+
+[node name="Shape" type="CollisionShape2D" parent="NPC2" index="1"]
+
+position = Vector2( 0, -7 )
+shape = SubResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="InteractArea" type="Area2D" parent="NPC2" index="2"]
+
+position = Vector2( 0, -48 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 7 )
+type = 1
+mode = 0
+send_status = false
+
+[node name="Shape" type="CollisionShape2D" parent="NPC2/InteractArea" index="0"]
+
+position = Vector2( -1.39496, 41.4926 )
+shape = SubResource( 3 )
+
+[node name="Animation" type="AnimationPlayer" parent="NPC2" index="3"]
+
+root_node = NodePath("..")
+autoplay = "Idle"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 10.0
+anims/Idle = SubResource( 4 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="Hack" type="Node" parent="NPC2" index="4"]
+
+script = SubResource( 5 )
+
+

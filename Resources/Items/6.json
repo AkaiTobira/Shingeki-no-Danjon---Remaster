@@ -1,0 +1,8 @@
+{
+	"type": "consumable",
+	"name": "Double Bread",
+	"description": "The mythical food created from 2 breads. Restores 100hp",
+	"max_stack": 6,
+	"price": 200,
+	"health": 100
+}

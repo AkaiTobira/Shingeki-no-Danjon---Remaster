@@ -1,0 +1,68 @@
+{	
+	"FastWalk": [
+		{
+			"stat": "PixelsTravelled",
+			"value": 100000
+		}
+	],
+	
+	"FireAffinity": [
+		{
+			"stat": "FireMagic",
+			"value": 30
+		}
+	],
+	
+	"FireBolt": [
+		{
+			"stat": "FireMagic",
+			"value": 15
+		}
+	],
+	
+	"WaterBullet": [
+		{
+			"stat": "WaterMagic",
+			"value": 20
+		}
+	],
+	
+	"Tornado": [
+		{
+			"stat": "AirMagic",
+			"value": 50
+		}
+	],
+	
+	"FireShield": [
+		{
+			"stat": "FireMagic",
+			"value": 5
+		},
+		{
+			"stat": "ShieldBlocks",
+			"value": 5
+		}
+	],
+	
+	"WaterAffinity": [
+		{
+			"stat": "WaterMagic",
+			"value": 30
+		}
+	],
+	
+	"SuperStrength": [
+		{
+			"stat": "Strength",
+			"value": 10
+		}
+	],
+	
+	"Fireball": [
+		{
+			"stat": "FireMagic",
+			"value": 100000
+		}
+	]
+}

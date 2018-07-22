@@ -1,0 +1,16 @@
+{
+	"name": "Mechanic's Workshop",
+	"floors": 9,
+	"tileset": "SteamPunk",
+	"progress": "UP",
+	"containers": ["Chest"],
+	"container_contents": {"28": 100, "29": 50, "30": 25, "31": 30},
+	"container_count": 10,
+	"breakables": ["Barrel"],
+	"breakable_contents": [[2, 200], [3, 400], [17,800]],
+	"breakable_count": 20,
+	"enemies": ["Puncher", "Grinder", "Trochnalis", "FLA-G", "FLA-B" ,"PuncherMKII", "FLA-S"],
+	"enemy_count": 50,
+	"environment_objects": ["WaterPipe", "OilPipe", "ParaffinBluePipe", "ParaffinGreenPipe", "Pipe", "FloorWheel", "FirePipe", "WheelTrap"],
+	"environment_count": 50
+}

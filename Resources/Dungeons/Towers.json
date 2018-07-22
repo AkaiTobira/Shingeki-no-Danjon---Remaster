@@ -1,0 +1,50 @@
+{
+	"Mechanic" : {
+		"tileset" : "SteamPunk",
+		"progress": "UP",
+		
+		"environment_objects" : [ 
+			"MultiplePipes" ,
+			"Placeholder1x1",
+			"Placeholder1x1_SA",
+			"Plump",
+			"WallGear1",
+			"Placeholder1x2",
+			"Placeholder2x1",
+			"EmptyGearRotation",
+			"Placeholder2x2"
+
+		],
+		"breakable_objects"   : [ 
+			"Barrel",
+			"BarrelV2"
+		],		
+		"breakable_contents"   :  [
+			[2, 200],  [3, 400],  [17,800], 
+			[24,100],  [25,100],  [28,200], 
+			[29,200],  [30,150],  [31,120],
+			[18,200]
+			],
+		
+		"containers_objects"  : [ 
+			"Chest" 
+		],
+		"containers_contents"  : [
+			[0 ,300],   [10,600],   [7 ,150],
+			[15, 25],   [18,230],   [20,150],
+			[23, 80],   [12, 25],   [11, 30],
+			[8 , 15],   [16, 10],   [21,100]
+		        ],
+	
+		"floor" : {
+			"0" : ["Puncher", "Grinder", "Trochnalis"],
+			"1" : ["FLA-G", "FLA-B" , "FLA-S"],
+			"2" : [ "Puncher", "Grinder", "Trochnalis", "FLA-G", "FLA-B" ,"PuncherMKII", "FLA-S"],
+		},
+
+		
+		"probs" : [ 175, 30, 2, 20]
+	
+	
+	}
+}
