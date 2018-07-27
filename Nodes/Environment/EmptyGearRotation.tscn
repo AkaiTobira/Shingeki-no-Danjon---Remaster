@@ -5,10 +5,10 @@
 [ext_resource path="res://Sprites/Environment/WallGear.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=4]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 10.0
+extents = Vector2( 10, 10 )
 
 [node name="ParaffinGreenPipe" type="StaticBody2D"]
 
@@ -22,9 +22,9 @@ friction = 1.0
 bounce = 0.0
 script = ExtResource( 1 )
 _sections_unfolded = [ "Animation" ]
-placement = 0
+placement = 5
 offset_position = Vector2( 0, 0 )
-size = Vector2( 2, 2 )
+size = Vector2( 1, 1 )
 variants = ""
 can_flip_h = true
 const_object = true
@@ -43,8 +43,8 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Shape" type="CollisionShape2D" parent="." index="1"]
 
-position = Vector2( -0.233923, 0.0123789 )
-scale = Vector2( 3.76173, 3.28372 )
+position = Vector2( 3.43522, 1.29599 )
+scale = Vector2( 3.47949, 3.18498 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
@@ -71,8 +71,8 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="5"]
 
-position = Vector2( -78.1903, -77.7994 )
-scale = Vector2( 1.57375, 1.58672 )
+position = Vector2( -30.4506, -30.3823 )
+scale = Vector2( 0.647854, 0.620821 )
 rect = Rect2( 0, 0, 100, 100 )
 pause_animations = true
 freeze_bodies = true

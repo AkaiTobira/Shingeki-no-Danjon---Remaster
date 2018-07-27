@@ -91,9 +91,10 @@ func _ready():
 
 func put_object_enviroment(i,j,instance, flip = false ):
 	instance.position = Vector2(i*80,j*80) + (instance.size*(40-1))
-	instance.get_node("Sprite").flip_h = flip
-	if instance.has_node("Sprite2"):
-		instance.get_node("Sprite2").flip_h = flip
+	if flip:
+		instance.get_node("Sprite").flip_h = !instance.get_node("Sprite").flip_h
+		if instance.has_node("Sprite2"):
+			instance.get_node("Sprite2").flip_h = !instance.get_node("Sprite2").flip_h
 	Obj_to_Append.append(instance)
 	debugCounter += 1
 
@@ -317,6 +318,10 @@ func split_enviroments(enviroments, objType):
 		elif instance.placement == instance.UP_OR_DOWN_WALL:
 				Wall_Splitted_Obj[Wall_Orientations.Up    ][objType].append(i)
 				Wall_Splitted_Obj[Wall_Orientations.Down  ][objType].append(i)
+		elif instance.placement == instance.DOWN_WALL:
+				Wall_Splitted_Obj[Wall_Orientations.Down  ][objType].append(i)
+		elif instance.placement == instance.UP_WALL:
+				Wall_Splitted_Obj[Wall_Orientations.Up    ][objType].append(i)
 		elif instance.placement == instance.EVERY_WALL:
 				Wall_Splitted_Obj[Wall_Orientations.Left  ][objType].append(i)
 				Wall_Splitted_Obj[Wall_Orientations.Right ][objType].append(i)

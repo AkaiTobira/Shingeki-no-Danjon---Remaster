@@ -5,14 +5,13 @@
 		
 		"environment_objects" : [ 
 			"MultiplePipes" ,
-			"Placeholder1x1",
-			"Placeholder1x1_SA",
 			"Plump",
 			"WallGear1",
 			"Placeholder1x2",
-			"Placeholder2x1",
+			"UpPipe",
 			"EmptyGearRotation",
-			"Placeholder2x2"
+			"Placeholder2x2",
+			"VerticalPipe"
 
 		],
 		"breakable_objects"   : [ 
@@ -43,7 +42,7 @@
 		},
 
 		
-		"probs" : [ 175, 30, 2, 20]
+		"probs" : [ 275, 30, 2, 20]
 	
 	
 	}

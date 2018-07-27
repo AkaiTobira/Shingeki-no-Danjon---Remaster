@@ -44,6 +44,9 @@ offset_position = Vector2( 11, 0 )
 size = Vector2( 1, 1 )
 variants = ""
 can_flip_h = true
+const_object = true
+randomize_speed_of_animation = null
+state = 0
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 

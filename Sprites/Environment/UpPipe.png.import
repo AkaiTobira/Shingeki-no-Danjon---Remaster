@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WallGear.png-6b2b74d75c0244cec49c3129ae41af7e.stex"
+path="res://.import/UpPipe.png-688c8a883f39d052919a1fab1a40d5a2.stex"
 
 [deps]
 
-source_file="res://Sprites/Environment/WallGear.png"
-source_md5="4c901b9c54db5d34e269af0b82804866"
+source_file="res://Sprites/Environment/UpPipe.png"
+source_md5="0ab4d31b5e55cdd8361f3e2bacd6a77b"
 
-dest_files=[ "res://.import/WallGear.png-6b2b74d75c0244cec49c3129ae41af7e.stex" ]
-dest_md5="0d0693a45d0b85d8d744598c3a32956e"
+dest_files=[ "res://.import/UpPipe.png-688c8a883f39d052919a1fab1a40d5a2.stex" ]
+dest_md5="eb22c1d872cac7268c5f4491643f3ea0"
 
 [params]
 

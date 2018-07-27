@@ -51,7 +51,7 @@ _sections_unfolded = [ "Resource" ]
 custom_solver_bias = 0.0
 extents = Vector2( 37.4536, 2.26318 )
 
-[node name="WheelTrap" type="Node2D" index="0"]
+[node name="WheelTrap" type="Node2D"]
 
 position = Vector2( 139.962, 135.573 )
 z_index = 1
@@ -63,6 +63,7 @@ size = Vector2( 4, 1 )
 variants = ""
 can_flip_h = false
 const_object = true
+randomize_speed_of_animation = null
 state = 0
 
 [node name="Sprite" type="Sprite" parent="." index="0"]

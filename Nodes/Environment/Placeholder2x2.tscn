@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/EnvironmentObject.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Environment/WallGear_Down.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Environment/WallGear.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Environment/WallGear_Down2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Environment/WallGear.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 
@@ -27,10 +27,11 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 53.1713, 65.2316 )
+extents = Vector2( 10, 10 )
 
-[node name="ParaffinGreenPipe" type="StaticBody2D" index="0"]
+[node name="ParaffinGreenPipe" type="StaticBody2D"]
 
+scale = Vector2( 1, 0.75 )
 z_index = 1
 input_pickable = false
 collision_layer = 1
@@ -40,8 +41,8 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 script = ExtResource( 1 )
-_sections_unfolded = [ "Animation" ]
-placement = 0
+_sections_unfolded = [ "Animation", "Transform" ]
+placement = 5
 offset_position = Vector2( 0, 0 )
 size = Vector2( 2, 2 )
 variants = ""
@@ -63,33 +64,35 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Shape" type="CollisionShape2D" parent="." index="1"]
 
-position = Vector2( -1.31464, 5.41593 )
-scale = Vector2( 1.02451, 0.871144 )
+position = Vector2( 3.48516, 33.938 )
+scale = Vector2( 6.56931, 5.54063 )
 shape = SubResource( 2 )
-_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Sprite3" type="Sprite" parent="." index="2"]
+[node name="Sprite2" type="Sprite" parent="." index="2"]
 
-position = Vector2( 0, 1 )
+position = Vector2( 4, 77.2523 )
+scale = Vector2( 0.25, 0.057608 )
 texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Sprite" type="Sprite" parent="." index="3"]
+[node name="Sprite3" type="Sprite" parent="." index="3"]
 
-position = Vector2( 0, 1 )
+position = Vector2( 2.29352, 40.2951 )
 texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Sprite" type="Sprite" parent="." index="4"]
+
+position = Vector2( 2.85426, 1.32039 )
+scale = Vector2( 0.89, 1.2 )
+texture = ExtResource( 4 )
 hframes = 10
 frame = 3
-_sections_unfolded = [ "Animation" ]
-
-[node name="Sprite2" type="Sprite" parent="." index="4"]
-
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 4 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Animation", "Transform" ]
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="5"]
 
-position = Vector2( -78.1903, -77.7994 )
+position = Vector2( -77.7931, -80.9771 )
 scale = Vector2( 1.57375, 1.58672 )
 rect = Rect2( 0, 0, 100, 100 )
 pause_animations = true

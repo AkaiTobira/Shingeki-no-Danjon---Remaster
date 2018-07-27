@@ -8,7 +8,8 @@
 resource_name = "Chest"
 script/source = "extends StaticBody2D
 
-enum PLACEMENT{ EVERY_WALL, LEFT_OR_RIGHT_WALL, UP_OR_DOWN_WALL, WALL_FREE }
+enum PLACEMENT{ EVERY_WALL, LEFT_OR_RIGHT_WALL, UP_OR_DOWN_WALL, UP_WALL, DOWN_WALL ,WALL_FREE }
+
 
 export(PLACEMENT) var placement = 0
 export var offset_position = Vector2(0, 0)
@@ -107,7 +108,7 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 script = SubResource( 1 )
-placement = 3
+placement = 5
 offset_position = Vector2( 0, 0 )
 size = Vector2( 1, 1 )
 variants = ""

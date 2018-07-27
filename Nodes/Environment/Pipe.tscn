@@ -25,6 +25,9 @@ offset_position = Vector2( 0, 0 )
 size = Vector2( 2, 1 )
 variants = "Pipe1 Pipe2 Pipe3"
 can_flip_h = false
+const_object = true
+randomize_speed_of_animation = null
+state = 0
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 

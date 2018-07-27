@@ -7,7 +7,8 @@
 resource_name = "Barrel"
 script/source = "extends Node2D
 
-enum PLACEMENT{ EVERY_WALL, LEFT_OR_RIGHT_WALL, UP_OR_DOWN_WALL, WALL_FREE }
+enum PLACEMENT{ EVERY_WALL, LEFT_OR_RIGHT_WALL, UP_OR_DOWN_WALL, UP_WALL, DOWN_WALL ,WALL_FREE }
+
 
 export(PLACEMENT) var placement = 0
 export var offset_position = Vector2(0, 0)
@@ -101,7 +102,7 @@ extents = Vector2( 24.9147, 34.5188 )
 custom_solver_bias = 0.0
 extents = Vector2( 24, 20 )
 
-[node name="Barrel" type="StaticBody2D" index="0" groups=[
+[node name="Barrel" type="StaticBody2D" groups=[
 "enemies",
 ]]
 
@@ -113,7 +114,7 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 script = SubResource( 1 )
-placement = 3
+placement = 5
 offset_position = Vector2( 0, 0 )
 size = Vector2( 1, 1 )
 variants = ""
