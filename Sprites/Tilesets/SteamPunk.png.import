@@ -7,10 +7,10 @@ path="res://.import/SteamPunk.png-ac90d8cd8d69e64e748d1e35f112766c.stex"
 [deps]
 
 source_file="res://Sprites/Tilesets/SteamPunk.png"
-source_md5="18b5a3e7231318b370468b4c42439cf7"
+source_md5="b87f1138cab10a5fed9bb0d03da3c0c3"
 
 dest_files=[ "res://.import/SteamPunk.png-ac90d8cd8d69e64e748d1e35f112766c.stex" ]
-dest_md5="2bce2780b83d9118b124e7d102161bc9"
+dest_md5="1278e7205758deb511ec235d3f88115b"
 
 [params]
 

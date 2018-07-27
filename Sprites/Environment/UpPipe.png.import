@@ -7,10 +7,10 @@ path="res://.import/UpPipe.png-688c8a883f39d052919a1fab1a40d5a2.stex"
 [deps]
 
 source_file="res://Sprites/Environment/UpPipe.png"
-source_md5="0ab4d31b5e55cdd8361f3e2bacd6a77b"
+source_md5="8f6b911f3bf882a53e77b030cf5adfd2"
 
 dest_files=[ "res://.import/UpPipe.png-688c8a883f39d052919a1fab1a40d5a2.stex" ]
-dest_md5="eb22c1d872cac7268c5f4491643f3ea0"
+dest_md5="31d9c7767fb4588c06ff21f5e1a2e50b"
 
 [params]
 

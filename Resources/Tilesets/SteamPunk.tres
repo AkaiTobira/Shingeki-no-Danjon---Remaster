@@ -875,4 +875,13 @@ extents = Vector2( 40, 40 )
 70/occluder_offset = Vector2( 40, 40 )
 70/navigation_offset = Vector2( 40, 40 )
 70/shapes = [  ]
+71/name = "Floor19"
+71/texture = ExtResource( 1 )
+71/tex_offset = Vector2( 0, 0 )
+71/modulate = Color( 1, 1, 1, 1 )
+71/region = Rect2( 720, 320, 80, 80 )
+71/is_autotile = false
+71/occluder_offset = Vector2( 40, 40 )
+71/navigation_offset = Vector2( 40, 40 )
+71/shapes = [  ]
 
