@@ -100,9 +100,6 @@ func put_object_enviroment(i,j,instance, flip = false ):
 
 func put_wall_enviroment(i,j, prob, orientation, style ):
 	#print("Called for [", i, ",", j,"] with ", tab[i][j] )
-	
-	if( randi()%1000 > prob) :
-		return false
 
 	var object_name = Wall_Splitted_Obj[orientation][style][randi()%len(Wall_Splitted_Obj[orientation][style])]
 	var flip        = false
@@ -163,12 +160,14 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 func put_free_standing_objects(prob, style): 
 	for i in range(G.end.x):
 		for j in range(G.end.y):
+			if( randi()%1000 > prob) : continue
 			if( len(Wall_Splitted_Obj[Wall_Orientations.Free][style]) ):
 				put_wall_enviroment(i,j, prob, Wall_Orientations.Free, style )
 
 func put_wall_related_objects(prob, style):
 	for i in range(G.end.x):
 		for j in range(G.end.y):
+			if( randi()%1000 > prob) : continue
 			match(tab[i][j]):
 				TileState.wallLeft:
 					if len(Wall_Splitted_Obj[Wall_Orientations.Left][style]):
@@ -187,28 +186,48 @@ func put_wall_related_objects(prob, style):
 						if put_wall_enviroment (i,j,prob, Wall_Orientations.Up   , style) : continue
 					break
 				TileState.wallRightUp:
-					if len(Wall_Splitted_Obj[Wall_Orientations.Right][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Right, style) : continue 
-					if len(Wall_Splitted_Obj[Wall_Orientations.Up][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Up   , style) : continue
+					match randi()%2:
+						0:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Right][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Right, style) : continue 
+							break
+						1:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Up][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Up   , style) : continue
+							break
 					break
 				TileState.wallRightDown:
-					if len(Wall_Splitted_Obj[Wall_Orientations.Right][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Right, style) : continue
-					if len(Wall_Splitted_Obj[Wall_Orientations.Down][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Down, style) : continue
+					match randi()%2:
+						0:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Right][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Right, style) : continue
+							break
+						1:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Down][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Down, style) : continue
+							break
 					break
 				TileState.wallLeftUp:
-					if len(Wall_Splitted_Obj[Wall_Orientations.Left][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Left, style) : continue 
-					if len(Wall_Splitted_Obj[Wall_Orientations.Up][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Up, style) : continue
+					match randi()%2:
+						0:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Left][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Left, style) : continue
+							break
+						1:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Up][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Up, style) : continue
+							break
 					break
 				TileState.wallLeftDown:
-					if len(Wall_Splitted_Obj[Wall_Orientations.Left][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Left, style) : continue 
-					if len(Wall_Splitted_Obj[Wall_Orientations.Down][style]):
-						if put_wall_enviroment (i,j,prob, Wall_Orientations.Down, style) : continue 
+					match randi()%2:
+						0:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Left][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Left, style) : continue
+							break
+						1:
+							if len(Wall_Splitted_Obj[Wall_Orientations.Down][style]):
+								if put_wall_enviroment (i,j,prob, Wall_Orientations.Down, style) : continue
+							break
 					break
 
 func put_enemies( enemies ,prob, current_lvl):
