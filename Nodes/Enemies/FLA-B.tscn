@@ -511,8 +511,6 @@ _sections_unfolded = [ "Anchor", "Margin", "Radial Fill", "Textures", "Visibilit
 
 [node name="Radar" type="Area2D" parent="." index="4"]
 
-editor/display_folded = true
-visible = false
 position = Vector2( 141.574, -53.4956 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )

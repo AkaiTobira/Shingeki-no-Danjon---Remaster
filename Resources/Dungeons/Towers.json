@@ -42,8 +42,13 @@
 			"2" : [ "Puncher", "Grinder", "Trochnalis", "FLA-G", "FLA-B" ,"PuncherMKII", "FLA-S"],
 		},
 
+
+		"trap_objects" : [
+			"CrushingWalls",
+			"FloorTrap"
+		],
 		
-		"probs" : [ 275, 30, 2, 20]
+		"probs" : [ 275, 30, 2, 200, 20]
 	
 	
 	}

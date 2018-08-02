@@ -10,7 +10,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 53.1713, 109.28 )
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 
 script/source = "extends Sprite
 
@@ -35,7 +35,7 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=3]
 
 script/source = "extends Sprite
 
@@ -67,7 +67,7 @@ friction = 1.0
 bounce = 0.0
 script = ExtResource( 1 )
 _sections_unfolded = [ "Animation" ]
-placement = 5
+placement = 0
 offset_position = Vector2( 0, 0 )
 size = Vector2( 1, 1 )
 variants = ""
@@ -107,7 +107,7 @@ texture = ExtResource( 3 )
 centered = false
 offset = Vector2( -26, -47 )
 hframes = 4
-script = SubResource( 3 )
+script = SubResource( 2 )
 _sections_unfolded = [ "Animation", "Offset" ]
 
 [node name="Sprite" type="Sprite" parent="." index="4"]
@@ -117,7 +117,7 @@ texture = ExtResource( 4 )
 centered = false
 offset = Vector2( -40, -120 )
 hframes = 4
-script = SubResource( 2 )
+script = SubResource( 3 )
 _sections_unfolded = [ "Animation", "Offset" ]
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="5"]

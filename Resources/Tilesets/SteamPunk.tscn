@@ -9,7 +9,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 40, 40 )
 
-[node name="TilesetBase" type="Node" index="0"]
+[node name="TilesetBase" type="Node"]
 
 [node name="Roof1" type="Sprite" parent="." index="0"]
 
@@ -760,7 +760,7 @@ _sections_unfolded = [ "Region", "Transform" ]
 position = Vector2( 720, 400 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 720, 320, 80, 80 )
+region_rect = Rect2( 0, 320, 80, 80 )
 _sections_unfolded = [ "Region", "Transform" ]
 
 [node name="Wall4Up" type="Sprite" parent="." index="38"]

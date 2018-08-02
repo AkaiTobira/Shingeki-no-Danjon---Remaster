@@ -11,6 +11,7 @@ const DEBUG = false
 var flooor 
 var breakable_contains
 var conatainer_contains
+var tilesetName
 
 var exitId 
 var freeId
@@ -21,6 +22,7 @@ enum Objects{
 	CONST
 	DESTROYABLE
 	CONTAINERS
+	TRAPS
 	ENEMIES
 	}
 
@@ -29,11 +31,11 @@ var structure = []
 var Obj_to_Append = []
 
 var Wall_Splitted_Obj = [ 
-	[ [],[],[] ], 
-	[ [],[],[] ], 
-	[ [],[],[] ], 
-	[ [],[],[] ], 
-	[ [],[],[] ] 
+	[ [],[],[],[] ], 
+	[ [],[],[],[] ], 
+	[ [],[],[],[] ], 
+	[ [],[],[],[] ],
+	[ [],[],[],[] ]
 	] # five diffrent types of obj
 
 var Enters    = []
@@ -123,6 +125,7 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 			for x in range(obj_size.x):
 				if not tab[i+x][j] in SIDES[orientation]: 
 					return false
+
 		TileState.wallRight:
 			for y in range(obj_size.y):
 				if not tab[i][j+y] in SIDES[orientation]: 
@@ -130,6 +133,12 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 			i = i + 1 - obj_size.x
 			if instance.placement == instance.LEFT_OR_RIGHT_WALL:
 				flip = true
+				
+			if style == Objects.TRAPS:
+				if instance.need_two_side_wall:
+					if not tab[i+obj_size.x-1][j] in SIDES[0]:
+						return false
+						
 		TileState.wallUp:
 			for x in range(obj_size.x):
 				if not tab[i+x][j] in SIDES[orientation]: 
@@ -139,6 +148,12 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 			for y in range(obj_size.y):
 				if not tab[i][j+y] in SIDES[orientation]:
 					return false
+					
+			if style == Objects.TRAPS:
+				if instance.need_two_side_wall:
+					if not tab[i+obj_size.x-1][j] in SIDES[1]:
+						return false
+					
 		TileState.free:
 			if tab[i][j] < TileState.free or tab[i][j] >= TileState.blockedTile:
 				return false
@@ -152,6 +167,7 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	
 	reserve_tile_under_obj( obj_size, i, j , style)
 	if style == Objects.CONTAINERS: AccesNeed.append([i,j])
+	if style == Objects.TRAPS: instance._change_sprite(tilesetName)
 
 	put_object_enviroment(i,j,instance,flip)
 	
@@ -248,25 +264,29 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 	conatainer_contains = file_json[dungeon]["containers_contents"]
 	breakable_contains  = file_json[dungeon]["breakable_contents"]
 
-
 	if splitted_obj == null:
 		split_enviroments(file_json[dungeon]["environment_objects"], Objects.CONST)
 		split_enviroments(file_json[dungeon]["breakable_objects"  ], Objects.DESTROYABLE)
 		split_enviroments(file_json[dungeon]["containers_objects" ], Objects.CONTAINERS)
-
+		split_enviroments(file_json[dungeon]["trap_objects" ], Objects.TRAPS)
 	else:
 		Wall_Splitted_Obj = splitted_obj
+		
+	tilesetName = file_json[dungeon]["tileset"]
 
-
+	put_wall_related_objects ( file_json[dungeon]["probs"][Objects.TRAPS], Objects.TRAPS)
 	put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONST], Objects.CONST)
 	put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS)
+	put_free_standing_objects ( file_json[dungeon]["probs"][Objects.TRAPS]/4, Objects.TRAPS)
 	put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONST]/2, Objects.CONST )
 	put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS )
 
 	while !check_correctnes():
 		reset()
+		put_wall_related_objects ( file_json[dungeon]["probs"][Objects.TRAPS], Objects.TRAPS)
 		put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONST], Objects.CONST)
 		put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS)
+		put_free_standing_objects ( file_json[dungeon]["probs"][Objects.TRAPS]/4, Objects.TRAPS)
 		put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONST]/2, Objects.CONST )
 		put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS )
 
@@ -322,6 +342,8 @@ func get_path(objType):
 			return "res://Nodes/Objects/"
 		Objects.ENEMIES:
 			return "res://Nodes/Enemies/"
+		Objects.TRAPS:
+			return "res://Nodes/Objects/"
 
 func split_enviroments(enviroments, objType):
 
@@ -559,6 +581,8 @@ func reserve_tile_under_obj( obj_size, i, j, style = Objects.CONST ):
 			elif style == Objects.CONTAINERS:
 				tab[i+x][j+y] = TileState.containerObject
 			elif style == Objects.DESTROYABLE:
+				tab[i+x][j+y] = TileState.destroyableObject
+			elif style == Objects.TRAPS:
 				tab[i+x][j+y] = TileState.destroyableObject
 			
 func check_correctnes():

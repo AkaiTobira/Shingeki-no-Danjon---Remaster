@@ -7,10 +7,10 @@ path="res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex"
 [deps]
 
 source_file="res://Sprites/Environment/Container_Barrel.png"
-source_md5="fcbb072da99113088e5deeaf744ef230"
+source_md5="8434347e00979df94d180a5d3bdce06e"
 
 dest_files=[ "res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex" ]
-dest_md5="199d46c4e8c4e8e2091a38bfc7f937ed"
+dest_md5="fd4ffa442a962bc932e33bf5abc8ea06"
 
 [params]
 
