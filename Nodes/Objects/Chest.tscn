@@ -97,7 +97,9 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[node name="Chest" type="StaticBody2D"]
+[node name="Chest" type="StaticBody2D" groups=[
+"enviroment",
+]]
 
 position = Vector2( 0, -13 )
 input_pickable = false

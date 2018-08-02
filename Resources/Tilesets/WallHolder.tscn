@@ -6,6 +6,11 @@
 
 script/source = "extends StaticBody2D
 
+var elements = []
+
+var flag = false
+var prev_flag = false
+
 var player;
 var value;
 
@@ -20,21 +25,53 @@ func _ready():
 
 
 func _process(delta):
+
+	
+
 	if( value > player.position.y ):	
-		self.z_index = 5;
+		if flag == true : flag = false 
 	else:
+		if flag == false : flag = true
+
+	if flag and !prev_flag:
 		self.z_index = 0;
+		for e in elements:
+			e.z_index = 1
+	elif !flag and prev_flag:
+		self.z_index = 5;
+		for e in elements:
+			e.z_index = 6
+	
+	prev_flag = flag
 
 
 func _on_Area2D_body_entered(body):
-	if body.is_in_group(\"enemies\"):
-		body.z_index = 6;
+
+	if body.is_in_group(\"enemies\") or body.is_in_group(\"enviroment\") or body.is_in_group(\"players\"):
+		elements.append(body)
+			
+	if !flag:
+		for e in elements:
+			e.z_index = 6
+	else:
+		for e in elements:
+			e.z_index = 1
+
 	pass # replace with function body
 
 
 func _on_Area2D_body_exited(body):
-	if body.is_in_group(\"enemies\"):
-		body.z_index = 1;
+	if body.is_in_group(\"enemies\") or body.is_in_group(\"players\"):
+		elements.erase(body)
+		body.z_index = 1
+
+	if !flag:
+		for e in elements:
+			e.z_index = 6
+	else:
+		for e in elements:
+			e.z_index = 1
+
 	pass # replace with function body
 "
 

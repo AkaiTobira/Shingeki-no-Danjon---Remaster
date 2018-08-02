@@ -42,7 +42,9 @@ extents = Vector2( 16.8986, 12.6125 )
 custom_solver_bias = 0.0
 extents = Vector2( 11.9485, 10.5386 )
 
-[node name="SoulCrystal" type="StaticBody2D"]
+[node name="SoulCrystal" type="StaticBody2D" groups=[
+"enviroment",
+]]
 
 input_pickable = false
 collision_layer = 1

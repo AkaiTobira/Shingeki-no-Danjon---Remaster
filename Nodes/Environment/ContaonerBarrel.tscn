@@ -55,7 +55,9 @@ func _ready():
 #	pass
 "
 
-[node name="ParaffinGreenPipe" type="StaticBody2D" index="0"]
+[node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
+"enviroment",
+]]
 
 z_index = 1
 input_pickable = false

@@ -104,6 +104,7 @@ extents = Vector2( 24, 20 )
 
 [node name="Barrel" type="StaticBody2D" groups=[
 "enemies",
+"enviroment",
 ]]
 
 input_pickable = false

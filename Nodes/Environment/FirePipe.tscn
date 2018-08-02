@@ -137,7 +137,9 @@ _sections_unfolded = [ "Resource" ]
 custom_solver_bias = 0.0
 extents = Vector2( 58.4806, 32.4634 )
 
-[node name="FlamePipe" type="StaticBody2D"]
+[node name="FlamePipe" type="StaticBody2D" groups=[
+"enviroment",
+]]
 
 position = Vector2( 139.962, 135.573 )
 z_index = 1
@@ -155,6 +157,9 @@ offset_position = Vector2( 11, 0 )
 size = Vector2( 1, 1 )
 variants = ""
 can_flip_h = false
+const_object = true
+randomize_speed_of_animation = null
+state = 0
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 

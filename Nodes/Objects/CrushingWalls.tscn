@@ -83,7 +83,9 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 1, 0 ]
 }
 
-[node name="CrushingWalls" type="Area2D" index="0"]
+[node name="CrushingWalls" type="Area2D" groups=[
+"enviroment",
+]]
 
 position = Vector2( 0, 6 )
 input_pickable = false
