@@ -44,7 +44,7 @@ func _on_attack(body):
 		body.get_parent().damage(self, 15, 0)
 		
 	if body.get_parent().is_in_group(\"enemies\"):
-		body.get_parent().damage(10)
+		body.get_parent().damage(5)
 
 func _on_Triger_body_entered(body):
 	if !disabled : $\"AnimationPlayer\".play(\"Explode\")
@@ -52,12 +52,12 @@ func _on_Triger_body_entered(body):
 "
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 80, 40 )
@@ -129,7 +129,7 @@ tracks/4/keys = {
 "values": [ true, false, true, true ]
 }
 
-[node name="FloorTrap" type="Area2D"]
+[node name="FloorTrap" type="Area2D" index="0"]
 
 position = Vector2( 0, 6 )
 input_pickable = false
@@ -165,7 +165,7 @@ _sections_unfolded = [ "Transform" ]
 
 position = Vector2( 2.4987, 1.06124 )
 scale = Vector2( 3.9224, 3.9224 )
-shape = SubResource( 5 )
+shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="." index="1"]
 
@@ -198,7 +198,7 @@ _sections_unfolded = [ "Animation", "Offset", "Region", "Transform", "Visibility
 ]]
 
 scale = Vector2( 1.37349, 2.72093 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
 

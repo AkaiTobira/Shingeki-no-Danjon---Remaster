@@ -28,7 +28,7 @@ tracks/0/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 48, 20 )
 
-[node name="ParaffinBluePipe" type="StaticBody2D" groups=[
+[node name="ParaffinBluePipe" type="StaticBody2D" index="0" groups=[
 "enviroment",
 ]]
 
@@ -85,5 +85,17 @@ centered = false
 hframes = 13
 frame = 1
 _sections_unfolded = [ "Animation", "Offset", "Transform" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="4"]
+
+position = Vector2( -0.494648, -15.475 )
+scale = Vector2( 4.06041, 6.80561 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 

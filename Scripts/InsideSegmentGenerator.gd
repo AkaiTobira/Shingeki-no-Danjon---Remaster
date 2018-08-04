@@ -125,6 +125,11 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 			for x in range(obj_size.x):
 				if not tab[i+x][j] in SIDES[orientation]: 
 					return false
+					
+			if style == Objects.TRAPS:
+				if instance.need_two_side_wall:
+					if not tab[i][j+obj_size.y - 1] in SIDES[2]:
+						return false
 
 		TileState.wallRight:
 			for y in range(obj_size.y):
@@ -143,6 +148,12 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 			for x in range(obj_size.x):
 				if not tab[i+x][j] in SIDES[orientation]: 
 					return false
+					
+			if style == Objects.TRAPS:
+				if instance.need_two_side_wall:
+					if not tab[i][j+obj_size.y - 1] in SIDES[3]:
+						return false
+					
 			j = j + 1 - obj_size.y
 		TileState.wallLeft:
 			for y in range(obj_size.y):
@@ -273,27 +284,16 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 		Wall_Splitted_Obj = splitted_obj
 		
 	tilesetName = file_json[dungeon]["tileset"]
-
-	put_wall_related_objects ( file_json[dungeon]["probs"][Objects.TRAPS], Objects.TRAPS)
-	put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONST], Objects.CONST)
-	put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS)
-	put_free_standing_objects ( file_json[dungeon]["probs"][Objects.TRAPS]/4, Objects.TRAPS)
-	put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONST]/2, Objects.CONST )
-	put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS )
-
+	put_elements_on_scene( file_json[dungeon]["probs"] )
+	
 	while !check_correctnes():
 		reset()
-		put_wall_related_objects ( file_json[dungeon]["probs"][Objects.TRAPS], Objects.TRAPS)
-		put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONST], Objects.CONST)
-		put_wall_related_objects ( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS)
-		put_free_standing_objects ( file_json[dungeon]["probs"][Objects.TRAPS]/4, Objects.TRAPS)
-		put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONST]/2, Objects.CONST )
-		put_free_standing_objects( file_json[dungeon]["probs"][Objects.CONTAINERS], Objects.CONTAINERS )
+		put_elements_on_scene( file_json[dungeon]["probs"] )
 
-	put_wall_related_objects ( file_json[dungeon]["probs"][Objects.DESTROYABLE], Objects.DESTROYABLE )
-	put_free_standing_objects( file_json[dungeon]["probs"][Objects.DESTROYABLE], Objects.DESTROYABLE )
+	put_wall_related_objects ( file_json[dungeon]["probs"]["breakable"], Objects.DESTROYABLE )
+	put_free_standing_objects( file_json[dungeon]["probs"]["breakable"], Objects.DESTROYABLE )
 
-	put_enemies              ( file_json[dungeon]["floor"][str(current_level)],file_json[dungeon]["probs"][Objects.ENEMIES], str(current_level) )
+	put_enemies              ( file_json[dungeon]["floor"][str(current_level)],file_json[dungeon]["probs"]["enemies"], str(current_level) )
 
 	if DEBUG :
 		print(name," : Reset Called ", numration_counter, " times" )
@@ -305,6 +305,15 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 
 	switch_patern_into_normal_tile(tileset, file_json[dungeon]["tileset"])
 	translate_const_obj()
+
+func put_elements_on_scene( probs ):
+	put_wall_related_objects ( probs["traps"], Objects.TRAPS)
+	put_wall_related_objects ( probs["const"], Objects.CONST)
+	put_wall_related_objects ( probs["container"], Objects.CONTAINERS)
+	put_free_standing_objects( probs["traps"]/4, Objects.TRAPS)
+	put_free_standing_objects( probs["const"]/2, Objects.CONST )
+	put_free_standing_objects( probs["container"], Objects.CONTAINERS )
+
 
 func translate_const_obj():
 	

@@ -102,7 +102,6 @@ _sections_unfolded = [ "Collision", "Pause", "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
-position = Vector2( 0, -1 )
 texture = ExtResource( 1 )
 vframes = 8
 hframes = 16
@@ -110,7 +109,7 @@ _sections_unfolded = [ "Animation", "Transform" ]
 
 [node name="Sprite2" type="Sprite" parent="." index="1"]
 
-position = Vector2( 0, 79 )
+position = Vector2( 0, 80 )
 texture = ExtResource( 1 )
 vframes = 8
 hframes = 16
@@ -124,7 +123,7 @@ shape = SubResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="." index="3"]
 
-position = Vector2( 2.60476, 154.444 )
+position = Vector2( 2.60476, 153.444 )
 scale = Vector2( 5.00159, 5.63373 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )

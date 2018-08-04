@@ -90,8 +90,8 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Shape" type="CollisionShape2D" parent="." index="1"]
 
-position = Vector2( -0.460595, -0.701508 )
-scale = Vector2( 0.553141, 0.213319 )
+position = Vector2( -0.460595, 7.88664 )
+scale = Vector2( 0.553141, 0.289808 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
