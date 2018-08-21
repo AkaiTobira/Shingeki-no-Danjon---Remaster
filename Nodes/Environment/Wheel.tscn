@@ -29,7 +29,7 @@ tracks/0/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="ParaffinGreenPipe" type="StaticBody2D" index="0" groups=[
+[node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
 "enviroment",
 ]]
 

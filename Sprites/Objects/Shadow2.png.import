@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex"
+path="res://.import/Shadow2.png-89b5890ee4ee7b7355572074a3a2cda9.stex"
 
 [deps]
 
-source_file="res://Sprites/Environment/Container_Barrel.png"
-source_md5="6b664df57b512240fc41f47e84878ff7"
+source_file="res://Sprites/Objects/Shadow2.png"
+source_md5="2c43c4622dba07765d389d584d557287"
 
-dest_files=[ "res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex" ]
-dest_md5="44dfbdb9a7a647a81882c5522aec7ca3"
+dest_files=[ "res://.import/Shadow2.png-89b5890ee4ee7b7355572074a3a2cda9.stex" ]
+dest_md5="2db9024a54c60e04ca17a3aca431bbf4"
 
 [params]
 

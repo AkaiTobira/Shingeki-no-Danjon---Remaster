@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex"
+path="res://.import/dunno.png-affde489d27d3ef1fd4eaec862610887.stex"
 
 [deps]
 
-source_file="res://Sprites/Environment/Container_Barrel.png"
-source_md5="6b664df57b512240fc41f47e84878ff7"
+source_file="res://Sprites/Environment/dunno.png"
+source_md5="0e2df7931c5979482f76702203a99820"
 
-dest_files=[ "res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex" ]
-dest_md5="44dfbdb9a7a647a81882c5522aec7ca3"
+dest_files=[ "res://.import/dunno.png-affde489d27d3ef1fd4eaec862610887.stex" ]
+dest_md5="e81492e9c90af49a77c7c9dcf7681e06"
 
 [params]
 

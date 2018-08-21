@@ -178,7 +178,15 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	
 	reserve_tile_under_obj( obj_size, i, j , style)
 	if style == Objects.CONTAINERS: AccesNeed.append([i,j])
-	if style == Objects.TRAPS: instance._change_sprite(tilesetName)
+	if style == Objects.TRAPS: 
+		instance._change_sprite(tilesetName)
+		if instance.need_enable_directions:
+			var enabler = []
+			enabler.append(true) if tab[i-1][j] == TileState.free  else enabler.append(false)
+			enabler.append(true) if tab[i+1][j] == TileState.free  else enabler.append(false)
+			enabler.append(true) if tab[i][j-1] == TileState.free  else enabler.append(false)
+			enabler.append(true) if tab[i][j+1] == TileState.free  else enabler.append(false)
+			instance._build_wall(enabler)
 
 	put_object_enviroment(i,j,instance,flip)
 	

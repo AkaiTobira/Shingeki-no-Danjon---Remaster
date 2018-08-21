@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/EnvironmentObject.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Environment/Pipee.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Objects/Shadow2.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Environment/Pipee.png" type="Texture" id=3]
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 53.1713, 65.2316 )
@@ -45,18 +46,28 @@ _sections_unfolded = [ "Playback Options" ]
 
 position = Vector2( 0, 13.8882 )
 scale = Vector2( 0.736544, 0.213319 )
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Sprite" type="Sprite" parent="." index="2"]
+[node name="Sprite2" type="Sprite" parent="." index="2"]
+
+position = Vector2( -1.99742, 30.3034 )
+scale = Vector2( 0.175669, 0.0922899 )
+z_index = -1
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Z Index" ]
+
+[node name="Sprite" type="Sprite" parent="." index="3"]
 
 position = Vector2( 0, 1 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 flip_h = true
+vframes = 2
 hframes = 10
+frame = 10
 _sections_unfolded = [ "Animation", "Offset", "Transform" ]
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="3"]
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="4"]
 
 position = Vector2( -42.6519, -38.0067 )
 scale = Vector2( 0.814107, 0.743104 )

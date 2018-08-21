@@ -20,7 +20,7 @@ func _process(delta):
 		$CanvasLayer/Label.visible = true
 		Res.music.stop()"
 
-[node name="Segment" type="YSort"]
+[node name="Segment" type="YSort" index="0"]
 
 sort_enabled = true
 script = SubResource( 1 )

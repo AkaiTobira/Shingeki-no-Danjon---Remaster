@@ -1,8 +1,34 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/EnvironmentObject.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Environment/Pipee.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Objects/Shadow2.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Environment/PipeInside3.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Environment/Pipee.png" type="Texture" id=4]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	var p = randi()%8+1
+	frame = p
+	
+	if p == 1:
+		get_parent().get_node(\"Sprite4\").frame = randi()%4
+	else:
+		get_parent().get_node(\"Sprite4\").visible = false
+	
+	pass
+
+#func _process(delta):
+#	# Called every frame. Delta is time since last frame.
+#	# Update game logic here.
+#	pass
+"
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -45,44 +71,56 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Sprite2" type="Sprite" parent="." index="1"]
 
-position = Vector2( 0.223667, 31.5079 )
-scale = Vector2( 0.298272, 0.0392094 )
+position = Vector2( -0.496223, 35.4425 )
+scale = Vector2( 0.357184, 0.0699479 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="Sprites" type="Node2D" parent="." index="2"]
 
-position = Vector2( 0, 1 )
+position = Vector2( 6, 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Sprite" type="Sprite" parent="Sprites" index="0"]
+[node name="Sprite4" type="Sprite" parent="Sprites" index="0"]
+
+position = Vector2( -5, -3.48768 )
+texture = ExtResource( 3 )
+vframes = 4
+_sections_unfolded = [ "Animation" ]
+
+[node name="Sprite" type="Sprite" parent="Sprites" index="1"]
 
 position = Vector2( -89, -38 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
-hframes = 10
+vframes = 2
+hframes = 14
+frame = 14
 _sections_unfolded = [ "Animation", "Offset", "Transform", "Z Index" ]
 
-[node name="Sprite2" type="Sprite" parent="Sprites" index="1"]
+[node name="Sprite2" type="Sprite" parent="Sprites" index="2"]
 
-position = Vector2( 0, -38 )
-texture = ExtResource( 3 )
+position = Vector2( 22, -38 )
+texture = ExtResource( 4 )
 centered = false
 flip_h = true
-hframes = 10
+vframes = 2
+hframes = 14
+frame = 14
 _sections_unfolded = [ "Animation", "Offset", "Transform", "Z Index" ]
 
-[node name="Sprite3" type="Sprite" parent="Sprites" index="2"]
+[node name="Sprite3" type="Sprite" parent="Sprites" index="3"]
 
-position = Vector2( -4, 2 )
-texture = ExtResource( 3 )
+position = Vector2( -5, -38 )
+texture = ExtResource( 4 )
 hframes = 10
 frame = 1
-_sections_unfolded = [ "Animation" ]
+script = SubResource( 1 )
+_sections_unfolded = [ "Animation", "Transform" ]
 
 [node name="Shape" type="CollisionShape2D" parent="." index="3"]
 
-position = Vector2( -3.5, 18 )
+position = Vector2( 1.5, 18 )
 scale = Vector2( 1.65695, 1.23849 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]

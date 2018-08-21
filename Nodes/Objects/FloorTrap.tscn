@@ -19,6 +19,7 @@ export var variants = \"\"
 export var can_flip_h = false
 export var const_object = false 
 export(bool) var need_two_side_wall
+export(bool) var need_enable_directions
 
 var last_frame = 0
 var disabled = false
@@ -129,7 +130,9 @@ tracks/4/keys = {
 "values": [ true, false, true, true ]
 }
 
-[node name="FloorTrap" type="Area2D"]
+[node name="FloorTrap" type="Area2D" groups=[
+"enviroment",
+]]
 
 position = Vector2( 0, 6 )
 input_pickable = false
@@ -147,6 +150,7 @@ variants = ""
 can_flip_h = false
 const_object = false
 need_two_side_wall = false
+need_enable_directions = null
 
 [node name="Triger" type="Area2D" parent="." index="0"]
 
@@ -208,7 +212,7 @@ root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
-playback_speed = 12.0
+playback_speed = 15.0
 anims/Explode = SubResource( 4 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]

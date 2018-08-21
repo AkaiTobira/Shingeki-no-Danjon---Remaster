@@ -138,8 +138,8 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="Wallkers" type="CollisionShape2D" parent="Area2D" index="0"]
 
-position = Vector2( -0.814256, 0 )
-scale = Vector2( 1.07105, 1 )
+position = Vector2( -0.814256, 54.7788 )
+scale = Vector2( 1.07105, 5.88747 )
 shape = SubResource( 3 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex"
+path="res://.import/PipeTrap.png-505a04da19fbe568ecc18ae5f567aea0.stex"
 
 [deps]
 
-source_file="res://Sprites/Environment/Container_Barrel.png"
-source_md5="6b664df57b512240fc41f47e84878ff7"
+source_file="res://Sprites/Environment/PipeTrap.png"
+source_md5="223d3eb33e138d8ec30b9a59a3f7c734"
 
-dest_files=[ "res://.import/Container_Barrel.png-667649d30eabbce1694aca38abdfdaaa.stex" ]
-dest_md5="44dfbdb9a7a647a81882c5522aec7ca3"
+dest_files=[ "res://.import/PipeTrap.png-505a04da19fbe568ecc18ae5f567aea0.stex" ]
+dest_md5="c9951bb6d42b89d52f04d472c62154f8"
 
 [params]
 

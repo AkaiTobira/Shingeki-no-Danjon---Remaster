@@ -18,6 +18,7 @@ export var variants = \"\"
 export var can_flip_h = false
 export var const_object = false 
 export(bool) var need_two_side_wall
+export(bool) var need_enable_directions
 
 var last_frame = 0
 
@@ -96,6 +97,7 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = SubResource( 1 )
+_sections_unfolded = [ "Transform", "Z Index" ]
 placement = 1
 offset_position = Vector2( 0, 0 )
 size = Vector2( 4, 1 )
@@ -103,6 +105,7 @@ variants = ""
 can_flip_h = false
 const_object = false
 need_two_side_wall = true
+need_enable_directions = null
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
@@ -112,6 +115,7 @@ texture = ExtResource( 1 )
 centered = false
 offset = Vector2( 1, 0 )
 vframes = 3
+frame = 2
 _sections_unfolded = [ "Animation", "Offset", "Transform", "Z Index" ]
 
 [node name="Sprite2" type="Sprite" parent="." index="1"]
@@ -129,6 +133,7 @@ position = Vector2( 0, -46.0084 )
 scale = Vector2( 1, 0.0928285 )
 shape = SubResource( 2 )
 disabled = true
+_sections_unfolded = [ "Transform" ]
 
 [node name="LeftWall" type="StaticBody2D" parent="." index="3"]
 
@@ -144,6 +149,7 @@ bounce = 0.0
 
 position = Vector2( -120, -8 )
 shape = SubResource( 3 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="RightWall" type="StaticBody2D" parent="." index="4"]
 

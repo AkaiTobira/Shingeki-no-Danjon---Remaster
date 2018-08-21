@@ -525,6 +525,7 @@ _sections_unfolded = [ "Transform", "Z Index", "collision" ]
 position = Vector2( 0, -55 )
 texture = ExtResource( 2 )
 hframes = 7
+frame = 1
 _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
 [node name="RightArm" type="Sprite" parent="Body" index="0"]
@@ -532,7 +533,6 @@ _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 editor/display_folded = true
 texture = ExtResource( 3 )
 hframes = 7
-frame = 1
 _sections_unfolded = [ "Animation", "Visibility" ]
 
 [node name="Weapon" type="Sprite" parent="Body/RightArm" index="0"]

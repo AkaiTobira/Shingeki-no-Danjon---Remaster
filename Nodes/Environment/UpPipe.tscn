@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/EnvironmentObject.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Tilesets/SteamPunk.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Objects/Shadow2.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Tilesets/SteamPunk.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Environment/UpPipe.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -28,18 +28,19 @@ func _ready():
 	match frame:
 		0:
 			get_parent().get_node(\"Shape\").disabled = false
+			get_parent().get_node(\"Sprite2\").scale = Vector2(0.087706, 0.411632)
 		1:
 			get_parent().get_node(\"Shape2\").disabled = false
-			get_parent().get_node(\"Sprite2\").scale = Vector2(0.13, 0.055)
+			get_parent().get_node(\"Sprite2\").scale = Vector2(0.111094, 0.446715)
 		2:
 			get_parent().get_node(\"Shape2\").disabled = false
-			get_parent().get_node(\"Sprite2\").scale = Vector2(0.13, 0.055)
+			get_parent().get_node(\"Sprite2\").scale = Vector2(0.145007, 0.446715)
 		3:
 			get_parent().get_node(\"Shape3\").disabled = false
-			get_parent().get_node(\"Sprite2\").scale = Vector2(0.17, 0.055)
+			get_parent().get_node(\"Sprite2\").scale = Vector2(0.170734, 0.446715)
 		4:
 			get_parent().get_node(\"Shape3\").disabled = false
-			get_parent().get_node(\"Sprite2\").scale = Vector2(0.17, 0.055)
+			get_parent().get_node(\"Sprite2\").scale = Vector2(0.148515, 0.446715)
 
 
 #func _process(delta):
@@ -105,24 +106,25 @@ scale = Vector2( 0.951463, 0.506848 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Sprite3" type="Sprite" parent="." index="4"]
+[node name="Sprite2" type="Sprite" parent="." index="4"]
+
+position = Vector2( -0.0274982, -19.6275 )
+scale = Vector2( 0.148515, 0.446715 )
+z_index = -1
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Sprite3" type="Sprite" parent="." index="5"]
 
 position = Vector2( 0, 1 )
 z_index = -1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 centered = false
 offset = Vector2( -40, -200 )
 vframes = 4
 hframes = 16
 frame = 18
 _sections_unfolded = [ "Animation", "Offset", "Z Index" ]
-
-[node name="Sprite2" type="Sprite" parent="." index="5"]
-
-position = Vector2( -0.460572, 20.5977 )
-scale = Vector2( 0.0707112, 0.0548803 )
-texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="." index="6"]
 
@@ -131,7 +133,7 @@ texture = ExtResource( 4 )
 centered = false
 offset = Vector2( -40, -130 )
 hframes = 5
-frame = 2
+frame = 4
 script = SubResource( 2 )
 _sections_unfolded = [ "Animation", "Offset", "Transform" ]
 

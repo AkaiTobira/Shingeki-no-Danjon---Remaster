@@ -162,7 +162,7 @@ func create_stairs():
 
 
 	var stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
-	Res.game.player.position = stairs_position  + segment_enter.position + Vector2(0, 160)
+	Res.game.player.position = stairs_position  + segment_enter.position + Vector2(80, 160)
 
 	var sprite = load("res://Sprites/Tilesets/" + dungeon_type.tileset + ".png")
 
