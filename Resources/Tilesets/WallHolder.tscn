@@ -25,7 +25,7 @@ func _ready():
 
 
 func _process(delta):
-
+	return
 	
 
 	if( value > player.position.y ):	
@@ -46,7 +46,7 @@ func _process(delta):
 
 
 func _on_Area2D_body_entered(body):
-
+	return
 	if body.is_in_group(\"enemies\") or body.is_in_group(\"enviroment\") or body.is_in_group(\"players\"):
 		elements.append(body)
 			
@@ -102,18 +102,20 @@ _sections_unfolded = [ "Collision", "Pause", "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
+z_index = 1
 texture = ExtResource( 1 )
 vframes = 8
 hframes = 16
-_sections_unfolded = [ "Animation", "Transform" ]
+_sections_unfolded = [ "Animation", "Transform", "Z Index" ]
 
 [node name="Sprite2" type="Sprite" parent="." index="1"]
 
 position = Vector2( 0, 80 )
+z_index = 1
 texture = ExtResource( 1 )
 vframes = 8
 hframes = 16
-_sections_unfolded = [ "Animation" ]
+_sections_unfolded = [ "Animation", "Transform", "Z Index" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
 
@@ -138,8 +140,8 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="Wallkers" type="CollisionShape2D" parent="Area2D" index="0"]
 
-position = Vector2( -0.814256, 54.7788 )
-scale = Vector2( 1.07105, 5.88747 )
+position = Vector2( -0.720622, -14.4037 )
+scale = Vector2( 0.715379, 0.565741 )
 shape = SubResource( 3 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

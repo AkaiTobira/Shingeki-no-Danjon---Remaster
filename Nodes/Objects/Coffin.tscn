@@ -1,0 +1,122 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Nodes/Objects/Coffin.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Objects/Coffing.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+
+length = 2.0
+loop = false
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 24.9147, 34.5188 )
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 24, 20 )
+
+[node name="Coffin" type="StaticBody2D" index="0" groups=[
+"enviroment",
+"enemies",
+]]
+
+input_pickable = false
+collision_layer = 13
+collision_mask = 13
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script = ExtResource( 1 )
+placement = 0
+offset_position = Vector2( 0, 0 )
+size = Vector2( 1, 1 )
+variants = ""
+can_flip_h = false
+const_object = false
+need_enemies_list = true
+need_enable_directions = true
+state = 1
+
+[node name="Sprite2" type="Sprite" parent="." index="0"]
+
+position = Vector2( -1.79292, 3.35656 )
+scale = Vector2( 0.1827, 0.0816317 )
+texture = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="." index="1"]
+
+position = Vector2( -0.540359, -62.4216 )
+z_index = 1
+texture = ExtResource( 3 )
+hframes = 4
+_sections_unfolded = [ "Animation", "Z Index" ]
+
+[node name="Animation" type="AnimationPlayer" parent="." index="2"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 8.0
+anims/Destroyed = SubResource( 1 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="DamageCollider" type="Area2D" parent="." index="3"]
+
+position = Vector2( -0.777163, -27.2376 )
+scale = Vector2( 1.37523, 1.08633 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 2
+collision_mask = 2
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
+
+[node name="Shape" type="CollisionShape2D" parent="DamageCollider" index="0"]
+
+position = Vector2( -0.477784, 1.89996 )
+scale = Vector2( 1.30838, 1.26869 )
+shape = SubResource( 2 )
+
+[node name="Shape" type="CollisionShape2D" parent="." index="4"]
+
+position = Vector2( -2.13378, -7.88182 )
+scale = Vector2( 1.42095, 1.11266 )
+shape = SubResource( 3 )
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="5"]
+
+position = Vector2( -0.541178, -59.4477 )
+scale = Vector2( 4.63291, 8.46115 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
+
+

@@ -9,12 +9,16 @@ export var variants = ""
 export(bool) var can_flip_h
 export var const_object = true
 export(bool) var randomize_speed_of_animation 
+export var need_enemies_list = false
 
 export(bool) var need_enable_directions
 
 enum STATE{ CONST, DESTROYABLE, CHESTS }
 
 export(STATE) var state = 0
+
+var block_animation = false
+
 #
 func _ready():
 	if has_node("Sprite10"):
@@ -22,11 +26,11 @@ func _ready():
 			$"Sprite".offset += Vector2(6,0)
 			$"Sprite10".position += Vector2(50,0)
 			$"Sprite10".flip_h = $"Sprite".flip_h
-			if !$"Sprite10".visible:
-				$"Animation".stop()
+			
+			if $"Sprite10".visible == false:
 				return
 	
-	if has_node("Animation") and const_object:
+	if has_node("Animation") and const_object and not block_animation:
 		var anim = $Animation.get_animation_list()
 		if len(anim) > 0 :
 			$Animation.play(anim[randi()%(len(anim))])
@@ -50,6 +54,12 @@ func _build_wall( tab = [] ):
 			get_node("CollisionR").disabled = true
 		if randi()%2 and tab[3]:
 			$Node2D/Back/Sprite.visible = false
+	
+	if $Node2D/Back/Sprite.visible == false:
+		$CollisionShape2D.scale = Vector2(1.781887,2.901224)
+		$CollisionShape2D.position = Vector2(3.621228,-16.660124)
+		pass
+	
 	
 	pass 
 	

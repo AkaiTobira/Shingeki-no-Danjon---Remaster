@@ -40,8 +40,10 @@ func _ready():
 	
 	if randi()%10 == 0:
 		visible = false
+		get_parent().block_animation = true
 	
 	frame = randi()%4
+	
 	pass
 "
 
@@ -66,12 +68,14 @@ variants = ""
 can_flip_h = true
 const_object = true
 randomize_speed_of_animation = null
+need_enemies_list = false
+need_enable_directions = null
 state = 0
 
 [node name="Animation" type="AnimationPlayer" parent="." index="0"]
 
 root_node = NodePath("..")
-autoplay = "1"
+autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 8.0

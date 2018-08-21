@@ -26,7 +26,7 @@ func initialize():
 	
 	
 	var file = File.new()
-	file.open(\"res://Resources/Dungeons/Towers.json\", file.READ)
+	file.open(\"res://Resources/Dungeons/Mechanic.json\", file.READ)
 	var text = file.get_as_text()
 	
 	var file_json = parse_json(text)
@@ -126,14 +126,14 @@ position = Vector2( 833.849, 450.152 )
 [node name="FlamePipe" parent="." index="7" instance=ExtResource( 9 )]
 
 position = Vector2( 212.77, 312.799 )
-const_object = true
-state = 0
+need_enemies_list = false
+need_enable_directions = null
 
 [node name="FlamePipe2" parent="." index="8" instance=ExtResource( 10 )]
 
 position = Vector2( 1066.67, 508.001 )
-const_object = true
-state = 0
+need_enemies_list = false
+need_enable_directions = null
 
 [node name="Uganda" parent="." index="9" instance=ExtResource( 11 )]
 

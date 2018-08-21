@@ -60,7 +60,7 @@ extents = Vector2( 16.2716, 53.99 )
 [sub_resource type="Animation" id=4]
 
 resource_name = "FIRE"
-length = 40.0
+length = 32.0
 loop = false
 step = 0.2
 tracks/0/type = "value"
@@ -70,10 +70,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.2, 0.6 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.2, 0.6 ) ]
+"values": [ Vector2( 0.2, 0.6 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.0863149, 0.855231 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite2:position")
@@ -82,10 +82,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -4.37111e-08, -1 ), Vector2( -5.33279e-06, -122 ), Vector2( -4e-06, -122 ), Vector2( 0, -1 ) ]
+"values": [ Vector2( -4.37111e-08, -1 ), Vector2( -5.33279e-06, -122 ), Vector2( -4e-06, -122 ), Vector2( 0.903994, -232.995 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Sprite2:frame")
@@ -106,7 +106,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -118,7 +118,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1.31912, 0.210563 ), Vector2( 1.18424, 1.95543 ), Vector2( 1.31912, 1.90134 ), Vector2( 1.31912, 0.034923 ) ]
@@ -130,10 +130,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.97195, -14.0003 ), Vector2( -0.62758, -125.556 ), Vector2( 3.34088, -129.352 ), Vector2( 1.97195, -16.6429 ) ]
+"values": [ Vector2( 1.97195, -14.0003 ), Vector2( -0.62758, -125.556 ), Vector2( 3.34088, -129.352 ), Vector2( 1.97195, -236.643 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Sprite2:visible")
@@ -142,7 +142,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -151,7 +151,7 @@ tracks/6/keys = {
 [sub_resource type="Animation" id=5]
 
 resource_name = "FIRE"
-length = 40.0
+length = 32.0
 loop = false
 step = 0.2
 tracks/0/type = "value"
@@ -161,10 +161,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.2, 0.6 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.2, 0.6 ) ]
+"values": [ Vector2( 0.0283801, 0.770744 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.0753997, 0.712833 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite2:position")
@@ -173,10 +173,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -41, 19 ), Vector2( -168.509, 23.2889 ), Vector2( -169.172, 24.6157 ), Vector2( -36.4881, 18.9026 ) ]
+"values": [ Vector2( -56.1438, 19.9041 ), Vector2( -168.509, 23.2889 ), Vector2( -169.172, 24.6157 ), Vector2( -282.066, 19.0183 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Sprite2:frame")
@@ -197,7 +197,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -209,7 +209,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.156412, 0.407324 ), Vector2( 6.91936, 0.524488 ), Vector2( 7.06632, 0.408525 ), Vector2( 0.201729, 0.420981 ) ]
@@ -221,10 +221,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -57.0232, 21.565 ), Vector2( -167.345, 20.9116 ), Vector2( -169.82, 24.871 ), Vector2( -51.4941, 25.3641 ) ]
+"values": [ Vector2( -57.0232, 21.565 ), Vector2( -167.345, 20.9116 ), Vector2( -169.82, 24.871 ), Vector2( -285.669, 21.2915 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Sprite2:visible")
@@ -233,7 +233,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -242,7 +242,7 @@ tracks/6/keys = {
 [sub_resource type="Animation" id=6]
 
 resource_name = "FIRE"
-length = 40.0
+length = 32.0
 loop = false
 step = 0.2
 tracks/0/type = "value"
@@ -252,10 +252,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.025193, 0.28798 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.012751, 0.28 ) ]
+"values": [ Vector2( 0.025193, 0.28798 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.0373315, 0.814505 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite2:position")
@@ -264,10 +264,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 54, 19 ), Vector2( 173.185, 14.2444 ), Vector2( 172.788, 14.2444 ), Vector2( 54, 20 ) ]
+"values": [ Vector2( 54, 19 ), Vector2( 173.185, 14.2444 ), Vector2( 172.788, 14.2444 ), Vector2( 285.901, 18.4562 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Sprite2:frame")
@@ -288,7 +288,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -300,7 +300,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.173858, 0.257257 ), Vector2( 6.86118, 0.550161 ), Vector2( 6.76231, 0.408888 ), Vector2( 0.119142, 0.343613 ) ]
@@ -312,10 +312,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 61.495, 18.763 ), Vector2( 177.402, 20.0551 ), Vector2( 173.366, 25.7754 ), Vector2( 61.9258, 19.6119 ) ]
+"values": [ Vector2( 61.495, 18.763 ), Vector2( 177.402, 20.0551 ), Vector2( 173.366, 25.7754 ), Vector2( 285.926, 19.6119 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Sprite2:visible")
@@ -324,7 +324,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -333,7 +333,7 @@ tracks/6/keys = {
 [sub_resource type="Animation" id=7]
 
 resource_name = "FIRE"
-length = 40.0
+length = 32.0
 loop = false
 step = 0.2
 tracks/0/type = "value"
@@ -343,10 +343,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.0823499, 0.421632 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.0734101, 0.513609 ) ]
+"values": [ Vector2( 0.0823499, 0.421632 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.0734101, 0.812689 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite2:position")
@@ -355,10 +355,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.69393, 34.6529 ), Vector2( 6.59411, 148.458 ), Vector2( 6.16176, 149.005 ), Vector2( 1.48813, 34.8092 ) ]
+"values": [ Vector2( 1.69393, 34.6529 ), Vector2( 6.59411, 148.458 ), Vector2( 6.16176, 149.005 ), Vector2( -0.923418, 262.259 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Sprite2:frame")
@@ -379,7 +379,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -391,10 +391,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.55302, 0.14602 ), Vector2( 1.31912, 2.13712 ), Vector2( 1.31912, 2.23633 ), Vector2( 0.804937, 0.257719 ) ]
+"values": [ Vector2( 0.55302, 0.14602 ), Vector2( 1.31912, 2.13712 ), Vector2( 1.31912, 2.23633 ), Vector2( 0.804937, 0.169111 ) ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Area2D/HitBox:position")
@@ -403,10 +403,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 16, 24, 40 ),
+"times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.09888, 33.1716 ), Vector2( 4.69271, 147.973 ), Vector2( 1.97195, 151.222 ), Vector2( 1.6228, 33.2163 ) ]
+"values": [ Vector2( 1.09888, 33.1716 ), Vector2( 4.69271, 147.973 ), Vector2( 1.97195, 151.222 ), Vector2( -2.35773, 261.399 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Sprite2:visible")
@@ -415,7 +415,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 40 ),
+"times": PoolRealArray( 0, 32 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -426,7 +426,9 @@ tracks/6/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="StaticBody2D" type="StaticBody2D" index="0"]
+[node name="StaticBody2D" type="StaticBody2D" groups=[
+"enviroment",
+]]
 
 z_index = 1
 input_pickable = false
@@ -445,6 +447,7 @@ variants = ""
 can_flip_h = null
 const_object = true
 randomize_speed_of_animation = null
+need_enemies_list = false
 need_enable_directions = true
 state = 0
 
@@ -458,8 +461,8 @@ _sections_unfolded = [ "Z Index" ]
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="1"]
 
-position = Vector2( 4.73473, -64.8736 )
-scale = Vector2( 5.71896, 7.53245 )
+position = Vector2( 8.17345, -31.6327 )
+scale = Vector2( 29.346, 23.1262 )
 rect = Rect2( -10, -10, 20, 20 )
 pause_animations = true
 freeze_bodies = true
@@ -476,7 +479,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Back" type="Node2D" parent="Node2D" index="0"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="Node2D/Back" index="0"]
@@ -500,8 +502,8 @@ audio_bus_name = "Master"
 
 [node name="HitBox" type="CollisionShape2D" parent="Node2D/Back/Area2D" index="0"]
 
-position = Vector2( 1.93945, -15.3947 )
-scale = Vector2( 1.31744, 0.232374 )
+position = Vector2( 1.97195, -230.415 )
+scale = Vector2( 1.31912, 0.144205 )
 shape = SubResource( 3 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
@@ -509,11 +511,12 @@ _sections_unfolded = [ "Transform" ]
 [node name="Sprite2" type="Sprite" parent="Node2D/Back" index="2"]
 
 visible = false
-position = Vector2( -1.09824e-07, -2.5125 )
+position = Vector2( 0.903994, -232.995 )
 rotation = -1.5708
-scale = Vector2( 0.21, 0.605 )
+scale = Vector2( 0.0863149, 0.855231 )
 texture = ExtResource( 4 )
 vframes = 2
+frame = 1
 _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Back" index="3"]
@@ -533,10 +536,9 @@ texture = ExtResource( 3 )
 hframes = 3
 _sections_unfolded = [ "Animation" ]
 
-[node name="Left" type="Node2D" parent="Node2D" index="2" groups=[
-"enviroment",
-]]
+[node name="Left" type="Node2D" parent="Node2D" index="2"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="Node2D/Left" index="0"]
@@ -550,7 +552,6 @@ _sections_unfolded = [ "Animation" ]
 
 [node name="Area2D" type="Area2D" parent="Node2D/Left" index="1"]
 
-editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -561,7 +562,7 @@ audio_bus_name = "Master"
 
 [node name="HitBox" type="CollisionShape2D" parent="Node2D/Left/Area2D" index="0"]
 
-position = Vector2( -51.4941, 25.3641 )
+position = Vector2( -285.669, 21.2915 )
 scale = Vector2( 0.201729, 0.420981 )
 shape = SubResource( 3 )
 disabled = true
@@ -570,13 +571,12 @@ _sections_unfolded = [ "Transform" ]
 [node name="Sprite2" type="Sprite" parent="Node2D/Left" index="2"]
 
 visible = false
-position = Vector2( -36.4881, 18.9026 )
+position = Vector2( -282.066, 19.0183 )
 rotation = -3.14159
-scale = Vector2( 0.2, 0.6 )
+scale = Vector2( 0.0753997, 0.712833 )
 z_index = 2
 texture = ExtResource( 4 )
 vframes = 2
-frame = 1
 _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Left" index="3"]
@@ -591,6 +591,8 @@ blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
 [node name="Right" type="Node2D" parent="Node2D" index="3"]
+
+editor/display_folded = true
 
 [node name="Sprite" type="Sprite" parent="Node2D/Right" index="0"]
 
@@ -614,7 +616,7 @@ audio_bus_name = "Master"
 
 [node name="HitBox" type="CollisionShape2D" parent="Node2D/Right/Area2D" index="0"]
 
-position = Vector2( 61.9258, 19.6119 )
+position = Vector2( 285.926, 19.6119 )
 scale = Vector2( 0.119142, 0.343613 )
 shape = SubResource( 3 )
 disabled = true
@@ -623,12 +625,11 @@ _sections_unfolded = [ "Transform" ]
 [node name="Sprite2" type="Sprite" parent="Node2D/Right" index="2"]
 
 visible = false
-position = Vector2( 54, 20 )
-scale = Vector2( 0.012751, 0.28 )
+position = Vector2( 285.901, 18.4562 )
+scale = Vector2( 0.0373315, 0.814505 )
 z_index = 1
 texture = ExtResource( 4 )
 vframes = 2
-frame = 1
 _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Right" index="3"]
@@ -643,6 +644,8 @@ blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
 [node name="Up" type="Node2D" parent="Node2D" index="4"]
+
+editor/display_folded = true
 
 [node name="Sprite" type="Sprite" parent="Node2D/Up" index="0"]
 
@@ -665,8 +668,8 @@ audio_bus_name = "Master"
 
 [node name="HitBox" type="CollisionShape2D" parent="Node2D/Up/Area2D" index="0"]
 
-position = Vector2( 1.09888, 33.1716 )
-scale = Vector2( 0.55302, 0.14602 )
+position = Vector2( -2.35773, 261.399 )
+scale = Vector2( 0.804937, 0.169111 )
 shape = SubResource( 3 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
@@ -674,12 +677,13 @@ _sections_unfolded = [ "Transform" ]
 [node name="Sprite2" type="Sprite" parent="Node2D/Up" index="2"]
 
 visible = false
-position = Vector2( 1.69393, 34.6529 )
+position = Vector2( -0.923418, 262.259 )
 rotation = 1.5708
-scale = Vector2( 0.0823499, 0.421632 )
+scale = Vector2( 0.0734101, 0.812689 )
 z_index = 1
 texture = ExtResource( 4 )
 vframes = 2
+frame = 1
 _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Up" index="3"]
@@ -695,9 +699,10 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
 
-position = Vector2( 3.62123, -32.8322 )
-scale = Vector2( 1.78189, 4.14523 )
+position = Vector2( 3.62123, -16.6601 )
+scale = Vector2( 1.78189, 2.90122 )
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="CollisionL" type="CollisionShape2D" parent="." index="4"]
 

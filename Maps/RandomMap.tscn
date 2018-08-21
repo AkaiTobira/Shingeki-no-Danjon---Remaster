@@ -11,9 +11,14 @@ var dungeon
 var from = \"UP\"
 var my_seed
 
+var dungeon_name = \"Mechanic\"
+
 func initialize():
 	Res.play_music(\"LowerWorkshop\")
-	dungeon = Res.dungeons[\"Workshop\"]
+	
+	#print(Res.dungeons[dungeon_name])
+	
+	#dungeon = Res.dungeons[dungeon_name]
 	
 	if !my_seed:
 		randomize()
@@ -31,7 +36,7 @@ func initialize():
 	elif DungeonState.current_floor == 3:
 		seed(2946992650)
 	
-	$Generator.generate(10, 10)"
+	$Generator.generate(dungeon_name,10, 10)"
 _sections_unfolded = [ "Resource" ]
 
 [node name="RandomMap" type="YSort"]

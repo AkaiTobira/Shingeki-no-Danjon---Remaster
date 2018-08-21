@@ -56,7 +56,7 @@ func change_floor(change):
 	object_id = 0
 	var new_map = load("res://Maps/RandomMap.tscn").instance()
 	if DungeonState.current_floor == 0: #ULTRAMEGAOSTATECZNYHACK
-		new_map = load("res://Maps/JigsawRoom.tscn").instance()
+		new_map = load("res://Maps/Sandbox.tscn").instance()
 	elif DungeonState.current_floor == 4: #ULTRAMEGAOSTATECZNYHACK
 		new_map = load("res://Maps/BossRoom.tscn").instance()
 	else:

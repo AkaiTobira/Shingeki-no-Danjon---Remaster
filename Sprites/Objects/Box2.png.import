@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PipeTrap.png-505a04da19fbe568ecc18ae5f567aea0.stex"
+path="res://.import/Box2.png-41722d009ffe40a39b4b22f8996be7df.stex"
 
 [deps]
 
-source_file="res://Sprites/Environment/PipeTrap.png"
-source_md5="025531500893e9814a43b19a1df49ca4"
+source_file="res://Sprites/Objects/Box2.png"
+source_md5="451e598b409f6db531ff622d4ae4c70b"
 
-dest_files=[ "res://.import/PipeTrap.png-505a04da19fbe568ecc18ae5f567aea0.stex" ]
-dest_md5="ec0d80df531d4039c6a71d9dd5b0f554"
+dest_files=[ "res://.import/Box2.png-41722d009ffe40a39b4b22f8996be7df.stex" ]
+dest_md5="0ff8299391defcf8647742b30a6593e6"
 
 [params]
 

@@ -1,14 +1,31 @@
 {
-	"Mechanic" : {
+
+		"name": "Mechanic",
 		"tileset" : "SteamPunk",
 		"progress": "UP",
+		"floors" : 9,
+
+	
+		"breakable_contents"   :  [
+			[2, 200],  [3, 400],  [17,800], 
+			[24,100],  [25,100],  [28,200], 
+			[29,200],  [30,150],  [31,120],
+			[18,200]
+			],
 		
+		"containers_objects"  : [ 
+			"Chest",
+			"Coffin"
+		],
+
 		"environment_objects" : [ 
 			"MultiplePipes" ,
 			"Plump",
 			"WallGear1",
 			"ContaonerBarrel",
-			
+			"Box3x2",
+			"Box2x2",
+			"Box1x2",
 			"UpPipe",
 			"DownPipe",
 			"Pipee",
@@ -19,19 +36,16 @@
 
 		],
 		"breakable_objects"   : [ 
-			"Barrel",
-			"BarrelV2"
-		],		
-		"breakable_contents"   :  [
-			[2, 200],  [3, 400],  [17,800], 
-			[24,100],  [25,100],  [28,200], 
-			[29,200],  [30,150],  [31,120],
-			[18,200]
-			],
-		
-		"containers_objects"  : [ 
-			"Chest" 
+			"BarrelV2",
+			"Box"
+		],	
+
+		"trap_objects" : [
+			"CrushingWalls",
+			"FloorTrap",
+			"PipeTrap"
 		],
+
 		"containers_contents"  : [
 			[0 ,300],   [10,600],   [7 ,150],
 			[15, 25],   [18,230],   [20,150],
@@ -46,19 +60,13 @@
 		},
 
 
-		"trap_objects" : [
-			"CrushingWalls",
-			"FloorTrap",
-			"PipeTrap"
-		],
+
 		
 		"probs" : {
 			 "enemies"  : 20,
 			 "traps"    : 100, 
 			 "breakable": 60,
 			 "const"    : 275,
-			 "container": 5
-
+			 "container": 15
 		}	
-	}
 }

@@ -15,7 +15,7 @@ var disabled = []#["Puncher"] ##DEBUG
 
 var width = 100
 var height = 100
-var dungeon_type
+var dungeon_name 
 
 var empty_spots = []
 var segments = []
@@ -28,20 +28,14 @@ var file_json
 var splitted_obj
 
 
-func generate(w, h):
+func generate(level_name,w, h):
 	width = w
 	height = h
 	map.resize(width * height)
-	dungeon_type = get_parent().dungeon
+	dungeon_name = level_name
 	var end = false
 	
-	print(DungeonState.current_floor)
-	
-	var file = File.new()
-	file.open("res://Resources/Dungeons/Towers.json", file.READ)
-	var text = file.get_as_text()
-	file_json = parse_json(text)
-	
+	#print(DungeonState.current_floor)
 	
 	var start = Vector2(randi() % width, randi() % height)
 	empty_spots.append({"pos": start})
@@ -84,13 +78,16 @@ func generate(w, h):
 				create_segment(segment.segment.name, Vector2(x, y))
 
 
-	var tileset = Res.tilesets[dungeon_type.tileset]
+	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
+	#dungeon_type.tileset]
 	create_stairs()
 
 	var tileset_dict = {}
 
-	for i in dungeon.get_children()[0].get_node("BottomTiles").tile_set.get_tiles_ids():
-		tileset_dict[dungeon.get_children()[0].get_node("BottomTiles").tile_set.tile_get_name(i)] = i
+	var ts = load("res://Resources/Tilesets/" +Res.dungeons[dungeon_name]["tileset"] + ".tres")
+
+	for i in ts.get_tiles_ids():
+		tileset_dict[ts.tile_get_name(i)] = i
 
 	for segment in dungeon.get_children():
 		var bottom = segment.find_node("BottomTiles", true, false)
@@ -151,7 +148,7 @@ func generate(w, h):
 	queue_free()
 
 func create_stairs():
-	var tileset = Res.tilesets[dungeon_type.tileset]
+	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
 	var segments = dungeon.get_children()
 	
 	var segment_enter  = segments[randi()%len(segments)]	
@@ -164,12 +161,12 @@ func create_stairs():
 	var stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
 	Res.game.player.position = stairs_position  + segment_enter.position + Vector2(80, 160)
 
-	var sprite = load("res://Sprites/Tilesets/" + dungeon_type.tileset + ".png")
+	var sprite = load("res://Sprites/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".png")
 
 	var stairs = Res.create_instance("Objects/Stairs")
 	stairs.texture = sprite
 	stairs.position = stairs_position + Vector2(80, 80) + segment_enter.position
-	stairs.set_stairs("up" if dungeon_type.progress != get_parent().from else "down", tileset)
+	stairs.set_stairs("up" if Res.dungeons[dungeon_name]["progress"] != get_parent().from else "down", tileset)
 	dungeon.add_child(stairs)
 
 	var segment_exit  = segments[randi()%len(segments)]	
@@ -183,76 +180,37 @@ func create_stairs():
 	stairs = Res.create_instance("Objects/Stairs")
 	stairs.texture = sprite
 	stairs.position = stairs_position + Vector2(80, 80) + segment_exit.position
-	stairs.set_stairs("up" if dungeon_type.progress == get_parent().from else "down", tileset)
+	stairs.set_stairs("up" if Res.dungeons[dungeon_name]["progress"] == get_parent().from else "down", tileset)
 	dungeon.add_child(stairs)
 
-func place_environment():
-	for i in dungeon_type.environment_count:
-		var object = dungeon_type.environment_objects[randi() % dungeon_type.environment_objects.size()]
-		var instance = Res.get_node("Environment/" + object).instance()
-		
-		for j in range(100):
-			var k = floor_space.keys()[randi() % floor_space.keys().size()]
-			var space = floor_space[k]
-			var ok = true
-			
-			for l in range(instance.size.x * instance.size.y):
-				var kk = k + Vector2(l % int(instance.size.x), l / int(instance.size.x)) * 80
-				if !floor_space.has(kk):
-					ok = false
-					break
-				
-				var space2 = floor_space[kk]
-				
-				match instance.placement:
-					instance.LEFT_WALL: ok = space2.has("left_wall")
-					instance.SIDE_WALL: ok = space2.has("left_wall") or space2.has("right_wall")
-					instance.NO_WALL: ok = space2.no_walls
-				
-				if !ok: break
-			if !ok: continue
-				
-			var offset = instance.offset_position
-			if instance.can_flip_h and space.has("right_wall"):
-				instance.get_node("Sprite").flip_h = true
-				offset.x = -offset.x
-			
-			if instance.variants != "":
-				var variants = instance.variants.split(" ")
-				var variant = variants[randi() % variants.size()]
-				instance.get_node("Sprite").texture = load("res://Sprites/Environment/" + variant + ".png")
-				
-			instance.position = k + Vector2(40, 40) + offset
-			dungeon.get_parent().add_child(instance)
-			floor_space.erase(k)
-			break
 
-func place_breakables():
-	var breakables = dungeon_type.breakables
-	
-	var nil = 0
-	
-	var chances = {}
-	for item in dungeon_type.breakable_contents:
-		chances[item[0]] = item[1]
-		nil += 1000 - item[1]
-	
-	chances[-1] = nil
-	
-	for i in range(dungeon_type.breakable_count):
-		var type = breakables[randi() % breakables.size()]
-		var instance = place_on_floor("Objects/" + type)
-		if instance: instance.item = int(Res.weighted_random(chances))
-		else: break
+#
+#func place_breakables():
+#	var breakables = dungeon_type.breakables
+#
+#	var nil = 0
+#
+#	var chances = {}
+#	for item in dungeon_type.breakable_contents:
+#		chances[item[0]] = item[1]
+#		nil += 1000 - item[1]
+#
+#	chances[-1] = nil
+#
+#	for i in range(dungeon_type.breakable_count):
+#		var type = breakables[randi() % breakables.size()]
+#		var instance = place_on_floor("Objects/" + type)
+#		if instance: instance.item = int(Res.weighted_random(chances))
+#		else: break
 
-func place_containers():
-	var containers = dungeon_type.containers
-	
-	for i in range(dungeon_type.container_count):
-		var type = containers[randi() % containers.size()]
-		var instance = place_on_floor("Objects/" + type)
-		if instance: instance.item = int(Res.weighted_random(dungeon_type.container_contents))
-		else: break
+#func place_containers():
+#	var containers = dungeon_type.containers
+#
+#	for i in range(dungeon_type.container_count):
+#		var type = containers[randi() % containers.size()]
+#		var instance = place_on_floor("Objects/" + type)
+#		if instance: instance.item = int(Res.weighted_random(dungeon_type.container_contents))
+#		else: break
 
 func place_for_test(what):
 	if NewToTest == "": return
@@ -261,48 +219,48 @@ func place_for_test(what):
 	ug_inst.position = Res.game.player.position + Vector2(200,200)
 	dungeon.get_parent().add_child(ug_inst)
 
-func place_enemies():
-	var enemies = dungeon_type.enemies
-	
-	for i in range(dungeon_type.enemy_count):
-		var type = enemies[randi() % enemies.size()]
-		if !place_on_floor("Enemies/" + type): break
-	
-	if NewToTest: place_for_test(Res.get_node(NewToTest))
+#func place_enemies():
+#	var enemies = dungeon_type.enemies
+#
+#	for i in range(dungeon_type.enemy_count):
+#		var type = enemies[randi() % enemies.size()]
+#		if !place_on_floor("Enemies/" + type): break
+#
+#	if NewToTest: place_for_test(Res.get_node(NewToTest))
 
-func place_on_floor(object):
-	if DungeonState.current_floor < 2 and ["Enemies/FLA-B", "Enemies/FLA-G", "Enemies/FLA-S"].has(object): return true
-	if DungeonState.current_floor < 3 and ["Enemies/PuncherMKII"].has(object): return true ##ULTRAMEGAKURESUPEREXTRAHACK
-	for dis in disabled: if object.find(dis) > -1: return ##DEBUG
-	if floor_space.empty(): return null
-	
-	var instance = Res.get_node(object).instance()
-	var k = floor_space.keys()[randi() % floor_space.keys().size()]
-	
-	instance.position = k + Vector2(40,40)
-	floor_space.erase(k)
-	dungeon.get_parent().add_child(instance)
-	
-	return instance
+#func place_on_floor(object):
+#	if DungeonState.current_floor < 2 and ["Enemies/FLA-B", "Enemies/FLA-G", "Enemies/FLA-S"].has(object): return true
+#	if DungeonState.current_floor < 3 and ["Enemies/PuncherMKII"].has(object): return true ##ULTRAMEGAKURESUPEREXTRAHACK
+#	for dis in disabled: if object.find(dis) > -1: return ##DEBUG
+#	if floor_space.empty(): return null
+#
+#	var instance = Res.get_node(object).instance()
+#	var k = floor_space.keys()[randi() % floor_space.keys().size()]
+#
+#	instance.position = k + Vector2(40,40)
+#	floor_space.erase(k)
+#	dungeon.get_parent().add_child(instance)
+#
+#	return instance
 
-func place_treasure_into_maze(what, how_many):
-	for nmb in range(how_many):
-		if floor_space.empty(): break
-		
-		var ug_inst = what.instance()
-		var i = randi()%floor_space.size()
-		var temp = floor_space[i]+ Vector2(40,40)
-		floor_space.remove(i)
-			
-		ug_inst.position = temp
-		ug_inst.item = 17
-		
-		if what == Res.get_node("Objects/Chest"):
-			ug_inst.item = randi()%4 + 28
-		
-		dungeon.get_parent().add_child(ug_inst)
-		if (what == Res.get_node("Objects/Barrel") and randi()%6 == 0) : ##hack ;_;
-			ug_inst.item = randi()%2
+#func place_treasure_into_maze(what, how_many):
+#	for nmb in range(how_many):
+#		if floor_space.empty(): break
+#
+#		var ug_inst = what.instance()
+#		var i = randi()%floor_space.size()
+#		var temp = floor_space[i]+ Vector2(40,40)
+#		floor_space.remove(i)
+#
+#		ug_inst.position = temp
+#		ug_inst.item = 17
+#
+#		if what == Res.get_node("Objects/Chest"):
+#			ug_inst.item = randi()%4 + 28
+#
+#		dungeon.get_parent().add_child(ug_inst)
+#		if (what == Res.get_node("Objects/Barrel") and randi()%6 == 0) : ##hack ;_;
+#			ug_inst.item = randi()%2
 
 func get_possible_segments(spot):
 	var pos = spot.pos
@@ -391,8 +349,8 @@ func create_segment(segment, pos):
 	var bottom = seg.get_node("BottomTiles")
 	var top = seg.get_node("TopTiles")
 	
-	bottom.tile_set = load("res://Resources/Tilesets/" + dungeon_type.tileset + ".tres")
-	top.tile_set = load("res://Resources/Tilesets/" + dungeon_type.tileset + ".tres")
+	bottom.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
+	top.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.set_collision_layer_bit(3, true)
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
 	var no_objects = get_segment_data(pos).segment.has("no_objects")
@@ -422,10 +380,10 @@ func create_segment(segment, pos):
 	dungeon.add_child(seg)
 	
 	if splitted_obj == null:
-		seg.generate(file_json, "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
 		splitted_obj = seg.get_splitted_elements()
 	else:
-		seg.generate(file_json, "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
 	
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):

@@ -21,8 +21,13 @@ func _ready():
 
 var EnemiesList = [preload(\"res://Nodes/Enemies/FLA-B.tscn\"), preload(\"res://Nodes/Enemies/FLA-S.tscn\"), preload(\"res://Nodes/Enemies/FLA-G.tscn\")]
 
+
+func set_enemies(enemies):
+	if len(enemies) > 0:  
+		EnemiesList = enemies
+
 func spawn():
-	var ug_inst = EnemiesList[randi()%3].instance()
+	var ug_inst = EnemiesList[randi()%len(EnemiesList)].instance()
 	ug_inst.position = position
 	#ug_inst._on_damage()
 	get_parent().add_child(ug_inst)
@@ -70,7 +75,7 @@ tracks/1/keys = {
 custom_solver_bias = 0.0
 radius = 10.0
 
-[node name="KinematicBody2D" type="KinematicBody2D" index="0"]
+[node name="KinematicBody2D" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 1

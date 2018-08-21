@@ -29,6 +29,7 @@ enum Objects{
 var tab       = []
 var structure = []
 var Obj_to_Append = []
+var enemies   = []
 
 var Wall_Splitted_Obj = [ 
 	[ [],[],[],[] ], 
@@ -94,7 +95,8 @@ func _ready():
 func put_object_enviroment(i,j,instance, flip = false ):
 	instance.position = Vector2(i*80,j*80) + (instance.size*(40-1))
 	if flip:
-		instance.get_node("Sprite").flip_h = !instance.get_node("Sprite").flip_h
+		if instance.has_node("Sprite"):
+			instance.get_node("Sprite").flip_h = !instance.get_node("Sprite").flip_h
 		if instance.has_node("Sprite2"):
 			instance.get_node("Sprite2").flip_h = !instance.get_node("Sprite2").flip_h
 	Obj_to_Append.append(instance)
@@ -136,7 +138,7 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 				if not tab[i][j+y] in SIDES[orientation]: 
 					return false
 			i = i + 1 - obj_size.x
-			if instance.placement == instance.LEFT_OR_RIGHT_WALL:
+			if instance.placement == instance.LEFT_OR_RIGHT_WALL or instance.can_flip_h:
 				flip = true
 				
 			if style == Objects.TRAPS:
@@ -177,16 +179,21 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 				return false
 	
 	reserve_tile_under_obj( obj_size, i, j , style)
+	
+	if instance.need_enemies_list :
+		instance.fill_enemies_list(enemies)
+	if instance.need_enable_directions:
+		var enabler = []
+		enabler.append(true) if ( tab[i-1][j] >= TileState.free and tab[i-1][j] <= TileState.exitTile )   else enabler.append(false)
+		enabler.append(true) if ( tab[i+1][j] >= TileState.free and tab[i+1][j] <= TileState.exitTile )   else enabler.append(false)
+		enabler.append(true) if ( tab[i][j-1] >= TileState.free and tab[i][j-1] <= TileState.exitTile )   else enabler.append(false)
+		enabler.append(true) if ( tab[i][j+1] >= TileState.free and tab[i][j+1] <= TileState.exitTile )   else enabler.append(false)
+		instance._build_wall(enabler)
+	
 	if style == Objects.CONTAINERS: AccesNeed.append([i,j])
 	if style == Objects.TRAPS: 
 		instance._change_sprite(tilesetName)
-		if instance.need_enable_directions:
-			var enabler = []
-			enabler.append(true) if tab[i-1][j] == TileState.free  else enabler.append(false)
-			enabler.append(true) if tab[i+1][j] == TileState.free  else enabler.append(false)
-			enabler.append(true) if tab[i][j-1] == TileState.free  else enabler.append(false)
-			enabler.append(true) if tab[i][j+1] == TileState.free  else enabler.append(false)
-			instance._build_wall(enabler)
+
 
 	put_object_enviroment(i,j,instance,flip)
 	
@@ -280,28 +287,31 @@ func put_enemies( enemies ,prob, current_lvl):
 func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 	flooor = current_level
 	
-	conatainer_contains = file_json[dungeon]["containers_contents"]
-	breakable_contains  = file_json[dungeon]["breakable_contents"]
+	conatainer_contains = file_json["containers_contents"]
+	breakable_contains  = file_json["breakable_contents"]
+	enemies = file_json["floor"][str(current_level)]
 
 	if splitted_obj == null:
-		split_enviroments(file_json[dungeon]["environment_objects"], Objects.CONST)
-		split_enviroments(file_json[dungeon]["breakable_objects"  ], Objects.DESTROYABLE)
-		split_enviroments(file_json[dungeon]["containers_objects" ], Objects.CONTAINERS)
-		split_enviroments(file_json[dungeon]["trap_objects" ], Objects.TRAPS)
+		split_enviroments(file_json["environment_objects"], Objects.CONST)
+		split_enviroments(file_json["breakable_objects"  ], Objects.DESTROYABLE)
+		split_enviroments(file_json["containers_objects" ], Objects.CONTAINERS)
+		split_enviroments(file_json["trap_objects" ], Objects.TRAPS)
 	else:
 		Wall_Splitted_Obj = splitted_obj
 		
-	tilesetName = file_json[dungeon]["tileset"]
-	put_elements_on_scene( file_json[dungeon]["probs"] )
+	tilesetName = file_json["tileset"]
+	put_elements_on_scene( file_json["probs"] )
 	
 	while !check_correctnes():
 		reset()
-		put_elements_on_scene( file_json[dungeon]["probs"] )
+		put_elements_on_scene( file_json["probs"] )
 
-	put_wall_related_objects ( file_json[dungeon]["probs"]["breakable"], Objects.DESTROYABLE )
-	put_free_standing_objects( file_json[dungeon]["probs"]["breakable"], Objects.DESTROYABLE )
+	put_wall_related_objects ( file_json["probs"]["breakable"], Objects.DESTROYABLE )
+	put_free_standing_objects( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 
-	put_enemies              ( file_json[dungeon]["floor"][str(current_level)],file_json[dungeon]["probs"]["enemies"], str(current_level) )
+	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level) )
+
+	
 
 	if DEBUG :
 		print(name," : Reset Called ", numration_counter, " times" )
@@ -309,18 +319,20 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 		print(name," :: Monster Number  is ", monster_counter )
 
 
-	var tileset = load("res://Resources/Tilesets/" + file_json[dungeon]["tileset"] + ".tres")
+	var tileset = load("res://Resources/Tilesets/" + file_json["tileset"] + ".tres")
 
-	switch_patern_into_normal_tile(tileset, file_json[dungeon]["tileset"])
+	switch_patern_into_normal_tile(tileset, file_json["tileset"])
 	translate_const_obj()
 
 func put_elements_on_scene( probs ):
 	put_wall_related_objects ( probs["traps"], Objects.TRAPS)
 	put_wall_related_objects ( probs["const"], Objects.CONST)
 	put_wall_related_objects ( probs["container"], Objects.CONTAINERS)
-	put_free_standing_objects( probs["traps"]/4, Objects.TRAPS)
+	
+
 	put_free_standing_objects( probs["const"]/2, Objects.CONST )
 	put_free_standing_objects( probs["container"], Objects.CONTAINERS )
+	put_free_standing_objects( probs["traps"]/4, Objects.TRAPS)
 
 
 func translate_const_obj():
@@ -601,6 +613,7 @@ func reserve_tile_under_obj( obj_size, i, j, style = Objects.CONST ):
 				tab[i+x][j+y] = TileState.destroyableObject
 			elif style == Objects.TRAPS:
 				tab[i+x][j+y] = TileState.destroyableObject
+
 			
 func check_correctnes():
 	var set   = [ Enters[0] ]
