@@ -24,9 +24,16 @@ var directions = [true,true,true,true]
 
 var item = -1
 
+onready var health_bar = $HealthBar
+
+var flash_time = 0.0
+var kolejna_przypadkowa_zmienna_do_jakiegos_pomyslu = 0.0
+
+var health = 50
 var destroy_time = 0.0
 var destroyed = false
 var enemies_list = []
+var bar_timeout = 0
 
 onready var player = get_tree().get_root().find_node("Player", true, false) 
 
@@ -72,19 +79,36 @@ func fill_enemies_list(tab):
 
 func _process(delta):
 	if destroyed :
-		destroy_time += delta
-		if destroy_time > 3:
-			queue_free()
+	#	destroy_time += delta
+	#	if destroy_time > 2:
+	#		queue_free()
 		return
+		
+	bar_timeout -= 1
+	if bar_timeout == 0: health_bar.visible = false
 			
 	if spawning_time < 25 :
 		spawning_time += delta
 	else:
-		spawning_time = 0.0
-		if player.position.distance_to(position) < 600:
-			spawn()
+		flash_time += delta
+		
+		kolejna_przypadkowa_zmienna_do_jakiegos_pomyslu += 0.2
+		if int(kolejna_przypadkowa_zmienna_do_jakiegos_pomyslu)%4 == 0:
+			$Sprite.modulate = Color(10,10,10,10) 
+		else:
+			$Sprite.modulate = Color(1,1,1,1)
+		
+		if flash_time > 5:
+			$Sprite.modulate = Color(1,1,1,1)
+			flash_time = 0.0
+			spawning_time = 0.0
+			if player.position.distance_to(position) < 600:
+				spawn()
 
 func _ready():
+	health_bar.max_value = health
+	health_bar.value     = health
+	
 	Res.game.perma_state(self, "queue_free")
 
 func fill(breakable_contains,dungeon_level):
@@ -98,6 +122,12 @@ func _build_wall( tab = [] ):
 
 func damage(amount):
 	Res.play_sample(self, "WoodBreak")
+	if health - amount > 0:
+		health -= amount
+		health_bar.value = health
+		bar_timeout = 180
+		return
+	
 	$Animation.play("Destroyed")
 	$DamageCollider.queue_free()
 	$Shape.disabled = true
