@@ -85,8 +85,8 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 100.0
 margin_top = 500.0
-margin_right = 1250.0
-margin_bottom = 750.0
+margin_right = 1254.0
+margin_bottom = 755.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -140,7 +140,72 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Text" type="Label" parent="." index="1"]
+[node name="Name3" type="TextureRect" parent="." index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 790.0
+margin_top = 272.0
+margin_right = 1258.0
+margin_bottom = 349.0
+rect_rotation = 180.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect", "custom_styles" ]
+
+[node name="Name2" type="TextureRect" parent="." index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 322.0
+margin_top = 201.0
+margin_right = 790.0
+margin_bottom = 278.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 0
+_sections_unfolded = [ "custom_styles" ]
+
+[node name="Text2" type="Label" parent="Name2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 56.0
+margin_top = 19.0
+margin_right = 416.0
+margin_bottom = 55.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 4 )
+text = "Press \"Space\" to continue"
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Text" type="Label" parent="." index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -165,7 +230,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Chooser" type="TextureRect" parent="." index="2"]
+[node name="Chooser" type="TextureRect" parent="." index="4"]
 
 visible = false
 anchor_left = 0.0
@@ -186,7 +251,7 @@ texture = ExtResource( 5 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
-[node name="DialogueManager" type="Node" parent="." index="3"]
+[node name="DialogueManager" type="Node" parent="." index="5"]
 
 script = ExtResource( 6 )
 

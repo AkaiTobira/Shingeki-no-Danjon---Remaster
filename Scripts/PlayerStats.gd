@@ -8,10 +8,8 @@ var level = 1
 var experience = 0
 var stat_points = 0
 
-var health = 100
-var max_health = 100
 var mana = 100
-var max_mana = 100
+var health = 100
 
 var shield_block = 0.7
 var shield_amout = 12
@@ -21,6 +19,29 @@ var dexterity = 1
 var intelligence = 1
 var vitality = 1
 
+
+###################################
+var physical_dmg = 1
+var critical_dmg = 2
+var crush_dmg_re = 0.0
+
+var critical_cnc = 0.05
+var atack_speed  = 1
+var move_speed   = 1
+var physi_dmg_re = 0.0
+
+var magical_dmg  = 1
+var max_health   = 100
+var max_mana     = 100
+
+var shock_dmg_re  = 0.0
+var ghost_time   = 1
+var mana_regen   = 1
+var explo_dmg_re = 0.0
+###################################
+
+
+
 var money = 0
 var inventory = []
 var equipment = []
@@ -29,6 +50,53 @@ var events = {}
 signal level_up
 signal got_item
 signal equipment_changed
+
+func update_skills(skill):
+	match(skill):
+		0:
+			physical_dmg += 1
+			critical_dmg += 1
+			crush_dmg_re += 0.05
+
+		1:
+			critical_cnc += 0.05
+			atack_speed  += 0.03
+			physi_dmg_re += 0.05
+			if atack_speed > 5: atack_speed = 5.0
+		2:
+			shock_dmg_re  += 0.05
+			magical_dmg  += 1
+			max_mana     += 10
+			ghost_time   += 1
+		3:
+			max_health   += 10
+			mana_regen   += 0.25
+			explo_dmg_re += 0.05
+			move_speed   += 3
+
+
+func test():
+	physical_dmg += 1
+	critical_dmg += 1
+	crush_dmg_re += 0.05
+
+	critical_cnc += 0.05
+	atack_speed  += 0.03
+	
+	if atack_speed > 5: atack_speed = 5.0
+	
+	move_speed   += 3
+	physi_dmg_re += 0.05
+
+	magical_dmg  += 1
+	max_health   += 10
+	max_mana     += 10
+
+	shock_dmg_re  += 0.05
+	ghost_time   += 1
+	mana_regen   += 0.25
+	explo_dmg_re += 0.05
+	
 
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())

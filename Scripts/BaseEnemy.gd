@@ -37,9 +37,8 @@ func scale_stats_to( max_hp, ar ):
 	health_bar.max_value = max_hp
 	health_bar.value = health
 	max_health = max_hp
-	
 	#print( " Coll :: ", t,"  Max_HP_New :: ",  max_hp," Current_HP ::", health, " new_armour ::", ar )
-	
+
 
 func set_statistics(max_hp, given_exp, ar):
 	max_health = max_hp
@@ -54,11 +53,20 @@ func _physics_process(delta):
 	if bar_timeout == 0: health_bar.visible = false
 	
 
-func damage(amount):
+func damage(amount, source = ""):
 	if _dead: return
 	
 	var damage = max(1, int(amount * (1-armour)))
-	Res.create_instance("DamageNumber").damage(self, damage)
+	
+
+	if randi()%100 < PlayerStats.critical_cnc*100 and source == "player": 
+	
+		damage += PlayerStats.critical_dmg
+		
+		Res.create_instance("DamageNumber").damage(self, str(damage)+"!", "crit")
+	else:
+		Res.create_instance("DamageNumber").damage(self, damage)
+	
 	health -= damage
 	
 	health_bar.visible = true
@@ -70,13 +78,13 @@ func damage(amount):
 		_dead = true
 		health_bar.visible = false
 		PlayerStats.add_experience(experience)
-		
+
 		z_index -=1
-		
+
 		_on_dead()
-		
+
 		var drop = get_drop_id()
-		
+
 		if drop > -1:
 			var item = Res.create_instance("Item")
 			item.position = position + Vector2(randi()%60-30,randi()%60-30)

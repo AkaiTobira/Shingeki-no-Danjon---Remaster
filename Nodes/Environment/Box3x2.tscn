@@ -47,20 +47,20 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Shape" type="CollisionShape2D" parent="." index="1"]
 
-position = Vector2( 34.82, 27.9972 )
+position = Vector2( 6.01994, 19.9972 )
 scale = Vector2( 10.0641, 5.85601 )
 shape = SubResource( 1 )
 
 [node name="Sprite2" type="Sprite" parent="." index="2"]
 
-position = Vector2( 28.5103, 36.1732 )
+position = Vector2( 1.31042, 36.1732 )
 scale = Vector2( 0.424358, 0.372234 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="." index="3"]
 
-position = Vector2( -70.1256, -148.868 )
+position = Vector2( -95.7257, -148.868 )
 texture = ExtResource( 3 )
 centered = false
 _sections_unfolded = [ "Animation", "Offset", "Transform" ]

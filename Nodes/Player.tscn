@@ -1,7 +1,7 @@
 [gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Player/Common/SpinAttack.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Player/Front/BodyIdle.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Player/Common/Swords/Stick.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Player/Left/Weapons/Sword1.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Player/Common/Shields/Shield1.png" type="Texture" id=5]
@@ -522,10 +522,9 @@ _sections_unfolded = [ "Transform", "Z Index", "collision" ]
 
 [node name="Body" type="Sprite" parent="." index="0"]
 
-position = Vector2( 0, -55 )
+position = Vector2( -1.25651, -53.6657 )
 texture = ExtResource( 2 )
-hframes = 7
-frame = 1
+hframes = 10
 _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
 [node name="RightArm" type="Sprite" parent="Body" index="0"]
@@ -533,6 +532,7 @@ _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 editor/display_folded = true
 texture = ExtResource( 3 )
 hframes = 7
+frame = 6
 _sections_unfolded = [ "Animation", "Visibility" ]
 
 [node name="Weapon" type="Sprite" parent="Body/RightArm" index="0"]
@@ -540,7 +540,7 @@ _sections_unfolded = [ "Animation", "Visibility" ]
 show_behind_parent = true
 texture = ExtResource( 4 )
 hframes = 10
-frame = 1
+frame = 6
 _sections_unfolded = [ "Animation", "Visibility" ]
 
 [node name="LeftArm" type="Sprite" parent="Body" index="1"]
@@ -615,11 +615,10 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Shape" type="CollisionShape2D" parent="AttackCollider" index="0"]
 
-position = Vector2( 42, 20.5983 )
-rotation = 2.82274
+position = Vector2( -69.6396, -9.47833 )
+rotation = 3.67057
 scale = Vector2( 0.922973, 0.136567 )
 shape = SubResource( 2 )
-disabled = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="DamageCollider" type="Area2D" parent="." index="4"]

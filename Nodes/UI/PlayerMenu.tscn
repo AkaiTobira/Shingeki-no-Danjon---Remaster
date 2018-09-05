@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Sprites/UI/Menu/PlayerMenu.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Menu/TabInactive.png" type="Texture" id=2]
@@ -12,28 +12,29 @@
 [ext_resource path="res://Sprites/UI/Menu/Character/CharacterSkillpointBar.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/UI/Menu/Character/CharacterSkillpointInactive.png" type="Texture" id=11]
 [ext_resource path="res://Resources/Fonts/Font36.tres" type="DynamicFont" id=12]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentAvatar.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlot.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/Items/0.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurabilityBackground.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurability.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/Menu/ActualScrollbar.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDescription.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=23]
-[ext_resource path="res://Sprites/UI/Menu/LeftHeader.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=27]
-[ext_resource path="res://Sprites/UI/Menu/Skills/HeaderActive.png" type="Texture" id=28]
-[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=29]
-[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=30]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=31]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=32]
-[ext_resource path="res://Sprites/UI/Menu/Map/skill_maps.png" type="Texture" id=33]
-[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=34]
+[ext_resource path="res://Sprites/UI/MessageBox.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentAvatar.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlot.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Items/0.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurabilityBackground.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurability.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/Menu/ActualScrollbar.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDescription.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/UI/Menu/LeftHeader.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=26]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=28]
+[ext_resource path="res://Sprites/UI/Menu/Skills/HeaderActive.png" type="Texture" id=29]
+[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=30]
+[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=31]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=32]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=33]
+[ext_resource path="res://Sprites/UI/Menu/Map/skill_maps.png" type="Texture" id=34]
+[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=35]
 
 [sub_resource type="GDScript" id=1]
 
@@ -158,6 +159,7 @@ func _ready():
 	update_skills()
 	
 	update_tabs()
+	clear_statistic_incremntation_propositions()
 
 func _process(delta):
 	if !visible: return
@@ -194,19 +196,30 @@ func _process(delta):
 				Res.ui_sample(\"MenuFailed\")
 	else: match current_tab:
 		0:
+			
+			
 			for i in range(SKILLPOINTS.size()):
 				$Tabs/Character/Skillpoints.get_child(i).texture = load(\"res://Sprites/UI/Menu/Character/CharacterSkillpoint\" + (\"Active\" if skillpoint_select == i else \"Inactive\") + \".png\")
 			
 			if Input.is_action_just_pressed(\"ui_cancel\") or skillpoint_select == 0 and Input.is_action_just_pressed(\"ui_up\"):
 				Res.ui_sample(\"MenuCancel\")
+				clear_statistic_incremntation_propositions()
 				self.in_tab = false
 			
 			if Input.is_action_just_pressed(\"ui_up\") and skillpoint_select > 0:
 				Res.ui_sample(\"MenuMove\")
+				clear_statistic_incremntation_propositions()
 				skillpoint_select -= 1
+				if PlayerStats.stat_points > 0: fill_selected(skillpoint_select)
+				
+				
+				
 			elif Input.is_action_just_pressed(\"ui_down\") and skillpoint_select < SKILLPOINTS.size()-1:
 				Res.ui_sample(\"MenuMove\")
+				clear_statistic_incremntation_propositions()
 				skillpoint_select += 1
+				if PlayerStats.stat_points > 0: fill_selected(skillpoint_select)
+				
 			
 			if PlayerStats.stat_points > 0 and Input.is_action_just_pressed(\"Interact\"):
 				Res.ui_sample(\"Skillpoint\")
@@ -214,6 +227,11 @@ func _process(delta):
 				PlayerStats.set(stat, PlayerStats.get(stat)+1)
 				SkillBase.inc_stat(SKILLPOINTS[skillpoint_select])
 				PlayerStats.stat_points -= 1
+				if PlayerStats.stat_points > 0:
+					 fill_selected(skillpoint_select)
+				else:
+					clear_statistic_incremntation_propositions()
+				PlayerStats.update_skills(skillpoint_select)
 				PlayerStats.recalc_stats()
 				update_statistics()
 		1:
@@ -555,6 +573,8 @@ func select_crafting():
 
 func enter_tab():
 	match current_tab:
+		0:
+			if PlayerStats.stat_points > 0: fill_selected(skillpoint_select)
 		1:
 			select_inventory()
 		2:
@@ -597,15 +617,96 @@ func exit_tab():
 func get_eq_slot(item):
 	return PlayerStats.EQUIPMENT_SLOTS.find(item.type)
 
+
+func update_strenght():
+	$Tabs/Character/Statistics/Strength/Control/Val.text = str(PlayerStats.strength)
+	$Tabs/Character/Statistics/Strength/Control2/Val.text = str(PlayerStats.physical_dmg)
+	$Tabs/Character/Statistics/Strength/Control3/Val.text = str(PlayerStats.critical_dmg)
+	$Tabs/Character/Statistics/Strength/Control4/Val.text = str(PlayerStats.crush_dmg_re * 100) + \"%\"
+	
+	
+func clear_statistic_incremntation_propositions():
+		for stat in SKILLPOINTS:
+			for i in range(4):
+				var node = get_node(\"Tabs/Character/Statistics/\"+stat+\"/Control\" + (str(i+1) if i != 0 else \"\") + \"/Up\")
+				node.text = \"\"
+				node.add_color_override(\"font_color\", Color(1,1,1))
+
+func fill_selected(stat):
+	
+	for i in range(4):
+		get_node(\"Tabs/Character/Statistics/\"+SKILLPOINTS[stat]+\"/Control\" + (str(i+1) if i != 0 else \"\") + \"/Up\").add_color_override(\"font_color\", Color(1,0.27,0) )
+	
+	match(stat):
+		1:
+			$Tabs/Character/Statistics/Dexterity/Control/Up.text  =  \"+ \" + str(PlayerStats.dexterity)
+			$Tabs/Character/Statistics/Dexterity/Control2/Up.text = \"+ \" + str(PlayerStats.critical_cnc* 100) + \"%\"
+			$Tabs/Character/Statistics/Dexterity/Control3/Up.text = \"+ \" + str(PlayerStats.atack_speed)
+			$Tabs/Character/Statistics/Dexterity/Control4/Up.text = \"+ \" + str(PlayerStats.physi_dmg_re* 100) + \"%\"
+		0:
+			$Tabs/Character/Statistics/Strength/Control/Up.text = \"+ \" + str(PlayerStats.strength)
+			$Tabs/Character/Statistics/Strength/Control2/Up.text =\"+ \" +  str(PlayerStats.physical_dmg)
+			$Tabs/Character/Statistics/Strength/Control3/Up.text = \"+ \" + str(PlayerStats.critical_dmg)
+			$Tabs/Character/Statistics/Strength/Control4/Up.text = \"+ \" + str(PlayerStats.crush_dmg_re * 100) + \"%\"
+		2:
+			$Tabs/Character/Statistics/Intelligence/Control/Up.text =  \"+ \" + str(PlayerStats.intelligence)
+			$Tabs/Character/Statistics/Intelligence/Control2/Up.text =  \"+ \" + str(PlayerStats.magical_dmg)
+			$Tabs/Character/Statistics/Intelligence/Control3/Up.text = \"+ \" + str(PlayerStats.shock_dmg_re* 100) + \"%\"
+			$Tabs/Character/Statistics/Intelligence/Control4/Up.text = \"+ \" + str(PlayerStats.ghost_time)
+		3:
+			$Tabs/Character/Statistics/Vitality/Control/Up.text =  \"+ \" + str(PlayerStats.vitality)
+			$Tabs/Character/Statistics/Vitality/Control2/Up.text =  \"+ \" + str(PlayerStats.mana_regen)
+			$Tabs/Character/Statistics/Vitality/Control3/Up.text = \"+ \" + str(PlayerStats.explo_dmg_re* 100) + \"%\"
+			$Tabs/Character/Statistics/Vitality/Control4/Up.text = \"+ \" + str(PlayerStats.move_speed)
+			
+func update_dexternity():
+	$Tabs/Character/Statistics/Dexterity/Control/Val.text = str(PlayerStats.dexterity)
+	$Tabs/Character/Statistics/Dexterity/Control2/Val.text = str(PlayerStats.critical_cnc* 100) + \"%\"
+	$Tabs/Character/Statistics/Dexterity/Control3/Val.text = str(PlayerStats.atack_speed)
+	$Tabs/Character/Statistics/Dexterity/Control4/Val.text = str(PlayerStats.physi_dmg_re* 100) + \"%\"
+
+func update_intelligence():
+	$Tabs/Character/Statistics/Intelligence/Control/Val.text = str(PlayerStats.intelligence)
+	$Tabs/Character/Statistics/Intelligence/Control2/Val.text = str(PlayerStats.magical_dmg)
+	$Tabs/Character/Statistics/Intelligence/Control3/Val.text = str(PlayerStats.shock_dmg_re* 100) + \"%\"
+	$Tabs/Character/Statistics/Intelligence/Control4/Val.text = str(PlayerStats.ghost_time)
+
+
+func update_vitality():
+	$Tabs/Character/Statistics/Vitality/Control/Val.text = str(PlayerStats.vitality)
+	$Tabs/Character/Statistics/Vitality/Control2/Val.text = str(PlayerStats.mana_regen)
+	$Tabs/Character/Statistics/Vitality/Control3/Val.text =  str(PlayerStats.explo_dmg_re* 100) + \"%\"
+	$Tabs/Character/Statistics/Vitality/Control4/Val.text = str(PlayerStats.move_speed)
+
+
 func update_statistics():
-	$Tabs/Character/Statistics/Health.text = \"Health: \" + str(PlayerStats.health) + \" / \" + str(PlayerStats.max_health)
-	$Tabs/Character/Statistics/Mana.text = \"Mana: \" + str(PlayerStats.mana) + \" / \" + str(PlayerStats.max_mana)
-	$Tabs/Character/Statistics/Strength.text = \"Strength: \" + str(PlayerStats.strength)
-	$Tabs/Character/Statistics/Dexterity.text = \"Dexterity: \" + str(PlayerStats.dexterity)
-	$Tabs/Character/Statistics/Intelligence.text = \"Intelligence: \" + str(PlayerStats.intelligence)
-	$Tabs/Character/Statistics/Vitality.text = \"Vitality: \" + str(PlayerStats.vitality)
-	$Tabs/Character/Statistics/Attack.text = \"Attack: \" + str(PlayerStats.get_damage())
-	$Tabs/Character/Statistics/Defense.text = \"Defense: \" + str(PlayerStats.get_defense())
+	update_strenght()
+	update_dexternity()
+	update_vitality()
+	update_intelligence()
+	pass
+#	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health) + \" / \" + str(PlayerStats.max_health)
+#	$Tabs/Character/Statistics/Mana.text           = \"Mana: \" + str(PlayerStats.mana) + \" / \" + str(PlayerStats.max_mana)
+#	$Tabs/Character/Statistics/Strength.text       = \"Strength: \" + str(PlayerStats.strength)
+#	$Tabs/Character/Statistics/Dexterity.text      = \"Dexterity: \" + str(PlayerStats.dexterity)
+#	$Tabs/Character/Statistics/Intelligence.text   = \"Intelligence: \" + str(PlayerStats.intelligence)
+#	$Tabs/Character/Statistics/Vitality.text       = \"Vitality: \" + str(PlayerStats.vitality)
+#	$Tabs/Character/Statistics/Attack.text         = \"Attack: \" + str(PlayerStats.get_damage())
+#
+#	$Tabs/Character/Statistics/PhysicalDmg.text    = \"Physical damage: \" + str(PlayerStats.physical_dmg)
+#	$Tabs/Character/Statistics/CriticalDmg.text    = \"Critical damage: \" + str(PlayerStats.critical_dmg)
+#	$Tabs/Character/Statistics/CrushRes.text       = \"Crush resist: \" + str(PlayerStats.crush_dmg_re * 100) + \"%\"
+#	$Tabs/Character/Statistics/SparkRes.text       = \"Shock resist: \" + str(PlayerStats.shock_dmg_re* 100) + \"%\"
+#	$Tabs/Character/Statistics/MagicalDmg.text     = \"Magic damage: \" + str(PlayerStats.magical_dmg)
+#	$Tabs/Character/Statistics/GhostTime.text      = \"Ghost time: \" + str(PlayerStats.ghost_time)
+#	$Tabs/Character/Statistics/CriticalChance.text = \"Critical chance: \" + str(PlayerStats.critical_cnc* 100) + \"%\"
+#	$Tabs/Character/Statistics/AtackSpeed.text     = \"Atack Speed: \" + str(PlayerStats.atack_speed)
+#
+#	$Tabs/Character/Statistics/MovementSpeed.text = \"Movement speed: \" + str(PlayerStats.move_speed)
+#	$Tabs/Character/Statistics/PhysicalRes.text   = \"Physical resist: \" + str(PlayerStats.physi_dmg_re* 100) + \"%\"
+#	$Tabs/Character/Statistics/ManaRegen.text     = \"Mana regeneration: \" + str(PlayerStats.mana_regen)
+#	$Tabs/Character/Statistics/ExplodRes.text     = \"Explosion resist: \" + str(PlayerStats.explo_dmg_re* 100) + \"%\"
+
 
 func update_stats(item, compare):
 	var old_item
@@ -698,14 +799,16 @@ func auto_move(delta):
 	return 0"
 _sections_unfolded = [ "Resource" ]
 
-[node name="PlayerMenu" type="TextureRect"]
+[node name="PlayerMenu" type="TextureRect" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1366.0
-margin_bottom = 768.0
+margin_left = -1.0
+margin_top = 2.0
+margin_right = 1365.0
+margin_bottom = 770.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -789,8 +892,6 @@ size_flags_vertical = 1
 
 [node name="Character" type="Control" parent="Tabs" index="0"]
 
-editor/display_folded = true
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1079,6 +1180,79 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Statistics" type="Control" parent="Tabs/Character" index="6"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Strength" type="Control" parent="Tabs/Character/Statistics" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -25.0
+margin_right = 15.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="TextureRect" type="TextureRect" parent="Tabs/Character/Statistics/Strength" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 497.0
+margin_top = 464.0
+margin_right = 1651.0
+margin_bottom = 719.0
+rect_scale = Vector2( 0.25, -0.7 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 13 )
+stretch_mode = 3
+_sections_unfolded = [ "Rect" ]
+
+[node name="TextureRect2" type="TextureRect" parent="Tabs/Character/Statistics/Strength" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 497.0
+margin_top = 656.0
+margin_right = 1651.0
+margin_bottom = 911.0
+rect_scale = Vector2( 0.25, -0.7 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 13 )
+stretch_mode = 3
+_sections_unfolded = [ "Rect" ]
+
+[node name="Control" type="Control" parent="Tabs/Character/Statistics/Strength" index="2"]
+
 editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1093,7 +1267,1466 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Health" type="Label" parent="Tabs/Character/Statistics" index="0"]
+[node name="Strength" type="Label" parent="Tabs/Character/Statistics/Strength/Control" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 508.0
+margin_top = 311.0
+margin_right = 690.0
+margin_bottom = 339.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Strength:
+"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Strength/Control" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Strength/Control" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control2" type="Control" parent="Tabs/Character/Statistics/Strength" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 35.0
+margin_right = 40.0
+margin_bottom = 75.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="PhysicalDmg" type="Label" parent="Tabs/Character/Statistics/Strength/Control2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 527.0
+margin_top = 309.0
+margin_right = 779.0
+margin_bottom = 368.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Physical damage: 
+"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Strength/Control2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Strength/Control2" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control3" type="Control" parent="Tabs/Character/Statistics/Strength" index="4"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 40.0
+margin_bottom = 108.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="CriticalDmg" type="Label" parent="Tabs/Character/Statistics/Strength/Control3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 528.0
+margin_top = 308.0
+margin_right = 780.0
+margin_bottom = 336.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Critical damage: "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Strength/Control3" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Strength/Control3" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control4" type="Control" parent="Tabs/Character/Statistics/Strength" index="5"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 99.0
+margin_right = 40.0
+margin_bottom = 139.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="CrushRes" type="Label" parent="Tabs/Character/Statistics/Strength/Control4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 530.0
+margin_top = 309.0
+margin_right = 866.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Crush resist : "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Strength/Control4" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Strength/Control4" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Dexterity" type="Control" parent="Tabs/Character/Statistics" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -11.0
+margin_top = 1.0
+margin_right = 29.0
+margin_bottom = 41.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Tabs/Character/Statistics/Dexterity" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 909.0
+margin_top = 463.0
+margin_right = 2063.0
+margin_bottom = 718.0
+rect_scale = Vector2( 0.25, -0.7 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 13 )
+stretch_mode = 3
+_sections_unfolded = [ "Rect" ]
+
+[node name="Control" type="Control" parent="Tabs/Character/Statistics/Dexterity" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -14.0
+margin_right = 26.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Dexterity" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 936.0
+margin_top = 308.0
+margin_right = 1118.0
+margin_bottom = 336.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Dexterity: "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1223.0
+margin_top = 309.0
+margin_right = 1265.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1274.0
+margin_top = 310.0
+margin_right = 1316.0
+margin_bottom = 338.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control2" type="Control" parent="Tabs/Character/Statistics/Dexterity" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -14.0
+margin_right = 26.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="CriticalChance" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 953.0
+margin_top = 341.0
+margin_right = 1289.0
+margin_bottom = 369.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Critical chance : "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1223.0
+margin_top = 341.0
+margin_right = 1265.0
+margin_bottom = 369.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control2" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1274.0
+margin_top = 341.0
+margin_right = 1316.0
+margin_bottom = 369.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control3" type="Control" parent="Tabs/Character/Statistics/Dexterity" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -14.0
+margin_top = 33.0
+margin_right = 26.0
+margin_bottom = 73.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="AtackSpeed" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 953.0
+margin_top = 340.0
+margin_right = 1289.0
+margin_bottom = 368.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Atack speed : "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control3" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1223.0
+margin_top = 341.0
+margin_right = 1265.0
+margin_bottom = 369.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control3" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1274.0
+margin_top = 341.0
+margin_right = 1316.0
+margin_bottom = 369.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control4" type="Control" parent="Tabs/Character/Statistics/Dexterity" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -14.0
+margin_top = 65.0
+margin_right = 26.0
+margin_bottom = 105.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="PhysicalRes" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 952.0
+margin_top = 343.0
+margin_right = 1288.0
+margin_bottom = 371.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Physical resist :"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control4" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1223.0
+margin_top = 341.0
+margin_right = 1265.0
+margin_bottom = 369.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control4" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1274.0
+margin_top = 341.0
+margin_right = 1316.0
+margin_bottom = 369.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Intelligence" type="Control" parent="Tabs/Character/Statistics" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 21.0
+margin_right = 40.0
+margin_bottom = 61.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Control" type="Control" parent="Tabs/Character/Statistics/Intelligence" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -25.0
+margin_top = 162.0
+margin_right = 15.0
+margin_bottom = 202.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Intelligence" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 508.0
+margin_top = 310.0
+margin_right = 718.0
+margin_bottom = 338.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Intelligence: "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control2" type="Control" parent="Tabs/Character/Statistics/Intelligence" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -25.0
+margin_top = 196.0
+margin_right = 15.0
+margin_bottom = 236.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="MagicalDmg" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 554.0
+margin_top = 309.0
+margin_right = 890.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Magic damage : "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control2" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control3" type="Control" parent="Tabs/Character/Statistics/Intelligence" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -25.0
+margin_top = 227.0
+margin_right = 15.0
+margin_bottom = 267.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="SparkRes" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 553.0
+margin_top = 310.0
+margin_right = 889.0
+margin_bottom = 338.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Shock resist : "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control3" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control3" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control4" type="Control" parent="Tabs/Character/Statistics/Intelligence" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -25.0
+margin_top = 258.0
+margin_right = 15.0
+margin_bottom = 298.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="GhostTime" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 553.0
+margin_top = 311.0
+margin_right = 889.0
+margin_bottom = 370.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Ghost time : "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control4" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 808.0
+margin_top = 309.0
+margin_right = 850.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control4" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 860.0
+margin_top = 309.0
+margin_right = 902.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Vitality" type="Control" parent="Tabs/Character/Statistics" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 511.0
+margin_top = 230.0
+margin_right = 551.0
+margin_bottom = 270.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="TextureRect3" type="TextureRect" parent="Tabs/Character/Statistics/Vitality" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 389.0
+margin_top = 425.0
+margin_right = 1543.0
+margin_bottom = 680.0
+rect_scale = Vector2( 0.25, -0.7 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 13 )
+stretch_mode = 3
+_sections_unfolded = [ "Rect" ]
+
+[node name="Control" type="Control" parent="Tabs/Character/Statistics/Vitality" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -105.0
+margin_top = -44.0
+margin_right = -65.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Vitality" type="Label" parent="Tabs/Character/Statistics/Vitality/Control" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 508.0
+margin_top = 311.0
+margin_right = 690.0
+margin_bottom = 339.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Vitality:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Vitality/Control" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 791.0
+margin_top = 309.0
+margin_right = 833.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Vitality/Control" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 842.0
+margin_top = 309.0
+margin_right = 884.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control2" type="Control" parent="Tabs/Character/Statistics/Vitality" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -105.0
+margin_top = -13.0
+margin_right = -65.0
+margin_bottom = 27.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="ManaRegen" type="Label" parent="Tabs/Character/Statistics/Vitality/Control2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 522.0
+margin_top = 310.0
+margin_right = 858.0
+margin_bottom = 338.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Mana regeneration:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Vitality/Control2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 791.0
+margin_top = 309.0
+margin_right = 833.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Vitality/Control2" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 842.0
+margin_top = 309.0
+margin_right = 884.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control3" type="Control" parent="Tabs/Character/Statistics/Vitality" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -105.0
+margin_top = 17.0
+margin_right = -65.0
+margin_bottom = 57.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="ExplodRes" type="Label" parent="Tabs/Character/Statistics/Vitality/Control3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 521.0
+margin_top = 310.0
+margin_right = 913.0
+margin_bottom = 338.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Explosion resist :"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Vitality/Control3" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 791.0
+margin_top = 309.0
+margin_right = 833.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Vitality/Control3" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 842.0
+margin_top = 309.0
+margin_right = 884.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Control4" type="Control" parent="Tabs/Character/Statistics/Vitality" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -105.0
+margin_top = 46.0
+margin_right = -65.0
+margin_bottom = 86.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Vitality/Control4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 791.0
+margin_top = 309.0
+margin_right = 833.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Val"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Vitality/Control4" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 842.0
+margin_top = 309.0
+margin_right = 884.0
+margin_bottom = 337.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="MovementSpeed" type="Label" parent="Tabs/Character/Statistics/Vitality/Control4" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 520.0
+margin_top = 310.0
+margin_right = 856.0
+margin_bottom = 338.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Movement speed :"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Health" type="Label" parent="Tabs/Character/Statistics" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1117,7 +2750,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
-[node name="Mana" type="Label" parent="Tabs/Character/Statistics" index="1"]
+[node name="Mana" type="Label" parent="Tabs/Character/Statistics" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1141,108 +2774,16 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
-[node name="Strength" type="Label" parent="Tabs/Character/Statistics" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 511.0
-margin_top = 367.0
-margin_right = 693.0
-margin_bottom = 395.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
-text = "Strength: 0"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
-
-[node name="Dexterity" type="Label" parent="Tabs/Character/Statistics" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 962.0
-margin_top = 367.0
-margin_right = 1144.0
-margin_bottom = 395.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
-text = "Dexterity: 0"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
-
-[node name="Intelligence" type="Label" parent="Tabs/Character/Statistics" index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 512.0
-margin_top = 415.0
-margin_right = 694.0
-margin_bottom = 443.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
-text = "Intelligence: 0"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
-
-[node name="Vitality" type="Label" parent="Tabs/Character/Statistics" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 962.0
-margin_top = 415.0
-margin_right = 1144.0
-margin_bottom = 443.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
-text = "Vitality: 0"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
-
 [node name="Attack" type="Label" parent="Tabs/Character/Statistics" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 511.0
-margin_top = 523.0
-margin_right = 693.0
-margin_bottom = 551.0
+margin_left = 790.0
+margin_top = 207.0
+margin_right = 972.0
+margin_bottom = 235.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1250,7 +2791,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 9 )
-text = "Attack: 0"
+text = "Attack:  0"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -1262,10 +2803,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 960.0
-margin_top = 522.0
-margin_right = 1142.0
-margin_bottom = 550.0
+margin_left = 788.0
+margin_top = 243.0
+margin_right = 970.0
+margin_bottom = 271.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1317,7 +2858,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 
 [node name="EquipmentSlots" type="Control" parent="Tabs/Equipment/Character" index="0"]
@@ -1354,7 +2895,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 expand = true
 stretch_mode = 4
 
@@ -1372,7 +2913,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 expand = true
 stretch_mode = 4
 
@@ -1400,9 +2941,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 16 )
+texture_under = ExtResource( 17 )
 texture_over = null
-texture_progress = ExtResource( 17 )
+texture_progress = ExtResource( 18 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1564,7 +3105,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -1584,7 +3125,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 expand = true
 stretch_mode = 4
 
@@ -1674,7 +3215,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 stretch_mode = 0
 
 [node name="ActualScrollbar" type="TextureRect" parent="Tabs/Equipment/Inventory/Scrollbar" index="0"]
@@ -1691,7 +3232,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 stretch_mode = 0
 
 [node name="Description" type="TextureRect" parent="Tabs/Equipment" index="2"]
@@ -1712,7 +3253,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 stretch_mode = 0
 
 [node name="Text" type="Label" parent="Tabs/Equipment/Description" index="0"]
@@ -1762,9 +3303,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 22 )
+texture_under = ExtResource( 23 )
 texture_over = null
-texture_progress = ExtResource( 23 )
+texture_progress = ExtResource( 24 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1786,7 +3327,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 stretch_mode = 6
 
 [node name="LeftHeader" type="TextureRect" parent="Tabs/Equipment" index="3"]
@@ -1806,7 +3347,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -1851,7 +3392,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Equipment/Stats" index="0"]
@@ -1935,7 +3476,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Equipment/RightHeader" index="0"]
@@ -1994,7 +3535,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Equipment/Categories/Category1" index="0"]
@@ -2025,6 +3566,7 @@ _sections_unfolded = [ "custom_fonts" ]
 [node name="Skills" type="Control" parent="Tabs" index="2"]
 
 editor/display_folded = true
+visible = false
 self_modulate = Color( 1, 0.501961, 0.501961, 0.501961 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2059,7 +3601,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 27 )
+texture = ExtResource( 28 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -2078,7 +3620,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 28 )
+texture = ExtResource( 29 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/ActivePanel/Header" index="0"]
@@ -2137,7 +3679,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 29 )
+texture = ExtResource( 30 )
 stretch_mode = 0
 
 [node name="Icon" type="TextureRect" parent="Tabs/Skills/ActivePanel/Skills/Skill1" index="0"]
@@ -2173,7 +3715,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 27 )
+texture = ExtResource( 28 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -2192,7 +3734,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 28 )
+texture = ExtResource( 29 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/PassivePanel/Header" index="0"]
@@ -2250,7 +3792,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 29 )
+texture = ExtResource( 30 )
 stretch_mode = 0
 
 [node name="Icon" type="TextureRect" parent="Tabs/Skills/PassivePanel/Skills/Skill1" index="0"]
@@ -2287,7 +3829,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -2369,7 +3911,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 expand = true
 stretch_mode = 0
 
@@ -2429,7 +3971,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 30 )
+texture = ExtResource( 31 )
 stretch_mode = 0
 
 [node name="LeftHeader2" type="TextureRect" parent="Tabs/Skills" index="3"]
@@ -2450,7 +3992,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/LeftHeader2" index="0"]
@@ -2552,7 +4094,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -2572,7 +4114,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 expand = true
 stretch_mode = 4
 
@@ -2617,7 +4159,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -2677,7 +4219,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 31 )
+texture = ExtResource( 32 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -2695,7 +4237,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -2763,7 +4305,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 
 [node name="Description" type="Label" parent="Tabs/Crafting/Info" index="0"]
@@ -2830,7 +4372,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Crafting/RightHeader" index="0"]
@@ -2871,7 +4413,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 stretch_mode = 0
 
 [node name="ActualScroll" type="TextureRect" parent="Tabs/Crafting/Scrollbar" index="0"]
@@ -2889,7 +4431,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 stretch_mode = 0
 
 [node name="Map" type="Control" parent="Tabs" index="4"]
@@ -2926,7 +4468,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 stretch_mode = 0
 
 [node name="Notes" type="Control" parent="Tabs" index="5"]
@@ -2963,7 +4505,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 34 )
+texture = ExtResource( 35 )
 stretch_mode = 0
 
 
