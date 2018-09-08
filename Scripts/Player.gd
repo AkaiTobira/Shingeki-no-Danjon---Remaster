@@ -34,6 +34,8 @@ var wind_spam_hack = false
 var damaged
 var dead = false
 
+const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
+
 func _ready():
 	change_animation("Body", "Idle")
 	$BodyAnimator.play("Idle")
@@ -216,28 +218,29 @@ func _physics_process(delta):
 	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(1000) ##debug
 	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
 
-func damage(attacker, amount, _knockback, type = 0):
+const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
+
+func damage(attacker, amount, _knockback, type = "NoDamage"):
 	if dead: return
+	if type == "NoDamage" : return
 	
 	var defence = 0.0
 	
 	match(type):
-		0:
-			defence = PlayerStats.physi_dmg_re # + itemsResists
-		1:
+		"Physical":
+			defence = PlayerStats.physi_dmg_re
+		"Explosion":
 			defence = PlayerStats.explo_dmg_re
-		2:
+		"Shock":
 			defence = PlayerStats.shock_dmg_re
-		3:
+		"Crush":
 			defence = PlayerStats.crush_dmg_re
 	
 	
 	damaged = 16
 	Res.play_pitched_sample(self, "PlayerHurt")
 	
-#	print(amount)
 	amount = max(1, amount * (1.0-defence) )
-
 	
 	var damage = amount
 	
@@ -265,13 +268,13 @@ func damage(attacker, amount, _knockback, type = 0):
 		PlayerStats.damage_equipment("helmet")
 		
 	match(type):
-		0:
+		"Physical":
 			Res.create_instance("DamageNumber").damage(self, damage, "physical")
-		1:
+		"Explosion":
 			Res.create_instance("DamageNumber").damage(self, damage, "fire")
-		2:
+		"Shock":
 			Res.create_instance("DamageNumber").damage(self, damage, "shock")
-		3:
+		"Crush":
 			Res.create_instance("DamageNumber").damage(self, damage, "crush")
 			
 	UI.soft_refresh()

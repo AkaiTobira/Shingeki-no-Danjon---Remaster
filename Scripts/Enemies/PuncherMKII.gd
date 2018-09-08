@@ -1,42 +1,42 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-const HP  = 250
-const XP  = 200
-const ARM = 0.5
-
-const BASIC_DAMAGE         = 15
-const SPECIAL_DAMAGE       = 25
-
-const SPECIAL_PROBABILITY  = 350
-const ATACK_SPEED          = 200
-
-const SPEED                = 150
-
-const KNOCKBACK_ATACK      = 150
-
-const FOLLOW_RANGE         = 400
-const PERSONAL_SPACE       = 70
-const TIME_OF_LIYUGN_CORPS = 3
-
-var player
-var direction       = "Down"
-var dead_time       = 0
-
-var can_use_special = true
-
-############################################################################################
-
-var dead            = false
-var follow_player   = false
-var in_action       = false
-var special_ready   = false
-var atack_ready     = true
-var last_animation = ""
-
-var in_special_state = false
-var special_nav_poit = Vector2(0,0)
-
-onready var sprites = $Sprites.get_children()
+#const HP  = 250
+#const XP  = 200
+#const ARM = 0.5
+#
+#const BASIC_DAMAGE         = 15
+#const SPECIAL_DAMAGE       = 25
+#
+#const SPECIAL_PROBABILITY  = 350
+#const ATACK_SPEED          = 200
+#
+#const SPEED                = 150
+#
+#const KNOCKBACK_ATACK      = 150
+#
+#const FOLLOW_RANGE         = 400
+#const PERSONAL_SPACE       = 70
+#const TIME_OF_LIYUGN_CORPS = 3
+#
+#var player
+#var direction       = "Down"
+#var dead_time       = 0
+#
+#var can_use_special = true
+#
+#############################################################################################
+#
+#var dead            = false
+#var follow_player   = false
+#var in_action       = false
+#var special_ready   = false
+#var atack_ready     = true
+#var last_animation = ""
+#
+#var in_special_state = false
+#var special_nav_poit = Vector2(0,0)
+#
+#onready var sprites = $Sprites.get_children()
 
 func _ready():
 	._ready()
@@ -244,11 +244,11 @@ func _on_animation_finished(anim_name):
 	if "Punch" in anim_name:
 		in_action     = false
 
-var is_avoiding = false
-var avoid_distance = Vector2(0,0)
-var avoid_stack    = 1
-var acc = Vector2(0,0)
-var randomDirection = randi()%2
+#var is_avoiding = false
+#var avoid_distance = Vector2(0,0)
+#var avoid_stack    = 1
+#var acc = Vector2(0,0)
+#var randomDirection = randi()%2
 
 
 func test_calculate_move(delta):

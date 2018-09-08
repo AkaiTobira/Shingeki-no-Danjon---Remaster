@@ -1,0 +1,82 @@
+
+{
+	"Mechanic" :{
+		"Puncher" : {
+			"HP" : 35,
+			"Exp": 35,
+			"Speed": 100,
+			"Range" : 70,
+			"Resists"    : [ 0.4,  0.2,  0, 0.3   ],
+			"Skill"      : [   1,   12, 50, 250, 4],
+			"Magic"      : [   0,   10, 54, 300, 1],
+			"Atack"      : [   1,    6,  0, 170, 1]
+		},
+		
+		"Grinder" : {
+			"HP" : 1,
+			"Exp": 0,
+			"Speed": 100,
+			"Range" : 40,
+			"Resists"    : [ 0, 0, 0, 0],
+			"Skill"      : [ 0, 0, 0, 0, 0],
+			"Magic"      : [ 0, 0, 0, 0, 0],
+			"Atack"      : [ 0, 0, 0, 0, 0]
+		}	,
+		
+		"PuncherMKII" : {
+			"HP" : 1,
+			"Exp": 0,
+			"Speed": 100,
+			"Range" : 40,
+			"Resists"    : [ 0, 0, 0, 0],
+			"Skill"      : [ 0, 0, 0, 0, 0],
+			"Magic"      : [ 0, 0, 0, 0, 0],
+			"Atack"      : [ 0, 0, 0, 0, 0]
+		}	,
+		
+		
+		"Trochnalis" : {
+			"HP" : 1,
+			"Exp": 0,
+			"Speed": 100,
+			"Range" : 40,
+			"Resists"    : [ 0, 0, 0, 0],
+			"Skill"      : [ 0, 0, 0, 0, 0],
+			"Magic"      : [ 0, 0, 0, 0, 0],
+			"Atack"      : [ 0, 0, 0, 0, 0]
+		}	,
+		
+		"FLA-B" : {
+			"HP" : 1,
+			"Exp": 0,
+			"Speed": 100,
+			"Range" : 40,
+			"Resists"    : [ 0, 0, 0, 0],
+			"Skill"      : [ 0, 0, 0, 0, 0],
+			"Magic"      : [ 0, 0, 0, 0, 0],
+			"Atack"      : [ 0, 0, 0, 0, 0]
+		}	,
+		
+		"FLA-S" : {
+			"HP" : 1,
+			"Exp": 0,
+			"Speed": 100,
+			"Range" : 40,
+			"Resists"    : [ 0, 0, 0, 0],
+			"Skill"      : [ 0, 0, 0, 0, 0],
+			"Magic"      : [ 0, 0, 0, 0, 0],
+			"Atack"      : [ 0, 0, 0, 0, 0]
+		}	,
+		
+		"FLA-G" : {
+			"HP" : 1,
+			"Exp": 0,
+			"Speed": 100,
+			"Range" : 40,
+			"Resists"    : [ 0, 0, 0, 0],
+			"Skill"      : [ 0, 0, 0, 0, 0],
+			"Magic"      : [ 0, 0, 0, 0, 0],
+			"Atack"      : [ 0, 0, 0, 0, 0]
+		}	
+	}
+}

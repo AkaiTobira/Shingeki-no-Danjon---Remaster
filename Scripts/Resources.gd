@@ -9,6 +9,7 @@ var items = []
 var skills = {}
 var dungeons = {}
 var crafting = []
+var enemies
 
 var game
 var music
@@ -68,6 +69,10 @@ func _ready():
 	
 	for dungeon in get_resource_list("Dungeons"):
 		dungeons[dungeon.name] = dungeon.data
+	
+	for enemie in get_resource_list("Enemies"):
+		enemies = enemie.data
+		print(enemies)
 	
 	crafting = read_json("res://Resources/CraftingList.json")
 	
@@ -134,6 +139,7 @@ func read_json(f):
 	file.close()
 	
 	var json = parse_json(text)
+
 	assert(json != null)
 	
 	return json

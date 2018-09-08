@@ -380,10 +380,10 @@ func create_segment(segment, pos):
 	dungeon.add_child(seg)
 	
 	if splitted_obj == null:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
 		splitted_obj = seg.get_splitted_elements()
 	else:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
 	
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):

@@ -1,44 +1,44 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-const HP  = 90
-const XP  = 100
-const ARM = 0.3
-
-const BASIC_DAMAGE         = 10
-const SPECIAL_DAMAGE       = 20
-
-const SPECIAL_PROBABILITY  = 200
-const ATACK_SPEED          = 200
-
-const SPEED                = 80
-
-const KNOCKBACK_ATACK      = 0
-
-const FOLLOW_RANGE         = 400
-const PERSONAL_SPACE       = 50
-const TIME_OF_LIYUGN_CORPS = 3
-
-var player
-var direction       = "Down"
-var dead_time       = 0
-
-var can_use_special = true
-
-############################################################################################
-
-var wertical        = -1
-var distance_from_player = 300
-
-var dead            = false
-var follow_player   = false
-var in_action       = false
-var special_ready   = false
-var atack_ready     = true
-
-var in_special_state = false
-var special_nav_poit = Vector2(0,0)
-
-onready var sprites = $Sprites.get_children()
+#const HP  = 90
+#const XP  = 100
+#const ARM = 0.3
+#
+#const BASIC_DAMAGE         = 10
+#const SPECIAL_DAMAGE       = 20
+#
+#const SPECIAL_PROBABILITY  = 200
+#const ATACK_SPEED          = 200
+#
+#const SPEED                = 80
+#
+#const KNOCKBACK_ATACK      = 0
+#
+#const FOLLOW_RANGE         = 400
+#const PERSONAL_SPACE       = 50
+#const TIME_OF_LIYUGN_CORPS = 3
+#
+#var player
+#var direction       = "Down"
+#var dead_time       = 0
+#
+#var can_use_special = true
+#
+#############################################################################################
+#
+#var wertical        = -1
+#var distance_from_player = 300
+#
+#var dead            = false
+#var follow_player   = false
+#var in_action       = false
+#var special_ready   = false
+#var atack_ready     = true
+#
+#var in_special_state = false
+#var special_nav_poit = Vector2(0,0)
+#
+#onready var sprites = $Sprites.get_children()
 
 func preparation(delta):
 	if preparing :

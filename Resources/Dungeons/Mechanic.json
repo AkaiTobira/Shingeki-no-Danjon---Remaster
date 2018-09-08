@@ -54,9 +54,9 @@
 		        ],
 	
 		"floor" : {
-			"0" : ["Puncher", "Grinder", "Trochnalis"],
-			"1" : ["FLA-G", "FLA-B" , "FLA-S"],
-			"2" : [ "Puncher", "Grinder", "Trochnalis", "FLA-G", "FLA-B" ,"PuncherMKII", "FLA-S"],
+			"0" : ["Puncher"],
+			"1" : ["Puncher"],
+			"2" : ["Puncher"]
 		},
 
 

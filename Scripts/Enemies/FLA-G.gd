@@ -1,48 +1,48 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-const HP  = 150
-const XP  = 150
-const ARM = 0.4
-
-const BASIC_DAMAGE         = 12
-const SPECIAL_DAMAGE       = 50
-
-const MAGIC_PROBABILITY    = 750
-const SPECIAL_PROBABILITY  = 500
-var ATACK_SPEED          = 250
-
-var SPEED                = 120
-
-const KNOCKBACK_ATACK      = 5 
-
-const FOLLOW_RANGE         = 400
-const PERSONAL_SPACE       = 120
-const TIME_OF_LIYUGN_CORPS = 3
-
-var MAT = load("res://Resources/Materials/ColorShader.tres")
-
-var player
-var direction       = "Down"
-var dead_time       = 0
-
-var last_animation = ""
-var can_use_special = true
-var dead            = false
-
-var follow_player   = false
-var in_action       = false
-var special_ready   = false
-var atack_ready     = true
-var suesided        = false
-var in_special      = false
-var in_special_state = false
-var magic_ready     = false 
-var special_countown = 0.0
-
-var special_destination = Vector2(0,0)
-
-
-onready var sprites = $Sprites.get_children()
+#const HP  = 150
+#const XP  = 150
+#const ARM = 0.4
+#
+#const BASIC_DAMAGE         = 12
+#const SPECIAL_DAMAGE       = 50
+#
+#const MAGIC_PROBABILITY    = 750
+#const SPECIAL_PROBABILITY  = 500
+#var ATACK_SPEED          = 250
+#
+#var SPEED                = 120
+#
+#const KNOCKBACK_ATACK      = 5 
+#
+#const FOLLOW_RANGE         = 400
+#const PERSONAL_SPACE       = 120
+#const TIME_OF_LIYUGN_CORPS = 3
+#
+#var MAT = load("res://Resources/Materials/ColorShader.tres")
+#
+#var player
+#var direction       = "Down"
+#var dead_time       = 0
+#
+#var last_animation = ""
+#var can_use_special = true
+#var dead            = false
+#
+#var follow_player   = false
+#var in_action       = false
+#var special_ready   = false
+#var atack_ready     = true
+#var suesided        = false
+#var in_special      = false
+#var in_special_state = false
+#var magic_ready     = false 
+#var special_countown = 0.0
+#
+#var special_destination = Vector2(0,0)
+#
+#
+#onready var sprites = $Sprites.get_children()
 
 func _ready():
 	._ready()
@@ -255,12 +255,12 @@ func _on_animation_finished(anim_name):
 	if "Punch" in anim_name:
 		$"AttackCollider/Shape".disabled = true
 		in_action     = false
-		
-var is_avoiding = false
-var avoid_distance = Vector2(0,0)
-var avoid_stack    = 1
-var acc = Vector2(0,0)
-var randomDirection = randi()%2
+#
+#var is_avoiding = false
+#var avoid_distance = Vector2(0,0)
+#var avoid_stack    = 1
+#var acc = Vector2(0,0)
+#var randomDirection = randi()%2
 
 
 func test_calculate_move(delta):

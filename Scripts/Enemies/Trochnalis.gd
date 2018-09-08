@@ -1,39 +1,39 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-const HP  = 80
-const XP  = 100
-const ARM = 0.3
-
-const BASIC_DAMAGE         = 12
-const SPECIAL_DAMAGE       = 50
-
-const SPECIAL_PROBABILITY  = 900
-const ATACK_SPEED          = 300
-
-const SPEED                = 75
-
-const KNOCKBACK_ATACK      = 3 
-
-const FOLLOW_RANGE         = 400
-const PERSONAL_SPACE       = 60
-const TIME_OF_LIYUGN_CORPS = 3
-
-var player
-var direction       = "Down"
-var dead_time       = 0
-
-var can_use_special = true
-var dead            = false
-
-var follow_player   = false
-var in_action       = false
-var special_ready   = false
-var atack_ready     = true
-var suesided        = false
-var last_animation = ""
-
-
-onready var sprites = $Sprites.get_children()
+#const HP  = 80
+#const XP  = 100
+#const ARM = 0.3
+#
+#const BASIC_DAMAGE         = 12
+#const SPECIAL_DAMAGE       = 50
+#
+#const SPECIAL_PROBABILITY  = 900
+#const ATACK_SPEED          = 300
+#
+#const SPEED                = 75
+#
+#const KNOCKBACK_ATACK      = 3 
+#
+#const FOLLOW_RANGE         = 400
+#const PERSONAL_SPACE       = 60
+#const TIME_OF_LIYUGN_CORPS = 3
+#
+#var player
+#var direction       = "Down"
+#var dead_time       = 0
+#
+#var can_use_special = true
+#var dead            = false
+#
+#var follow_player   = false
+#var in_action       = false
+#var special_ready   = false
+#var atack_ready     = true
+#var suesided        = false
+#var last_animation = ""
+#
+#
+#onready var sprites = $Sprites.get_children()
 
 func _ready():
 	._ready()
@@ -169,11 +169,11 @@ func _on_animation_finished(anim_name):
 	if "Punch" in anim_name:
 		in_action     = false
 		
-var is_avoiding = false
-var avoid_distance = Vector2(0,0)
-var avoid_stack    = 1
-var acc = Vector2(0,0)
-var randomDirection = randi()%2
+#var is_avoiding = false
+#var avoid_distance = Vector2(0,0)
+#var avoid_stack    = 1
+#var acc = Vector2(0,0)
+#var randomDirection = randi()%2
 
 
 func test_calculate_move(delta):

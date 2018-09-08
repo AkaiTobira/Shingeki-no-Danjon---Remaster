@@ -272,8 +272,8 @@ func put_wall_related_objects(prob, style):
 							break
 					break
 
-func put_enemies( enemies ,prob, current_lvl):
-	
+func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
+
 	for i in range(G.end.x+1):
 		for j in range(G.end.y+1):
 			if tab[i][j] >= TileState.free and tab[i][j] < TileState.destroyableObject:
@@ -281,10 +281,13 @@ func put_enemies( enemies ,prob, current_lvl):
 					var object_name = enemies[randi()%len(enemies)]
 					var instance = load(get_path(Objects.ENEMIES) + object_name + ".tscn").instance()
 					instance.position = Vector2((i*80)+40,(j*80)+40)
+					print( enemy[dung_name][object_name] )
+				#	print(dung_name,enemies[dung_name][object_name]) 
+					instance._load_stats(enemy[dung_name][object_name])
 					Obj_to_Append.append(instance)
 					monster_counter +=1
 
-func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
+func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [] ):
 	flooor = current_level
 	
 	conatainer_contains = file_json["containers_contents"]
@@ -309,7 +312,7 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 	put_wall_related_objects ( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 	put_free_standing_objects( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 
-	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level) )
+	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level), e,dungeon )
 
 	
 
