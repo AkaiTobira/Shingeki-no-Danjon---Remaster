@@ -5,13 +5,17 @@
 [ext_resource path="res://Sprites/Environment/PipeTrap.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Projectiles/FireBreath.png" type="Texture" id=4]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 
 script/source = "extends Node2D
 
 var timeout = 100.0
+var frequency = 10
+
 
 func _ready():
+
+	frequency = randi()%20 + 32
 
 	if randi()%2:
 		$Back/Sprite.visible = false
@@ -29,15 +33,23 @@ func _ready():
 func _process(delta):
 	timeout += delta
 	
-	if timeout > 10:
+	if timeout > frequency:
 		if $Back/Sprite.visible:
 			$Back/AnimationPlayer.play(\"FIRE\")
+		#	$Back/AnimationPlayer.advance(randi()% ( int($Back/AnimationPlayer.current_animation_length )) )
+#			$Back/AnimationPlayer.playback_speed = (randi()%9 + 24)
 		if $Left/Sprite.visible:
 			$Left/AnimationPlayer.play(\"FIRE\")
+		#	$Left/AnimationPlayer.advance(randi()% ( int($Left/AnimationPlayer.current_animation_length )) )
+#			$Left/AnimationPlayer.playback_speed = (randi()%9 + 24)
 		if $Right/Sprite.visible:
 			$Right/AnimationPlayer.play(\"FIRE\")
+		#	$Right/AnimationPlayer.advance(randi()% ( int($Right/AnimationPlayer.current_animation_length )) )
+#			$Right/AnimationPlayer.playback_speed = (randi()%9 + 24)
 		if $Up/Sprite.visible:
 			$Up/AnimationPlayer.play(\"FIRE\")
+		#	$Up/AnimationPlayer.advance(randi()% ( int($Up/AnimationPlayer.current_animation_length )) )
+#			$Up/AnimationPlayer.playback_speed = (randi()%9 + 24)
 		timeout = 0.0
 	pass
 
@@ -45,19 +57,19 @@ func _process(delta):
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 12, 0)
+		body.get_parent().damage(self, 12, 0, \"Explosion\")
 		
 	if body.get_parent().is_in_group(\"enemies\"):
-		body.get_parent().damage(7)
+		body.get_parent().damage(7,\"\",\"Explosion\")
 	pass # replace with function body
 "
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 16.2716, 53.99 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 
 resource_name = "FIRE"
 length = 32.0
@@ -148,7 +160,7 @@ tracks/6/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 
 resource_name = "FIRE"
 length = 32.0
@@ -239,7 +251,7 @@ tracks/6/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 
 resource_name = "FIRE"
 length = 32.0
@@ -330,7 +342,7 @@ tracks/6/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 
 resource_name = "FIRE"
 length = 32.0
@@ -421,12 +433,12 @@ tracks/6/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="StaticBody2D" type="StaticBody2D" groups=[
+[node name="StaticBody2D" type="StaticBody2D" index="0" groups=[
 "enviroment",
 ]]
 
@@ -474,7 +486,7 @@ physics_process_parent = false
 [node name="Node2D" type="Node2D" parent="." index="2"]
 
 position = Vector2( 0, -60 )
-script = SubResource( 2 )
+script = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Back" type="Node2D" parent="Node2D" index="0"]
@@ -502,9 +514,9 @@ audio_bus_name = "Master"
 
 [node name="HitBox" type="CollisionShape2D" parent="Node2D/Back/Area2D" index="0"]
 
-position = Vector2( 1.97195, -230.415 )
-scale = Vector2( 1.31912, 0.144205 )
-shape = SubResource( 3 )
+position = Vector2( 1.97195, -236.643 )
+scale = Vector2( 1.31912, 0.034923 )
+shape = SubResource( 2 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
 
@@ -516,7 +528,6 @@ rotation = -1.5708
 scale = Vector2( 0.0863149, 0.855231 )
 texture = ExtResource( 4 )
 vframes = 2
-frame = 1
 _sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Back" index="3"]
@@ -526,7 +537,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 24.0
-anims/FIRE = SubResource( 4 )
+anims/FIRE = SubResource( 3 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -564,7 +575,7 @@ audio_bus_name = "Master"
 
 position = Vector2( -285.669, 21.2915 )
 scale = Vector2( 0.201729, 0.420981 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
 
@@ -586,7 +597,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 24.0
-anims/FIRE = SubResource( 5 )
+anims/FIRE = SubResource( 4 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -618,7 +629,7 @@ audio_bus_name = "Master"
 
 position = Vector2( 285.926, 19.6119 )
 scale = Vector2( 0.119142, 0.343613 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
 
@@ -639,7 +650,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 24.0
-anims/FIRE = SubResource( 6 )
+anims/FIRE = SubResource( 5 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -670,7 +681,7 @@ audio_bus_name = "Master"
 
 position = Vector2( -2.35773, 261.399 )
 scale = Vector2( 0.804937, 0.169111 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
 
@@ -693,7 +704,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 24.0
-anims/FIRE = SubResource( 7 )
+anims/FIRE = SubResource( 6 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -701,20 +712,20 @@ _sections_unfolded = [ "Playback Options" ]
 
 position = Vector2( 3.62123, -16.6601 )
 scale = Vector2( 1.78189, 2.90122 )
-shape = SubResource( 1 )
+shape = SubResource( 7 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="CollisionL" type="CollisionShape2D" parent="." index="4"]
 
 position = Vector2( -33.3788, -26.8852 )
 scale = Vector2( 1.78189, 3.54214 )
-shape = SubResource( 1 )
+shape = SubResource( 7 )
 
 [node name="CollisionR" type="CollisionShape2D" parent="." index="5"]
 
 position = Vector2( 40.6212, -26.9513 )
 scale = Vector2( 1.78189, 3.54723 )
-shape = SubResource( 1 )
+shape = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="6"]
 

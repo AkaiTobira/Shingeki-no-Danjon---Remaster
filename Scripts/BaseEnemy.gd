@@ -16,9 +16,12 @@ var health     = 5
 var experience = 5
 var movespeed  = 0
 var personal_space = 40
+var enemy_name = ""
+var last_atack_type = 0
 
+func _load_stats(file, kind):
+	enemy_name = kind
 
-func _load_stats(file):
 	
 	max_health     = file["HP"]
 	health         = file["HP"]
@@ -73,14 +76,18 @@ func _physics_process(delta):
 	
 func _atack():
 	current_atack = "Atack"
+	last_atack_type = ABILITY_TYPE["Atack"]
 	ability_ready[ABILITY_TYPE["Atack"] ] = false
 
 func _magic():
 	current_atack = "Magic"
+	
+	last_atack_type = ABILITY_TYPE["Magic"]
 	ability_ready[ABILITY_TYPE["Magic"]] = false
 
 func _skill():
 	current_atack = "Skill"
+	last_atack_type = ABILITY_TYPE["Skill"]
 	ability_ready[ABILITY_TYPE["Skill"]] = false
 
 var time = 0.0
@@ -114,7 +121,7 @@ func ameansure_preparation_timeout(delta ):
 	return false
 	
 func is_close_enought():
-	print((player.position - position).length())
+#	print((player.position - position).length())
 	if (player.position - position).length() >  personal_space :
 		return false
 	return true
@@ -124,11 +131,11 @@ func calculate_player_position():
 	
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("players"):
-		print( damage_type[ABILITY_TYPE[current_atack]] )
+	#	print( damage_type[ABILITY_TYPE[current_atack]] )
 		collider.get_parent().damage(self, 
 			damages[ABILITY_TYPE[current_atack]] , 
 			knockbacks[ABILITY_TYPE[current_atack]],
-			damage_type[ABILITY_TYPE[current_atack]] )
+			damage_type[last_atack_type] )
 
 var damage = 10
 var knockback = 0
@@ -141,6 +148,8 @@ var acc = Vector2(0,0)
 var randomDirection = randi()%2
 
 func _move(delta):
+	#	if current_state == "Dead" : return
+	
 		var move = Vector2(sign(player.position.x - position.x), sign(player.position.y - position.y)).normalized() * SPEED * delta
 
 		var x_distance = abs(position.x - player.position.x)
@@ -272,9 +281,69 @@ func calculate_move_new(delta):
 		randomDirection = randi()%2
 		acc = Vector2(0,0)
 
+func _on_damage():
+	prevPos = position
+	follow_player = true
+	player = Res.game.player
+	
+	current_state = "Follow"
+	
+	var fx = Res.create_instance("Effects/MetalHitFX")
+	fx.position = position - Vector2(0, 40)
+	get_parent().add_child(fx)
 
+func _on_animation_finished(anim_name):
+#	if current_state == "Dead": return 
+	
+	if anim_name == "Special":
+		current_atack = "Wait"
+		block_logic = false
+		
+		in_special_state = false
+		special_ready = false
+		in_action     = false
+	if "Punch" in anim_name:
+		current_atack = "Wait"
+		block_logic = false
+		
+		in_action     = false
 
+func _on_Area2D_body_entered(body):
+	if body.name == "Player":
+		prevPos = position
+		follow_player = true;
+		
+		current_state = "Follow"
+		
+		player = body
 
+func _on_animation_started(anim_name):
+	var anim = $AnimationPlayer.get_animation(anim_name)
+	
+	if anim and sprites:
+		var main_sprite = int(anim.track_get_path(0).get_name(1))
+	
+		for i in range(sprites.size()):
+			sprites[i].visible = (i+1 == main_sprite)
+			
+
+func _on_dead():
+	Res.game.player.updateQuest(enemy_name)
+	
+	Res.play_sample(self, "RobotCrash")
+	dead = true
+	
+	current_state = "Dead"
+	current_atack = "Dead"
+	block_logic   =  true
+	
+	$"AnimationPlayer".play("Dead")
+	$"Shape".disabled = true
+	$"DamageCollider/Shape".disabled = true
+	$"AttackCollider/Shape".disabled = true
+	
+	for i in range(sprites.size()):
+		sprites[i].modulate = Color(1,1,1,1)
 
 var drops = []
 
@@ -371,11 +440,21 @@ func set_statistics(max_hp, given_exp, ar):
 
 
 
-func damage(amount, source = ""):
+func damage(amount, source = "", type = ""):
 	if _dead: return
-	
-	var damage = max(1, int(amount * (1-armour)))
-	
+#	if current_state == "Dead" : return
+
+	var damage = amount
+
+	match(type):
+		"Physical":
+			damage = max(1, int(amount * (1.0-resists[0])))
+		"Explosion":
+			damage = max(1, int(amount * (1.0-resists[1])))
+		"Shock":
+			damage = max(1, int(amount * (1.0-resists[2])))
+		"Crush":
+			damage = max(1, int(amount * (1.0-resists[3])))
 
 	if randi()%100 < PlayerStats.critical_cnc*100 and source == "player": 
 	
@@ -383,7 +462,7 @@ func damage(amount, source = ""):
 		
 		Res.create_instance("DamageNumber").damage(self, str(damage)+"!", "crit")
 	else:
-		Res.create_instance("DamageNumber").damage(self, damage)
+		Res.create_instance("DamageNumber").damage(self, damage,type)
 	
 	health -= damage
 	
@@ -394,6 +473,9 @@ func damage(amount, source = ""):
 	if health <= 0:
 		$"/root/Game".save_state(self)
 		_dead = true
+		
+		current_state = "Dead"
+		
 		health_bar.visible = false
 		PlayerStats.add_experience(experience)
 

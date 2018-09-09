@@ -684,9 +684,8 @@ func update_statistics():
 	update_dexternity()
 	update_vitality()
 	update_intelligence()
-	pass
-#	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health) + \" / \" + str(PlayerStats.max_health)
-#	$Tabs/Character/Statistics/Mana.text           = \"Mana: \" + str(PlayerStats.mana) + \" / \" + str(PlayerStats.max_mana)
+	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health) + \" / \" + str(PlayerStats.max_health)
+	$Tabs/Character/Statistics/Mana.text           = \"Mana: \" + str(PlayerStats.mana) + \" / \" + str(PlayerStats.max_mana)
 #	$Tabs/Character/Statistics/Strength.text       = \"Strength: \" + str(PlayerStats.strength)
 #	$Tabs/Character/Statistics/Dexterity.text      = \"Dexterity: \" + str(PlayerStats.dexterity)
 #	$Tabs/Character/Statistics/Intelligence.text   = \"Intelligence: \" + str(PlayerStats.intelligence)
@@ -799,7 +798,7 @@ func auto_move(delta):
 	return 0"
 _sections_unfolded = [ "Resource" ]
 
-[node name="PlayerMenu" type="TextureRect"]
+[node name="PlayerMenu" type="TextureRect" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1253,7 +1252,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="Control" type="Control" parent="Tabs/Character/Statistics/Strength" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1896,6 +1894,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Control4" type="Control" parent="Tabs/Character/Statistics/Dexterity" index="4"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2471,6 +2470,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Control2" type="Control" parent="Tabs/Character/Statistics/Vitality" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2557,6 +2557,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Control3" type="Control" parent="Tabs/Character/Statistics/Vitality" index="3"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2644,6 +2645,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Control4" type="Control" parent="Tabs/Character/Statistics/Vitality" index="4"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2728,7 +2730,53 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Health" type="Label" parent="Tabs/Character/Statistics" index="4"]
+[node name="Up2" type="Label" parent="Tabs/Character/Statistics" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 835.0
+margin_top = 208.0
+margin_right = 877.0
+margin_bottom = 236.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Up3" type="Label" parent="Tabs/Character/Statistics" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 835.0
+margin_top = 246.0
+margin_right = 877.0
+margin_bottom = 274.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "+ 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Health" type="Label" parent="Tabs/Character/Statistics" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2752,7 +2800,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
-[node name="Mana" type="Label" parent="Tabs/Character/Statistics" index="5"]
+[node name="Mana" type="Label" parent="Tabs/Character/Statistics" index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2776,16 +2824,16 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
-[node name="Attack" type="Label" parent="Tabs/Character/Statistics" index="6"]
+[node name="Attack" type="Label" parent="Tabs/Character/Statistics" index="8"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 790.0
-margin_top = 207.0
-margin_right = 972.0
-margin_bottom = 235.0
+margin_left = 914.0
+margin_top = 210.0
+margin_right = 1096.0
+margin_bottom = 238.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -2799,16 +2847,16 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Defense" type="Label" parent="Tabs/Character/Statistics" index="7"]
+[node name="Defense" type="Label" parent="Tabs/Character/Statistics" index="9"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 788.0
-margin_top = 243.0
-margin_right = 970.0
-margin_bottom = 271.0
+margin_left = 912.0
+margin_top = 241.0
+margin_right = 1094.0
+margin_bottom = 269.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2

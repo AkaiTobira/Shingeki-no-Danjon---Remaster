@@ -307,18 +307,12 @@ func _on_dead():
 	for i in range(sprites.size()):
 		sprites[i].modulate = Color(1,1,1,1)
 
-func _on_damage():
-	follow_player = true
-	player = Res.game.player
-	
-	var fx = Res.create_instance("Effects/MetalHitFX")
-	fx.position = position - Vector2(0, 40)
-	get_parent().add_child(fx)
 
-func _on_animation_finished(anim_name):
-	if "Special" in anim_name:
-	#	in_special_state = false
-		special_ready = false
-		in_action     = false
-	if "Punch" in anim_name:
-		in_action     = false
+
+#func _on_animation_finished(anim_name):
+#	if "Special" in anim_name:
+#	#	in_special_state = false
+#		special_ready = false
+#		in_action     = false
+#	if "Punch" in anim_name:
+#		in_action     = false

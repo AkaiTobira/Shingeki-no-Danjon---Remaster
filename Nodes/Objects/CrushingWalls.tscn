@@ -52,10 +52,10 @@ func _process(delta):
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 50, 0)
+		body.get_parent().damage(self, 50, 0, \"Crush\")
 		
 	if body.get_parent().is_in_group(\"enemies\"):
-		body.get_parent().damage(10)"
+		body.get_parent().damage(10,\"\", \"Crush\")"
 _sections_unfolded = [ "Resource" ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -99,7 +99,7 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = SubResource( 1 )
-_sections_unfolded = [ "Transform", "Z Index" ]
+_sections_unfolded = [ "Collision", "Transform", "Z Index" ]
 placement = 1
 offset_position = Vector2( 0, 0 )
 size = Vector2( 4, 1 )

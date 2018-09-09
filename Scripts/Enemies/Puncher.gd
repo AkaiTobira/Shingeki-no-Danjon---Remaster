@@ -15,7 +15,6 @@ func _process(delta):
 		
 		_move(delta)
 
-		
 		if current_atack == "Wait":
 			if is_close_enought():
 				if   ability_ready[ABILITY_TYPE["Magic"]] and can_use_ability[ABILITY_TYPE["Magic"]]:
@@ -37,6 +36,8 @@ func _ready():
 	$"AnimationPlayer".play("Idle")
 
 func process_atacks():
+	if current_state == "Dead": return 
+	
 	match(current_atack):
 		"Magic":
 			#play_animation_if_not_played()
@@ -313,61 +314,9 @@ func process_atacks():
 #	knockback = 0
 #
 
-func _on_Area2D_body_entered(body):
-	if body.name == "Player":
-		prevPos = position
-		follow_player = true;
-		player = body
 
-func _on_animation_started(anim_name):
-	var anim = $AnimationPlayer.get_animation(anim_name)
-	
-	if anim and sprites:
-		var main_sprite = int(anim.track_get_path(0).get_name(1))
-	
-		for i in range(sprites.size()):
-			sprites[i].visible = (i+1 == main_sprite)
-			
 
-func _on_dead():
-	Res.game.player.updateQuest("Puncher")
-	
-	Res.play_sample(self, "RobotCrash")
-	dead = true
-	
-	current_state = "Dead"
-	
-	$"AnimationPlayer".play("Dead")
-	$"Shape".disabled = true
-	$"DamageCollider/Shape".disabled = true
-	$"AttackCollider/Shape".disabled = true
-	
-	for i in range(sprites.size()):
-		sprites[i].modulate = Color(1,1,1,1)
 
-func _on_damage():
-	prevPos = position
-	follow_player = true
-	player = Res.game.player
-	
-	current_state = "Follow"
-	
-	var fx = Res.create_instance("Effects/MetalHitFX")
-	fx.position = position - Vector2(0, 40)
-	get_parent().add_child(fx)
 
-func _on_animation_finished(anim_name):
-	if anim_name == "Special":
-		current_atack = "Wait"
-		block_logic = false
-		
-		in_special_state = false
-		special_ready = false
-		in_action     = false
-	if "Punch" in anim_name:
-		current_atack = "Wait"
-		block_logic = false
-		
-		in_action     = false
 		
 

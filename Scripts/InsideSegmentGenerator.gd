@@ -281,9 +281,9 @@ func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
 					var object_name = enemies[randi()%len(enemies)]
 					var instance = load(get_path(Objects.ENEMIES) + object_name + ".tscn").instance()
 					instance.position = Vector2((i*80)+40,(j*80)+40)
-					print( enemy[dung_name][object_name] )
+#					print( enemy[dung_name][object_name] )
 				#	print(dung_name,enemies[dung_name][object_name]) 
-					instance._load_stats(enemy[dung_name][object_name])
+					instance._load_stats(enemy[dung_name][object_name],object_name)
 					Obj_to_Append.append(instance)
 					monster_counter +=1
 

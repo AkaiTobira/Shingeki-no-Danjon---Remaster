@@ -61,7 +61,7 @@ func fill(breakable_contains,dungeon_level):
 	
 	pass
 
-func damage(amount, source = \"\"):
+func damage(amount, source = \"\", nothing = \"\"):
 	Res.play_sample(self, \"WoodBreak\")
 	$Animation.play(\"Destroyed\")
 	$DamageCollider.queue_free()

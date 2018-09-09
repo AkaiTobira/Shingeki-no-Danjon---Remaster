@@ -43,10 +43,10 @@ func _process(delta):
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 15, 0)
+		body.get_parent().damage(self, 15, 0, \"Explosion\")
 		
 	if body.get_parent().is_in_group(\"enemies\"):
-		body.get_parent().damage(5)
+		body.get_parent().damage(5, \"\", \"Explosion\")
 
 func _on_Triger_body_entered(body):
 	if !disabled : $\"AnimationPlayer\".play(\"Explode\")

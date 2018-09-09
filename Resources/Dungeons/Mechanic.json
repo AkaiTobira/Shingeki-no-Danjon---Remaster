@@ -14,8 +14,8 @@
 			],
 		
 		"containers_objects"  : [ 
-			"Chest",
-			"Coffin"
+			"Chest"
+			
 		],
 
 		"environment_objects" : [ 
@@ -54,7 +54,7 @@
 		        ],
 	
 		"floor" : {
-			"0" : ["Puncher"],
+			"0" : ["Puncher", "Grinder"],
 			"1" : ["Puncher"],
 			"2" : ["Puncher"]
 		},

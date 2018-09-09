@@ -267,16 +267,7 @@ func damage(attacker, amount, _knockback, type = "NoDamage"):
 		PlayerStats.damage_equipment("armor", 2)
 		PlayerStats.damage_equipment("helmet")
 		
-	match(type):
-		"Physical":
-			Res.create_instance("DamageNumber").damage(self, damage, "physical")
-		"Explosion":
-			Res.create_instance("DamageNumber").damage(self, damage, "fire")
-		"Shock":
-			Res.create_instance("DamageNumber").damage(self, damage, "shock")
-		"Crush":
-			Res.create_instance("DamageNumber").damage(self, damage, "crush")
-			
+	Res.create_instance("DamageNumber").damage(self, damage, type)
 	UI.soft_refresh()
 	
 	knockback += (position - attacker.position).normalized() * _knockback
@@ -307,7 +298,7 @@ func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("enemies"):
 		SkillBase.inc_stat("OneHanded")
 		SkillBase.inc_stat("Melee")
-		collider.get_parent().damage(PlayerStats.get_damage(),"player")
+		collider.get_parent().damage(PlayerStats.get_damage(),"player", "")
 
 func change_dir(dir, force = false):
 	if !force and (direction == dir or !dead and (Input.is_action_pressed("Attack") or Input.is_action_pressed("Shield"))): return
