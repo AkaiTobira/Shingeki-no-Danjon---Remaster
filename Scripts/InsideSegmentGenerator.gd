@@ -78,6 +78,8 @@ const SIDES = [
 	[ TileState.free ]
 	]
 
+var Astar_points = []
+
 func get_size():
 	return G.end
 
@@ -312,7 +314,7 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 	put_wall_related_objects ( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 	put_free_standing_objects( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 
-	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level), e,dungeon )
+#	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level), e,dungeon )
 
 	
 
@@ -507,6 +509,47 @@ func print_segment_structure():
 	for i in range(G.end.x+2):
 		print(tab[i])
 	print("\n")
+
+func get_Astar_positions( pos ):
+	
+	var temp = [ Vector2(), [false,false,false,false] ]
+	
+	print(Enters)
+	
+	var special_points = []
+	
+	
+#	for e in Enters:
+#		if not e in special_points:
+#			special_points.append([e[0],e[1]])
+#			special_points.append([e[0],e[
+	
+	
+	for i in range(G.end.x+2):
+		for j in range(G.end.y+2):
+			if tab[i][j] >= TileState.free and tab[i][j] < TileState.exitTile:
+				
+				temp = [ Vector2( 40 + 80*i, 40 + 80*j) + pos, [ false,false,false,false ] ]
+				
+				if i > 0 and tab[i-1][j] >= TileState.free and tab[i-1][j] < TileState.exitTile:
+					temp[1][0] = true
+				if tab[i+1][j] >= TileState.free and tab[i+1][j] < TileState.exitTile:
+					temp[1][1] = true
+				if j > 0 and tab[i][j-1] >= TileState.free and tab[i][j-1] < TileState.exitTile:
+					temp[1][2] = true
+				if tab[i][j+1] >= TileState.free and tab[i][j+1] < TileState.exitTile:
+					temp[1][3] = true
+				
+				special_points.append(Vector2(40 + 80*i, 40 +80*j))
+				
+				#Astar_points.append(temp)
+				
+				pass
+	
+	for i in Astar_points:
+		print(i)
+	
+	return special_points
 
 
 func check_fields_around(i, j):

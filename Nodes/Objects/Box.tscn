@@ -144,8 +144,8 @@ custom_solver_bias = 0.0
 extents = Vector2( 24, 20 )
 
 [node name="Barrel" type="StaticBody2D" groups=[
-"enemies",
 "enviroment",
+"enemies",
 ]]
 
 scale = Vector2( 1.25, 1.25 )
@@ -222,5 +222,22 @@ shape = SubResource( 3 )
 position = Vector2( -2.35185, -9.34551 )
 scale = Vector2( 1.32088, 1.43794 )
 shape = SubResource( 4 )
+
+[node name="Collision" type="StaticBody2D" parent="." index="5"]
+
+scale = Vector2( 1, 1 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collision" index="0"]
+
+scale = Vector2( 1, 1 )
+build_mode = 0
+polygon = PoolVector2Array( -10.3742, -10.8227, -34.1863, -32.3054, 27.6734, -31.7877, 28.9675, 12.4717, -32.8922, 16.613, -34.4452, -33.3407, -12.186, -12.1168 )
 
 

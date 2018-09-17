@@ -438,7 +438,7 @@ tracks/6/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="StaticBody2D" type="StaticBody2D" index="0" groups=[
+[node name="StaticBody2D" type="StaticBody2D" groups=[
 "enviroment",
 ]]
 

@@ -545,10 +545,10 @@ func add_quest_rewards(ques):
 	
 	print(ques," Rewards Recived")
 			
-#func _input(event):
-#	if event is InputEventMouseButton:
-#		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
-#		print("Mouse Click/Unclick at: ", event.position)
+func _input(event):
+	if event is InputEventMouseButton:
+		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
+		print("Mouse Click/Unclick at: ", get_global_mouse_position())
 #		print(get_tree().get_root().find_node("Player", true, false).position)
 			
 			

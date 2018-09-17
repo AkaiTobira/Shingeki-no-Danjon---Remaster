@@ -631,6 +631,9 @@ func clear_statistic_incremntation_propositions():
 				var node = get_node(\"Tabs/Character/Statistics/\"+stat+\"/Control\" + (str(i+1) if i != 0 else \"\") + \"/Up\")
 				node.text = \"\"
 				node.add_color_override(\"font_color\", Color(1,1,1))
+				
+		$Tabs/Character/Statistics/Up3.text = \"\"
+		$Tabs/Character/Statistics/Up2.text = \"\"
 
 func fill_selected(stat):
 	
@@ -653,11 +656,13 @@ func fill_selected(stat):
 			$Tabs/Character/Statistics/Intelligence/Control2/Up.text =  \"+ \" + str(PlayerStats.magical_dmg)
 			$Tabs/Character/Statistics/Intelligence/Control3/Up.text = \"+ \" + str(PlayerStats.shock_dmg_re* 100) + \"%\"
 			$Tabs/Character/Statistics/Intelligence/Control4/Up.text = \"+ \" + str(PlayerStats.ghost_time)
+			$Tabs/Character/Statistics/Up3.text = \"+ \" + str(10)
 		3:
 			$Tabs/Character/Statistics/Vitality/Control/Up.text =  \"+ \" + str(PlayerStats.vitality)
 			$Tabs/Character/Statistics/Vitality/Control2/Up.text =  \"+ \" + str(PlayerStats.mana_regen)
 			$Tabs/Character/Statistics/Vitality/Control3/Up.text = \"+ \" + str(PlayerStats.explo_dmg_re* 100) + \"%\"
 			$Tabs/Character/Statistics/Vitality/Control4/Up.text = \"+ \" + str(PlayerStats.move_speed)
+			$Tabs/Character/Statistics/Up2.text = \"+ \" + str(10)
 			
 func update_dexternity():
 	$Tabs/Character/Statistics/Dexterity/Control/Val.text = str(PlayerStats.dexterity)
@@ -1252,6 +1257,7 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="Control" type="Control" parent="Tabs/Character/Statistics/Strength" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2346,6 +2352,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Vitality" type="Control" parent="Tabs/Character/Statistics" index="3"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2736,9 +2743,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 835.0
+margin_left = 765.0
 margin_top = 208.0
-margin_right = 877.0
+margin_right = 807.0
 margin_bottom = 236.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -2747,11 +2754,12 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.854902, 0.254902, 0.254902, 1 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
 [node name="Up3" type="Label" parent="Tabs/Character/Statistics" index="5"]
 
@@ -2759,9 +2767,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 835.0
+margin_left = 765.0
 margin_top = 246.0
-margin_right = 877.0
+margin_right = 807.0
 margin_bottom = 274.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -2770,11 +2778,12 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.364706, 0.717647, 0.964706, 1 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
 [node name="Health" type="Label" parent="Tabs/Character/Statistics" index="6"]
 

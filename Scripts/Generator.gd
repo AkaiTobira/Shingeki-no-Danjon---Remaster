@@ -23,10 +23,15 @@ var map = []
 var floor_space = {}
 var wall_space = []
 
+var navigation = AStar.new()
+
+var points = []
+var aStar = AStar.new()
 
 var file_json
 var splitted_obj
 
+var size_of_segments = [Vector2(999999999,999999999), Vector2(0,0)]
 
 func generate(level_name,w, h):
 	width = w
@@ -39,6 +44,7 @@ func generate(level_name,w, h):
 	
 	var start = Vector2(randi() % width, randi() % height)
 	empty_spots.append({"pos": start})
+
 	
 	while !end:
 		while !empty_spots.empty():
@@ -70,6 +76,8 @@ func generate(level_name,w, h):
 			map.resize(width * height)
 			start = Vector2(randi() % width, randi() % height)
 			empty_spots = [{"pos": start}]
+			
+			
 	
 	for x in range(width):
 		for y in range(height):
@@ -77,6 +85,45 @@ func generate(level_name,w, h):
 			if segment and segment.piece_x + segment.piece_y == 0:
 				create_segment(segment.segment.name, Vector2(x, y))
 
+
+	print(size_of_segments)
+	
+	
+	var Dict = {}
+	
+	for i in range( len(points) ):
+		Dict[i+1] = points[i]
+		
+	for i in Dict.keys():
+		if !aStar.has_point(i):
+			var T = Dict[i]
+			aStar.add_point(i,Vector3(T.x, T.y, 0 ))
+		
+	
+	
+	for i in Dict.keys():
+		var T = Dict[i]
+		
+		for j in Dict.keys():
+			if T + Vector2(80,  0) == Dict[j] :aStar.connect_points(i,j)
+			if T + Vector2(-80,  0) == Dict[j] : aStar.connect_points(i,j)
+			if T + Vector2(  0,-80) == Dict[j] : aStar.connect_points(i,j)
+			if T + Vector2(  0, 80) == Dict[j] : aStar.connect_points(i,j)
+	
+	
+	
+	#print(len(aStar.get_points()), len(points))
+	#print(Dict)
+	
+	#for i in Dict.keys():		
+	#	for j in Dict.keys():
+	
+	print(aStar.get_point_path(1,1233))
+	
+	_update_navigation2D()
+	
+	
+	
 
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
 	#dungeon_type.tileset]
@@ -146,6 +193,62 @@ func generate(level_name,w, h):
 #		var instance = place_on_floor("NPC")
 #		instance.id = 1
 	queue_free()
+
+
+func update_navigation(node):
+#	if node.has_node("Collision"):
+#		var new_polygon = PoolVector2Array()
+#		var col_polygon = node.find_node("CollisionPolygon2D", true, false)
+#		print(col_polygon.polygon)
+#
+#		for vector in col_polygon.polygon:
+#			print(vector + node.position)
+#			new_polygon.append(vector + node.position)# +get_tree().get_root().find_node("KinematicBody2D", true, false).position )
+#
+#		var navi_polygon = get_tree().get_root().find_node("NavigationPolygonInstance", true, false).get_navigation_polygon()
+#		print( navi_polygon )
+#		navi_polygon.add_outline(new_polygon)
+#		navi_polygon.make_polygons_from_outlines()
+#
+#		get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = false
+#		get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = true
+	pass #NIE WIEM >>>>
+	
+	
+
+func _update_navigation2D():
+	pass
+#	addNavigationPos(size_of_segments[0].x,size_of_segments[0].y,size_of_segments[1].x,size_of_segments[1].y)
+#	var new_polygon =  PoolVector2Array()
+#
+#	new_polygon.append(size_of_segments[0])
+#	new_polygon.append(Vector2(size_of_segments[0].x, size_of_segments[1].y))
+#	new_polygon.append(size_of_segments[1])
+#	new_polygon.append(Vector2(size_of_segments[1].x, size_of_segments[0].y))
+#
+#	print( new_polygon )
+#
+#	print( get_tree().get_root().find_node("NavigationPolygonInstance", true, false ) )
+#	get_tree().get_root().find_node("NavigationPolygonInstance", true, false).set_vertices(new_polygon)
+#
+#
+#
+#	get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = false
+#	get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = true
+
+
+func addNavigationPos(x0, y0, x1, y1):
+	var navInst = NavigationPolygonInstance.new()
+	var navPoly = NavigationPolygon.new()
+	navInst.set_navigation_polygon(navPoly)
+	navPoly.add_outline(Vector2Array([
+	Vector2(x0,y1),
+	Vector2(x1,y1),
+	Vector2(x1,y0),
+	Vector2(x0,y0)]))
+	navPoly.make_polygons_from_outlines()
+	get_tree().get_root().find_node("Navigation2D", true, false).add_child(navInst)
+
 
 func create_stairs():
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
@@ -352,7 +455,20 @@ func create_segment(segment, pos):
 	bottom.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.set_collision_layer_bit(3, true)
+	
+	
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
+	
+	if seg.position.x < size_of_segments[0].x :
+		size_of_segments[0].x = seg.position.x
+	if seg.position.x > size_of_segments[1].x :
+		size_of_segments[1].x = seg.position.x
+	if seg.position.y < size_of_segments[0].y :
+		size_of_segments[0].y = seg.position.y
+	if seg.position.y > size_of_segments[1].y :
+		size_of_segments[1].y = seg.position.y
+	
+ 	
 	var no_objects = get_segment_data(pos).segment.has("no_objects")
 	
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
@@ -382,14 +498,31 @@ func create_segment(segment, pos):
 	if splitted_obj == null:
 		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
 		splitted_obj = seg.get_splitted_elements()
+
+		
 	else:
 		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
+
+
+
+	var R = seg.get_Astar_positions(seg.position)
+	for r in R:
+		points.append(r)
+	
+	
+	
+	
+	
+	
 	
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):
 			var node = seg.get_node("Objects").get_child(0)
 			var npos = node.global_position
 			seg.get_node("Objects").remove_child(node) ##może nie działać dla kilku
+			
+			update_navigation( node )
+			
 			dungeon.get_parent().add_child(node)
 			node.global_position = npos
 	
