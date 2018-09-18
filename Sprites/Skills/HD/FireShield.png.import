@@ -7,10 +7,7 @@ path="res://.import/FireShield.png-4dc960baef3fd07097de705bf59ced14.stex"
 [deps]
 
 source_file="res://Sprites/Skills/HD/FireShield.png"
-source_md5="3cdd317ffd4bbf9d3dca01e16b727637"
-
 dest_files=[ "res://.import/FireShield.png-4dc960baef3fd07097de705bf59ced14.stex" ]
-dest_md5="6f96975acfabee3dd66c29c4d2cd9c95"
 
 [params]
 

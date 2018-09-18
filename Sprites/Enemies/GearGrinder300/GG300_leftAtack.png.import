@@ -7,10 +7,7 @@ path="res://.import/GG300_leftAtack.png-25189fd9ee72a8040f05fa97ac8e8330.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/GearGrinder300/GG300_leftAtack.png"
-source_md5="2c102312bd1f087a060bbcf34e261bb4"
-
 dest_files=[ "res://.import/GG300_leftAtack.png-25189fd9ee72a8040f05fa97ac8e8330.stex" ]
-dest_md5="64c84970d6842d4c4eb4b5b8859a2f69"
 
 [params]
 

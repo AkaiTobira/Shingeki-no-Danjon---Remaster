@@ -7,10 +7,7 @@ path="res://.import/Stick.png-b6bb09836389180f08f9033d8eb0efaf.stex"
 [deps]
 
 source_file="res://Sprites/Player/Back/Weapons/Stick.png"
-source_md5="7e234a53643ee5f7bd901c7bf242cce1"
-
 dest_files=[ "res://.import/Stick.png-b6bb09836389180f08f9033d8eb0efaf.stex" ]
-dest_md5="6d7a134cb18a98f2a41433c1c2a54c10"
 
 [params]
 

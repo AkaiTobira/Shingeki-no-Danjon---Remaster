@@ -7,10 +7,7 @@ path="res://.import/Sky.png-f8afbb7645b1e62da7cfb748a8b10f19.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Sky.png"
-source_md5="188ee7e3de2b4cbcf704fc74a4151109"
-
 dest_files=[ "res://.import/Sky.png-f8afbb7645b1e62da7cfb748a8b10f19.stex" ]
-dest_md5="2a5a6dd339ae06c47da5e51177336616"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/Fire_proof.png-10d38027a5d7c3174f27792ae23438ad.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/Mechanic/Fire_proof.png"
-source_md5="fa0209989a6e3bd428c3cc0d70615fa7"
-
 dest_files=[ "res://.import/Fire_proof.png-10d38027a5d7c3174f27792ae23438ad.stex" ]
-dest_md5="31ca868982ec180aac5e167843b16d68"
 
 [params]
 

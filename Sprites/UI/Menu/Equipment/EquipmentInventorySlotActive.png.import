@@ -7,10 +7,7 @@ path="res://.import/EquipmentInventorySlotActive.png-03a1582318372e5abbe9c772f1c
 [deps]
 
 source_file="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotActive.png"
-source_md5="b103b4916e7de2992d4045b07b279cc7"
-
 dest_files=[ "res://.import/EquipmentInventorySlotActive.png-03a1582318372e5abbe9c772f1c63641.stex" ]
-dest_md5="60de1673a6f35d0f06860bc9bf6343b8"
 
 [params]
 

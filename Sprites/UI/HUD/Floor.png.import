@@ -7,10 +7,7 @@ path="res://.import/Floor.png-b66846204eae904ec653cf36c4291b92.stex"
 [deps]
 
 source_file="res://Sprites/UI/HUD/Floor.png"
-source_md5="a6ccced60011257efb133a2001f56567"
-
 dest_files=[ "res://.import/Floor.png-b66846204eae904ec653cf36c4291b92.stex" ]
-dest_md5="3f3a043f2e8140ff47615225ed3ae1a2"
 
 [params]
 

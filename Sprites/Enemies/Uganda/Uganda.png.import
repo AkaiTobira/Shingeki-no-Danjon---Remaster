@@ -7,10 +7,7 @@ path="res://.import/Uganda.png-eccf0b60809c51d5279c354d12f97147.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/Uganda/Uganda.png"
-source_md5="02fa1d86de57cd25a9874a1bedb15490"
-
 dest_files=[ "res://.import/Uganda.png-eccf0b60809c51d5279c354d12f97147.stex" ]
-dest_md5="4110ab656648ac57232abca473475086"
 
 [params]
 

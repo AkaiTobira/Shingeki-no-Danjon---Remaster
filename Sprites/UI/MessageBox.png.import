@@ -7,10 +7,7 @@ path="res://.import/MessageBox.png-b9177beed8007a84f66146899f41daf4.stex"
 [deps]
 
 source_file="res://Sprites/UI/MessageBox.png"
-source_md5="85af6f73c62f56c4ca451a4b996e9031"
-
 dest_files=[ "res://.import/MessageBox.png-b9177beed8007a84f66146899f41daf4.stex" ]
-dest_md5="af21018946f6b3c3554bc0891128bd7d"
 
 [params]
 

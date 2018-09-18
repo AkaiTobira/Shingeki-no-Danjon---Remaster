@@ -7,10 +7,7 @@ path="res://.import/DivineSeal.png-121a3b9555f09bfbaa38b8224d5ebef2.stex"
 [deps]
 
 source_file="res://Sprites/Intro/DivineSeal.png"
-source_md5="7ca444f55fc63be633df118812d464f2"
-
 dest_files=[ "res://.import/DivineSeal.png-121a3b9555f09bfbaa38b8224d5ebef2.stex" ]
-dest_md5="6a1bfade57095c88f209ca6925bb7968"
 
 [params]
 

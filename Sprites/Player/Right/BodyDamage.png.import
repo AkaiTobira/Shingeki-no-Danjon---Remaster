@@ -7,10 +7,7 @@ path="res://.import/BodyDamage.png-5f323e88bf464d3903f758a57bae19e8.stex"
 [deps]
 
 source_file="res://Sprites/Player/Right/BodyDamage.png"
-source_md5="58ff8f709ad1645d0f6f73ab9f54bdfd"
-
 dest_files=[ "res://.import/BodyDamage.png-5f323e88bf464d3903f758a57bae19e8.stex" ]
-dest_md5="1f833c6c7ee0facde2182baaebd7afb8"
 
 [params]
 

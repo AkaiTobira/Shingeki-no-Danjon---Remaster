@@ -7,10 +7,7 @@ path="res://.import/Genericamulet.png-549fa8644619be15f3a720e4a1173e2d.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Equipment/Genericamulet.png"
-source_md5="58afb109aa93c3a7ed2a7101b51c22fa"
-
 dest_files=[ "res://.import/Genericamulet.png-549fa8644619be15f3a720e4a1173e2d.stex" ]
-dest_md5="d36a75cc7cc23adf141b4585078a2b2d"
 
 [params]
 

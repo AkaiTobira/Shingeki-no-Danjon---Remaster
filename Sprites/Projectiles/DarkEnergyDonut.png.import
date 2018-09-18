@@ -7,10 +7,7 @@ path="res://.import/DarkEnergyDonut.png-6daa7bf01763a43b3b4e24db557891c4.stex"
 [deps]
 
 source_file="res://Sprites/Projectiles/DarkEnergyDonut.png"
-source_md5="1b8d8f11322801364354c3cecc6f3079"
-
 dest_files=[ "res://.import/DarkEnergyDonut.png-6daa7bf01763a43b3b4e24db557891c4.stex" ]
-dest_md5="692264966b9f3b5b8f80b15365c0b463"
 
 [params]
 

@@ -13,7 +13,7 @@ func _process(delta):
 	if current_state == "Follow" and !block_logic:
 		prepeare_ability()
 		
-		_move(delta)
+		_move5(delta)
 
 		if current_atack == "Wait":
 			if is_close_enought():

@@ -7,10 +7,7 @@ path="res://.import/UI_jornual.png-d2e819ae4bd630d556c6fa5f9a1ad370.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Journal/UI_jornual.png"
-source_md5="81a1c5493bdd9c5acdd232ad1538343f"
-
 dest_files=[ "res://.import/UI_jornual.png-d2e819ae4bd630d556c6fa5f9a1ad370.stex" ]
-dest_md5="6c370ffa1855991bf9610759a2363cf9"
 
 [params]
 

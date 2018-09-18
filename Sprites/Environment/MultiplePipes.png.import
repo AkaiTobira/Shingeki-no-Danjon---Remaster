@@ -7,10 +7,7 @@ path="res://.import/MultiplePipes.png-89960d01b1797aa9ecd63015975b768e.stex"
 [deps]
 
 source_file="res://Sprites/Environment/MultiplePipes.png"
-source_md5="930866f441f9df1587356b0f2a7b81e3"
-
 dest_files=[ "res://.import/MultiplePipes.png-89960d01b1797aa9ecd63015975b768e.stex" ]
-dest_md5="806dd3a847376e1d6906b6bdbce3cdf4"
 
 [params]
 

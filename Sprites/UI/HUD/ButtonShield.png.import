@@ -7,10 +7,7 @@ path="res://.import/ButtonShield.png-304e3e5a972cd95eabe92c8e9f77b41c.stex"
 [deps]
 
 source_file="res://Sprites/UI/HUD/ButtonShield.png"
-source_md5="c5a686857db52d785bffc08957acd4a6"
-
 dest_files=[ "res://.import/ButtonShield.png-304e3e5a972cd95eabe92c8e9f77b41c.stex" ]
-dest_md5="6d3eb8192fcbe373cffd908c50b7509d"
 
 [params]
 

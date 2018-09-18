@@ -7,10 +7,7 @@ path="res://.import/Magic.png-c004e9cdfcc28e98c50757fd01770fd7.stex"
 [deps]
 
 source_file="res://Sprites/Player/Back/Magic.png"
-source_md5="c7977424a3452e9c651180a6dc8e1db6"
-
 dest_files=[ "res://.import/Magic.png-c004e9cdfcc28e98c50757fd01770fd7.stex" ]
-dest_md5="f0b3634f276e16e21c860f86bd08c9cb"
 
 [params]
 

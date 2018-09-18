@@ -7,10 +7,7 @@ path="res://.import/Eyeflash.png-4b098600e8938d8be378804aa1d21077.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Eyeflash.png"
-source_md5="6e8da92d34f7636ae2d50f0005a96428"
-
 dest_files=[ "res://.import/Eyeflash.png-4b098600e8938d8be378804aa1d21077.stex" ]
-dest_md5="e75f8507288c512e8f63329e0ca649e8"
 
 [params]
 

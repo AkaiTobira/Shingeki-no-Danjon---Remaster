@@ -7,10 +7,7 @@ path="res://.import/FLA-G_NormalAtacks.png-eb19b8236f0b939a3379a77074f4586b.stex
 [deps]
 
 source_file="res://Sprites/Enemies/FLA-G/FLA-G_NormalAtacks.png"
-source_md5="d5021f03d946146f8286bd7a6cccbaf6"
-
 dest_files=[ "res://.import/FLA-G_NormalAtacks.png-eb19b8236f0b939a3379a77074f4586b.stex" ]
-dest_md5="7d7aa32191608ba6377fe8e73fb71ea2"
 
 [params]
 

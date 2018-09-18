@@ -9,7 +9,7 @@ const DIRECTIONS = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)
 const DOFFSET = [Vector2(1, 0), Vector2(0, 1)]
 const OPPOSITE = [2, 3, 0, 1]
 
-const MIN_MAP_SIZE = 25
+const MIN_MAP_SIZE = 2
 
 var disabled = []#["Puncher"] ##DEBUG
 
@@ -25,15 +25,15 @@ var wall_space = []
 
 var navigation = AStar.new()
 
-var points = []
-var aStar = AStar.new()
+var aStar_points = []
+#var aStar = AStar.new()
 
 var file_json
 var splitted_obj
 
 var size_of_segments = [Vector2(999999999,999999999), Vector2(0,0)]
 
-func generate(level_name,w, h):
+func generate(level_name,w, h, aStar):
 	width = w
 	height = h
 	map.resize(width * height)
@@ -76,8 +76,7 @@ func generate(level_name,w, h):
 			map.resize(width * height)
 			start = Vector2(randi() % width, randi() % height)
 			empty_spots = [{"pos": start}]
-			
-			
+
 	
 	for x in range(width):
 		for y in range(height):
@@ -85,45 +84,48 @@ func generate(level_name,w, h):
 			if segment and segment.piece_x + segment.piece_y == 0:
 				create_segment(segment.segment.name, Vector2(x, y))
 
+	for i in range(len(aStar_points)):
+		aStar.add_point(i,Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
+		
+	for i in range(len(aStar_points)):
+		for j in range(len(aStar_points)):
+			if aStar_points[i] + Vector2( 80,  0) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(-80,  0) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(  0, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(  0,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2( 80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(-80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(-80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2( 80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
 
-	print(size_of_segments)
+	var resss = []
 	
+	for i in range(100):
+		resss.append([])
+		for j in range(100):
+			resss[i].append("-")
+
+	for p in aStar_points:
+		var c = p - Vector2(40,40)
+		resss[int(c.x/80)][int(c.y/80)] = "X"
 	
-	var Dict = {}
+	for u in resss:
+		print(u)
 	
-	for i in range( len(points) ):
-		Dict[i+1] = points[i]
+
+	var a = aStar.get_closest_point(Vector3(0,0,0))
+	var b = aStar.get_closest_point(Vector3(4444440,4444440,0))
+	print(aStar.get_point_position(a))
+	print(aStar.get_point_position(b))
+
+	var d  =  aStar.get_point_path(a,b)
+	
+	for y in d:
+		var c = y - Vector3(40,40,0)
+		resss[int(c.x/80)][int(c.y/80)] = "O"
 		
-	for i in Dict.keys():
-		if !aStar.has_point(i):
-			var T = Dict[i]
-			aStar.add_point(i,Vector3(T.x, T.y, 0 ))
-		
-	
-	
-	for i in Dict.keys():
-		var T = Dict[i]
-		
-		for j in Dict.keys():
-			if T + Vector2(80,  0) == Dict[j] :aStar.connect_points(i,j)
-			if T + Vector2(-80,  0) == Dict[j] : aStar.connect_points(i,j)
-			if T + Vector2(  0,-80) == Dict[j] : aStar.connect_points(i,j)
-			if T + Vector2(  0, 80) == Dict[j] : aStar.connect_points(i,j)
-	
-	
-	
-	#print(len(aStar.get_points()), len(points))
-	#print(Dict)
-	
-	#for i in Dict.keys():		
-	#	for j in Dict.keys():
-	
-	print(aStar.get_point_path(1,1233))
-	
-	_update_navigation2D()
-	
-	
-	
+	for u in resss:
+		print(u)	
 
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
 	#dungeon_type.tileset]
@@ -455,7 +457,7 @@ func create_segment(segment, pos):
 	bottom.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.set_collision_layer_bit(3, true)
-	
+
 	
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
 	
@@ -505,14 +507,10 @@ func create_segment(segment, pos):
 
 
 
-	var R = seg.get_Astar_positions(seg.position)
-	for r in R:
-		points.append(r)
+	var segment_astar_points = seg.get_Astar_positions(seg.position)
 	
-	
-	
-	
-	
+	for point in segment_astar_points:
+		aStar_points.append(point)
 	
 	
 	if seg.has_node("Objects"):

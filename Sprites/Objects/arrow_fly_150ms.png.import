@@ -7,10 +7,7 @@ path="res://.import/arrow_fly_150ms.png-a1a71e2f95609e66f3b820079a2c5174.stex"
 [deps]
 
 source_file="res://Sprites/Objects/arrow_fly_150ms.png"
-source_md5="f6eed2b44251b276d60477f49adbdefb"
-
 dest_files=[ "res://.import/arrow_fly_150ms.png-a1a71e2f95609e66f3b820079a2c5174.stex" ]
-dest_md5="f1ea28cbcf56291a457b4494bd8113c5"
 
 [params]
 

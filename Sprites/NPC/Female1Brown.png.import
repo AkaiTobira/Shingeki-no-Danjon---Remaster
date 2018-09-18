@@ -7,10 +7,7 @@ path="res://.import/Female1Brown.png-3719715ac9319600606ea6b3b0dc08e6.stex"
 [deps]
 
 source_file="res://Sprites/NPC/Female1Brown.png"
-source_md5="b8882d55a4988ef224f021d5dc0b0f68"
-
 dest_files=[ "res://.import/Female1Brown.png-3719715ac9319600606ea6b3b0dc08e6.stex" ]
-dest_md5="8f811977c427a76d3dc1506f638c52da"
 
 [params]
 

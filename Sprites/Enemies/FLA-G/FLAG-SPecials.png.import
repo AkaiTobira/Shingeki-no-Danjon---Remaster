@@ -7,10 +7,7 @@ path="res://.import/FLAG-SPecials.png-b5260e180bc806166803b012f431691d.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/FLA-G/FLAG-SPecials.png"
-source_md5="58ce17f906b0740c6197176861cd3a27"
-
 dest_files=[ "res://.import/FLAG-SPecials.png-b5260e180bc806166803b012f431691d.stex" ]
-dest_md5="c4ff9f55a5824aed4c3be47ad7b45c9b"
 
 [params]
 

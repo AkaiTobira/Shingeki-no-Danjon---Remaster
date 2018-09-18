@@ -7,10 +7,7 @@ path="res://.import/MechanicPaybackTrigger.ogg-eeec467cf85fe620943e16a6f250c344.
 [deps]
 
 source_file="res://Samples/MechanicPaybackTrigger.ogg"
-source_md5="50aaff43812e8f6b0ab4762d055e45cb"
-
 dest_files=[ "res://.import/MechanicPaybackTrigger.ogg-eeec467cf85fe620943e16a6f250c344.oggstr" ]
-dest_md5="36d1dd073e2052fd3428969d42217c74"
 
 [params]
 

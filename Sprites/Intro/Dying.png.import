@@ -7,10 +7,7 @@ path="res://.import/Dying.png-2397eea13858cf163c5462bedd7c0986.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Dying.png"
-source_md5="9872d76b11a0b10be92daaf526850903"
-
 dest_files=[ "res://.import/Dying.png-2397eea13858cf163c5462bedd7c0986.stex" ]
-dest_md5="24df29fc6ad5319125ee9686b2ffc15c"
 
 [params]
 

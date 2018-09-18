@@ -7,10 +7,7 @@ path="res://.import/Genericboots.png-d0dd869fe84f31c68da408468c5fdb90.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Equipment/Genericboots.png"
-source_md5="ba668905191632f18444eabffef9202a"
-
 dest_files=[ "res://.import/Genericboots.png-d0dd869fe84f31c68da408468c5fdb90.stex" ]
-dest_md5="617f4f98993165682e310a9e76a6abb6"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/TabActive.png-e294e0db393b703920378b1877797b0a.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/TabActive.png"
-source_md5="ad3e46a2457a52e471db06915a505388"
-
 dest_files=[ "res://.import/TabActive.png-e294e0db393b703920378b1877797b0a.stex" ]
-dest_md5="8361c30a474abaea720d985bd3803d83"
 
 [params]
 

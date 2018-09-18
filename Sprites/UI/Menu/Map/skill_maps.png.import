@@ -7,10 +7,7 @@ path="res://.import/skill_maps.png-8599201a65b60507c18d092323936d82.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Map/skill_maps.png"
-source_md5="1128ccacc1b7bfa3ad41e2701247fede"
-
 dest_files=[ "res://.import/skill_maps.png-8599201a65b60507c18d092323936d82.stex" ]
-dest_md5="983455a4a6506b348482d80b1e4c7304"
 
 [params]
 

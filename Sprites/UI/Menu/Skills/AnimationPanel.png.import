@@ -7,10 +7,7 @@ path="res://.import/AnimationPanel.png-2e5cd96aabb65dc00dbbf582d099cc33.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Skills/AnimationPanel.png"
-source_md5="9a17e9ff69c8b9c5cfbce2500d817015"
-
 dest_files=[ "res://.import/AnimationPanel.png-2e5cd96aabb65dc00dbbf582d099cc33.stex" ]
-dest_md5="479afe7166f4bad2e7adb0aaee463f6a"
 
 [params]
 

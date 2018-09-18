@@ -7,10 +7,7 @@ path="res://.import/Shield1.png-daabe87e7051b045d309b38329df2043.stex"
 [deps]
 
 source_file="res://Sprites/Player/Right/Shields/Shield1.png"
-source_md5="b9521df524a0d9035ad3781287deb148"
-
 dest_files=[ "res://.import/Shield1.png-daabe87e7051b045d309b38329df2043.stex" ]
-dest_md5="1bf97c80c2b3c119d8dcf7ed577a84f4"
 
 [params]
 

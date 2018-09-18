@@ -51,6 +51,7 @@ var block_logic       = false
 var current_animation = ""
 
 onready var player = get_tree().get_root().find_node("Player", true, false)
+onready var Map    = get_tree().get_root().find_node("RandomMap",true,false)
 
 var ability_ready = [ false, false, false ]
 const TIME_TO_DISAPEARD = 4.5
@@ -91,6 +92,7 @@ func _skill():
 	ability_ready[ABILITY_TYPE["Skill"]] = false
 
 var time = 0.0
+var path = []
 
 func flash(delta):
 	
@@ -201,6 +203,67 @@ func _move(delta):
 			play_animation_if_not_playing(last_animation)
 			pass
 
+
+var path_lenght = -1
+
+func move_along_path(distance):
+	var last_point = position
+	for index in range(path.size()):
+		var distance_between_points = last_point.distance_to(Vector2(path[0].x,path[0].y))
+		# the position to move to falls between two points
+		if distance <= distance_between_points and distance >= 0.0:
+			var info = last_point.linear_interpolate(Vector2(path[0].x,path[0].y), distance / distance_between_points)
+			position = info
+			break
+		# the character reached the end of the path
+		elif distance < 0.0:
+			position = Vector2(path[0].x,path[0].y)
+#			set_process(false)
+			break
+		distance -= distance_between_points
+		last_point = Vector2(path[0].x,path[0].y)
+		path.remove(0)
+
+
+func  _move5(delta):
+	if len(path) == 0:
+		path = Map.nav.get_point_path(
+			Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
+			Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
+			)
+		path_lenght = len(path)
+		
+	else:
+		move_along_path(SPEED*delta)
+
+		#TO REFACTOR And Update
+		var move = Vector2(sign(player.position.x - position.x + acc.x), sign(player.position.y - position.y+ acc.y)).normalized() * SPEED * delta
+	
+		var x_distance = abs(position.x - player.position.x)
+		var y_distance = abs(position.y - player.position.y) 
+	
+		var axix_X = x_distance >= PERSONAL_SPACE
+		var axix_Y = y_distance >= PERSONAL_SPACE
+	
+		if( x_distance > y_distance and axix_X ):
+			if abs(move.x) != 0: 
+				sprites[0].flip_h = move.x > 0
+				play_animation_if_not_playing("Left")
+				last_animation = "Left"
+				direction = "Right" if move.x > 0 else "Left"
+		elif(x_distance < y_distance and axix_Y):
+			if move.y < 0: 
+				play_animation_if_not_playing("Down")
+				last_animation = "Down"				
+				direction = "Down"
+			elif move.y > 0: 
+				play_animation_if_not_playing("Up")
+				last_animation = "Up"			
+				direction = "Up"
+		else:
+			play_animation_if_not_playing(last_animation)
+
+	pass
 
 func calculate_move_new(delta):
 	var move = Vector2(sign(player.position.x - position.x + acc.x), sign(player.position.y - position.y+ acc.y)).normalized() * SPEED * delta

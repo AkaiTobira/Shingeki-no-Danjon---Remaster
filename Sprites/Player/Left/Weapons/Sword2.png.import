@@ -7,10 +7,7 @@ path="res://.import/Sword2.png-0e97ad9d92e90512e264eabf975da9b9.stex"
 [deps]
 
 source_file="res://Sprites/Player/Left/Weapons/Sword2.png"
-source_md5="c92183ef8542a56ee53612edd3c86982"
-
 dest_files=[ "res://.import/Sword2.png-0e97ad9d92e90512e264eabf975da9b9.stex" ]
-dest_md5="debd8e4ad460c3ff17c6cda23be24202"
 
 [params]
 

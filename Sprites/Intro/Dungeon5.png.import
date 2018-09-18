@@ -7,10 +7,7 @@ path="res://.import/Dungeon5.png-04126ca0b71c292a829fa3bd7777ccaf.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Dungeon5.png"
-source_md5="1b3444ff26ed1135322e9383dd7bb462"
-
 dest_files=[ "res://.import/Dungeon5.png-04126ca0b71c292a829fa3bd7777ccaf.stex" ]
-dest_md5="617a79c5f5dcd230fca5dc9dc753c9c7"
 
 [params]
 

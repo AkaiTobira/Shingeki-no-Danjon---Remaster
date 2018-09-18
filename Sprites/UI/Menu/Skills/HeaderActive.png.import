@@ -7,10 +7,7 @@ path="res://.import/HeaderActive.png-2e7bd9ab1d38776a9efb0cf09bfd28ed.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Skills/HeaderActive.png"
-source_md5="303b1b8b94fedfa2399137f5bc747673"
-
 dest_files=[ "res://.import/HeaderActive.png-2e7bd9ab1d38776a9efb0cf09bfd28ed.stex" ]
-dest_md5="af32dda8828ac504917ba86ed581f36d"
 
 [params]
 

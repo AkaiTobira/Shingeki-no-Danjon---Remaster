@@ -7,10 +7,7 @@ path="res://.import/LeftHeader.png-4314d0b55f8e74cd933f2510501ad9f7.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/LeftHeader.png"
-source_md5="2ee699ba3249b4270953e8d7e822fc4a"
-
 dest_files=[ "res://.import/LeftHeader.png-4314d0b55f8e74cd933f2510501ad9f7.stex" ]
-dest_md5="0a71afdefb36f340a1ef9d10bf7f8fec"
 
 [params]
 

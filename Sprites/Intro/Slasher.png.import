@@ -7,10 +7,7 @@ path="res://.import/Slasher.png-aa1f6c32309063c3d6d337d7d4642113.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Slasher.png"
-source_md5="1475bf811f6afd3c128690bf49aaa03a"
-
 dest_files=[ "res://.import/Slasher.png-aa1f6c32309063c3d6d337d7d4642113.stex" ]
-dest_md5="12ade45ba83f2d9a9ed4d784604d05ac"
 
 [params]
 

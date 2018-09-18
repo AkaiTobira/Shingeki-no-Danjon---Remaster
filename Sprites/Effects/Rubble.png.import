@@ -7,10 +7,7 @@ path="res://.import/Rubble.png-8837477a553680bbf154cda5cd9b06f1.stex"
 [deps]
 
 source_file="res://Sprites/Effects/Rubble.png"
-source_md5="31976dfca7a8448987422acd18264e1f"
-
 dest_files=[ "res://.import/Rubble.png-8837477a553680bbf154cda5cd9b06f1.stex" ]
-dest_md5="41214b451d430d50e4d87209dc05f8a1"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/WheelTrap.png-8cdb9120559ac05d706332ba1e014acd.stex"
 [deps]
 
 source_file="res://Sprites/Environment/WheelTrap.png"
-source_md5="aff84a56174956b867723bb065717f61"
-
 dest_files=[ "res://.import/WheelTrap.png-8cdb9120559ac05d706332ba1e014acd.stex" ]
-dest_md5="4e2e7b9f79105e86203aaf98f41f20ec"
 
 [params]
 

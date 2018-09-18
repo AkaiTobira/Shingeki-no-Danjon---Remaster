@@ -7,10 +7,7 @@ path="res://.import/Smuteczek.png-fff3f8045edf4a395a4325f87424ffaf.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Smuteczek.png"
-source_md5="3c75cc0fbcb5e46c9a67599308a11ec0"
-
 dest_files=[ "res://.import/Smuteczek.png-fff3f8045edf4a395a4325f87424ffaf.stex" ]
-dest_md5="befa4ec211d337e003836ade99604075"
 
 [params]
 

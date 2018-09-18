@@ -7,10 +7,7 @@ path="res://.import/Scrollbar.png-10541a66d801986dc6fbb2047e497cdb.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Skills/Scrollbar.png"
-source_md5="97d46af5f434b14e5e23bdf5ed4e85d8"
-
 dest_files=[ "res://.import/Scrollbar.png-10541a66d801986dc6fbb2047e497cdb.stex" ]
-dest_md5="b7eeec1f095465d720fab7f1124e3ef7"
 
 [params]
 

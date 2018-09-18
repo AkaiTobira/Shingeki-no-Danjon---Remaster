@@ -7,10 +7,7 @@ path="res://.import/CrushingWalls_Up.png-356b31bfde83b26d9260c4fee5c797c9.stex"
 [deps]
 
 source_file="res://Sprites/Objects/CrushingWalls_Up.png"
-source_md5="451f776cd4f732a95e387eebd72652cb"
-
 dest_files=[ "res://.import/CrushingWalls_Up.png-356b31bfde83b26d9260c4fee5c797c9.stex" ]
-dest_md5="0492fbbc2af2d22d42df467e0c2866e6"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/ElementIcons.png-6766a2f6ab52a339293c1eaf7a25fa2d.stex"
 [deps]
 
 source_file="res://Sprites/UI/HUD/ElementIcons.png"
-source_md5="1bc47d193211aaeb41c16bc0536a50d6"
-
 dest_files=[ "res://.import/ElementIcons.png-6766a2f6ab52a339293c1eaf7a25fa2d.stex" ]
-dest_md5="69b946a0ff2dcf2fc4a653af24417d3c"
 
 [params]
 

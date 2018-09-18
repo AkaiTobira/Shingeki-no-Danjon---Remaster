@@ -7,10 +7,7 @@ path="res://.import/3-gears-hi.png-f594b2af724caf83ec073e7e3bad7ed1.stex"
 [deps]
 
 source_file="res://Sprites/Player/Front/3-gears-hi.png"
-source_md5="a0ac493a44c09f1e0d1eea4eec89e070"
-
 dest_files=[ "res://.import/3-gears-hi.png-f594b2af724caf83ec073e7e3bad7ed1.stex" ]
-dest_md5="6344b2feb799b087e2bb6c06d747d7df"
 
 [params]
 

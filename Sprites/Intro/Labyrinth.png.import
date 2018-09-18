@@ -7,10 +7,7 @@ path="res://.import/Labyrinth.png-c1b5b7bf16eb50857795f5827b169bce.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Labyrinth.png"
-source_md5="65a32bacb8470243ae5e7fa73246056d"
-
 dest_files=[ "res://.import/Labyrinth.png-c1b5b7bf16eb50857795f5827b169bce.stex" ]
-dest_md5="fd1112950eb97f193fc076a65143f886"
 
 [params]
 

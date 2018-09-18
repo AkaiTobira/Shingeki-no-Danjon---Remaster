@@ -7,10 +7,7 @@ path="res://.import/Male1Scar.png-2518dc21ba7ac070ccabce00608fea26.stex"
 [deps]
 
 source_file="res://Sprites/NPC/Male1Scar.png"
-source_md5="019a2e041a9338cbb424880600c8c498"
-
 dest_files=[ "res://.import/Male1Scar.png-2518dc21ba7ac070ccabce00608fea26.stex" ]
-dest_md5="0f27dbe9ae76997906c2a4df9bfb4770"
 
 [params]
 

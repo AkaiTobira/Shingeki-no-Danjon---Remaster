@@ -7,10 +7,7 @@ path="res://.import/SuperStrength.png-09e47d2867d74e82a04c9614e9193462.stex"
 [deps]
 
 source_file="res://Sprites/Skills/SuperStrength.png"
-source_md5="5110e805d1c0a8dc906bed3fcf95cd02"
-
 dest_files=[ "res://.import/SuperStrength.png-09e47d2867d74e82a04c9614e9193462.stex" ]
-dest_md5="7eb5239be0e45585e05c0de81f4639c8"
 
 [params]
 

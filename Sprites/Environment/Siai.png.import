@@ -7,10 +7,7 @@ path="res://.import/Siai.png-454c57ccc4406c9748e84d1d71c0e170.stex"
 [deps]
 
 source_file="res://Sprites/Environment/Siai.png"
-source_md5="10d905265b25a0b6822b324039d4948f"
-
 dest_files=[ "res://.import/Siai.png-454c57ccc4406c9748e84d1d71c0e170.stex" ]
-dest_md5="5f24eee82d7fee94275e238e634e62df"
 
 [params]
 

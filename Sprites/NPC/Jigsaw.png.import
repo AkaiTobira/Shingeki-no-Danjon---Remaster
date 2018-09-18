@@ -7,10 +7,7 @@ path="res://.import/Jigsaw.png-1c1ff39d33ea91121e07c04df34180bd.stex"
 [deps]
 
 source_file="res://Sprites/NPC/Jigsaw.png"
-source_md5="30f82fdf6c0ff65fd41dc68e436cca22"
-
 dest_files=[ "res://.import/Jigsaw.png-1c1ff39d33ea91121e07c04df34180bd.stex" ]
-dest_md5="32299a2124a772d5db56c46ca0d16c02"
 
 [params]
 

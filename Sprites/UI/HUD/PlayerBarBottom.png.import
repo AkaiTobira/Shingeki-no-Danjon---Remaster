@@ -7,10 +7,7 @@ path="res://.import/PlayerBarBottom.png-e1a7dd8061794ea8754b68447c6986a2.stex"
 [deps]
 
 source_file="res://Sprites/UI/HUD/PlayerBarBottom.png"
-source_md5="d3110f5d7a23a0e2b6727fc6fe904867"
-
 dest_files=[ "res://.import/PlayerBarBottom.png-e1a7dd8061794ea8754b68447c6986a2.stex" ]
-dest_md5="45d815712beab1b75f48c0cf6a515d2c"
 
 [params]
 

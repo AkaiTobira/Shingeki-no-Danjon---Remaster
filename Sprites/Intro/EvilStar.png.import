@@ -7,10 +7,7 @@ path="res://.import/EvilStar.png-70def82347e4482cfbe03482563c5192.stex"
 [deps]
 
 source_file="res://Sprites/Intro/EvilStar.png"
-source_md5="f9703f303c0abbaaa63a6e930adc1afe"
-
 dest_files=[ "res://.import/EvilStar.png-70def82347e4482cfbe03482563c5192.stex" ]
-dest_md5="5c877e4a4c7ac57f8bb04efceacc53b4"
 
 [params]
 

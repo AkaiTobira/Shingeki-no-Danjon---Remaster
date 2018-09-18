@@ -7,10 +7,7 @@ path="res://.import/RockPunch.png-f78b3fd1a285af0521491669cdd6611d.stex"
 [deps]
 
 source_file="res://Sprites/Skills/HD/RockPunch.png"
-source_md5="7fe0c696a0f47063039ad433b5e90465"
-
 dest_files=[ "res://.import/RockPunch.png-f78b3fd1a285af0521491669cdd6611d.stex" ]
-dest_md5="c84ba17d1faa7dced2742b3e4e88e807"
 
 [params]
 

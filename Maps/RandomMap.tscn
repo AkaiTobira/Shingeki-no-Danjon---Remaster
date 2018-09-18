@@ -13,6 +13,8 @@ var my_seed
 
 var dungeon_name = \"Mechanic\"
 
+var nav = AStar.new()
+
 func initialize():
 	Res.play_music(\"LowerWorkshop\")
 	
@@ -36,7 +38,10 @@ func initialize():
 	elif DungeonState.current_floor == 3:
 		seed(2946992650)
 	
-	$Generator.generate(dungeon_name,10, 10)"
+	$Generator.generate(dungeon_name,10, 10,nav)
+	
+	print(nav.get_points())
+	"
 _sections_unfolded = [ "Resource" ]
 
 [sub_resource type="NavigationPolygon" id=2]

@@ -7,10 +7,7 @@ path="res://.import/Chainsaw.ogg-bf609f1dd741fec29797feb6c413857a.oggstr"
 [deps]
 
 source_file="res://Samples/Chainsaw.ogg"
-source_md5="424a8930016ceae542eb94a7ca84bb69"
-
 dest_files=[ "res://.import/Chainsaw.ogg-bf609f1dd741fec29797feb6c413857a.oggstr" ]
-dest_md5="b7ec357a1a0dd982b813b55a8f537ff1"
 
 [params]
 

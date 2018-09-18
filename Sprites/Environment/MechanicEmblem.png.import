@@ -7,10 +7,7 @@ path="res://.import/MechanicEmblem.png-411c0bfaa0a068176ceefed7b5430788.stex"
 [deps]
 
 source_file="res://Sprites/Environment/MechanicEmblem.png"
-source_md5="6cafcf9edd8773b01381250e7cb1ffb0"
-
 dest_files=[ "res://.import/MechanicEmblem.png-411c0bfaa0a068176ceefed7b5430788.stex" ]
-dest_md5="af299fb11a227296e9bbf9f118ab989b"
 
 [params]
 

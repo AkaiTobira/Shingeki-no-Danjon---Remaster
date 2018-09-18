@@ -7,10 +7,7 @@ path="res://.import/VerticalPipe.png-1a577f8f614ca45f61322248d74d0842.stex"
 [deps]
 
 source_file="res://Sprites/Environment/VerticalPipe.png"
-source_md5="4430370b923208299592089801af0348"
-
 dest_files=[ "res://.import/VerticalPipe.png-1a577f8f614ca45f61322248d74d0842.stex" ]
-dest_md5="12db280804175a4dd77de61849e04e96"
 
 [params]
 

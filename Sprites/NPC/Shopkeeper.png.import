@@ -7,10 +7,7 @@ path="res://.import/Shopkeeper.png-3e82f401cd34c72df081a4aaa97c44a0.stex"
 [deps]
 
 source_file="res://Sprites/NPC/Shopkeeper.png"
-source_md5="c9c7a0173f87113fc91f9d84768e033e"
-
 dest_files=[ "res://.import/Shopkeeper.png-3e82f401cd34c72df081a4aaa97c44a0.stex" ]
-dest_md5="8f0e5cd14fe1fbb4bcb8a205ecba675f"
 
 [params]
 

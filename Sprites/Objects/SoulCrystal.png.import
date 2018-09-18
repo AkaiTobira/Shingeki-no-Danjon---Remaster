@@ -7,10 +7,7 @@ path="res://.import/SoulCrystal.png-8e9d3c137c45ea34b86843cc29e4a6d7.stex"
 [deps]
 
 source_file="res://Sprites/Objects/SoulCrystal.png"
-source_md5="8a940951593bcc82b745a9ede7240662"
-
 dest_files=[ "res://.import/SoulCrystal.png-8e9d3c137c45ea34b86843cc29e4a6d7.stex" ]
-dest_md5="78589a020d296bc60e7d5608b99f4929"
 
 [params]
 

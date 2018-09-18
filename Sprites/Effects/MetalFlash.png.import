@@ -7,10 +7,7 @@ path="res://.import/MetalFlash.png-0dda16dd86b4f79a7bcd05cbf4863c67.stex"
 [deps]
 
 source_file="res://Sprites/Effects/MetalFlash.png"
-source_md5="0aadb387a9399f7f4c2c12cce6ed8829"
-
 dest_files=[ "res://.import/MetalFlash.png-0dda16dd86b4f79a7bcd05cbf4863c67.stex" ]
-dest_md5="021cd841486a7a1580e2fdb473920952"
 
 [params]
 

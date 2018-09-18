@@ -7,10 +7,7 @@ path="res://.import/WaterBubble.png-65cc19aa396c1d16109ffb9e12fbbd32.stex"
 [deps]
 
 source_file="res://Sprites/Skills/HD/WaterBubble.png"
-source_md5="d7b735c7aa36a9d00e376085bfbaa16a"
-
 dest_files=[ "res://.import/WaterBubble.png-65cc19aa396c1d16109ffb9e12fbbd32.stex" ]
-dest_md5="00abf64334b68af382c9e03dd47c90b7"
 
 [params]
 

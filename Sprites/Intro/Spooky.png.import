@@ -7,10 +7,7 @@ path="res://.import/Spooky.png-5afa61815d9446d60a7c7b7aa582d08e.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Spooky.png"
-source_md5="089202301226cd0d8c45adcf55020698"
-
 dest_files=[ "res://.import/Spooky.png-5afa61815d9446d60a7c7b7aa582d08e.stex" ]
-dest_md5="7d5174cf278de37ab9eab47c796af1c6"
 
 [params]
 

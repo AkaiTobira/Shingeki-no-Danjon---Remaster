@@ -7,10 +7,7 @@ path="res://.import/IconMap.png-cde632e9e1ae2532fb0caa66a02b5bb6.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/IconMap.png"
-source_md5="4cdadf821c76393dbb84099699d8a01d"
-
 dest_files=[ "res://.import/IconMap.png-cde632e9e1ae2532fb0caa66a02b5bb6.stex" ]
-dest_md5="425e8c0938c99c86366a6753a205618c"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/IconSkillsInactive.png-5f9c2652b010911ae3f9f1f83254c5fa.stex
 [deps]
 
 source_file="res://Sprites/UI/Menu/IconSkillsInactive.png"
-source_md5="5667e3e56ec92c5de2c4f6854bda9ed3"
-
 dest_files=[ "res://.import/IconSkillsInactive.png-5f9c2652b010911ae3f9f1f83254c5fa.stex" ]
-dest_md5="b73f2402bbe4d5cece1d302a7343f191"
 
 [params]
 
