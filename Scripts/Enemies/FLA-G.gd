@@ -1,48 +1,5 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-#const HP  = 150
-#const XP  = 150
-#const ARM = 0.4
-#
-#const BASIC_DAMAGE         = 12
-#const SPECIAL_DAMAGE       = 50
-#
-#const MAGIC_PROBABILITY    = 750
-#const SPECIAL_PROBABILITY  = 500
-#var ATACK_SPEED          = 250
-#
-#var SPEED                = 120
-#
-#const KNOCKBACK_ATACK      = 5 
-#
-#const FOLLOW_RANGE         = 400
-#const PERSONAL_SPACE       = 120
-#const TIME_OF_LIYUGN_CORPS = 3
-#
-#var MAT = load("res://Resources/Materials/ColorShader.tres")
-#
-#var player
-#var direction       = "Down"
-#var dead_time       = 0
-#
-#var last_animation = ""
-#var can_use_special = true
-#var dead            = false
-#
-#var follow_player   = false
-#var in_action       = false
-#var special_ready   = false
-#var atack_ready     = true
-#var suesided        = false
-#var in_special      = false
-#var in_special_state = false
-#var magic_ready     = false 
-#var special_countown = 0.0
-#
-#var special_destination = Vector2(0,0)
-#
-#
-#onready var sprites = $Sprites.get_children()
 
 func _ready():
 	._ready()
@@ -53,27 +10,6 @@ func _ready():
 	$"AnimationPlayer".play("Idle")
 	MAT.set_shader_param("ucolor", Color(0.1, 0.4, 1))
 
-func preparation(delta):
-	if preparing :
-		flash_time += delta
-		
-		kolejna_przypadkowa_zmienna_do_jakiegos_pomyslu += 0.2
-		if int(kolejna_przypadkowa_zmienna_do_jakiegos_pomyslu)%4 == 0:
-			for i in range(sprites.size()):
-				sprites[i].modulate = Color(10,10,10,10)
-		else:
-			for i in range(sprites.size()):
-				sprites[i].modulate = Color(1,1,1,1)
-		
-		if flash_time > 2:
-			for i in range(sprites.size()):
-				sprites[i].modulate = Color(1,1,1,1)
-			flash_time = 0
-			preparing = false
-			if special_ready and can_use_special:
-				call_special_atack()
-			else:
-				call_normal_atack()
 
 func _physics_process(delta):
 	._physics_process(delta)

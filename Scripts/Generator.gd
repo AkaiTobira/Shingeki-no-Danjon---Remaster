@@ -9,7 +9,7 @@ const DIRECTIONS = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)
 const DOFFSET = [Vector2(1, 0), Vector2(0, 1)]
 const OPPOSITE = [2, 3, 0, 1]
 
-const MIN_MAP_SIZE = 2
+const MIN_MAP_SIZE = 25
 
 var disabled = []#["Puncher"] ##DEBUG
 
@@ -84,6 +84,7 @@ func generate(level_name,w, h, aStar):
 			if segment and segment.piece_x + segment.piece_y == 0:
 				create_segment(segment.segment.name, Vector2(x, y))
 
+
 	for i in range(len(aStar_points)):
 		aStar.add_point(i,Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
 		
@@ -98,37 +99,24 @@ func generate(level_name,w, h, aStar):
 			if aStar_points[i] + Vector2(-80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
 			if aStar_points[i] + Vector2( 80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
 
-	var resss = []
+#	var resss = []
+#
+#	for i in range(100):
+#		resss.append([])
+#		for j in range(100):
+#			resss[i].append("-")
+#
+#	for p in aStar_points:
+#		var c = p - Vector2(40,40)
+#		resss[int(c.x/80)][int(c.y/80)] = "X"
+#
+#	for u in resss:
+#		print(u)
 	
-	for i in range(100):
-		resss.append([])
-		for j in range(100):
-			resss[i].append("-")
 
-	for p in aStar_points:
-		var c = p - Vector2(40,40)
-		resss[int(c.x/80)][int(c.y/80)] = "X"
-	
-	for u in resss:
-		print(u)
-	
-
-	var a = aStar.get_closest_point(Vector3(0,0,0))
-	var b = aStar.get_closest_point(Vector3(4444440,4444440,0))
-	print(aStar.get_point_position(a))
-	print(aStar.get_point_position(b))
-
-	var d  =  aStar.get_point_path(a,b)
-	
-	for y in d:
-		var c = y - Vector3(40,40,0)
-		resss[int(c.x/80)][int(c.y/80)] = "O"
-		
-	for u in resss:
-		print(u)	
 
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
-	#dungeon_type.tileset]
+
 	create_stairs()
 
 	var tileset_dict = {}
@@ -185,72 +173,7 @@ func generate(level_name,w, h, aStar):
 						bottom.set_cellv(cell + Vector2(t, 1 ), tileset_dict["Wall" + str(new_tile+t) + "Down"])
 
 
-	
-#	place_environment()
-#	place_containers()
-#	place_breakables()
-#	place_enemies()
-#	for i in range(10): place_on_floor("NPC")
-#	for i in range(100):
-#		var instance = place_on_floor("NPC")
-#		instance.id = 1
 	queue_free()
-
-
-func update_navigation(node):
-#	if node.has_node("Collision"):
-#		var new_polygon = PoolVector2Array()
-#		var col_polygon = node.find_node("CollisionPolygon2D", true, false)
-#		print(col_polygon.polygon)
-#
-#		for vector in col_polygon.polygon:
-#			print(vector + node.position)
-#			new_polygon.append(vector + node.position)# +get_tree().get_root().find_node("KinematicBody2D", true, false).position )
-#
-#		var navi_polygon = get_tree().get_root().find_node("NavigationPolygonInstance", true, false).get_navigation_polygon()
-#		print( navi_polygon )
-#		navi_polygon.add_outline(new_polygon)
-#		navi_polygon.make_polygons_from_outlines()
-#
-#		get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = false
-#		get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = true
-	pass #NIE WIEM >>>>
-	
-	
-
-func _update_navigation2D():
-	pass
-#	addNavigationPos(size_of_segments[0].x,size_of_segments[0].y,size_of_segments[1].x,size_of_segments[1].y)
-#	var new_polygon =  PoolVector2Array()
-#
-#	new_polygon.append(size_of_segments[0])
-#	new_polygon.append(Vector2(size_of_segments[0].x, size_of_segments[1].y))
-#	new_polygon.append(size_of_segments[1])
-#	new_polygon.append(Vector2(size_of_segments[1].x, size_of_segments[0].y))
-#
-#	print( new_polygon )
-#
-#	print( get_tree().get_root().find_node("NavigationPolygonInstance", true, false ) )
-#	get_tree().get_root().find_node("NavigationPolygonInstance", true, false).set_vertices(new_polygon)
-#
-#
-#
-#	get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = false
-#	get_tree().get_root().find_node("NavigationPolygonInstance", true, false).enabled = true
-
-
-func addNavigationPos(x0, y0, x1, y1):
-	var navInst = NavigationPolygonInstance.new()
-	var navPoly = NavigationPolygon.new()
-	navInst.set_navigation_polygon(navPoly)
-	navPoly.add_outline(Vector2Array([
-	Vector2(x0,y1),
-	Vector2(x1,y1),
-	Vector2(x1,y0),
-	Vector2(x0,y0)]))
-	navPoly.make_polygons_from_outlines()
-	get_tree().get_root().find_node("Navigation2D", true, false).add_child(navInst)
-
 
 func create_stairs():
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
@@ -289,34 +212,6 @@ func create_stairs():
 	dungeon.add_child(stairs)
 
 
-#
-#func place_breakables():
-#	var breakables = dungeon_type.breakables
-#
-#	var nil = 0
-#
-#	var chances = {}
-#	for item in dungeon_type.breakable_contents:
-#		chances[item[0]] = item[1]
-#		nil += 1000 - item[1]
-#
-#	chances[-1] = nil
-#
-#	for i in range(dungeon_type.breakable_count):
-#		var type = breakables[randi() % breakables.size()]
-#		var instance = place_on_floor("Objects/" + type)
-#		if instance: instance.item = int(Res.weighted_random(chances))
-#		else: break
-
-#func place_containers():
-#	var containers = dungeon_type.containers
-#
-#	for i in range(dungeon_type.container_count):
-#		var type = containers[randi() % containers.size()]
-#		var instance = place_on_floor("Objects/" + type)
-#		if instance: instance.item = int(Res.weighted_random(dungeon_type.container_contents))
-#		else: break
-
 func place_for_test(what):
 	if NewToTest == "": return
 	
@@ -324,48 +219,6 @@ func place_for_test(what):
 	ug_inst.position = Res.game.player.position + Vector2(200,200)
 	dungeon.get_parent().add_child(ug_inst)
 
-#func place_enemies():
-#	var enemies = dungeon_type.enemies
-#
-#	for i in range(dungeon_type.enemy_count):
-#		var type = enemies[randi() % enemies.size()]
-#		if !place_on_floor("Enemies/" + type): break
-#
-#	if NewToTest: place_for_test(Res.get_node(NewToTest))
-
-#func place_on_floor(object):
-#	if DungeonState.current_floor < 2 and ["Enemies/FLA-B", "Enemies/FLA-G", "Enemies/FLA-S"].has(object): return true
-#	if DungeonState.current_floor < 3 and ["Enemies/PuncherMKII"].has(object): return true ##ULTRAMEGAKURESUPEREXTRAHACK
-#	for dis in disabled: if object.find(dis) > -1: return ##DEBUG
-#	if floor_space.empty(): return null
-#
-#	var instance = Res.get_node(object).instance()
-#	var k = floor_space.keys()[randi() % floor_space.keys().size()]
-#
-#	instance.position = k + Vector2(40,40)
-#	floor_space.erase(k)
-#	dungeon.get_parent().add_child(instance)
-#
-#	return instance
-
-#func place_treasure_into_maze(what, how_many):
-#	for nmb in range(how_many):
-#		if floor_space.empty(): break
-#
-#		var ug_inst = what.instance()
-#		var i = randi()%floor_space.size()
-#		var temp = floor_space[i]+ Vector2(40,40)
-#		floor_space.remove(i)
-#
-#		ug_inst.position = temp
-#		ug_inst.item = 17
-#
-#		if what == Res.get_node("Objects/Chest"):
-#			ug_inst.item = randi()%4 + 28
-#
-#		dungeon.get_parent().add_child(ug_inst)
-#		if (what == Res.get_node("Objects/Barrel") and randi()%6 == 0) : ##hack ;_;
-#			ug_inst.item = randi()%2
 
 func get_possible_segments(spot):
 	var pos = spot.pos
@@ -461,16 +314,6 @@ func create_segment(segment, pos):
 	
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
 	
-	if seg.position.x < size_of_segments[0].x :
-		size_of_segments[0].x = seg.position.x
-	if seg.position.x > size_of_segments[1].x :
-		size_of_segments[1].x = seg.position.x
-	if seg.position.y < size_of_segments[0].y :
-		size_of_segments[0].y = seg.position.y
-	if seg.position.y > size_of_segments[1].y :
-		size_of_segments[1].y = seg.position.y
-	
- 	
 	var no_objects = get_segment_data(pos).segment.has("no_objects")
 	
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
@@ -507,10 +350,10 @@ func create_segment(segment, pos):
 
 
 
-	var segment_astar_points = seg.get_Astar_positions(seg.position)
+	var segment_astar_points = seg.get_Astar_positions()
 	
 	for point in segment_astar_points:
-		aStar_points.append(point)
+		aStar_points.append(point+seg.position)
 	
 	
 	if seg.has_node("Objects"):
@@ -518,9 +361,6 @@ func create_segment(segment, pos):
 			var node = seg.get_node("Objects").get_child(0)
 			var npos = node.global_position
 			seg.get_node("Objects").remove_child(node) ##może nie działać dla kilku
-			
-			update_navigation( node )
-			
 			dungeon.get_parent().add_child(node)
 			node.global_position = npos
 	

@@ -4,6 +4,7 @@ func _ready():
 	._ready()
 	drops.append([3,  500 ])
 	drops.append([19, 500 ])
+	#MAT.set_shader_param("ucolor", Color(1, 1, 1))
 
 func _process(delta):
 	
@@ -18,7 +19,7 @@ func _process(delta):
 	if current_state == "Follow" and !block_logic:
 		prepeare_ability()
 		
-		_move(delta)
+		_move5(delta)
 
 		if current_atack == "Wait":
 			if is_close_enought():
@@ -49,8 +50,4 @@ func process_atacks():
 
 func _on_Radar_body_entered(body):
 	if body.name == "Player":
-		follow_player = true;
-		player = body
-		
 		current_state = "Follow"
-

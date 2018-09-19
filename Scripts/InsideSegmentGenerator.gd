@@ -510,14 +510,14 @@ func print_segment_structure():
 		print(tab[i])
 	print("\n")
 
-func get_Astar_positions( pos ):
+func get_Astar_positions():
 
 	var special_points = []
 		
 	for i in range(G.end.x+2):
 		for j in range(G.end.y+2):
-			if tab[i][j] >= TileState.free and tab[i][j] <= TileState.destroyableObject:
-				special_points.append(Vector2(40 + 80*i, 40 +80*j) + pos)
+			if tab[i][j] >= TileState.free and tab[i][j] <= TileState.containerObject:
+				special_points.append(Vector2(40 + 80*i, 40 +80*j))
 
 	return special_points
 

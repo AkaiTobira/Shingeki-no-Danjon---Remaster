@@ -22,7 +22,6 @@ var last_atack_type = 0
 func _load_stats(file, kind):
 	enemy_name = kind
 
-	
 	max_health     = file["HP"]
 	health         = file["HP"]
 	movespeed      = file["Speed"]
@@ -128,9 +127,6 @@ func is_close_enought():
 		return false
 	return true
 	
-func calculate_player_position():
-	pass
-	
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("players"):
 	#	print( damage_type[ABILITY_TYPE[current_atack]] )
@@ -139,73 +135,6 @@ func _on_attack_hit(collider):
 			knockbacks[ABILITY_TYPE[current_atack]],
 			damage_type[last_atack_type] )
 
-var damage = 10
-var knockback = 0
-var armour = 0
-
-var is_avoiding = false
-var avoid_distance = Vector2(0,0)
-var avoid_stack    = 1
-var acc = Vector2(0,0)
-var randomDirection = randi()%2
-
-func _move(delta):
-	#	if current_state == "Dead" : return
-	
-		var move = Vector2(sign(player.position.x - position.x), sign(player.position.y - position.y)).normalized() * SPEED * delta
-
-		var x_distance = abs(position.x - player.position.x)
-		var y_distance = abs(position.y - player.position.y) 
-
-		var axix_X = x_distance >= PERSONAL_SPACE
-		var axix_Y = y_distance >= PERSONAL_SPACE
-
-		if( x_distance < move.x*SPEED ): move.x = x_distance/SPEED
-		if( y_distance < move.y*SPEED ): move.y = y_distance/SPEED
-
-		if (axix_X or axix_Y):
-			move_and_slide(move * SPEED )#+ test_move*SPEED)
-			if( position == prevPos ):
-
-				var temp
-				if (  abs(move.x) > abs(move.y) ):
-					temp = move.x
-				else:
-					temp = move.y
-
-				test_move = Vector2( temp *SPEED,temp*SPEED )  ;
-
-				if( test_move(Transform2D(), test_move*SPEED )):
-					test_move = Vector2(0,0)
-
-					pass
-				#print(position, move*SPEED*delta)
-			else:
-				prevPos = position
-
-
-		if( x_distance > y_distance and axix_X ):
-			if abs(move.x) != 0: 
-				sprites[0].flip_h = move.x > 0
-				play_animation_if_not_playing("Left")
-				last_animation = "Left"
-				direction = "Right" if move.x > 0 else "Left"
-		elif(x_distance < y_distance and axix_Y):
-			if move.y < 0: 
-				play_animation_if_not_playing("Down")
-				last_animation = "Down"				
-				direction = "Down"
-			elif move.y > 0: 
-				play_animation_if_not_playing("Up")
-				last_animation = "Up"			
-				direction = "Up"
-		else:
-			play_animation_if_not_playing(last_animation)
-			pass
-
-
-var path_lenght = -1
-
 func move_along_path(distance):
 	var last_point = position
 	for index in range(path.size()):
@@ -213,7 +142,7 @@ func move_along_path(distance):
 		# the position to move to falls between two points
 		if distance <= distance_between_points and distance >= 0.0:
 			var info = last_point.linear_interpolate(Vector2(path[0].x,path[0].y), distance / distance_between_points)
-			position = info
+			move_and_slide((info-position)*movespeed)
 			break
 		# the character reached the end of the path
 		elif distance < 0.0:
@@ -224,129 +153,45 @@ func move_along_path(distance):
 		last_point = Vector2(path[0].x,path[0].y)
 		path.remove(0)
 
-
 func  _move5(delta):
-	if len(path) == 0:
-		path = Map.nav.get_point_path(
-			Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
-			Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
-			)
-		path_lenght = len(path)
-		
-	else:
-		move_along_path(SPEED*delta)
+	path = Map.nav.get_point_path(
+		Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
+		Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
+		)
+	if len(path) != 0 : path.remove(0)
+
+	move_along_path(movespeed*delta)
 
 		#TO REFACTOR And Update
-		var move = Vector2(sign(player.position.x - position.x + acc.x), sign(player.position.y - position.y+ acc.y)).normalized() * SPEED * delta
+	var move = Vector2(sign(player.position.x - position.x), sign(player.position.y - position.y)).normalized() * movespeed * delta
 	
-		var x_distance = abs(position.x - player.position.x)
-		var y_distance = abs(position.y - player.position.y) 
-	
-		var axix_X = x_distance >= PERSONAL_SPACE
-		var axix_Y = y_distance >= PERSONAL_SPACE
-	
-		if( x_distance > y_distance and axix_X ):
-			if abs(move.x) != 0: 
-				sprites[0].flip_h = move.x > 0
-				play_animation_if_not_playing("Left")
-				last_animation = "Left"
-				direction = "Right" if move.x > 0 else "Left"
-		elif(x_distance < y_distance and axix_Y):
-			if move.y < 0: 
-				play_animation_if_not_playing("Down")
-				last_animation = "Down"				
-				direction = "Down"
-			elif move.y > 0: 
-				play_animation_if_not_playing("Up")
-				last_animation = "Up"			
-				direction = "Up"
-		else:
-			play_animation_if_not_playing(last_animation)
-
-	pass
-
-func calculate_move_new(delta):
-	var move = Vector2(sign(player.position.x - position.x + acc.x), sign(player.position.y - position.y+ acc.y)).normalized() * SPEED * delta
-
 	var x_distance = abs(position.x - player.position.x)
 	var y_distance = abs(position.y - player.position.y) 
-
-	var axix_X = x_distance >= PERSONAL_SPACE
-	var axix_Y = y_distance >= PERSONAL_SPACE
-
-	if( x_distance < move.x*SPEED ): move.x = x_distance/SPEED
-	if( y_distance < move.y*SPEED ): move.y = y_distance/SPEED
-
+	
+	var axix_X = x_distance >= 80
+	var axix_Y = y_distance >= 80
+	
 	if( x_distance > y_distance and axix_X ):
 		if abs(move.x) != 0: 
 			sprites[0].flip_h = move.x > 0
 			play_animation_if_not_playing("Left")
-			last_animation = "Left"
+			current_animation = "Left"
 			direction = "Right" if move.x > 0 else "Left"
 	elif(x_distance < y_distance and axix_Y):
 		if move.y < 0: 
 			play_animation_if_not_playing("Down")
-			last_animation = "Down"				
+			current_animation = "Down"				
 			direction = "Down"
 		elif move.y > 0: 
 			play_animation_if_not_playing("Up")
-			last_animation = "Up"			
+			current_animation = "Up"			
 			direction = "Up"
 	else:
-		play_animation_if_not_playing(last_animation)
+		play_animation_if_not_playing(current_animation)
 
-	if test_move( get_transform(), move  ):
-
-		match direction:
-			"Up":
-				if( ! test_move( get_transform(), Vector2( 80 , 0) ) ) and !randomDirection: #and  abs(position.x+120 + 90*acc.x/100)  - abs(player.position.x)  <= 0  :
-					acc.x += 1
-
-				if( ! test_move( get_transform(), Vector2( -80,  0) ) ) and randomDirection: #and  abs(position.x+120-90*acc.x/100) - abs(player.position.x)  >= 0 :
-					acc.x += -1
-
-			"Down":		
-
-				if( ! test_move( get_transform(), Vector2(  80 , 0) ) ) and !randomDirection:# and  abs(position.x+120-90*acc.x/100)  - abs(player.position.x)  <= 0  :
-					acc.x += 1
-
-				if( ! test_move( get_transform(), Vector2( -80,  0) ) ) and randomDirection:# and  abs(position.x+120-90*acc.x/100) - abs(player.position.x)  >= 0 :
-					acc.x += -1
-
-			"Left" :
-
-				if( ! test_move( get_transform(), Vector2(  0 , 80) ) )and !randomDirection:# and  abs(position.y+120 + 80*acc.y/100)  - abs(player.position.y)  <= 0  :
-					acc.y += 1
-
-				if( ! test_move( get_transform(), Vector2( 0,  -80) ) ) and randomDirection:# and  abs(position.y+120 - 80*acc.y/100) - abs(player.position.y)  >= 0 :
-					acc.y += -1
-
-
-			"Right" :
-
-				if( ! test_move( get_transform(), Vector2(  0 , 80) ) ) and !randomDirection :#and  abs(position.y+120)  - abs(player.position.y)  <= 0  :
-					acc.y += 1
-
-				if( ! test_move( get_transform(), Vector2( 0,  -80) ) ) and randomDirection :#and  abs(position.y+120) - abs(player.position.y)  >= 0 :
-					acc.y += -1
-
-		var repairer = Vector2(0,0)
-
-		if direction == "Left": repairer.x -=1
-		if direction == "Right": repairer.x +=1
-		if direction == "Up": repairer.y +=1
-		if direction == "Down": repairer.y -=1
-
-		move_and_slide((acc + repairer).normalized() *delta * SPEED * SPEED   )
-
-	else :
-		move_and_slide( (move + acc.normalized() *delta * SPEED) * SPEED )
-		randomDirection = randi()%2
-		acc = Vector2(0,0)
+		pass
 
 func _on_damage():
-	prevPos = position
-	follow_player = true
 	player = Res.game.player
 	
 	current_state = "Follow"
@@ -361,24 +206,13 @@ func _on_animation_finished(anim_name):
 	if anim_name == "Special":
 		current_atack = "Wait"
 		block_logic = false
-		
-		in_special_state = false
-		special_ready = false
-		in_action     = false
 	if "Punch" in anim_name:
 		current_atack = "Wait"
 		block_logic = false
-		
-		in_action     = false
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
-		prevPos = position
-		follow_player = true;
-		
 		current_state = "Follow"
-		
-		player = body
 
 func _on_animation_started(anim_name):
 	var anim = $AnimationPlayer.get_animation(anim_name)
@@ -388,13 +222,11 @@ func _on_animation_started(anim_name):
 	
 		for i in range(sprites.size()):
 			sprites[i].visible = (i+1 == main_sprite)
-			
 
 func _on_dead():
 	Res.game.player.updateQuest(enemy_name)
 	
 	Res.play_sample(self, "RobotCrash")
-	dead = true
 	
 	current_state = "Dead"
 	current_atack = "Dead"
@@ -410,69 +242,12 @@ func _on_dead():
 
 var drops = []
 
-
-var _dead = false
-
-var preparing = false
-
-var kolejna_przypadkowa_zmienna_do_jakiegos_pomyslu = 0.0
-
-var HP  = 35
-var XP  = 35
-var ARM = 0.1
-
-var BASIC_DAMAGE         = 4
-var SPECIAL_DAMAGE       = 7.5
-
-var SPECIAL_PROBABILITY  = 250
-var ATACK_SPEED          = 170
-
-var SPEED                = 100
-
-var KNOCKBACK_ATACK      = 50
-
-var FOLLOW_RANGE         = 400
-var PERSONAL_SPACE       = 60
-var TIME_OF_LIYUGN_CORPS = 3
-
-
 var direction       = "Down"
-
-
-var can_use_special = true
 
 onready var sprites = $Sprites.get_children()
 
-var prevPos
-var test_move = Vector2(0,0)
 
 var MAT = load("res://Resources/Materials/ColorShader.tres")
-
-var follow_player   = false
-var in_action       = false
-var special_ready   = false
-var atack_ready     = true
-var suesided        = false
-var in_special      = false
-var in_special_state = false
-var magic_ready     = false 
-var special_countown = 0.0
-var last_animation = ""
-var special_nav_poit = Vector2(0,0)
-var special_destination = Vector2(0,0)
-
-var wertical        = -1
-var distance_from_player = 300
-var MAGIC_PROBABILITY  = 500
-var dead            = false
-
-var special_dmg_type 
-var basic_dmg_type
-var flash_time = 0.0
-var dead_time = 0.0
-
-
-
 
 func _ready():
 	health = max_health
@@ -482,7 +257,6 @@ func _ready():
 	$"AnimationPlayer".play("Idle")
 
 func scale_stats_to( max_hp, ar ):
-	armour = ar
 	var t = float(health)/float(max_health)
 	#print("Callculating  :: ",  t , "From :: ", health, " divided by :: ", max_health  )
 	health = t*max_hp
@@ -498,15 +272,10 @@ func set_statistics(max_hp, given_exp, ar):
 	health_bar.max_value = max_hp
 	health_bar.value = health
 	experience = given_exp 
-	armour = ar
-
-
-
-
+	
 func damage(amount, source = "", type = ""):
-	if _dead: return
-#	if current_state == "Dead" : return
-
+	if current_state == "Dead" : return
+	
 	var damage = amount
 
 	match(type):
@@ -535,7 +304,6 @@ func damage(amount, source = "", type = ""):
 	
 	if health <= 0:
 		$"/root/Game".save_state(self)
-		_dead = true
 		
 		current_state = "Dead"
 		

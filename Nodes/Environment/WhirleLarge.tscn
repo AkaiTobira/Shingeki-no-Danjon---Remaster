@@ -25,10 +25,10 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12 ]
 }
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-radius = 10.0
+extents = Vector2( 10, 10 )
 
 [node name="ParaffinGreenPipe" type="StaticBody2D" index="0" groups=[
 "enviroment",
@@ -51,6 +51,8 @@ variants = ""
 can_flip_h = true
 const_object = true
 randomize_speed_of_animation = null
+need_enemies_list = false
+need_enable_directions = null
 state = 0
 
 [node name="Animation" type="AnimationPlayer" parent="." index="0"]
