@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Enemies/Trochnalis.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Enemies/Trochnalis/Trochnalis_basics.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Enemies/Trochnalis/Specials_Trochnalis.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
@@ -325,8 +325,8 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Shadow" type="Sprite" parent="." index="1"]
 
-position = Vector2( 0.384567, 2.46119 )
-scale = Vector2( 1.91853, 3.07858 )
+position = Vector2( 0.249117, -1.53599 )
+scale = Vector2( 0.17223, 0.065944 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Z Index" ]
 
@@ -464,6 +464,18 @@ radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Pause", "Radial Fill", "Rect", "Size Flags", "Textures", "Theme", "Visibility" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="8"]
+
+position = Vector2( 0.376451, -65.0725 )
+scale = Vector2( 3.79051, 7.50725 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

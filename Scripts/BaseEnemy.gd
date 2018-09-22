@@ -11,6 +11,10 @@ var knockbacks      = [0,0,0]
 var damage_type     = [0,0,0]
 var resists         = [0,0,0,0]
 
+var resists_modif   = [0,0,0,0]
+var ab_prob_modif   = [0,0,0]
+var damages_modif   = [0,0,0]
+
 var max_health = 5
 var health     = 5
 var experience = 5
@@ -18,6 +22,7 @@ var movespeed  = 0
 var personal_space = 40
 var enemy_name = ""
 var last_atack_type = 0
+
 
 func _load_stats(file, kind):
 	enemy_name = kind
@@ -42,10 +47,11 @@ onready var health_bar = $HealthBar
 var timeout_bar   = 0.0
 var timeout_flash = 0.0
 var timeout_dead  = 0.0
-
+var timeout_magic = 0.0
 
 var current_state     = "Wait"
 var current_atack     = "Wait"
+var magic_active      = false
 var block_logic       = false
 var current_animation = ""
 
@@ -58,7 +64,10 @@ const TIME_TO_DISAPEARD = 4.5
 func prepeare_ability():
 	for abillity in ABILITY_TYPE.keys():
 		if !ability_ready[ABILITY_TYPE[str(abillity)] ] and can_use_ability[ABILITY_TYPE[str(abillity)]]:  
-			ability_ready[ABILITY_TYPE[str(abillity)] ]  = (randi()%ability_probs[ABILITY_TYPE[str(abillity)]] == 0)
+			ability_ready[ABILITY_TYPE[str(abillity)] ]  = (
+				randi()%(
+					ability_probs[ABILITY_TYPE[str(abillity)]] + 
+					ab_prob_modif[ABILITY_TYPE[str(abillity)]]) == 0)
 
 func meansure_dead_timeout(delta):
 	timeout_dead += delta
@@ -81,7 +90,6 @@ func _atack():
 
 func _magic():
 	current_atack = "Magic"
-	
 	last_atack_type = ABILITY_TYPE["Magic"]
 	ability_ready[ABILITY_TYPE["Magic"]] = false
 
@@ -129,9 +137,8 @@ func is_close_enought():
 	
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("players"):
-	#	print( damage_type[ABILITY_TYPE[current_atack]] )
 		collider.get_parent().damage(self, 
-			damages[ABILITY_TYPE[current_atack]] , 
+			damages[ABILITY_TYPE[current_atack]] + damages_modif[ABILITY_TYPE[current_atack]], 
 			knockbacks[ABILITY_TYPE[current_atack]],
 			damage_type[last_atack_type] )
 
@@ -153,11 +160,16 @@ func move_along_path(distance):
 		last_point = Vector2(path[0].x,path[0].y)
 		path.remove(0)
 
+
+var path_length = 100
+
 func  _move5(delta):
-	path = Map.nav.get_point_path(
-		Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
-		Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
-		)
+	if path_length * 0.3 >= len(path) or len(path) == 1:
+		path_length =  len(path)
+		path = Map.nav.get_point_path(
+			Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
+			Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
+			)
 	if len(path) != 0 : path.remove(0)
 
 	move_along_path(movespeed*delta)
@@ -201,27 +213,48 @@ func _on_damage():
 	get_parent().add_child(fx)
 
 func _on_animation_finished(anim_name):
-#	if current_state == "Dead": return 
-	
-	if anim_name == "Special":
+
+	if "Magic" in anim_name:
+		current_atack = "Wait"
+		block_logic = false
+	if "Special" in anim_name:
 		current_atack = "Wait"
 		block_logic = false
 	if "Punch" in anim_name:
 		current_atack = "Wait"
 		block_logic = false
 
+
+func _player_run_away():
+	if position.distance_to(player.position) > 700:
+		current_state = "Wait"
+		play_animation_if_not_playing("Idle")
+
+func _on_Radar_body_entered(body):
+	if body.name == "Player":
+		current_state = "Follow"
+
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		current_state = "Follow"
 
+
+
+var red_color_changing = false
+
+
 func _on_animation_started(anim_name):
 	var anim = $AnimationPlayer.get_animation(anim_name)
-	
 	if anim and sprites:
 		var main_sprite = int(anim.track_get_path(0).get_name(1))
-	
 		for i in range(sprites.size()):
 			sprites[i].visible = (i+1 == main_sprite)
+			
+			if red_color_changing:
+				sprites[i].modulate =Color(1,0.4,0.4)
+			else:
+				sprites[i].modulate = Color(1,1,1)
+			
 
 func _on_dead():
 	Res.game.player.updateQuest(enemy_name)
@@ -258,12 +291,10 @@ func _ready():
 
 func scale_stats_to( max_hp, ar ):
 	var t = float(health)/float(max_health)
-	#print("Callculating  :: ",  t , "From :: ", health, " divided by :: ", max_health  )
 	health = t*max_hp
 	health_bar.max_value = max_hp
 	health_bar.value = health
 	max_health = max_hp
-	#print( " Coll :: ", t,"  Max_HP_New :: ",  max_hp," Current_HP ::", health, " new_armour ::", ar )
 
 
 func set_statistics(max_hp, given_exp, ar):
@@ -280,13 +311,13 @@ func damage(amount, source = "", type = ""):
 
 	match(type):
 		"Physical":
-			damage = max(1, int(amount * (1.0-resists[0])))
+			damage = max(1, int(amount * (1.0-( resists[0] + resists_modif[0]))))
 		"Explosion":
-			damage = max(1, int(amount * (1.0-resists[1])))
+			damage = max(1, int(amount * (1.0-( resists[1] + resists_modif[1]))))
 		"Shock":
-			damage = max(1, int(amount * (1.0-resists[2])))
+			damage = max(1, int(amount * (1.0-( resists[2] + resists_modif[2]))))
 		"Crush":
-			damage = max(1, int(amount * (1.0-resists[3])))
+			damage = max(1, int(amount * (1.0-( resists[3] + resists_modif[3]))))
 
 	if randi()%100 < PlayerStats.critical_cnc*100 and source == "player": 
 	

@@ -6,7 +6,7 @@
 [ext_resource path="res://Sprites/Enemies/GearGrinder300/GG3000_D_U.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -142,7 +142,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=7]
 
 resource_name = "PunchRight"
 length = 4.0
@@ -185,7 +185,7 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 
 length = 4.0
 loop = false
@@ -215,7 +215,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 
 length = 4.0
 loop = true
@@ -233,27 +233,27 @@ tracks/0/keys = {
 "values": [ 4, 5, 6, 7 ]
 }
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=10]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.6279, 10 )
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=11]
 
 custom_solver_bias = 0.0
 extents = Vector2( 39.8092, 47.0572 )
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=12]
 
 custom_solver_bias = 0.0
 extents = Vector2( 57.0542, 68.5652 )
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=13]
 
 custom_solver_bias = 0.0
 extents = Vector2( 19.4311, 20.9686 )
 
-[node name="Grinder" type="KinematicBody2D" groups=[
+[node name="Grinder" type="KinematicBody2D" index="0" groups=[
 "enemies",
 ]]
 
@@ -310,9 +310,9 @@ anims/Idle = SubResource( 3 )
 anims/Left = SubResource( 4 )
 anims/PunchDown = SubResource( 5 )
 anims/PunchLeft = SubResource( 6 )
-anims/PunchRight = SubResource( 13 )
-anims/PunchUp = SubResource( 7 )
-anims/Up = SubResource( 8 )
+anims/PunchRight = SubResource( 7 )
+anims/PunchUp = SubResource( 8 )
+anims/Up = SubResource( 9 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -320,7 +320,7 @@ _sections_unfolded = [ "Playback Options" ]
 
 position = Vector2( 2.29096, 0.186645 )
 scale = Vector2( 3.70602, 2.42204 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 
 [node name="DamageCollider" type="Area2D" parent="." index="3"]
 
@@ -339,7 +339,7 @@ _sections_unfolded = [ "Collision" ]
 
 position = Vector2( 1.17495, -36.8634 )
 scale = Vector2( 0.880224, 1 )
-shape = SubResource( 10 )
+shape = SubResource( 11 )
 
 [node name="AttackCollider" type="Area2D" parent="." index="4"]
 
@@ -355,7 +355,7 @@ audio_bus_name = "Master"
 
 position = Vector2( 1, -34.5472 )
 scale = Vector2( 1, 1.03559 )
-shape = SubResource( 11 )
+shape = SubResource( 12 )
 disabled = true
 
 [node name="HealthBar" type="TextureProgress" parent="." index="5"]
@@ -408,16 +408,28 @@ _sections_unfolded = [ "Collision" ]
 
 position = Vector2( -13.5791, -10.1375 )
 scale = Vector2( 30.8352, 20.2098 )
-shape = SubResource( 12 )
+shape = SubResource( 13 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="." index="7"]
 
-position = Vector2( -2.8517, -0.0836993 )
-scale = Vector2( 1.27088, -3.35489 )
+position = Vector2( 2.37727, 2.19586 )
+scale = Vector2( 0.116501, 0.070165 )
 z_index = -1
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Z Index" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="8"]
+
+position = Vector2( 0.459501, -33.9882 )
+scale = Vector2( 3.18444, 4.90934 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

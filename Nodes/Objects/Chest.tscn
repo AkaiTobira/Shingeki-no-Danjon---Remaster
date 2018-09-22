@@ -143,7 +143,6 @@ z_index = 1
 texture = ExtResource( 1 )
 centered = false
 hframes = 3
-frame = 2
 _sections_unfolded = [ "Animation", "Offset", "Z Index" ]
 
 [node name="Shape" type="CollisionShape2D" parent="." index="1"]

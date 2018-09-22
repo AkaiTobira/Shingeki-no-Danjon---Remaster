@@ -72,7 +72,7 @@ func _ready():
 	
 	for enemie in get_resource_list("Enemies"):
 		enemies = enemie.data
-		print(enemies)
+
 	
 	crafting = read_json("res://Resources/CraftingList.json")
 	

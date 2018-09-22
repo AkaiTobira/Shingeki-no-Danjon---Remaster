@@ -6,7 +6,7 @@
 [ext_resource path="res://Sprites/Enemies/FLA-S/FLA-S_special.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -86,7 +86,25 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=5]
 
-resource_name = "PunchDown"
+resource_name = "Magic"
+length = 6.0
+loop = false
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/3:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
+[sub_resource type="Animation" id=6]
+
 length = 6.0
 loop = false
 step = 1.0
@@ -127,9 +145,8 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 
-resource_name = "PunchLeft"
 length = 6.0
 loop = false
 step = 1.0
@@ -170,9 +187,8 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 
-resource_name = "PunchRight"
 length = 6.0
 loop = false
 step = 1.0
@@ -213,9 +229,8 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 
-resource_name = "PunchUp"
 length = 6.0
 loop = false
 step = 1.0
@@ -256,9 +271,8 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 
-resource_name = "Right"
 length = 6.0
 loop = false
 step = 1.0
@@ -273,25 +287,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 24, 25, 26, 27, 28, 29 ]
-}
-
-[sub_resource type="Animation" id=10]
-
-resource_name = "Special"
-length = 6.0
-loop = false
-step = 1.0
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites/3:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2, 3, 4, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -332,7 +327,7 @@ extents = Vector2( 10, 10 )
 custom_solver_bias = 0.0
 radius = 10.0
 
-[node name="FLA-S" type="KinematicBody2D" groups=[
+[node name="FLA-S" type="KinematicBody2D" index="0" groups=[
 "enemies",
 ]]
 
@@ -373,6 +368,7 @@ _sections_unfolded = [ "Animation" ]
 visible = false
 texture = ExtResource( 4 )
 hframes = 6
+frame = 5
 _sections_unfolded = [ "Animation" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
@@ -386,12 +382,12 @@ anims/Dead = SubResource( 1 )
 anims/Down = SubResource( 2 )
 anims/Idle = SubResource( 3 )
 anims/Left = SubResource( 4 )
-anims/PunchDown = SubResource( 5 )
-anims/PunchLeft = SubResource( 6 )
-anims/PunchRight = SubResource( 7 )
-anims/PunchUp = SubResource( 8 )
-anims/Right = SubResource( 9 )
-anims/Special = SubResource( 10 )
+anims/Magic = SubResource( 5 )
+anims/PunchDown = SubResource( 6 )
+anims/PunchLeft = SubResource( 7 )
+anims/PunchRight = SubResource( 8 )
+anims/PunchUp = SubResource( 9 )
+anims/Right = SubResource( 10 )
 anims/Up = SubResource( 11 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
@@ -451,7 +447,7 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="Shape" type="CollisionShape2D" parent="Radar" index="0"]
 
-position = Vector2( 2.44699, -6.99786 )
+position = Vector2( 2.44699, -7.14565 )
 scale = Vector2( 3.26707, 3.26707 )
 shape = SubResource( 13 )
 
@@ -502,11 +498,23 @@ disabled = true
 
 [node name="Sprite" type="Sprite" parent="." index="7"]
 
-position = Vector2( 3.18462, -4.39121 )
-scale = Vector2( 1.31099, 3.21623 )
+position = Vector2( 1.35705, -5.58704 )
+scale = Vector2( 0.122168, 0.0581351 )
 z_index = -1
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Z Index" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="8"]
+
+position = Vector2( 2.30695, -64.7212 )
+scale = Vector2( 5.47518, 8.36319 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

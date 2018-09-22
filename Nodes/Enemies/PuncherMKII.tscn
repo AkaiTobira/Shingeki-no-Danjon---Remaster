@@ -6,7 +6,7 @@
 [ext_resource path="res://Sprites/Enemies/PuncherMKII/PuncherMKII_Special_Up_Down_Atack.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -278,7 +278,7 @@ extents = Vector2( 10, 10 )
 custom_solver_bias = 0.0
 radius = 10.0
 
-[node name="Template" type="KinematicBody2D" groups=[
+[node name="Template" type="KinematicBody2D" index="0" groups=[
 "enemies",
 ]]
 
@@ -397,7 +397,7 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="Shape" type="CollisionShape2D" parent="Radar" index="0"]
 
-position = Vector2( -126.901, 6.81504 )
+position = Vector2( -116.66, 14.1302 )
 scale = Vector2( 21.6947, 21.6947 )
 shape = SubResource( 12 )
 
@@ -447,10 +447,23 @@ disabled = true
 
 [node name="Sprite" type="Sprite" parent="." index="7"]
 
-position = Vector2( -3.57494, 0.265198 )
+position = Vector2( -3.04945, -13.0096 )
+scale = Vector2( 0.204728, 0.0605986 )
 z_index = -1
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Z Index" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="8"]
+
+position = Vector2( -5.03858, -49.7299 )
+scale = Vector2( 3.15876, 5.97299 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

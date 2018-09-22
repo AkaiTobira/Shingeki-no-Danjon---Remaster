@@ -17,6 +17,7 @@ func _process(delta):
 		return
 
 	if current_state == "Follow" and !block_logic:
+		_player_run_away()
 		prepeare_ability()
 		
 		_move5(delta)
