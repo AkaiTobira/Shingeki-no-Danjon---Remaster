@@ -357,7 +357,7 @@ func reset():
 	Obj_to_Append.clear()
 	AccesNeed.clear()
 	
-	print( name , " : Reset Called : ", numration_counter )
+#	print( name , " : Reset Called : ", numration_counter )
 	
 	tab.clear()
 	for i in structure:

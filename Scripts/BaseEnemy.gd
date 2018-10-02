@@ -23,6 +23,7 @@ var personal_space = 40
 var enemy_name = ""
 var last_atack_type = 0
 
+var music 
 
 func _load_stats(file, kind):
 	enemy_name = kind
@@ -40,6 +41,7 @@ func _load_stats(file, kind):
 		ability_probs[ABILITY_TYPE[str(abillity)] ] = int(file[str(abillity)][3])
 		damage_type[ABILITY_TYPE[str(abillity)] ] = DAMAGE_TYPE[file[str(abillity)][4]]
 
+	music = file["Music"]
 	resists = file["Resists"]
 
 onready var health_bar = $HealthBar
@@ -137,6 +139,7 @@ func is_close_enought():
 	
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("players"):
+		if current_atack == "Wait": return
 		collider.get_parent().damage(self, 
 			damages[ABILITY_TYPE[current_atack]] + damages_modif[ABILITY_TYPE[current_atack]], 
 			knockbacks[ABILITY_TYPE[current_atack]],
@@ -149,7 +152,10 @@ func move_along_path(distance):
 		# the position to move to falls between two points
 		if distance <= distance_between_points and distance >= 0.0:
 			var info = last_point.linear_interpolate(Vector2(path[0].x,path[0].y), distance / distance_between_points)
-			move_and_slide((info-position)*movespeed)
+			
+			var move_vector = (info-position)*movespeed
+			
+			move_and_slide(move_vector)
 			break
 		# the character reached the end of the path
 		elif distance < 0.0:
@@ -208,7 +214,7 @@ func _on_damage():
 	
 	current_state = "Follow"
 	
-	var fx = Res.create_instance("Effects/MetalHitFX")
+	var fx = Res.create_instance(music["Hit"])
 	fx.position = position - Vector2(0, 40)
 	get_parent().add_child(fx)
 
@@ -239,10 +245,7 @@ func _on_Area2D_body_entered(body):
 		current_state = "Follow"
 
 
-
 var red_color_changing = false
-
-
 func _on_animation_started(anim_name):
 	var anim = $AnimationPlayer.get_animation(anim_name)
 	if anim and sprites:
@@ -259,7 +262,7 @@ func _on_animation_started(anim_name):
 func _on_dead():
 	Res.game.player.updateQuest(enemy_name)
 	
-	Res.play_sample(self, "RobotCrash")
+	Res.play_sample(self, music["Dead"])
 	
 	current_state = "Dead"
 	current_atack = "Dead"

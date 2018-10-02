@@ -145,12 +145,14 @@ func read_json(f):
 	return json
 
 func play_sample(source, sample, pausable = true, follow_source = true):
+	if sample == "": return
 	var player = create_instance("SampleInstance")
 	player.init(source, sample, pausable, follow_source)
 	get_parent().get_node("Game").add_child(player)
 	return weakref(player)
 
 func play_pitched_sample(source, sample, pausable = true, follow_source = true):
+	if sample == "": return
 	var player = create_instance("PitchedSampleInstance")
 	player.init(source, sample, pausable, follow_source)
 	get_parent().get_node("Game").add_child(player)

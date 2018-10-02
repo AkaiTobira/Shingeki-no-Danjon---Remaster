@@ -111,7 +111,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[node name="Chest" type="StaticBody2D" index="0" groups=[
+[node name="Chest" type="StaticBody2D" groups=[
 "enviroment",
 ]]
 

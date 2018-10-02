@@ -61,9 +61,11 @@ func process_atacks():
 		"Skill":
 			play_animation_if_not_playing("Special")
 			sueside_dead()
+			Res.play_sample(self, music["Special"])
 			return
 		"Atack":
 			play_animation_if_not_playing("Punch" + direction)
+			Res.play_sample(self, music["Normal"])
 			return
 
 

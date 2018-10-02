@@ -44,10 +44,12 @@ func process_atacks():
 			#play_animation_if_not_played()
 			return
 		"Skill":
-			play_animation_if_not_playing("Special")
+			play_animation_if_not_playing("Special"+ direction)
+			Res.play_sample(self, music["Special"])
 			return
 		"Atack":
 			play_animation_if_not_playing("Punch" + direction)
+			Res.play_sample(self, music["Normal"])
 			return
 			
 #func calculate_move(delta):
