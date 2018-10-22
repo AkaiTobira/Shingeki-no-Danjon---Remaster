@@ -28,21 +28,22 @@ var music
 func _load_stats(file, kind):
 	enemy_name = kind
 
-	max_health     = file["HP"]
-	health         = file["HP"]
-	movespeed      = file["Speed"]
-	experience     = file["Exp"]
-	personal_space = file["Range"]
+	max_health     = file["HP"     ]
+	health         = file["HP"     ]
+	movespeed      = file["Speed"  ]
+	experience     = file["Exp"    ]
+	personal_space = file["Range"  ]
+	music          = file["Music"  ]
+	resists        = file["Resists"]
 	
 	for abillity in ABILITY_TYPE.keys():
 		can_use_ability.append(bool(file[abillity][0]))
-		damages[ABILITY_TYPE[str(abillity)] ] = file[str(abillity)][1]
-		knockbacks[ABILITY_TYPE[str(abillity)] ] = file[str(abillity)][2]
+		damages[ABILITY_TYPE[str(abillity)] ]       = file[str(abillity)][1]
+		knockbacks[ABILITY_TYPE[str(abillity)] ]    = file[str(abillity)][2]
 		ability_probs[ABILITY_TYPE[str(abillity)] ] = int(file[str(abillity)][3])
-		damage_type[ABILITY_TYPE[str(abillity)] ] = DAMAGE_TYPE[file[str(abillity)][4]]
+		damage_type[ABILITY_TYPE[str(abillity)] ]   = DAMAGE_TYPE[file[str(abillity)][4]]
 
-	music = file["Music"]
-	resists = file["Resists"]
+
 
 onready var health_bar = $HealthBar
 
@@ -152,9 +153,7 @@ func move_along_path(distance):
 		# the position to move to falls between two points
 		if distance <= distance_between_points and distance >= 0.0:
 			var info = last_point.linear_interpolate(Vector2(path[0].x,path[0].y), distance / distance_between_points)
-			
 			var move_vector = (info-position)*movespeed
-			
 			move_and_slide(move_vector)
 			break
 		# the character reached the end of the path
@@ -181,33 +180,18 @@ func  _move5(delta):
 	move_along_path(movespeed*delta)
 
 		#TO REFACTOR And Update
-	var move = Vector2(sign(player.position.x - position.x), sign(player.position.y - position.y)).normalized() * movespeed * delta
+	var move = Vector2(sign(player.position.x - position.x), sign(player.position.y - position.y))
+	var distance = (position - player.position ).abs()
+	#var axis     = Vector2( distance.x >= personal_space, distance.y >= personal_space )
 	
-	var x_distance = abs(position.x - player.position.x)
-	var y_distance = abs(position.y - player.position.y) 
-	
-	var axix_X = x_distance >= 80
-	var axix_Y = y_distance >= 80
-	
-	if( x_distance > y_distance and axix_X ):
+	if( distance.x > distance.y ):#and axis.x ):
 		if abs(move.x) != 0: 
-			sprites[0].flip_h = move.x > 0
-			play_animation_if_not_playing("Left")
-			current_animation = "Left"
-			direction = "Right" if move.x > 0 else "Left"
-	elif(x_distance < y_distance and axix_Y):
-		if move.y < 0: 
-			play_animation_if_not_playing("Down")
-			current_animation = "Down"				
-			direction = "Down"
-		elif move.y > 0: 
-			play_animation_if_not_playing("Up")
-			current_animation = "Up"			
-			direction = "Up"
-	else:
-		play_animation_if_not_playing(current_animation)
+			direction         = "Right" if move.x > 0 else "Left"
+	elif(distance.x <= distance.y ):# and axis.y):
+		if abs(move.y) != 0: 
+			direction         = "Up"    if move.y > 0 else "Down"
+	play_animation_if_not_playing(direction)
 
-		pass
 
 func _on_damage():
 	player = Res.game.player
@@ -234,6 +218,7 @@ func _on_animation_finished(anim_name):
 func _player_run_away():
 	if position.distance_to(player.position) > 700:
 		current_state = "Wait"
+		path = []
 		play_animation_if_not_playing("Idle")
 
 func _on_Radar_body_entered(body):

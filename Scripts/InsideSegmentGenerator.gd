@@ -196,9 +196,7 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	if style == Objects.TRAPS: 
 		instance._change_sprite(tilesetName)
 
-
 	put_object_enviroment(i,j,instance,flip)
-	
 	return true
 
 func put_free_standing_objects(prob, style): 
@@ -282,9 +280,7 @@ func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
 				if randi()%1000 < prob:
 					var object_name = enemies[randi()%len(enemies)]
 					var instance = load(get_path(Objects.ENEMIES) + object_name + ".tscn").instance()
-					instance.position = Vector2((i*80)+40,(j*80)+40)
-#					print( enemy[dung_name][object_name] )
-				#	print(dung_name,enemies[dung_name][object_name]) 
+					instance.position = Vector2((i*80)+40,(j*80)+40) 
 					instance._load_stats(enemy[dung_name][object_name],object_name)
 					Obj_to_Append.append(instance)
 					monster_counter +=1
@@ -307,6 +303,8 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 	tilesetName = file_json["tileset"]
 	put_elements_on_scene( file_json["probs"] )
 	
+	var time_start = OS.get_unix_time()
+	
 	while !check_correctnes():
 		reset()
 		put_elements_on_scene( file_json["probs"] )
@@ -316,6 +314,8 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 
 	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level), e,dungeon )
 
+	var time_now = OS.get_unix_time()
+	print( "generate_functions : ", (time_now - time_start)) 
 	
 
 	if DEBUG :
@@ -408,6 +408,8 @@ func split_enviroments(enviroments, objType):
 func build_segment_structure():
 
 	
+	var time_start = OS.get_unix_time()
+	
 	for i in range(G.end.x+2):
 		var cell = []
 		for j in range(G.end.y+2):
@@ -431,6 +433,10 @@ func build_segment_structure():
 		for j in i:
 			cell.append(j)
 		structure.append(cell)	
+		
+	var time_now = OS.get_unix_time()
+	print( "mark_functions : ", (time_now - time_start)) 
+		
 
 func mark_walls():
 	for i in range(G.end.x+2):

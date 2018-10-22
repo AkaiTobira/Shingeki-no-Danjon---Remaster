@@ -51,52 +51,39 @@ signal level_up
 signal got_item
 signal equipment_changed
 
+var multiplier = level
+var parameter  = 0.9
+
+var increments = [
+	[   1.7, 3.2, 0.05],
+	[0.015, 0.12, 0.05],
+	[0.05,   1,   23, 0.5],
+	[  30,0.5, 0.05, 5.0]
+]
+
 func update_skills(skill):
 	match(skill):
 		0:
-			physical_dmg += 1
-			critical_dmg += 1
-			crush_dmg_re += 0.05
-
+			physical_dmg += increments[skill][0]*parameter
+			critical_dmg += increments[skill][1]*parameter
+			crush_dmg_re += increments[skill][2]*parameter
 		1:
-			critical_cnc += 0.05
-			atack_speed  += 0.03
-			physi_dmg_re += 0.05
+			critical_cnc += increments[skill][0]*parameter
+			atack_speed  += increments[skill][1]*parameter
+			physi_dmg_re += increments[skill][2]*parameter
 			if atack_speed > 5: atack_speed = 5.0
 		2:
-			shock_dmg_re  += 0.05
-			magical_dmg  += 1
-			max_mana     += 10
-			ghost_time   += 1
+			shock_dmg_re += increments[skill][0]*parameter
+			magical_dmg  += increments[skill][1]*parameter
+			max_mana     += increments[skill][2]*parameter
+			ghost_time   += increments[skill][3]*parameter
 		3:
-			max_health   += 10
-			mana_regen   += 0.25
-			explo_dmg_re += 0.05
-			move_speed   += 3
-
-
-func test():
-	physical_dmg += 1
-	critical_dmg += 1
-	crush_dmg_re += 0.05
-
-	critical_cnc += 0.05
-	atack_speed  += 0.03
-	
-	if atack_speed > 5: atack_speed = 5.0
-	
-	move_speed   += 3
-	physi_dmg_re += 0.05
-
-	magical_dmg  += 1
-	max_health   += 10
-	max_mana     += 10
-
-	shock_dmg_re  += 0.05
-	ghost_time   += 1
-	mana_regen   += 0.25
-	explo_dmg_re += 0.05
-	
+			max_health   += increments[skill][0]*parameter
+			mana_regen   += increments[skill][1]*parameter
+			explo_dmg_re += increments[skill][2]*parameter
+			move_speed   += increments[skill][3]*parameter
+	parameter  = pow(0.95,multiplier)
+	multiplier = multiplier + 1
 
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())
@@ -194,10 +181,10 @@ func recalc_stats():
 	mana = min(mana, max_mana)
 
 func exp_to_level(level):
-	return level * 10 + int(pow(0.9,level)) * level
+	return level * level * 4 #+ int(pow(0.99,level)) * level
 	
 func total_exp(level):
-	return level * 10 + int(pow(0.9,level)) * level
+	return level * level * 4#+ int(pow(0.9,level)) * level
 
 func add_experience(amount):
 	experience += amount

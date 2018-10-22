@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Enemies/Grinder.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/GearGrinder300/GearGrinder3000.png" type="Texture" id=2]
@@ -217,6 +217,61 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=9]
 
+resource_name = "Right"
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 1, 2, 3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/1:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/2:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprites/3:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=10]
+
 length = 4.0
 loop = true
 step = 1.0
@@ -233,27 +288,27 @@ tracks/0/keys = {
 "values": [ 4, 5, 6, 7 ]
 }
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=11]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.6279, 10 )
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=12]
 
 custom_solver_bias = 0.0
 extents = Vector2( 39.8092, 47.0572 )
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=13]
 
 custom_solver_bias = 0.0
 extents = Vector2( 57.0542, 68.5652 )
 
-[sub_resource type="RectangleShape2D" id=13]
+[sub_resource type="RectangleShape2D" id=14]
 
 custom_solver_bias = 0.0
 extents = Vector2( 19.4311, 20.9686 )
 
-[node name="Grinder" type="KinematicBody2D" index="0" groups=[
+[node name="Grinder" type="KinematicBody2D" groups=[
 "enemies",
 ]]
 
@@ -283,7 +338,6 @@ _sections_unfolded = [ "Animation", "Material", "Offset", "Visibility", "Z Index
 visible = false
 position = Vector2( 5.9476, -5.23343 )
 texture = ExtResource( 3 )
-flip_h = true
 hframes = 5
 frame = 4
 _sections_unfolded = [ "Animation", "Material", "Offset", "Visibility", "Z Index" ]
@@ -295,7 +349,7 @@ texture = ExtResource( 4 )
 vframes = 2
 hframes = 5
 frame = 5
-_sections_unfolded = [ "Animation" ]
+_sections_unfolded = [ "Animation", "Offset" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 
@@ -312,7 +366,8 @@ anims/PunchDown = SubResource( 5 )
 anims/PunchLeft = SubResource( 6 )
 anims/PunchRight = SubResource( 7 )
 anims/PunchUp = SubResource( 8 )
-anims/Up = SubResource( 9 )
+anims/Right = SubResource( 9 )
+anims/Up = SubResource( 10 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -320,7 +375,7 @@ _sections_unfolded = [ "Playback Options" ]
 
 position = Vector2( 2.29096, 0.186645 )
 scale = Vector2( 3.70602, 2.42204 )
-shape = SubResource( 10 )
+shape = SubResource( 11 )
 
 [node name="DamageCollider" type="Area2D" parent="." index="3"]
 
@@ -339,7 +394,7 @@ _sections_unfolded = [ "Collision" ]
 
 position = Vector2( 1.17495, -36.8634 )
 scale = Vector2( 0.880224, 1 )
-shape = SubResource( 11 )
+shape = SubResource( 12 )
 
 [node name="AttackCollider" type="Area2D" parent="." index="4"]
 
@@ -355,7 +410,7 @@ audio_bus_name = "Master"
 
 position = Vector2( 1, -34.5472 )
 scale = Vector2( 1, 1.03559 )
-shape = SubResource( 12 )
+shape = SubResource( 13 )
 disabled = true
 
 [node name="HealthBar" type="TextureProgress" parent="." index="5"]
@@ -408,7 +463,7 @@ _sections_unfolded = [ "Collision" ]
 
 position = Vector2( -13.5791, -10.1375 )
 scale = Vector2( 30.8352, 20.2098 )
-shape = SubResource( 13 )
+shape = SubResource( 14 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="." index="7"]

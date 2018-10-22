@@ -1578,7 +1578,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[node name="Intro" type="Node2D" index="0"]
+[node name="Intro" type="Node2D"]
 
 editor/display_folded = true
 script = SubResource( 1 )

@@ -1,10 +1,8 @@
 {
-
 		"name": "Mechanic",
 		"tileset" : "SteamPunk",
 		"progress": "UP",
 		"floors" : 9,
-
 	
 		"breakable_contents"   :  [
 			[2, 200],  [3, 400],  [17,800], 
@@ -14,8 +12,7 @@
 			],
 		
 		"containers_objects"  : [ 
-			"Chest"
-			
+			"Chest"			
 		],
 
 		"environment_objects" : [ 
@@ -54,13 +51,11 @@
 		        ],
 	
 		"floor" : {
-			"0" : ["PuncherMKII"],
-			"1" : ["Puncher"],
-			"2" : ["Puncher"]
+			"A" : ["Puncher","Grinder","Trochnalis","FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
+			"0" : ["Puncher","Grinder","Trochnalis"],
+			"1" : ["FLA-S", "FLA-B", "FLA-G"],
+			"2" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"]
 		},
-
-
-
 		
 		"probs" : {
 			 "enemies"  : 20,

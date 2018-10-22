@@ -216,7 +216,7 @@ func _physics_process(delta):
 	
 	if Input.is_key_pressed(KEY_F3): print(int(position.x / 800), ", ", int(position.y / 800)) ##debug
 	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(1000) ##debug
-	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
+#	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
 
 const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
 
@@ -464,7 +464,7 @@ func trigger_skill(skill = triggered_skill[0]):
 		projectile.direction = direction
 		projectile.intiated()
 		
-		projectile.damage = skill.damage
+		projectile.damage = skill.damage + int(PlayerStats.magical_dmg)
 		for stat in skill.scalling.keys():
 			projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
 		

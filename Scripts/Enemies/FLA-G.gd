@@ -1,16 +1,12 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-
 func _ready():
 	._ready()
 	drops.append([18, 500])
 	drops.append([20, 500])
 	drops.append([22, 500])
-#	if !DEBBUG_RUN : .set_statistics(HP, XP, ARM)
 	$"AnimationPlayer".play("Idle")
 	MAT.set_shader_param("ucolor", Color(0.1, 0.4, 1))
-
-
 
 func _process(delta):
 	
@@ -94,15 +90,3 @@ func turn_on_magic_state():
 
 	for resist in resists_modif:
 		resist = 0
-		
-		
-	pass	
-	
-
-
-#func punch_in_direction():
-#	Res.play_sample(self, "Axe")
-#	play_animation_if_not_playing("Punch" + direction)
-
-
-
