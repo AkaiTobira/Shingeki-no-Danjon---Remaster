@@ -618,10 +618,10 @@ func get_eq_slot(item):
 
 
 func update_strenght():
-	$Tabs/Character/Statistics/Strength/Control/Val.text  = str(PlayerStats.strength).substr(0,5)
-	$Tabs/Character/Statistics/Strength/Control2/Val.text = str(PlayerStats.physical_dmg).substr(0,5)
-	$Tabs/Character/Statistics/Strength/Control3/Val.text = str(PlayerStats.critical_dmg).substr(0,5)
-	$Tabs/Character/Statistics/Strength/Control4/Val.text = str(PlayerStats.crush_dmg_re * 100).substr(0,5) + \"%\"
+	$Tabs/Character/Statistics/Strength/Control/Val.text  = str(PlayerStats.statistic[\"streng\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Strength/Control2/Val.text = str(PlayerStats.statistic[\"ph_dmg\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Strength/Control3/Val.text = str(PlayerStats.statistic[\"ct_dmg\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Strength/Control4/Val.text = str(PlayerStats.statistic[\"cr_res\"][0] * 100).substr(0,5) + \"%\"
 	
 	
 func clear_statistic_incremntation_propositions():
@@ -639,48 +639,50 @@ func fill_selected(stat):
 	for i in range(4):
 		get_node(\"Tabs/Character/Statistics/\"+SKILLPOINTS[stat]+\"/Control\" + (str(i+1) if i != 0 else \"\") + \"/Up\").add_color_override(\"font_color\", Color(1,0.27,0) )
 	
+	var multipler = pow(0.90, PlayerStats.multiplier[stat])
+	
 	match(stat):
 		1:
 			$Tabs/Character/Statistics/Dexterity/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Dexterity/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*PlayerStats.parameter* 100).substr(0,4) + \"%\"
-			$Tabs/Character/Statistics/Dexterity/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*PlayerStats.parameter     ).substr(0,4)
-			$Tabs/Character/Statistics/Dexterity/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*PlayerStats.parameter* 100).substr(0,4) + \"%\"
+			$Tabs/Character/Statistics/Dexterity/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*multipler* 100).substr(0,4) + \"%\"
+			$Tabs/Character/Statistics/Dexterity/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler     ).substr(0,4)
+			$Tabs/Character/Statistics/Dexterity/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*multipler* 100).substr(0,4) + \"%\"
 		0:
 			$Tabs/Character/Statistics/Strength/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Strength/Control2/Up.text = \"+\" +  str(PlayerStats.increments[stat][0]*PlayerStats.parameter).substr(0,4)
-			$Tabs/Character/Statistics/Strength/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*PlayerStats.parameter*100).substr(0,4)
-			$Tabs/Character/Statistics/Strength/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*PlayerStats.parameter).substr(0,4) + \"%\"
+			$Tabs/Character/Statistics/Strength/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*multipler     ).substr(0,4)
+			$Tabs/Character/Statistics/Strength/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler     ).substr(0,4)
+			$Tabs/Character/Statistics/Strength/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*multipler *100).substr(0,4) + \"%\"
 		2:
 			$Tabs/Character/Statistics/Intelligence/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Intelligence/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*PlayerStats.parameter     ).substr(0,4)
-			$Tabs/Character/Statistics/Intelligence/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*PlayerStats.parameter     ).substr(0,4) + \"%\"
-			$Tabs/Character/Statistics/Intelligence/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]*PlayerStats.parameter     ).substr(0,4)
-			$Tabs/Character/Statistics/Up3.text                      = \"+\" + str(PlayerStats.increments[stat][2]*PlayerStats.parameter     ).substr(0,4)
+			$Tabs/Character/Statistics/Intelligence/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler     ).substr(0,4)
+			$Tabs/Character/Statistics/Intelligence/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*multipler *100).substr(0,4) + \"%\"
+			$Tabs/Character/Statistics/Intelligence/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]*multipler     ).substr(0,4)
+			$Tabs/Character/Statistics/Up3.text                      = \"+\" + str(PlayerStats.increments[stat][2]*multipler     ).substr(0,4)
 		3:
 			$Tabs/Character/Statistics/Vitality/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Vitality/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*PlayerStats.parameter     ).substr(0,4)
-			$Tabs/Character/Statistics/Vitality/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*PlayerStats.parameter* 100).substr(0,4) + \"%\"
-			$Tabs/Character/Statistics/Vitality/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]*PlayerStats.parameter     ).substr(0,4)
-			$Tabs/Character/Statistics/Up2.text                  = \"+\" + str(PlayerStats.increments[stat][0]*PlayerStats.parameter     ).substr(0,4)
+			$Tabs/Character/Statistics/Vitality/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler    ).substr(0,4)
+			$Tabs/Character/Statistics/Vitality/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*multipler* 100).substr(0,4) + \"%\"
+			$Tabs/Character/Statistics/Vitality/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]*multipler    ).substr(0,4)
+			$Tabs/Character/Statistics/Up2.text                  = \"+\" + str(PlayerStats.increments[stat][0]*multipler     ).substr(0,4)
 			
 func update_dexternity():
-	$Tabs/Character/Statistics/Dexterity/Control/Val.text  = str(PlayerStats.dexterity        ).substr(0,5)
-	$Tabs/Character/Statistics/Dexterity/Control2/Val.text = str(PlayerStats.critical_cnc* 100).substr(0,5) + \"%\"
-	$Tabs/Character/Statistics/Dexterity/Control3/Val.text = str(PlayerStats.atack_speed      ).substr(0,5)
-	$Tabs/Character/Statistics/Dexterity/Control4/Val.text = str(PlayerStats.physi_dmg_re* 100).substr(0,5) + \"%\"
+	$Tabs/Character/Statistics/Dexterity/Control/Val.text  = str(PlayerStats.statistic[\"dexter\"][0]        ).substr(0,5)
+	$Tabs/Character/Statistics/Dexterity/Control2/Val.text = str(PlayerStats.statistic[\"ct_chc\"][0]* 100).substr(0,5) + \"%\"
+	$Tabs/Character/Statistics/Dexterity/Control3/Val.text = str(PlayerStats.statistic[\"at_spd\"][0]      ).substr(0,5)
+	$Tabs/Character/Statistics/Dexterity/Control4/Val.text = str(PlayerStats.statistic[\"ph_res\"][0]* 100).substr(0,5) + \"%\"
 
 func update_intelligence():
-	$Tabs/Character/Statistics/Intelligence/Control/Val.text  = str(PlayerStats.intelligence).substr(0,5)
-	$Tabs/Character/Statistics/Intelligence/Control2/Val.text = str(PlayerStats.magical_dmg).substr(0,5)
-	$Tabs/Character/Statistics/Intelligence/Control3/Val.text = str(PlayerStats.shock_dmg_re* 100).substr(0,5) + \"%\"
-	$Tabs/Character/Statistics/Intelligence/Control4/Val.text = str(PlayerStats.ghost_time).substr(0,5)
+	$Tabs/Character/Statistics/Intelligence/Control/Val.text  = str(PlayerStats.statistic[\"smart\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Intelligence/Control2/Val.text = str(PlayerStats.statistic[\"mg_dmg\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Intelligence/Control3/Val.text = str(PlayerStats.statistic[\"sh_res\"][0]* 100).substr(0,5) + \"%\"
+	$Tabs/Character/Statistics/Intelligence/Control4/Val.text = str(PlayerStats.statistic[\"gh_dur\"][0]).substr(0,5)
 
 
 func update_vitality():
-	$Tabs/Character/Statistics/Vitality/Control/Val.text  = str(PlayerStats.vitality).substr(0,5)
-	$Tabs/Character/Statistics/Vitality/Control2/Val.text = str(PlayerStats.mana_regen).substr(0,5)
-	$Tabs/Character/Statistics/Vitality/Control3/Val.text = str(PlayerStats.explo_dmg_re* 100).substr(0,5) + \"%\"
-	$Tabs/Character/Statistics/Vitality/Control4/Val.text = str(PlayerStats.move_speed).substr(0,5)
+	$Tabs/Character/Statistics/Vitality/Control/Val.text  = str(PlayerStats.statistic[\"vital\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Vitality/Control2/Val.text = str(PlayerStats.statistic[\"mn_reg\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Vitality/Control3/Val.text = str(PlayerStats.statistic[\"ex_res\"][0]* 100).substr(0,5) + \"%\"
+	$Tabs/Character/Statistics/Vitality/Control4/Val.text = str(PlayerStats.statistic[\"mv_spd\"][0]).substr(0,5)
 
 
 func update_statistics():
@@ -688,8 +690,8 @@ func update_statistics():
 	update_dexternity()
 	update_vitality()
 	update_intelligence()
-	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health).substr(0,6) + \" / \" + str(PlayerStats.max_health).substr(0,6)
-	$Tabs/Character/Statistics/Mana.text           = \"Mana: \"   + str(PlayerStats.mana).substr(0,6)     + \" / \" + str(PlayerStats.max_mana).substr(0,6)
+	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health).substr(0,6) + \" / \" + str(PlayerStats.statistic[\"mx_hpp\"][0]).substr(0,6)
+	$Tabs/Character/Statistics/Mana.text           = \"Mana: \"   + str(PlayerStats.mana).substr(0,6)     + \" / \" + str(PlayerStats.statistic[\"mx_man\"][0]).substr(0,6)
 
 
 func update_stats(item, compare):

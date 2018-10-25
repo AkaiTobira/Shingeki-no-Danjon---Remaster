@@ -19,28 +19,27 @@ var dexterity = 1
 var intelligence = 1
 var vitality = 1
 
-
-###################################
-var physical_dmg = 1
-var critical_dmg = 2
-var crush_dmg_re = 0.0
-
-var critical_cnc = 0.05
-var atack_speed  = 1
-var move_speed   = 1
-var physi_dmg_re = 0.0
-
-var magical_dmg  = 1
-var max_health   = 100
-var max_mana     = 100
-
-var shock_dmg_re  = 0.0
-var ghost_time   = 1
-var mana_regen   = 1
-var explo_dmg_re = 0.0
-###################################
-
-
+var statistic = {
+				#sum, base, item, skill, mod
+	"streng" : [    1,1,0,0,0],
+	"dexter" : [    1,1,0,0,0],
+	"smart"  : [    1,1,0,0,0],
+	"vital"  : [    1,1,0,0,0],
+	"ph_dmg" : [    1,1,0,0,0],
+	"ct_dmg" : [    2,2,0,0,0],
+	"cr_res" : [  0.0,0,0,0,0],
+	"ct_chc" : [ 0.05,0.05,0,0,0],
+	"at_spd" : [    1,1,0,0,0],
+	"mv_spd" : [    1,1,0,0,0],
+	"ph_res" : [  0.0,0,0,0,0],
+	"mg_dmg" : [    1,1,0,0,0],
+	"mx_hpp" : [  100,100,0,0,0],
+	"mx_man" : [  100,100,0,0,0],
+	"sh_res" : [  0.0,0,0,0,0],
+	"gh_dur" : [    1,1,0,0,0],
+	"mn_reg" : [    1,1,0,0,0],
+	"ex_res" : [  0.0,0,0,0,0]
+	}
 
 var money = 0
 var inventory = []
@@ -51,39 +50,48 @@ signal level_up
 signal got_item
 signal equipment_changed
 
-var multiplier = level
+var multiplier = [2,2,2,2]
 var parameter  = 0.9
 
 var increments = [
-	[   1.7, 3.2, 0.05],
-	[0.015, 0.12, 0.05],
-	[0.05,   1,   23, 0.5],
-	[  30,0.5, 0.05, 5.0]
+	[   1.7, 3.2, 0.045],
+	[0.015, 0.12, 0.045],
+	[0.045,   1,   23, 0.45],
+	[  30,0.5, 0.045, 5.0]
 ]
 
 func update_skills(skill):
+	parameter  = pow(0.90,multiplier[skill])
 	match(skill):
 		0:
-			physical_dmg += increments[skill][0]*parameter
-			critical_dmg += increments[skill][1]*parameter
-			crush_dmg_re += increments[skill][2]*parameter
+			statistic["ph_dmg"][1] += increments[skill][0]*parameter
+			statistic["ct_dmg"][1] += increments[skill][1]*parameter
+			statistic["cr_res"][1] += increments[skill][2]*parameter
+			multiplier[skill] += 1
 		1:
-			critical_cnc += increments[skill][0]*parameter
-			atack_speed  += increments[skill][1]*parameter
-			physi_dmg_re += increments[skill][2]*parameter
-			if atack_speed > 5: atack_speed = 5.0
+			statistic["ct_chc"][1] += increments[skill][0]*parameter
+			statistic["at_spd"][1]  += increments[skill][1]*parameter
+			statistic["ph_res"][1] += increments[skill][2]*parameter
+			if statistic["at_spd"][1] > 5: statistic["at_spd"][1] = 5.0
+			multiplier[skill] += 1
 		2:
-			shock_dmg_re += increments[skill][0]*parameter
-			magical_dmg  += increments[skill][1]*parameter
-			max_mana     += increments[skill][2]*parameter
-			ghost_time   += increments[skill][3]*parameter
+			statistic["sh_res"][1] += increments[skill][0]*parameter
+			statistic["mg_dmg"][1]  += increments[skill][1]*parameter
+			statistic["mx_man"][1]     += increments[skill][2]*parameter
+			mana         += increments[skill][2]*parameter
+			statistic["gh_dur"][1]   += increments[skill][3]*parameter
+			multiplier[skill] += 1
 		3:
-			max_health   += increments[skill][0]*parameter
-			mana_regen   += increments[skill][1]*parameter
-			explo_dmg_re += increments[skill][2]*parameter
-			move_speed   += increments[skill][3]*parameter
-	parameter  = pow(0.95,multiplier)
-	multiplier = multiplier + 1
+			statistic["mx_hpp"][1]   += increments[skill][0]*parameter
+			health       += increments[skill][0]*parameter
+			statistic["mn_reg"][1]   += increments[skill][1]*parameter
+			statistic["ex_res"][1] += increments[skill][2]*parameter
+			statistic["mv_spd"][1]   += increments[skill][3]*parameter
+			multiplier[skill] += 1
+	
+	
+	
+	
 
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())
@@ -155,12 +163,12 @@ func subtract_items(id, amount):
 func consume(item):
 	var consumed
 	
-	if item.has("health") and PlayerStats.health < PlayerStats.max_health:
+	if item.has("health") and PlayerStats.health < PlayerStats.statistic["mx_hpp"][0]:
 		consumed = true
-		PlayerStats.health = min(PlayerStats.max_health, PlayerStats.health + item.health)
-	if item.has("mana") and PlayerStats.mana < PlayerStats.max_mana:
+		PlayerStats.health = min(PlayerStats.statistic["mx_hpp"][0], PlayerStats.health + item.health)
+	if item.has("mana") and PlayerStats.mana < PlayerStats.statistic["mx_man"][0]:
 		consumed = true
-		PlayerStats.mana = min(PlayerStats.max_mana, PlayerStats.mana + item.mana)
+		PlayerStats.mana = min(PlayerStats.statistic["mx_man"][0], PlayerStats.mana + item.mana)
 	
 	if consumed:
 		Res.play_sample(Res.game.player, "Consume", false)
@@ -169,16 +177,9 @@ func consume(item):
 		Res.play_sample(Res.game.player, "MenuFailed", false)
 
 func recalc_stats():
-	var mx = max_health
-	max_health = 90 + vitality * 10
-	health += max_health - mx
-	
-	mx = max_mana
-	max_mana = 98 + intelligence * 2
-	mana += max_mana - mx
-	
-	health = min(health, max_health)
-	mana = min(mana, max_mana)
+	for stat in statistic.keys():
+		statistic[stat][0] =  statistic[stat][1] + statistic[stat][2] + statistic[stat][3] + statistic[stat][4] 
+	pass
 
 func exp_to_level(level):
 	return level * level * 4 #+ int(pow(0.99,level)) * level

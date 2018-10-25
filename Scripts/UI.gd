@@ -33,9 +33,9 @@ func enable():
 	refresh()
 
 func soft_refresh():
-	$HUD/HealthIndicator.max_value = PlayerStats.max_health
+	$HUD/HealthIndicator.max_value = PlayerStats.statistic["mx_hpp"][0]
 	$HUD/HealthIndicator.value = PlayerStats.health
-	$HUD/ManaIndicator.max_value = PlayerStats.max_mana
+	$HUD/ManaIndicator.max_value = PlayerStats.statistic["mx_man"][0]
 	$HUD/ManaIndicator.value = PlayerStats.mana
 
 func refresh():

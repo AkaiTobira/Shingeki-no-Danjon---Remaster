@@ -307,9 +307,9 @@ func damage(amount, source = "", type = ""):
 		"Crush":
 			damage = max(1, int(amount * (1.0-( resists[3] + resists_modif[3]))))
 
-	if randi()%100 < PlayerStats.critical_cnc*100 and source == "player": 
+	if randi()%100 < PlayerStats.statistic["ct_chc"][0]*100 and source == "player": 
 	
-		damage += PlayerStats.critical_dmg
+		damage += PlayerStats.statistic["ct_dmg"][0]
 		
 		Res.create_instance("DamageNumber").damage(self, str(damage)+"!", "crit")
 	else:

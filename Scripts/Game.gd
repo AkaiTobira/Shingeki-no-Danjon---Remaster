@@ -22,8 +22,8 @@ func _ready():
 	DungeonState.current_floor = 0
 	DungeonState.emit_signal("floor_changed", DungeonState.current_floor)
 	
-	PlayerStats.health = PlayerStats.max_health
-	PlayerStats.mana = PlayerStats.max_mana
+	PlayerStats.health = PlayerStats.statistic["mx_hpp"][0]
+	PlayerStats.mana = PlayerStats.statistic["mx_man"][0]
 
 func set_map(new_map):
 	if map:

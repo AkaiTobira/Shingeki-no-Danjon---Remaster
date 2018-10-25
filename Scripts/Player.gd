@@ -58,7 +58,7 @@ func _physics_process(delta):
 	if is_ghost:
 		is_ghost -= delta
 		GHOST_EFFECT.material.set_shader_param("noise_power", 0.002 + max(2 - is_ghost, 0) * 0.02)
-		if is_ghost <= 0 - PlayerStats.ghost_time: get_parent().cancel_ghost()
+		if is_ghost <= 0 - PlayerStats.statistic["gh_dur"][0]: get_parent().cancel_ghost()
 	
 	static_time += delta
 	motion_time += delta
@@ -113,7 +113,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("Spell1") and PlayerStats.get_skill(0) and PlayerStats.mana > PlayerStats.get_skill(0).cost:
 		cast_spell(0)
 	
-	if PlayerStats.mana < PlayerStats.max_mana and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.mana_regen, PlayerStats.max_mana)
+	if PlayerStats.mana < PlayerStats.statistic["mx_man"][0] and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mn_reg"][0], PlayerStats.statistic["mx_man"][0])
 #	if PlayerStats.hp   < PlayerStats.max_hp   and frame_counter % 20 == 0: PlayerStats.hp   = min(PlayerStats.hp + 1, PlayerStats.max_hp)
 
 	UI.soft_refresh()
@@ -122,7 +122,7 @@ func _physics_process(delta):
 
 	if SkillBase.has_skill("FastWalk") and SkillBase.check_combo(["Dir", "Same"]): running = true
 	if !not_move:
-		move = move.normalized() * ( SPEED +  PlayerStats.move_speed )
+		move = move.normalized() * ( SPEED +  PlayerStats.statistic["mv_spd"][0] )
 		if running and !not_move: move *= 2
 
 	if !elements_on:
@@ -215,7 +215,7 @@ func _physics_process(delta):
 	prev_move = move
 	
 	if Input.is_key_pressed(KEY_F3): print(int(position.x / 800), ", ", int(position.y / 800)) ##debug
-	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(1000) ##debug
+	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(10000) ##debug
 #	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
 
 const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
@@ -228,13 +228,13 @@ func damage(attacker, amount, _knockback, type = "NoDamage"):
 	
 	match(type):
 		"Physical":
-			defence = PlayerStats.physi_dmg_re
+			defence = PlayerStats.statistic["ph_res"][0]
 		"Explosion":
-			defence = PlayerStats.explo_dmg_re
+			defence = PlayerStats.statistic["ex_res"][0]
 		"Shock":
-			defence = PlayerStats.shock_dmg_re
+			defence = PlayerStats.statistic["sh_res"][0]
 		"Crush":
-			defence = PlayerStats.crush_dmg_re
+			defence = PlayerStats.statistic["cr_res"][0]
 	
 	
 	damaged = 16
@@ -304,7 +304,7 @@ func change_dir(dir, force = false):
 	if !force and (direction == dir or !dead and (Input.is_action_pressed("Attack") or Input.is_action_pressed("Shield"))): return
 #	running = false
 	
-	$ArmAnimator.playback_speed = 12 *  PlayerStats.atack_speed
+	$ArmAnimator.playback_speed = 12 *  PlayerStats.statistic["at_spd"][0]
 
 	direction = dir
 	sprite_direction = ["Back", "Right", "Front", "Left"][dir]
@@ -464,7 +464,7 @@ func trigger_skill(skill = triggered_skill[0]):
 		projectile.direction = direction
 		projectile.intiated()
 		
-		projectile.damage = skill.damage + int(PlayerStats.magical_dmg)
+		projectile.damage = skill.damage + int(PlayerStats.statistic["mg_dmg"][0])
 		for stat in skill.scalling.keys():
 			projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
 		
