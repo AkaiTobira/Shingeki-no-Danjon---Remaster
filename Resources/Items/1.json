@@ -6,6 +6,7 @@
 	"description": "A corrupted sword bestowed by goddess.",
 	"price": 100,
 	"durability": 100,
-	"attack": 20,
-	"scaling": {"strength": 1}
+	"attack": [12,0,0,0],
+	"material"  : [0,4],
+	"scaling": {"streng": 1}
 }

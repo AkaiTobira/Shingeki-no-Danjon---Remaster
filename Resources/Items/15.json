@@ -4,5 +4,7 @@
 	"description": "Perfect for walking long distances.",
 	"price": 50,
 	"durability": 50000,
-	"defense": 1
+	"block"     : 4,
+	"resists"   : [0.05,0.05,0.05,0.05],
+	"material"  : [0,4]
 }

@@ -6,6 +6,8 @@
 	"description": "Blade enhanced with magic crystal. Increases your magic power.",
 	"price": 30,
 	"durability": 35,
-	"attack": 20,
-	"scaling": {"strength": 1, "intelligence": 0.2}
+	"attack": [19,0,0,0],
+	"material"  : [0,4],
+	"scaling": {"streng": 1, 
+				"smart": 0.2}
 }

@@ -44,7 +44,7 @@ const MAX_STATS = 6
 const INVENTORY_SLOTS = 8
 const CRAFTING_SIZE = 10
 const MAX_INGREDIENTS = 5
-const STAT_LIST = [\"attack\", \"defense\", \"strength\", \"dexterity\", \"intelligence\", \"vitality\"]
+const STAT_LIST = [\"attack\", \"resists\", \"block\"]
 const TABS = [\"Character\", \"Equipment\", \"Skills\", \"Crafting\", \"Map\", \"Notes\"]
 const SKILLPOINTS = [\"Strength\", \"Dexterity\", \"Intelligence\", \"Vitality\"]
 const CATEGORIES = [\"All\", \"Consumable\", \"Weapons\", \"Armors\", \"Accessories\"]#, \"Other\"]
@@ -223,7 +223,6 @@ func _process(delta):
 			if PlayerStats.stat_points > 0 and Input.is_action_just_pressed(\"Interact\"):
 				Res.ui_sample(\"Skillpoint\")
 				var stat = SKILLPOINTS[skillpoint_select].to_lower()
-				PlayerStats.set(stat, PlayerStats.get(stat)+1)
 				SkillBase.inc_stat(SKILLPOINTS[skillpoint_select])
 				PlayerStats.stat_points -= 1
 				PlayerStats.update_skills(skillpoint_select)
@@ -717,20 +716,20 @@ func update_stats(item, compare):
 			
 			stat_label.text = stat.capitalize() + \": \" + str(value)
 			
-			if compare and old_item and old_item.has(stat):
-				var cmp = stats[stat] - old_item[stat]
+			#if compare and old_item and old_item.has(stat):
+			#	var cmp = stats[stat] - old_item[stat]
 				
-				if cmp != 0:
-					if cmp > 0:
-						stat_label.add_color_override(\"font_color\", Color(0, 1, 1))
-					else:
-						stat_label.add_color_override(\"font_color\", Color(1, 0.5, 0))
+			#	if cmp != 0:
+			#		if cmp > 0:
+			#			stat_label.add_color_override(\"font_color\", Color(0, 1, 1))
+			#		else:
+			#			stat_label.add_color_override(\"font_color\", Color(1, 0.5, 0))
 					
-					stat_label.text = stat_label.text + \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\"
-				else:
-					stat_label.add_color_override(\"font_color\", Color(1, 1, 1))
-			else:
-				stat_label.add_color_override(\"font_color\", Color(1, 1, 1))
+			#		stat_label.text = stat_label.text + \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\"
+			#	else:
+			#		stat_label.add_color_override(\"font_color\", Color(1, 1, 1))
+			#else:
+			#	stat_label.add_color_override(\"font_color\", Color(1, 1, 1))
 			
 			stat_label.visible = true
 	

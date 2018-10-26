@@ -4,5 +4,7 @@
 	"description": "A protective helmet made of iron.",
 	"price": 50,
 	"durability": 30,
-	"defense": 4
+	"block"     : 4,
+	"resists"   : [0.05,0.05,0.05,0.05],
+	"material"  : [0,4]
 }

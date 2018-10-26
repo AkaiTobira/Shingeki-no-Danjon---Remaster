@@ -4,5 +4,8 @@
 	"name": "Barrel Shield",
 	"description": "Shield made of barrel lid. How creative!",
 	"price": 10,
-	"durability": 10
+	"durability": 10,
+	"block"     : 4,
+	"resists"   : [0.1,0.05,0.05,0.05],
+	"material"  : [0,4]
 }
