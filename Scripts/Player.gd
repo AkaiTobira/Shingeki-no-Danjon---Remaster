@@ -465,8 +465,8 @@ func trigger_skill(skill = triggered_skill[0]):
 		projectile.intiated()
 		
 		projectile.damage = skill.damage + int(PlayerStats.statistic["mg_dmg"][0])
-		for stat in skill.scalling.keys():
-			projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
+		#for stat in skill.scalling.keys():
+		#	projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
 		
 		if skill.has("magic") and skill.magic == 1 and SkillBase.has_skill("FireAffinity"): projectile.damage *= 3 ##hack
 		elif skill.has("magic") and skill.magic == 2 and SkillBase.has_skill("WaterAffinity"): projectile.damage *= 3 ##hack

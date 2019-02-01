@@ -1,6 +1,7 @@
 extends Node
 
 const INVENTORY_SIZE  = 1000
+const STAT_LIST       = ["attack", "p.resist", "c.resist", "s.resist", "e.resist" , "block", "move speed"]
 const EQUIPMENT_SLOTS = ["amulet", "helmet", "shield", "weapon", "armor", "ring", "boots"]
 const SLOTS           = {}
 
@@ -95,9 +96,10 @@ func _ready():
 func get_stats_from_items():
 	for eq in equipment:
 		if eq :
-			var item = Res.items[eq.id]
-			for stat in item.scaling:
-				pass
+			print(eq)
+			#var item = Res.items[eq.id]
+			#for stat in item.scaling:
+			#	pass
 
 
 func get_damage():
@@ -190,6 +192,14 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 		if item.has("durability"):
 			_item.durability = item.durability
 			_item.max_durability = item.durability
+
+		for stat in STAT_LIST:
+			if item.has(str(stat)):
+				_item[str(stat)] = item[str(stat)]
+
+		#DEMONIZACJA
+		if item.type == "weapon":
+			_item["p.resist"]  = 0.3
 
 		inventory.append(_item)
 	else:
