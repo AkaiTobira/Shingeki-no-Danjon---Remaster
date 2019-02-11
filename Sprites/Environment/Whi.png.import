@@ -7,10 +7,7 @@ path="res://.import/Whi.png-0b48ced5c8db73041705a8be90d005b9.stex"
 [deps]
 
 source_file="res://Sprites/Environment/Whi.png"
-source_md5="906ce1103a627b533ad23cb27339b391"
-
 dest_files=[ "res://.import/Whi.png-0b48ced5c8db73041705a8be90d005b9.stex" ]
-dest_md5="edf76cf9470a8dbe07ff030feeddce70"
 
 [params]
 

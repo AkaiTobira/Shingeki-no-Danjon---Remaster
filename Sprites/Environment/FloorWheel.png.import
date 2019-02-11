@@ -7,10 +7,7 @@ path="res://.import/FloorWheel.png-ace7e5cab1e33790167fc8181f86a639.stex"
 [deps]
 
 source_file="res://Sprites/Environment/FloorWheel.png"
-source_md5="729e0fc00264a760fc1c4ba2891990d2"
-
 dest_files=[ "res://.import/FloorWheel.png-ace7e5cab1e33790167fc8181f86a639.stex" ]
-dest_md5="36f4292472d6b249c4a6048cdb94cccc"
 
 [params]
 

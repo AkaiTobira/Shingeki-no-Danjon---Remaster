@@ -7,10 +7,7 @@ path="res://.import/DownPipe.png-58d69ac28ba83ba17060c6e20d0cc5af.stex"
 [deps]
 
 source_file="res://Sprites/Environment/DownPipe.png"
-source_md5="a79d6ba0c628654a74a9c318d6aaf653"
-
 dest_files=[ "res://.import/DownPipe.png-58d69ac28ba83ba17060c6e20d0cc5af.stex" ]
-dest_md5="c287dcd7f10c1b0ff49161b21867a879"
 
 [params]
 

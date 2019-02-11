@@ -7,10 +7,7 @@ path="res://.import/Coffing.png-b278f9fcac02721bcfdf6ebc6bdbcf86.stex"
 [deps]
 
 source_file="res://Sprites/Objects/Coffing.png"
-source_md5="3a9bcab8a9fdb3d71ca2bb3a61cb22e4"
-
 dest_files=[ "res://.import/Coffing.png-b278f9fcac02721bcfdf6ebc6bdbcf86.stex" ]
-dest_md5="ff7e25b7cd151c969b112142001e856a"
 
 [params]
 

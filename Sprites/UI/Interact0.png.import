@@ -7,10 +7,7 @@ path="res://.import/Interact0.png-86d8f0d0d46905c60863562ff07728b4.stex"
 [deps]
 
 source_file="res://Sprites/UI/Interact0.png"
-source_md5="b8f4d6f67d29ce45cc2adf0b8a8287b8"
-
 dest_files=[ "res://.import/Interact0.png-86d8f0d0d46905c60863562ff07728b4.stex" ]
-dest_md5="74e0d313d358bad62e0f1468d2b2edc1"
 
 [params]
 

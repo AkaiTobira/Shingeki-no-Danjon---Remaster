@@ -7,10 +7,7 @@ path="res://.import/ParaffinGreenPipe.png-ff03fb38dd6b9bed7f2916fc001b7929.stex"
 [deps]
 
 source_file="res://Sprites/Environment/ParaffinGreenPipe.png"
-source_md5="4e040e8b0b046b5c5b5c73aea78d395e"
-
 dest_files=[ "res://.import/ParaffinGreenPipe.png-ff03fb38dd6b9bed7f2916fc001b7929.stex" ]
-dest_md5="2bdf4a5bd8b232394a1a6833ce5dc528"
 
 [params]
 

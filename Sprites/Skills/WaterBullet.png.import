@@ -7,10 +7,7 @@ path="res://.import/WaterBullet.png-fb6923869e8d01d118fa1fda72c022ce.stex"
 [deps]
 
 source_file="res://Sprites/Skills/WaterBullet.png"
-source_md5="6da272fedd597a83d67f1a58318fb7b8"
-
 dest_files=[ "res://.import/WaterBullet.png-fb6923869e8d01d118fa1fda72c022ce.stex" ]
-dest_md5="929867fd546cd78932f51d20f42a5af6"
 
 [params]
 

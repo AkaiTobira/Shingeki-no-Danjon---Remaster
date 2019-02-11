@@ -7,10 +7,7 @@ path="res://.import/Placeholder1x2.png-cb535bb10af3a49b2b054ea07bd9f622.stex"
 [deps]
 
 source_file="res://Sprites/Environment/Placeholder1x2.png"
-source_md5="2fa35e77f1383d3a34c19aadaf436d41"
-
 dest_files=[ "res://.import/Placeholder1x2.png-cb535bb10af3a49b2b054ea07bd9f622.stex" ]
-dest_md5="fdf0698a50250d5fd9d89ade10cf7597"
 
 [params]
 

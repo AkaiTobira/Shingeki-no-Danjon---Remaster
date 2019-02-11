@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Enemies/Grinder.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/GearGrinder300/GearGrinder3000.png" type="Texture" id=2]
@@ -6,7 +6,7 @@
 [ext_resource path="res://Sprites/Enemies/GearGrinder300/GG3000_D_U.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -144,6 +144,49 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=7]
 
+resource_name = "PunchRight"
+length = 4.0
+loop = false
+step = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.6, 2.4, 3.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/2:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AttackCollider/Shape:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.6, 3.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=8]
+
 length = 4.0
 loop = false
 step = 0.8
@@ -172,7 +215,62 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
+
+resource_name = "Right"
+length = 4.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 1, 2, 3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/1:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/2:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprites/3:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=10]
 
 length = 4.0
 loop = true
@@ -190,27 +288,27 @@ tracks/0/keys = {
 "values": [ 4, 5, 6, 7 ]
 }
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=11]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.6279, 10 )
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=12]
 
 custom_solver_bias = 0.0
 extents = Vector2( 39.8092, 47.0572 )
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=13]
 
 custom_solver_bias = 0.0
 extents = Vector2( 57.0542, 68.5652 )
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=14]
 
 custom_solver_bias = 0.0
 extents = Vector2( 19.4311, 20.9686 )
 
-[node name="Grinder" type="KinematicBody2D" index="0" groups=[
+[node name="Grinder" type="KinematicBody2D" groups=[
 "enemies",
 ]]
 
@@ -241,6 +339,7 @@ visible = false
 position = Vector2( 5.9476, -5.23343 )
 texture = ExtResource( 3 )
 hframes = 5
+frame = 4
 _sections_unfolded = [ "Animation", "Material", "Offset", "Visibility", "Z Index" ]
 
 [node name="3" type="Sprite" parent="Sprites" index="2"]
@@ -250,7 +349,7 @@ texture = ExtResource( 4 )
 vframes = 2
 hframes = 5
 frame = 5
-_sections_unfolded = [ "Animation" ]
+_sections_unfolded = [ "Animation", "Offset" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 
@@ -265,8 +364,10 @@ anims/Idle = SubResource( 3 )
 anims/Left = SubResource( 4 )
 anims/PunchDown = SubResource( 5 )
 anims/PunchLeft = SubResource( 6 )
-anims/PunchUp = SubResource( 7 )
-anims/Up = SubResource( 8 )
+anims/PunchRight = SubResource( 7 )
+anims/PunchUp = SubResource( 8 )
+anims/Right = SubResource( 9 )
+anims/Up = SubResource( 10 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -274,7 +375,7 @@ _sections_unfolded = [ "Playback Options" ]
 
 position = Vector2( 2.29096, 0.186645 )
 scale = Vector2( 3.70602, 2.42204 )
-shape = SubResource( 9 )
+shape = SubResource( 11 )
 
 [node name="DamageCollider" type="Area2D" parent="." index="3"]
 
@@ -283,7 +384,7 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-collision_layer = 2
+collision_layer = 3
 collision_mask = 2
 audio_bus_override = false
 audio_bus_name = "Master"
@@ -293,7 +394,7 @@ _sections_unfolded = [ "Collision" ]
 
 position = Vector2( 1.17495, -36.8634 )
 scale = Vector2( 0.880224, 1 )
-shape = SubResource( 10 )
+shape = SubResource( 12 )
 
 [node name="AttackCollider" type="Area2D" parent="." index="4"]
 
@@ -309,7 +410,7 @@ audio_bus_name = "Master"
 
 position = Vector2( 1, -34.5472 )
 scale = Vector2( 1, 1.03559 )
-shape = SubResource( 11 )
+shape = SubResource( 13 )
 disabled = true
 
 [node name="HealthBar" type="TextureProgress" parent="." index="5"]
@@ -346,28 +447,44 @@ _sections_unfolded = [ "Textures" ]
 
 [node name="Radar" type="Area2D" parent="." index="6"]
 
+visible = false
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 512
+collision_mask = 512
 audio_bus_override = false
 audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Radar" index="0"]
 
 position = Vector2( -13.5791, -10.1375 )
 scale = Vector2( 30.8352, 20.2098 )
-shape = SubResource( 12 )
+shape = SubResource( 14 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="." index="7"]
 
-position = Vector2( -2.8517, -0.0836993 )
-scale = Vector2( 1.27088, -3.35489 )
+position = Vector2( 2.37727, 2.19586 )
+scale = Vector2( 0.116501, 0.070165 )
 z_index = -1
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Z Index" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="8"]
+
+position = Vector2( 0.459501, -33.9882 )
+scale = Vector2( 3.18444, 4.90934 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

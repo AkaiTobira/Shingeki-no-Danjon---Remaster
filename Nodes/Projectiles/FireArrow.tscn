@@ -48,7 +48,7 @@ func new_dir(dir):
 func _on_attack_hit(collider):
 	
 	if collider.get_parent().is_in_group(\"players\"):
-		collider.get_parent().damage(self ,damage, 0)
+		collider.get_parent().damage(self ,damage, 0, \"Explosion\")
 		queue_free()
 
 	#if !collider.get_parent().is_in_group(\"enemies\"):
@@ -84,12 +84,12 @@ tracks/0/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 33.7777, 10 )
 
-[node name="KinematicBody2D" type="KinematicBody2D"]
+[node name="KinematicBody2D" type="KinematicBody2D" index="0"]
 
 z_index = 2
 input_pickable = false
-collision_layer = 8
-collision_mask = 8
+collision_layer = 524288
+collision_mask = 524288
 collision/safe_margin = 0.08
 script = SubResource( 1 )
 _sections_unfolded = [ "Collision", "Z Index" ]

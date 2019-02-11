@@ -3,6 +3,5 @@
 	"name": "Iron Ring",
 	"description": "Seriously, how much equipment can you make from iron?",
 	"price": 50,
-	"durability": 30,
-	"defense": 1
+	"durability": 30
 }

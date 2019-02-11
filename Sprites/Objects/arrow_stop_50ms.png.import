@@ -7,10 +7,7 @@ path="res://.import/arrow_stop_50ms.png-eb6cda977b7eabc839318000170339b0.stex"
 [deps]
 
 source_file="res://Sprites/Objects/arrow_stop_50ms.png"
-source_md5="bd78364446c8995d183637ce5bb0837c"
-
 dest_files=[ "res://.import/arrow_stop_50ms.png-eb6cda977b7eabc839318000170339b0.stex" ]
-dest_md5="16a656deac892e6744d0ee3b16155c2c"
 
 [params]
 

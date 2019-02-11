@@ -7,10 +7,7 @@ path="res://.import/Lever.png-b09dfdb72b7c4479326b8c1048992641.stex"
 [deps]
 
 source_file="res://Sprites/Objects/Lever.png"
-source_md5="e31600686adc265eb436fc526dd71781"
-
 dest_files=[ "res://.import/Lever.png-b09dfdb72b7c4479326b8c1048992641.stex" ]
-dest_md5="3a10f6f6091b301c51618128fd1372ea"
 
 [params]
 

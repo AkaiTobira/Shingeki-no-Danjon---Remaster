@@ -4,5 +4,10 @@
 	"description": "A protective wear usually worn for scouting missions.",
 	"price": 50,
 	"durability": 200,
-	"defense": 10
+	"block"     : 4,
+	"p.resist"  : 0.2,
+	"c.resist"  : 0.2,
+	"s.resist"  : 0.2,
+	"e.resist"  : 0.2,
+	"material"  : [0,4]
 }

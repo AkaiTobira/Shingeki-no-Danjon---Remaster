@@ -1,16 +1,17 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Nodes/Objects/Chest.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=2]
-[ext_resource path="res://Nodes/Segments/Corridor1x1H.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Nodes/Objects/Door.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Nodes/Objects/Lever.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Nodes/Objects/SoulCrystal.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Nodes/Objects/WorkshopCrafting.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Nodes/NPC.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Nodes/Environment/FirePipe.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Nodes/Environment/WheelTrap.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Nodes/Uganda.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Nodes/Enemies/Puncher.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Nodes/Objects/Chest.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=3]
+[ext_resource path="res://Nodes/Segments/Corridor1x1H.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Nodes/Objects/Door.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Nodes/Objects/Lever.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Nodes/Objects/SoulCrystal.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Nodes/Objects/WorkshopCrafting.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Nodes/NPC.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Nodes/Environment/FirePipe.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Nodes/Environment/WheelTrap.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Nodes/Uganda.tscn" type="PackedScene" id=12]
 
 [sub_resource type="GDScript" id=1]
 
@@ -30,20 +31,40 @@ func initialize():
 	var text = file.get_as_text()
 	
 	var file_json = parse_json(text)
-	get_node(\"Segments/Segment2\").generate(file_json, \"Mechanic\" )"
+	get_node(\"Segments/Segment2\").generate(file_json, \"Mechanic\" )
+	
+	var tab = {
+			\"HP\" : 35,
+			\"Exp\": 35,
+			\"Speed\": 100,
+			\"Range\" : 70,
+			\"Resists\"    : [ 0.4,  0.2,  0, 0.3   ],
+			\"Skill\"      : [   1,   12, 50, 250, 4],
+			\"Magic\"      : [   0,   10, 54, 300, 1],
+			\"Atack\"      : [   1,    6,  0, 170, 1]
+	}
+	
+	
+	
+	$Puncher._load_stats(tab, \"Puncher\")
+	"
 _sections_unfolded = [ "Resource" ]
 
-[node name="Game" type="YSort"]
+[node name="Game" type="YSort" index="0"]
 
 sort_enabled = true
 script = SubResource( 1 )
 _sections_unfolded = [ "Sort" ]
 
-[node name="Chest" parent="." index="0" instance=ExtResource( 1 )]
+[node name="Puncher" parent="." index="0" instance=ExtResource( 1 )]
+
+position = Vector2( 1477.05, 352.448 )
+
+[node name="Chest" parent="." index="1" instance=ExtResource( 2 )]
 
 position = Vector2( 264.752, 546.056 )
 
-[node name="Segments" type="Node2D" parent="." index="1"]
+[node name="Segments" type="Node2D" parent="." index="2"]
 
 [node name="Segment" type="Node2D" parent="Segments" index="0"]
 
@@ -52,7 +73,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="BottomTiles" type="TileMap" parent="Segments/Segment" index="0"]
 
 mode = 0
-tile_set = ExtResource( 2 )
+tile_set = ExtResource( 3 )
 cell_size = Vector2( 80, 80 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -77,7 +98,7 @@ __meta__ = {
 
 z_index = 5
 mode = 0
-tile_set = ExtResource( 2 )
+tile_set = ExtResource( 3 )
 cell_size = Vector2( 80, 80 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -98,44 +119,42 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Segment2" parent="Segments" index="1" instance=ExtResource( 3 )]
+[node name="Segment2" parent="Segments" index="1" instance=ExtResource( 4 )]
 
 position = Vector2( 800, 0 )
 
-[node name="Door" parent="." index="2" instance=ExtResource( 4 )]
+[node name="Door" parent="." index="3" instance=ExtResource( 5 )]
 
 position = Vector2( 264.907, 123.277 )
 
-[node name="Lever" parent="." index="3" instance=ExtResource( 5 )]
+[node name="Lever" parent="." index="4" instance=ExtResource( 6 )]
 
 position = Vector2( 591.76, 363.818 )
 target = NodePath("../Door")
 
-[node name="SoulCrystal" parent="." index="4" instance=ExtResource( 6 )]
+[node name="SoulCrystal" parent="." index="5" instance=ExtResource( 7 )]
 
 position = Vector2( 48.8628, 363.335 )
 
-[node name="Chest2" parent="." index="5" instance=ExtResource( 7 )]
+[node name="Chest2" parent="." index="6" instance=ExtResource( 8 )]
 
 position = Vector2( 206.046, 401.823 )
 
-[node name="NPC" parent="." index="6" instance=ExtResource( 8 )]
+[node name="NPC" parent="." index="7" instance=ExtResource( 9 )]
 
 position = Vector2( 833.849, 450.152 )
 
-[node name="FlamePipe" parent="." index="7" instance=ExtResource( 9 )]
+[node name="FlamePipe" parent="." index="8" instance=ExtResource( 10 )]
 
 position = Vector2( 212.77, 312.799 )
-need_enemies_list = false
-need_enable_directions = null
 
-[node name="FlamePipe2" parent="." index="8" instance=ExtResource( 10 )]
+[node name="FlamePipe2" parent="." index="9" instance=ExtResource( 11 )]
 
 position = Vector2( 1066.67, 508.001 )
 need_enemies_list = false
 need_enable_directions = null
 
-[node name="Uganda" parent="." index="9" instance=ExtResource( 11 )]
+[node name="Uganda" parent="." index="10" instance=ExtResource( 12 )]
 
 position = Vector2( 413.215, 615.51 )
 

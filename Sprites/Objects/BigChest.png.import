@@ -7,10 +7,7 @@ path="res://.import/BigChest.png-74df04f71dcdbb96b5c0f19b4863364a.stex"
 [deps]
 
 source_file="res://Sprites/Objects/BigChest.png"
-source_md5="aa0593c4cfff9bbb485305c317d17e43"
-
 dest_files=[ "res://.import/BigChest.png-74df04f71dcdbb96b5c0f19b4863364a.stex" ]
-dest_md5="ec21d38b31d48524986baf44fd44d095"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/FireAffinity.png-f9d8b8976fce11486acc751be5d7f236.stex"
 [deps]
 
 source_file="res://Sprites/Skills/HD/FireAffinity.png"
-source_md5="43b86898e06f897f96fc6534828b5e29"
-
 dest_files=[ "res://.import/FireAffinity.png-f9d8b8976fce11486acc751be5d7f236.stex" ]
-dest_md5="4b9a15fbb750b8663accbed864c42776"
 
 [params]
 

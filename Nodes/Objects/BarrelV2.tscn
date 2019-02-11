@@ -59,7 +59,7 @@ func fill(breakable_contains,dungeon_level):
 	
 	pass
 
-func damage(amount):
+func damage(amount, source = \"\", nothing = \"\"):
 	Res.play_sample(self, \"WoodBreak\")
 	$Animation.play(\"Destroyed\")
 	$DamageCollider.queue_free()
@@ -105,9 +105,9 @@ extents = Vector2( 24.9147, 34.5188 )
 custom_solver_bias = 0.0
 extents = Vector2( 24, 20 )
 
-[node name="Barrel" type="StaticBody2D" index="0" groups=[
-"enviroment",
+[node name="Barrel" type="StaticBody2D" groups=[
 "enemies",
+"enviroment",
 ]]
 
 input_pickable = false

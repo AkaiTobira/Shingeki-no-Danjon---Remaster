@@ -7,10 +7,7 @@ path="res://.import/WariorHead.png-d2fedd5c95da52b1e92a1582ee0b669b.stex"
 [deps]
 
 source_file="res://Sprites/Intro/WariorHead.png"
-source_md5="3fe2e26263d5aa0c143dcac253f1528b"
-
 dest_files=[ "res://.import/WariorHead.png-d2fedd5c95da52b1e92a1582ee0b669b.stex" ]
-dest_md5="e29e52be2c5f36addb6e2c35bc5e873b"
 
 [params]
 

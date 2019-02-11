@@ -7,10 +7,7 @@ path="res://.import/NameBox.png-d07fc0566ff6b19fdebbe2e619805543.stex"
 [deps]
 
 source_file="res://Sprites/UI/NameBox.png"
-source_md5="860661d8c45ff2c798d918817d83fc7f"
-
 dest_files=[ "res://.import/NameBox.png-d07fc0566ff6b19fdebbe2e619805543.stex" ]
-dest_md5="8fb238285708c7a58a8adc6b1d16e164"
 
 [params]
 

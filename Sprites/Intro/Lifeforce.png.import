@@ -7,10 +7,7 @@ path="res://.import/Lifeforce.png-719e128fc0612280648f8a568e8c2e80.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Lifeforce.png"
-source_md5="21af4b2302ffcb71c52a0ab78f6ab856"
-
 dest_files=[ "res://.import/Lifeforce.png-719e128fc0612280648f8a568e8c2e80.stex" ]
-dest_md5="0ff37515c3330c0b6983bb7c7a2d7ff9"
 
 [params]
 

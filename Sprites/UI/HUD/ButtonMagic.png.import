@@ -7,10 +7,7 @@ path="res://.import/ButtonMagic.png-63b3370c6eaac9b04a4d0492a221a493.stex"
 [deps]
 
 source_file="res://Sprites/UI/HUD/ButtonMagic.png"
-source_md5="2368e4408d7414da8ac9365f106adc5e"
-
 dest_files=[ "res://.import/ButtonMagic.png-63b3370c6eaac9b04a4d0492a221a493.stex" ]
-dest_md5="22672af0c9b187f467f975d8a26f7b67"
 
 [params]
 

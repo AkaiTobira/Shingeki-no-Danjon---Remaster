@@ -7,10 +7,7 @@ path="res://.import/StarPower.png-75f54438cfce6b5c723608387da28406.stex"
 [deps]
 
 source_file="res://Sprites/Intro/StarPower.png"
-source_md5="56f61f5a20aa956eb0a35bc095d55da9"
-
 dest_files=[ "res://.import/StarPower.png-75f54438cfce6b5c723608387da28406.stex" ]
-dest_md5="f9cd29722233a25d45c364d936ce95c3"
 
 [params]
 

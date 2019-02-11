@@ -22,8 +22,8 @@ func _ready():
 	DungeonState.current_floor = 0
 	DungeonState.emit_signal("floor_changed", DungeonState.current_floor)
 	
-	PlayerStats.health = PlayerStats.max_health
-	PlayerStats.mana = PlayerStats.max_mana
+	PlayerStats.health = PlayerStats.statistic["mx_hpp"][0]
+	PlayerStats.mana = PlayerStats.statistic["mx_man"][0]
 
 func set_map(new_map):
 	if map:
@@ -56,7 +56,7 @@ func change_floor(change):
 	object_id = 0
 	var new_map = load("res://Maps/RandomMap.tscn").instance()
 	if DungeonState.current_floor == 0: #ULTRAMEGAOSTATECZNYHACK
-		new_map = load("res://Maps/Sandbox.tscn").instance()
+		new_map = load("res://Maps/JigsawRoom.tscn").instance()
 	elif DungeonState.current_floor == 4: #ULTRAMEGAOSTATECZNYHACK
 		new_map = load("res://Maps/BossRoom.tscn").instance()
 	else:

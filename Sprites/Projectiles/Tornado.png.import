@@ -7,10 +7,7 @@ path="res://.import/Tornado.png-b92ae08048ec710f9c2044041231e928.stex"
 [deps]
 
 source_file="res://Sprites/Projectiles/Tornado.png"
-source_md5="f4e3f6c34bdef02e0672b09a35f3594d"
-
 dest_files=[ "res://.import/Tornado.png-b92ae08048ec710f9c2044041231e928.stex" ]
-dest_md5="d13f53b05fa09969f400f68e1f73e47f"
 
 [params]
 

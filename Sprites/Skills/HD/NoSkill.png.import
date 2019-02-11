@@ -7,10 +7,7 @@ path="res://.import/NoSkill.png-c3e17b62e22270cdc8a907fa1bde1b97.stex"
 [deps]
 
 source_file="res://Sprites/Skills/HD/NoSkill.png"
-source_md5="630071ec4b6195539da79a1debf6415a"
-
 dest_files=[ "res://.import/NoSkill.png-c3e17b62e22270cdc8a907fa1bde1b97.stex" ]
-dest_md5="784b5dbdb1c5a046210f26e3acf34667"
 
 [params]
 

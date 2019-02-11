@@ -7,10 +7,7 @@ path="res://.import/Tornado.png-dd36ed75251b72f696822cd0b15be876.stex"
 [deps]
 
 source_file="res://Sprites/Skills/Tornado.png"
-source_md5="caccaceba14f6706a29e57ccba689038"
-
 dest_files=[ "res://.import/Tornado.png-dd36ed75251b72f696822cd0b15be876.stex" ]
-dest_md5="807c985ab7233d79db4759c3bdfbe370"
 
 [params]
 

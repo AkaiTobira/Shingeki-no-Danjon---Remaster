@@ -7,10 +7,7 @@ path="res://.import/WaterAffinity.png-6b7d5d8a3d04736a37fc25d2f8240377.stex"
 [deps]
 
 source_file="res://Sprites/Skills/WaterAffinity.png"
-source_md5="cdc1e6b35d4b778a6376b0b6aff97af1"
-
 dest_files=[ "res://.import/WaterAffinity.png-6b7d5d8a3d04736a37fc25d2f8240377.stex" ]
-dest_md5="ebbdf70049862bad3e6a74c0f8f18a65"
 
 [params]
 

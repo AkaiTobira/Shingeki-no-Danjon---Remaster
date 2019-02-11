@@ -7,10 +7,7 @@ path="res://.import/Redeye.png-f18ad8532a774088724cb8fe174c49c3.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Redeye.png"
-source_md5="2ebc0d2835d9b42f1634f87f74d18509"
-
 dest_files=[ "res://.import/Redeye.png-f18ad8532a774088724cb8fe174c49c3.stex" ]
-dest_md5="883152cc9ab21b6dc39f1cc5a817b71e"
 
 [params]
 

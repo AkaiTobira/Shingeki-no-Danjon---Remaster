@@ -7,10 +7,7 @@ path="res://.import/ButtonElement3.png-bfe16135921df5f36ebef799bfbdaa1c.stex"
 [deps]
 
 source_file="res://Sprites/UI/HUD/ButtonElement3.png"
-source_md5="1a86b96f453e11a8ea145608826f7080"
-
 dest_files=[ "res://.import/ButtonElement3.png-bfe16135921df5f36ebef799bfbdaa1c.stex" ]
-dest_md5="e1450cd342c90ef0e16d6d252269028c"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/WaterPipe.png-1958a2ee120320702806888f2780bfdc.stex"
 [deps]
 
 source_file="res://Sprites/Environment/WaterPipe.png"
-source_md5="d57e53ef5c2e6c5d9458c425182be086"
-
 dest_files=[ "res://.import/WaterPipe.png-1958a2ee120320702806888f2780bfdc.stex" ]
-dest_md5="113d02f7fb341b64c3eb51be53113b48"
 
 [params]
 

@@ -1,11 +1,11 @@
 [gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Enemies/Trochnalis.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Enemies/Trochnalis/Trochnalis_basics.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Enemies/Trochnalis/Specials_Trochnalis.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Enemies/Trochnalis/Trochnalis_basics.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Enemies/Trochnalis/Specials_Trochnalis.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 
@@ -294,6 +294,7 @@ extents = Vector2( 10, 10 )
 "enemies",
 ]]
 
+z_index = 1
 input_pickable = false
 collision_layer = 1
 collision_mask = 513
@@ -322,22 +323,28 @@ anims/Up = SubResource( 11 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
-[node name="Shape" type="CollisionShape2D" parent="." index="1"]
+[node name="Shadow" type="Sprite" parent="." index="1"]
+
+position = Vector2( 0.249117, -1.53599 )
+scale = Vector2( 0.17223, 0.065944 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Z Index" ]
+
+[node name="Shape" type="CollisionShape2D" parent="." index="2"]
 
 position = Vector2( 0.902496, -6.94872 )
 scale = Vector2( 1, 1.83971 )
 shape = SubResource( 12 )
 
-[node name="Sprites" type="Node2D" parent="." index="2"]
+[node name="Sprites" type="Node2D" parent="." index="3"]
 
 editor/display_folded = true
 position = Vector2( 0, -69 )
-z_index = 1
 _sections_unfolded = [ "Z Index" ]
 
 [node name="1" type="Sprite" parent="Sprites" index="0"]
 
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 vframes = 2
 hframes = 8
 _sections_unfolded = [ "Animation" ]
@@ -346,7 +353,7 @@ _sections_unfolded = [ "Animation" ]
 
 visible = false
 position = Vector2( 0, -13 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 vframes = 6
 hframes = 4
 frame = 13
@@ -356,20 +363,23 @@ _sections_unfolded = [ "Animation" ]
 
 visible = false
 position = Vector2( 0.814514, -12.2176 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 vframes = 5
 hframes = 4
 _sections_unfolded = [ "Animation" ]
 
-[node name="Radar" type="Area2D" parent="." index="3"]
+[node name="Radar" type="Area2D" parent="." index="4"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 512
+collision_mask = 512
 audio_bus_override = false
 audio_bus_name = "Master"
+_sections_unfolded = [ "Collision" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Radar" index="0"]
 
@@ -377,7 +387,7 @@ position = Vector2( -3.9344, -34.2572 )
 scale = Vector2( 28.1086, 18.9252 )
 shape = SubResource( 13 )
 
-[node name="DamageCollider" type="Area2D" parent="." index="4" groups=[
+[node name="DamageCollider" type="Area2D" parent="." index="5" groups=[
 "enemies",
 ]]
 
@@ -389,7 +399,7 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-collision_layer = 2
+collision_layer = 3
 collision_mask = 2
 audio_bus_override = false
 audio_bus_name = "Master"
@@ -401,7 +411,7 @@ position = Vector2( -1.40505, 0.563736 )
 scale = Vector2( 3.90695, 8.4349 )
 shape = SubResource( 14 )
 
-[node name="AttackCollider" type="Area2D" parent="." index="5"]
+[node name="AttackCollider" type="Area2D" parent="." index="6"]
 
 editor/display_folded = true
 visible = false
@@ -423,7 +433,7 @@ scale = Vector2( 2.9313, 1.39416 )
 shape = SubResource( 15 )
 disabled = true
 
-[node name="HealthBar" type="TextureProgress" parent="." index="6"]
+[node name="HealthBar" type="TextureProgress" parent="." index="7"]
 
 visible = false
 anchor_left = 0.0
@@ -447,20 +457,25 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 4 )
+texture_under = ExtResource( 5 )
 texture_over = null
-texture_progress = ExtResource( 5 )
+texture_progress = ExtResource( 6 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
-_sections_unfolded = [ "Anchor", "Focus", "Hint", "Margin", "Material", "Mouse", "Radial Fill", "Rect", "Size Flags", "Textures", "Theme", "Visibility" ]
+_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Pause", "Radial Fill", "Rect", "Size Flags", "Textures", "Theme", "Visibility" ]
 
-[node name="Shadow" type="Sprite" parent="." index="7"]
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="8"]
 
-position = Vector2( 0.384567, 2.46119 )
-scale = Vector2( 1.91853, 3.07858 )
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Z Index" ]
+position = Vector2( 0.376451, -65.0725 )
+scale = Vector2( 3.79051, 7.50725 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

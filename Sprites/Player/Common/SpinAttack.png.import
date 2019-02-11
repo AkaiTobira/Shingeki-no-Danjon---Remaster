@@ -7,10 +7,7 @@ path="res://.import/SpinAttack.png-039205bffd7da77fb682abace23c35ca.stex"
 [deps]
 
 source_file="res://Sprites/Player/Common/SpinAttack.png"
-source_md5="e0505c7fcb00254269eb85a87bde2895"
-
 dest_files=[ "res://.import/SpinAttack.png-039205bffd7da77fb682abace23c35ca.stex" ]
-dest_md5="1c3a1de2b96d1c27d681f43e46bfbcec"
 
 [params]
 

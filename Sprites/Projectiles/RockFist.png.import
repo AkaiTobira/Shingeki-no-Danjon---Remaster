@@ -7,10 +7,7 @@ path="res://.import/RockFist.png-2a9982c37b8294193436aaa3e9a46f20.stex"
 [deps]
 
 source_file="res://Sprites/Projectiles/RockFist.png"
-source_md5="f99de2dd36c500b6c20398de8b4c69d7"
-
 dest_files=[ "res://.import/RockFist.png-2a9982c37b8294193436aaa3e9a46f20.stex" ]
-dest_md5="88961b890b9c93d802cf0d35f121cedb"
 
 [params]
 

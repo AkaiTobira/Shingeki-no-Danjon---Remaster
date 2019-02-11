@@ -1,11 +1,13 @@
 {
-	"type": "weapon",
-	"weapon": "one-handed",
-	"sprite": "Sword5",
-	"name": "Violent Razor",
+	"type"       : "weapon",
+	"weapon"     : "one-handed",
+	"sprite"     : "Sword5",
+	"name"       : "Violent Razor",
 	"description": "Cuts steel like it was butter.",
-	"price": 100,
-	"durability": 60,
-	"attack": 40,
-	"scaling": {"strength": 0.7, "dexterity": 0.3}
+	"price"      : 100,
+	"durability" : 60,
+	"attack"     : [22,0,0,0],
+	"material"   : [0,4],
+	"scaling"    : {"streng": 0.7,
+				   "dexter": 0.3}
 }

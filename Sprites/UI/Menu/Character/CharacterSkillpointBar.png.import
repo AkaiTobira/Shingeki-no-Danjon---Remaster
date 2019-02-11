@@ -7,10 +7,7 @@ path="res://.import/CharacterSkillpointBar.png-6fc7a3149bbb9d1db2ae34707c51734c.
 [deps]
 
 source_file="res://Sprites/UI/Menu/Character/CharacterSkillpointBar.png"
-source_md5="73a302f22dcee141be40d9895f576324"
-
 dest_files=[ "res://.import/CharacterSkillpointBar.png-6fc7a3149bbb9d1db2ae34707c51734c.stex" ]
-dest_md5="1de4e23d489b316766c134c518de0266"
 
 [params]
 

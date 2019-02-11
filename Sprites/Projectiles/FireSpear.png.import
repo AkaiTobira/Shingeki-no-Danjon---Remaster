@@ -7,10 +7,7 @@ path="res://.import/FireSpear.png-b840b3e10b513852fb67c30d7a7cca96.stex"
 [deps]
 
 source_file="res://Sprites/Projectiles/FireSpear.png"
-source_md5="e2fc459f685a6eb665dc44e545e13fd4"
-
 dest_files=[ "res://.import/FireSpear.png-b840b3e10b513852fb67c30d7a7cca96.stex" ]
-dest_md5="3f6bc34367e972ac95d151ee8e83b5d8"
 
 [params]
 

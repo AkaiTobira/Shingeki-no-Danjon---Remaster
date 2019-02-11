@@ -28,6 +28,7 @@ func set_enemies(enemies):
 
 func spawn():
 	var ug_inst = EnemiesList[randi()%len(EnemiesList)].instance()
+	#ug_inst.
 	ug_inst.position = position
 	#ug_inst._on_damage()
 	get_parent().add_child(ug_inst)

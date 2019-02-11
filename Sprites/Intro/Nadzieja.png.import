@@ -7,10 +7,7 @@ path="res://.import/Nadzieja.png-675d20f0d875ebefe28922899654241a.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Nadzieja.png"
-source_md5="e61cd7de5f6a4938e998e205399e2803"
-
 dest_files=[ "res://.import/Nadzieja.png-675d20f0d875ebefe28922899654241a.stex" ]
-dest_md5="18d42600d057ba9ba1f183e58ff35448"
 
 [params]
 

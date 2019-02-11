@@ -7,10 +7,7 @@ path="res://.import/Genericweapon.png-d344ab8ad63408eb4e15e2606fecaf68.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Equipment/Genericweapon.png"
-source_md5="68c684f0c85ff4835efdf6e30007d28f"
-
 dest_files=[ "res://.import/Genericweapon.png-d344ab8ad63408eb4e15e2606fecaf68.stex" ]
-dest_md5="68a59dc8dd0e8dee88863b93d255d448"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/Mechanik.png-8c814d622a6e2e39aaa6c2de8d0ee373.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/Mechanic/Mechanik.png"
-source_md5="703fbdcea600a62bd724a76887628001"
-
 dest_files=[ "res://.import/Mechanik.png-8c814d622a6e2e39aaa6c2de8d0ee373.stex" ]
-dest_md5="92b6578fba071f11bb635ca49ba128df"
 
 [params]
 

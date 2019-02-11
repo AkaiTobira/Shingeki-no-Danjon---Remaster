@@ -7,10 +7,7 @@ path="res://.import/24.png-f06916686344068cff6b0235fdac08e6.stex"
 [deps]
 
 source_file="res://Sprites/Items/24.png"
-source_md5="bbcd1ed351a866e2a226b5b3bab4ebea"
-
 dest_files=[ "res://.import/24.png-f06916686344068cff6b0235fdac08e6.stex" ]
-dest_md5="879ff99d27f6d630e771b022e8f220b5"
 
 [params]
 

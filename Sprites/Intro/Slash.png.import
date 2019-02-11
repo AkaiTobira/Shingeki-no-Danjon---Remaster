@@ -7,10 +7,7 @@ path="res://.import/Slash.png-66902f5cd0cdbb00ab19d2c85f3a85ef.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Slash.png"
-source_md5="fa1663905d722700d504b6cee846489f"
-
 dest_files=[ "res://.import/Slash.png-66902f5cd0cdbb00ab19d2c85f3a85ef.stex" ]
-dest_md5="0e4b8d5291708dfbb6d71761aba91b36"
 
 [params]
 

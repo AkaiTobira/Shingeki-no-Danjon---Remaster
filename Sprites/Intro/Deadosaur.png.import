@@ -7,10 +7,7 @@ path="res://.import/Deadosaur.png-8b660c51d5b99d4b2dc15eb696643994.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Deadosaur.png"
-source_md5="1ff965921ede2de0c1d7c2319800b719"
-
 dest_files=[ "res://.import/Deadosaur.png-8b660c51d5b99d4b2dc15eb696643994.stex" ]
-dest_md5="263b914989c75bb4241e10fc784288f4"
 
 [params]
 

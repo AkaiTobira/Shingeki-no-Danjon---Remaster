@@ -7,10 +7,7 @@ path="res://.import/WallGear_Down2.png-a20b08e05ccd19687bce33c7416564ca.stex"
 [deps]
 
 source_file="res://Sprites/Environment/WallGear_Down2.png"
-source_md5="d2001824e0ddb8064e6f4e3ec3a025ce"
-
 dest_files=[ "res://.import/WallGear_Down2.png-a20b08e05ccd19687bce33c7416564ca.stex" ]
-dest_md5="85d3e65410ce83fd66d5ddb104f6fce0"
 
 [params]
 

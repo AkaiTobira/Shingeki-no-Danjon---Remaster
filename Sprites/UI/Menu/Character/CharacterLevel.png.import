@@ -7,10 +7,7 @@ path="res://.import/CharacterLevel.png-4bb71fb4bf220a5965f7653d44643d70.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Character/CharacterLevel.png"
-source_md5="a38f580ef9e5b6a1dfdb2fc50337fe9b"
-
 dest_files=[ "res://.import/CharacterLevel.png-4bb71fb4bf220a5965f7653d44643d70.stex" ]
-dest_md5="247149b0159785aa746b5ba9c4b46892"
 
 [params]
 

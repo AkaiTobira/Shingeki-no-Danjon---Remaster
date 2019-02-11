@@ -7,10 +7,7 @@ path="res://.import/WindBanana.png-eba4ee65458241fb40521103b56f390f.stex"
 [deps]
 
 source_file="res://Sprites/Projectiles/WindBanana.png"
-source_md5="73ad1cd01bef4f7ca1cb2d5b8e411dc6"
-
 dest_files=[ "res://.import/WindBanana.png-eba4ee65458241fb40521103b56f390f.stex" ]
-dest_md5="4279bfd53eba4a572a2106933f1a0a91"
 
 [params]
 

@@ -34,6 +34,8 @@ var wind_spam_hack = false
 var damaged
 var dead = false
 
+const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
+
 func _ready():
 	change_animation("Body", "Idle")
 	$BodyAnimator.play("Idle")
@@ -56,7 +58,7 @@ func _physics_process(delta):
 	if is_ghost:
 		is_ghost -= delta
 		GHOST_EFFECT.material.set_shader_param("noise_power", 0.002 + max(2 - is_ghost, 0) * 0.02)
-		if is_ghost <= 0: get_parent().cancel_ghost()
+		if is_ghost <= 0 - PlayerStats.statistic["gh_dur"][0]: get_parent().cancel_ghost()
 	
 	static_time += delta
 	motion_time += delta
@@ -80,7 +82,7 @@ func _physics_process(delta):
 			if prev_move.y == 0 or (direction == 3 and prev_move.x < 0): change_dir(1)
 	elif knockback.length_squared() > 0:
 		move = knockback * 50
-		if move.length() > 5000: move = move.normalized() * 5000
+		if move.length() > 5000: move = move.normalized() * ( 5000  )
 		knockback /= 1.5
 		if knockback.length_squared() < 1: knockback = Vector2()
 	
@@ -111,13 +113,16 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("Spell1") and PlayerStats.get_skill(0) and PlayerStats.mana > PlayerStats.get_skill(0).cost:
 		cast_spell(0)
 	
-	if PlayerStats.mana < PlayerStats.max_mana and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.intelligence/5 + 1, PlayerStats.max_mana)
+	if PlayerStats.mana < PlayerStats.statistic["mx_man"][0] and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mn_reg"][0], PlayerStats.statistic["mx_man"][0])
+#	if PlayerStats.hp   < PlayerStats.max_hp   and frame_counter % 20 == 0: PlayerStats.hp   = min(PlayerStats.hp + 1, PlayerStats.max_hp)
+
 	UI.soft_refresh()
 	
 	if move.length_squared() == 0: running = false
+
 	if SkillBase.has_skill("FastWalk") and SkillBase.check_combo(["Dir", "Same"]): running = true
 	if !not_move:
-		move = move.normalized() * SPEED
+		move = move.normalized() * ( SPEED +  PlayerStats.statistic["mv_spd"][0] )
 		if running and !not_move: move *= 2
 
 	if !elements_on:
@@ -210,31 +215,59 @@ func _physics_process(delta):
 	prev_move = move
 	
 	if Input.is_key_pressed(KEY_F3): print(int(position.x / 800), ", ", int(position.y / 800)) ##debug
-	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(1000) ##debug
+	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(10000) ##debug
+#	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
 
-func damage(attacker, amount, _knockback):
+const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
+
+func damage(attacker, amount, _knockback, type = "NoDamage"):
 	if dead: return
+	if type == "NoDamage" : return
+	
+	var defence = 0.0
+	
+	match(type):
+		"Physical":
+			defence = PlayerStats.statistic["ph_res"][0]
+		"Explosion":
+			defence = PlayerStats.statistic["ex_res"][0]
+		"Shock":
+			defence = PlayerStats.statistic["sh_res"][0]
+		"Crush":
+			defence = PlayerStats.statistic["cr_res"][0]
+	
+	
 	damaged = 16
 	Res.play_pitched_sample(self, "PlayerHurt")
 	
-	amount = max(1, amount - PlayerStats.get_defense())
+	amount = max(1, amount * (1.0-defence) )
+	
 	var damage = amount
 	
 	if shielding : 
-		damage = amount*(1-PlayerStats.shield_block) - PlayerStats.shield_amout
+		damage = amount - PlayerStats.shield_amout
 		
 		if damage < 0:
 			SkillBase.inc_stat("ShieldBlocks")
 			PlayerStats.damage_equipment("shield")
 			Res.play_sample(self, "ShieldBlock")
 			damage = "BLOCKED"
+			
+		else:
+			
+			SkillBase.inc_stat("DamageTaken", damage)
+			PlayerStats.health -= damage
+			PlayerStats.damage_equipment("shield")
+			PlayerStats.damage_equipment("armor", 2)
+			PlayerStats.damage_equipment("helmet")
+			
 	else:
 		SkillBase.inc_stat("DamageTaken", damage)
 		PlayerStats.health -= damage
 		PlayerStats.damage_equipment("armor", 2)
 		PlayerStats.damage_equipment("helmet")
 		
-	Res.create_instance("DamageNumber").damage(self, damage, "player")
+	Res.create_instance("DamageNumber").damage(self, damage, type)
 	UI.soft_refresh()
 	
 	knockback += (position - attacker.position).normalized() * _knockback
@@ -265,11 +298,14 @@ func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("enemies"):
 		SkillBase.inc_stat("OneHanded")
 		SkillBase.inc_stat("Melee")
-		collider.get_parent().damage(PlayerStats.get_damage())
+		collider.get_parent().damage(PlayerStats.get_damage(),"player", "")
 
 func change_dir(dir, force = false):
 	if !force and (direction == dir or !dead and (Input.is_action_pressed("Attack") or Input.is_action_pressed("Shield"))): return
 #	running = false
+	
+	$ArmAnimator.playback_speed = 12 *  PlayerStats.statistic["at_spd"][0]
+
 	direction = dir
 	sprite_direction = ["Back", "Right", "Front", "Left"][dir]
 	change_texture($Body, "Body" + animations["Body"])
@@ -428,9 +464,9 @@ func trigger_skill(skill = triggered_skill[0]):
 		projectile.direction = direction
 		projectile.intiated()
 		
-		projectile.damage = skill.damage
-		for stat in skill.scalling.keys():
-			projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
+		projectile.damage = skill.damage + int(PlayerStats.statistic["mg_dmg"][0])
+		#for stat in skill.scalling.keys():
+		#	projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
 		
 		if skill.has("magic") and skill.magic == 1 and SkillBase.has_skill("FireAffinity"): projectile.damage *= 3 ##hack
 		elif skill.has("magic") and skill.magic == 2 and SkillBase.has_skill("WaterAffinity"): projectile.damage *= 3 ##hack
@@ -509,10 +545,10 @@ func add_quest_rewards(ques):
 	
 	print(ques," Rewards Recived")
 			
-#func _input(event):
-#	if event is InputEventMouseButton:
-#		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
-#		print("Mouse Click/Unclick at: ", event.position)
+func _input(event):
+	if event is InputEventMouseButton:
+		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
+		print("Mouse Click/Unclick at: ", get_global_mouse_position())
 #		print(get_tree().get_root().find_node("Player", true, false).position)
 			
 			

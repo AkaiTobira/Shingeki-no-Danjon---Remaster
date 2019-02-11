@@ -7,10 +7,7 @@ path="res://.import/Adventurer.png-8f8cbc5e8db048d27df55c83e2245a85.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Adventurer.png"
-source_md5="fe46a31222ffcf6ce210e7c8737284fc"
-
 dest_files=[ "res://.import/Adventurer.png-8f8cbc5e8db048d27df55c83e2245a85.stex" ]
-dest_md5="1e9c92649984584542bc05f3409b4e97"
 
 [params]
 

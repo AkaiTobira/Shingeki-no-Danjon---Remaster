@@ -7,10 +7,7 @@ path="res://.import/Genericshield.png-9fd490255271709493e9108959798198.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Equipment/Genericshield.png"
-source_md5="b9dc713a892ef9447a4f85e94d6c5e8e"
-
 dest_files=[ "res://.import/Genericshield.png-9fd490255271709493e9108959798198.stex" ]
-dest_md5="04bebc82c03809fa7ddcb744a5380cf0"
 
 [params]
 

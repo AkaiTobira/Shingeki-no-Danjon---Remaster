@@ -7,10 +7,7 @@ path="res://.import/EarthNeedles.png-96535682f6a0b91ba32a65026189bdb8.stex"
 [deps]
 
 source_file="res://Sprites/Skills/EarthNeedles.png"
-source_md5="9134dd7586b27a87a5adc4e7e6bc317c"
-
 dest_files=[ "res://.import/EarthNeedles.png-96535682f6a0b91ba32a65026189bdb8.stex" ]
-dest_md5="6d1d4df54e0cd8e87c4efbfd6cc62303"
 
 [params]
 

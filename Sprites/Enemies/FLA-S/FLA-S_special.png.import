@@ -7,10 +7,7 @@ path="res://.import/FLA-S_special.png-e1315cb98dd144d33252a8a7b9da4253.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/FLA-S/FLA-S_special.png"
-source_md5="935ad753501d1639f6c3bd227a5ff83f"
-
 dest_files=[ "res://.import/FLA-S_special.png-e1315cb98dd144d33252a8a7b9da4253.stex" ]
-dest_md5="3baaaffdb6cbdda5a1d87eeef279b654"
 
 [params]
 

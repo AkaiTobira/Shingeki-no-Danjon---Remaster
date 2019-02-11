@@ -1,25 +1,41 @@
 extends Node
 
-const INVENTORY_SIZE = 1000
+const INVENTORY_SIZE  = 1000
+const STAT_LIST       = ["attack", "p.resist", "c.resist", "s.resist", "e.resist" , "block", "move speed"]
 const EQUIPMENT_SLOTS = ["amulet", "helmet", "shield", "weapon", "armor", "ring", "boots"]
-const SLOTS = {}
+const SLOTS           = {}
 
 var level = 1
 var experience = 0
 var stat_points = 0
 
-var health = 100
-var max_health = 100
 var mana = 100
-var max_mana = 100
+var health = 100
 
 var shield_block = 0.7
 var shield_amout = 12
 
-var strength = 1
-var dexterity = 1
-var intelligence = 1
-var vitality = 1
+var statistic = {
+				#sum, base, item, skill, mod
+	"streng" : [    1,   1,0,0,0],
+	"dexter" : [    1,   1,0,0,0],
+	"smart"  : [    1,   1,0,0,0],
+	"vital"  : [    1,   1,0,0,0],
+	"ph_dmg" : [    1,   1,0,0,0],
+	"ct_dmg" : [    2,   2,0,0,0],
+	"cr_res" : [  0.0, 0,0,0,0],
+	"ct_chc" : [ 0.05,0.05,0,0,0],
+	"at_spd" : [    1,   1,0,0,0],
+	"mv_spd" : [    1,   1,0,0,0],
+	"ph_res" : [  0.0,   0,0,0,0],
+	"mg_dmg" : [    1,   1,0,0,0],
+	"mx_hpp" : [  100, 100,0,0,0],
+	"mx_man" : [  100, 100,0,0,0],
+	"sh_res" : [  0.0,   0,0,0,0],
+	"gh_dur" : [    1,   1,0,0,0],
+	"mn_reg" : [    1,1,0,0,0],
+	"ex_res" : [  0.0,0,0,0,0]
+	}
 
 var money = 0
 var inventory = []
@@ -30,36 +46,64 @@ signal level_up
 signal got_item
 signal equipment_changed
 
+var multiplier = [2,2,2,2]
+var parameter  = 0.9
+
+var increments = [
+	[   1.7, 3.2, 0.045],
+	[0.015, 0.12, 0.045],
+	[0.045,   1,   23, 0.45],
+	[  30,0.5, 0.045, 5.0]
+]
+
+func update_skills(skill):
+	parameter  = pow(0.90,multiplier[skill])
+	match(skill):
+		0:
+			statistic["streng"][1] += 1
+			statistic["ph_dmg"][1] += increments[skill][0]*parameter
+			statistic["ct_dmg"][1] += increments[skill][1]*parameter
+			statistic["cr_res"][1] += increments[skill][2]*parameter
+			multiplier[skill]      += 1
+		1:
+			statistic["dexter"][1] += 1
+			statistic["ct_chc"][1] += increments[skill][0]*parameter
+			statistic["at_spd"][1] += increments[skill][1]*parameter
+			statistic["ph_res"][1] += increments[skill][2]*parameter
+			if statistic["at_spd"][1] > 5: statistic["at_spd"][1] = 5.0
+			multiplier[skill]      += 1
+		2:
+			statistic["smart" ][1] += 1
+			statistic["sh_res"][1] += increments[skill][0]*parameter
+			statistic["mg_dmg"][1] += increments[skill][1]*parameter
+			statistic["mx_man"][1] += increments[skill][2]*parameter
+			mana                   += increments[skill][2]*parameter
+			statistic["gh_dur"][1] += increments[skill][3]*parameter
+			multiplier[skill]      += 1
+		3:
+			statistic["vital" ][1] += 1
+			statistic["mx_hpp"][1] += increments[skill][0]*parameter
+			health                 += increments[skill][0]*parameter
+			statistic["mn_reg"][1] += increments[skill][1]*parameter
+			statistic["ex_res"][1] += increments[skill][2]*parameter
+			statistic["mv_spd"][1] += increments[skill][3]*parameter
+			multiplier[skill]      += 1
+
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())
 	for i in range(EQUIPMENT_SLOTS.size()): SLOTS[EQUIPMENT_SLOTS[i]] = i
 
-func get_damage():
-	var damage = strength
-	var eq = equipment[PlayerStats.SLOTS["weapon"]]
-	
-	if eq:
-		damage_equipment("weapon") ##to nie powinno tu być, oj nie
-		eq = Res.items[eq.id]
-		
-		damage = eq.attack
-		for stat in eq.scaling.keys():
-			damage += int(PlayerStats[stat] * eq.scaling[stat])
-	
-	if SkillBase.has_skill("SuperStrength"): damage *= 5
-	
-	return damage
+func get_stats_from_items():
+	for eq in equipment:
+		if eq :
+			print(eq)
+			#var item = Res.items[eq.id]
+			#for stat in item.scaling:
+			#	pass
 
-func get_defense():
-	var defense = vitality
-	
-	for eq in PlayerStats.equipment:
-		if !eq: continue
-		
-		var item = Res.items[eq.id]
-		if item.has("defense"): defense += item.defense
-	
-	return defense
+
+func get_damage():
+	return statistic["ph_dmg"][0]
 
 func get_equipment(slot_name):
 	return equipment[SLOTS[slot_name]]
@@ -73,7 +117,6 @@ func damage_equipment(slot, damage = 1):
 			Res.play_sample(Res.game.player, "ItemBreak")
 			equipment[SLOTS[slot]] = null
 			emit_signal("equipment_changed")
-
 
 func count_item(id):
 	var amount = 0
@@ -100,12 +143,12 @@ func subtract_items(id, amount):
 func consume(item):
 	var consumed
 	
-	if item.has("health") and PlayerStats.health < PlayerStats.max_health:
+	if item.has("health") and PlayerStats.health < PlayerStats.statistic["mx_hpp"][0]:
 		consumed = true
-		PlayerStats.health = min(PlayerStats.max_health, PlayerStats.health + item.health)
-	if item.has("mana") and PlayerStats.mana < PlayerStats.max_mana:
+		PlayerStats.health = min(PlayerStats.statistic["mx_hpp"][0], PlayerStats.health + item.health)
+	if item.has("mana") and PlayerStats.mana < PlayerStats.statistic["mx_man"][0]:
 		consumed = true
-		PlayerStats.mana = min(PlayerStats.max_mana, PlayerStats.mana + item.mana)
+		PlayerStats.mana = min(PlayerStats.statistic["mx_man"][0], PlayerStats.mana + item.mana)
 	
 	if consumed:
 		Res.play_sample(Res.game.player, "Consume", false)
@@ -114,22 +157,14 @@ func consume(item):
 		Res.play_sample(Res.game.player, "MenuFailed", false)
 
 func recalc_stats():
-	var mx = max_health
-	max_health = 90 + vitality * 10
-	health += max_health - mx
-	
-	mx = max_mana
-	max_mana = 98 + intelligence * 2
-	mana += max_mana - mx
-	
-	health = min(health, max_health)
-	mana = min(mana, max_mana)
+	for stat in statistic.keys():
+		statistic[stat][0] =  statistic[stat][1] + statistic[stat][2] + statistic[stat][3] + statistic[stat][4] 
 
 func exp_to_level(level):
-	return level * 10 + level * level * 3 + 10
+	return level * level * 4 #+ int(pow(0.99,level)) * level
 	
 func total_exp(level):
-	return 3 * pow(level, 3) / 3 + level * (level+1) * 5 + 10 * level
+	return level * level * 4#+ int(pow(0.9,level)) * level
 
 func add_experience(amount):
 	experience += amount
@@ -140,7 +175,6 @@ func add_experience(amount):
 		emit_signal("level_up")
 
 func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
-	
 	
 	var item = Res.items[id]
 	
@@ -158,7 +192,15 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 		if item.has("durability"):
 			_item.durability = item.durability
 			_item.max_durability = item.durability
-		
+
+		for stat in STAT_LIST:
+			if item.has(str(stat)):
+				_item[str(stat)] = item[str(stat)]
+
+		#DEMONIZACJA
+		if item.type == "weapon":
+			_item["p.resist"]  = 0.3
+
 		inventory.append(_item)
 	else:
 		return false

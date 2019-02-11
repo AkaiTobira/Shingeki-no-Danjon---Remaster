@@ -7,10 +7,7 @@ path="res://.import/Paterns.png-644811b27b9f63bbec095e857e492087.stex"
 [deps]
 
 source_file="res://Sprites/Tilesets/Paterns.png"
-source_md5="8a03671201bfc9407c14c9a336181336"
-
 dest_files=[ "res://.import/Paterns.png-644811b27b9f63bbec095e857e492087.stex" ]
-dest_md5="4de35df3a4d73aa06f5c8fa5bb1f02f3"
 
 [params]
 

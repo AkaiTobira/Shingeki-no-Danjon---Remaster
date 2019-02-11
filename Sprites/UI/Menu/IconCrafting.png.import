@@ -7,10 +7,7 @@ path="res://.import/IconCrafting.png-4ebcb9b15af173ce2e6e3d62b11cc3f3.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/IconCrafting.png"
-source_md5="025df983919566e48d52bb57e172b8cc"
-
 dest_files=[ "res://.import/IconCrafting.png-4ebcb9b15af173ce2e6e3d62b11cc3f3.stex" ]
-dest_md5="8f2ba835ebd24f754d84d2dc1207d5dd"
 
 [params]
 

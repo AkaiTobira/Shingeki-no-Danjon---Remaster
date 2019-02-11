@@ -78,6 +78,8 @@ const SIDES = [
 	[ TileState.free ]
 	]
 
+var Astar_points = []
+
 func get_size():
 	return G.end
 
@@ -194,9 +196,7 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	if style == Objects.TRAPS: 
 		instance._change_sprite(tilesetName)
 
-
 	put_object_enviroment(i,j,instance,flip)
-	
 	return true
 
 func put_free_standing_objects(prob, style): 
@@ -272,19 +272,20 @@ func put_wall_related_objects(prob, style):
 							break
 					break
 
-func put_enemies( enemies ,prob, current_lvl):
-	
+func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
+
 	for i in range(G.end.x+1):
 		for j in range(G.end.y+1):
 			if tab[i][j] >= TileState.free and tab[i][j] < TileState.destroyableObject:
 				if randi()%1000 < prob:
 					var object_name = enemies[randi()%len(enemies)]
 					var instance = load(get_path(Objects.ENEMIES) + object_name + ".tscn").instance()
-					instance.position = Vector2((i*80)+40,(j*80)+40)
+					instance.position = Vector2((i*80)+40,(j*80)+40) 
+					instance._load_stats(enemy[dung_name][object_name],object_name)
 					Obj_to_Append.append(instance)
 					monster_counter +=1
 
-func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
+func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [] ):
 	flooor = current_level
 	
 	conatainer_contains = file_json["containers_contents"]
@@ -302,6 +303,8 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 	tilesetName = file_json["tileset"]
 	put_elements_on_scene( file_json["probs"] )
 	
+	var time_start = OS.get_unix_time()
+	
 	while !check_correctnes():
 		reset()
 		put_elements_on_scene( file_json["probs"] )
@@ -309,8 +312,10 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0):
 	put_wall_related_objects ( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 	put_free_standing_objects( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 
-	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level) )
+	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level), e,dungeon )
 
+	var time_now = OS.get_unix_time()
+	print( "generate_functions : ", (time_now - time_start)) 
 	
 
 	if DEBUG :
@@ -352,7 +357,7 @@ func reset():
 	Obj_to_Append.clear()
 	AccesNeed.clear()
 	
-	print( name , " : Reset Called : ", numration_counter )
+#	print( name , " : Reset Called : ", numration_counter )
 	
 	tab.clear()
 	for i in structure:
@@ -403,6 +408,8 @@ func split_enviroments(enviroments, objType):
 func build_segment_structure():
 
 	
+	var time_start = OS.get_unix_time()
+	
 	for i in range(G.end.x+2):
 		var cell = []
 		for j in range(G.end.y+2):
@@ -426,6 +433,10 @@ func build_segment_structure():
 		for j in i:
 			cell.append(j)
 		structure.append(cell)	
+		
+	var time_now = OS.get_unix_time()
+	print( "mark_functions : ", (time_now - time_start)) 
+		
 
 func mark_walls():
 	for i in range(G.end.x+2):
@@ -504,6 +515,17 @@ func print_segment_structure():
 	for i in range(G.end.x+2):
 		print(tab[i])
 	print("\n")
+
+func get_Astar_positions():
+
+	var special_points = []
+		
+	for i in range(G.end.x+2):
+		for j in range(G.end.y+2):
+			if tab[i][j] >= TileState.free and tab[i][j] <= TileState.containerObject:
+				special_points.append(Vector2(40 + 80*i, 40 +80*j))
+
+	return special_points
 
 
 func check_fields_around(i, j):

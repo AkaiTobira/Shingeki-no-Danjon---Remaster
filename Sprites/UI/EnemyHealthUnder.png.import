@@ -7,10 +7,7 @@ path="res://.import/EnemyHealthUnder.png-86cb072d91da0a9c1ae02d36c29c5c13.stex"
 [deps]
 
 source_file="res://Sprites/UI/EnemyHealthUnder.png"
-source_md5="9b4f3ac644b58da93602f13492b3713c"
-
 dest_files=[ "res://.import/EnemyHealthUnder.png-86cb072d91da0a9c1ae02d36c29c5c13.stex" ]
-dest_md5="bc4fdeb0d4083a4567c6080bcfdc40a7"
 
 [params]
 

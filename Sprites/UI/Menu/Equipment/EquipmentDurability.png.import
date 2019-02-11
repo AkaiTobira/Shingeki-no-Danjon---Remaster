@@ -7,10 +7,7 @@ path="res://.import/EquipmentDurability.png-7524b445829f98581a4228ef7343dc93.ste
 [deps]
 
 source_file="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png"
-source_md5="beb8a27b7f1f9e6c024020ee3577e5e0"
-
 dest_files=[ "res://.import/EquipmentDurability.png-7524b445829f98581a4228ef7343dc93.stex" ]
-dest_md5="d0028a5a4260fcb99db825fdda580b60"
 
 [params]
 

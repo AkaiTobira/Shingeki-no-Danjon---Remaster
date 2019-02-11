@@ -7,10 +7,7 @@ path="res://.import/Summon.png-4ca38810c66e543f2202776384ac766c.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/Mechanic/Summon.png"
-source_md5="2062d145933e838b8f6398cd55eff29f"
-
 dest_files=[ "res://.import/Summon.png-4ca38810c66e543f2202776384ac766c.stex" ]
-dest_md5="c2e24f926a61c28f3315d287e134d1c5"
 
 [params]
 

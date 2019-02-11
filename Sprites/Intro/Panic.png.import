@@ -7,10 +7,7 @@ path="res://.import/Panic.png-4923a10170681f169ab58f2bff2dc1c6.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Panic.png"
-source_md5="751cdb04fe5fe10901267dc837de1d74"
-
 dest_files=[ "res://.import/Panic.png-4923a10170681f169ab58f2bff2dc1c6.stex" ]
-dest_md5="9a37b37fba3b17d96fdf5134f7ca4bb4"
 
 [params]
 

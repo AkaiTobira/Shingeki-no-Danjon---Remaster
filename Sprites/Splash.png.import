@@ -7,10 +7,7 @@ path="res://.import/Splash.png-8436b15d4f4733888d90369a0664b25a.stex"
 [deps]
 
 source_file="res://Sprites/Splash.png"
-source_md5="b2a43facf562ea82246984f0f64fdf10"
-
 dest_files=[ "res://.import/Splash.png-8436b15d4f4733888d90369a0664b25a.stex" ]
-dest_md5="2991a6bf512a39fde9b31f1c2a7b6855"
 
 [params]
 

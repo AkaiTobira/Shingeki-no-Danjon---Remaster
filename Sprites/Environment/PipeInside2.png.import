@@ -7,10 +7,7 @@ path="res://.import/PipeInside2.png-44289c78c0b713c3c761a42327b66741.stex"
 [deps]
 
 source_file="res://Sprites/Environment/PipeInside2.png"
-source_md5="921a8ee74ce0964c1ad01fb3386d862a"
-
 dest_files=[ "res://.import/PipeInside2.png-44289c78c0b713c3c761a42327b66741.stex" ]
-dest_md5="8faa2cf2c1d148088f85b5301b53d7b0"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/Overgrowth.png-7bb153b16491f82fb9bd0a7870e006d6.stex"
 [deps]
 
 source_file="res://Sprites/Tilesets/Overgrowth.png"
-source_md5="c2467d7549d10d47c94d7363e00ae944"
-
 dest_files=[ "res://.import/Overgrowth.png-7bb153b16491f82fb9bd0a7870e006d6.stex" ]
-dest_md5="998b7a2ed1ba4234929480859b57a781"
 
 [params]
 

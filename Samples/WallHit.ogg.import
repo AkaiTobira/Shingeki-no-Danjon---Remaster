@@ -7,10 +7,7 @@ path="res://.import/WallHit.ogg-7351f08512c494cc6e8f18a9e23e62ca.oggstr"
 [deps]
 
 source_file="res://Samples/WallHit.ogg"
-source_md5="26b2876978b720bd1f16006d39bf9517"
-
 dest_files=[ "res://.import/WallHit.ogg-7351f08512c494cc6e8f18a9e23e62ca.oggstr" ]
-dest_md5="545c19260ab8c9aafc08d0d99f29a3a8"
 
 [params]
 

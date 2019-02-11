@@ -7,10 +7,7 @@ path="res://.import/Burnscape.png-1d3b7b28c979be500ff1e62e8a7a036a.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Burnscape.png"
-source_md5="6687fc6f484178cadc85236f0c480afc"
-
 dest_files=[ "res://.import/Burnscape.png-1d3b7b28c979be500ff1e62e8a7a036a.stex" ]
-dest_md5="2979f18e7d73b6e424f40d24c642444d"
 
 [params]
 

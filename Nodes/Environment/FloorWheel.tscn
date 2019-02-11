@@ -44,6 +44,8 @@ variants = ""
 can_flip_h = false
 const_object = true
 randomize_speed_of_animation = null
+need_enemies_list = false
+need_enable_directions = null
 state = 0
 
 [node name="Collider" type="StaticBody2D" parent="." index="0"]

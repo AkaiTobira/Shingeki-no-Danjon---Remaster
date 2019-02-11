@@ -7,10 +7,7 @@ path="res://.import/FLA-B_atacks.png-6405fa64635ac2b40b6001a0b532f77b.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/FLA-B/FLA-B_atacks.png"
-source_md5="7412a4e780933e166bada457b3342575"
-
 dest_files=[ "res://.import/FLA-B_atacks.png-6405fa64635ac2b40b6001a0b532f77b.stex" ]
-dest_md5="a389346fa888bc7643f77371c560a793"
 
 [params]
 

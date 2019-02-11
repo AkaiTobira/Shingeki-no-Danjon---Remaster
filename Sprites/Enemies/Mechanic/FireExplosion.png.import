@@ -7,10 +7,7 @@ path="res://.import/FireExplosion.png-fa6dda9527f5849f0c75900d08eb9d49.stex"
 [deps]
 
 source_file="res://Sprites/Enemies/Mechanic/FireExplosion.png"
-source_md5="0da3c9eebe7ecd20ec0a701d22ab7911"
-
 dest_files=[ "res://.import/FireExplosion.png-fa6dda9527f5849f0c75900d08eb9d49.stex" ]
-dest_md5="a1b4dce7aedfd3c833e2c36f97de0ec9"
 
 [params]
 

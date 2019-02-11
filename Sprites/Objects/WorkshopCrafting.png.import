@@ -7,10 +7,7 @@ path="res://.import/WorkshopCrafting.png-bccb65d7256aa32a07c0b74e4f9d0df5.stex"
 [deps]
 
 source_file="res://Sprites/Objects/WorkshopCrafting.png"
-source_md5="d376dadc4fd596881ed46909161cb4a1"
-
 dest_files=[ "res://.import/WorkshopCrafting.png-bccb65d7256aa32a07c0b74e4f9d0df5.stex" ]
-dest_md5="5df80104ffce7dad279fb9ec23be04c5"
 
 [params]
 

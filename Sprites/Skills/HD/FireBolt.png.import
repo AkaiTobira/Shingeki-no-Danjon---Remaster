@@ -7,10 +7,7 @@ path="res://.import/FireBolt.png-1cd692970c2636ad876de755684bb71f.stex"
 [deps]
 
 source_file="res://Sprites/Skills/HD/FireBolt.png"
-source_md5="556c360d77c118dc96638ea818d150af"
-
 dest_files=[ "res://.import/FireBolt.png-1cd692970c2636ad876de755684bb71f.stex" ]
-dest_md5="303643477dd53b2172246474f7c25cf2"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/Torch.png-2a943f02bbdb72ba4f418df0a310e01e.stex"
 [deps]
 
 source_file="res://Sprites/Environment/Torch.png"
-source_md5="6b4deb4356253ff5da87e462d6afb0d7"
-
 dest_files=[ "res://.import/Torch.png-2a943f02bbdb72ba4f418df0a310e01e.stex" ]
-dest_md5="599cbc4f15b97b039e924bdbe7d11cb7"
 
 [params]
 

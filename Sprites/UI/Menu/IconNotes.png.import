@@ -7,10 +7,7 @@ path="res://.import/IconNotes.png-a08c0189ac0747584cc188d744a6d7ea.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/IconNotes.png"
-source_md5="33dfa724858c9195d9c9ecf088718220"
-
 dest_files=[ "res://.import/IconNotes.png-a08c0189ac0747584cc188d744a6d7ea.stex" ]
-dest_md5="0dd37766d5b46abeb71a38c1da86ba61"
 
 [params]
 

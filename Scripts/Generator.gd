@@ -23,12 +23,17 @@ var map = []
 var floor_space = {}
 var wall_space = []
 
+var navigation = AStar.new()
+
+var aStar_points = []
+#var aStar = AStar.new()
 
 var file_json
 var splitted_obj
 
+var size_of_segments = [Vector2(999999999,999999999), Vector2(0,0)]
 
-func generate(level_name,w, h):
+func generate(level_name,w, h, aStar):
 	width = w
 	height = h
 	map.resize(width * height)
@@ -39,6 +44,7 @@ func generate(level_name,w, h):
 	
 	var start = Vector2(randi() % width, randi() % height)
 	empty_spots.append({"pos": start})
+
 	
 	while !end:
 		while !empty_spots.empty():
@@ -70,6 +76,7 @@ func generate(level_name,w, h):
 			map.resize(width * height)
 			start = Vector2(randi() % width, randi() % height)
 			empty_spots = [{"pos": start}]
+
 	
 	for x in range(width):
 		for y in range(height):
@@ -78,8 +85,38 @@ func generate(level_name,w, h):
 				create_segment(segment.segment.name, Vector2(x, y))
 
 
+	for i in range(len(aStar_points)):
+		aStar.add_point(i,Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
+		
+	for i in range(len(aStar_points)):
+		for j in range(len(aStar_points)):
+			if aStar_points[i] + Vector2( 80,  0) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(-80,  0) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(  0, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(  0,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2( 80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(-80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2(-80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
+			if aStar_points[i] + Vector2( 80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
+
+#	var resss = []
+#
+#	for i in range(100):
+#		resss.append([])
+#		for j in range(100):
+#			resss[i].append("-")
+#
+#	for p in aStar_points:
+#		var c = p - Vector2(40,40)
+#		resss[int(c.x/80)][int(c.y/80)] = "X"
+#
+#	for u in resss:
+#		print(u)
+	
+
+
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
-	#dungeon_type.tileset]
+
 	create_stairs()
 
 	var tileset_dict = {}
@@ -136,15 +173,6 @@ func generate(level_name,w, h):
 						bottom.set_cellv(cell + Vector2(t, 1 ), tileset_dict["Wall" + str(new_tile+t) + "Down"])
 
 
-	
-#	place_environment()
-#	place_containers()
-#	place_breakables()
-#	place_enemies()
-#	for i in range(10): place_on_floor("NPC")
-#	for i in range(100):
-#		var instance = place_on_floor("NPC")
-#		instance.id = 1
 	queue_free()
 
 func create_stairs():
@@ -184,34 +212,6 @@ func create_stairs():
 	dungeon.add_child(stairs)
 
 
-#
-#func place_breakables():
-#	var breakables = dungeon_type.breakables
-#
-#	var nil = 0
-#
-#	var chances = {}
-#	for item in dungeon_type.breakable_contents:
-#		chances[item[0]] = item[1]
-#		nil += 1000 - item[1]
-#
-#	chances[-1] = nil
-#
-#	for i in range(dungeon_type.breakable_count):
-#		var type = breakables[randi() % breakables.size()]
-#		var instance = place_on_floor("Objects/" + type)
-#		if instance: instance.item = int(Res.weighted_random(chances))
-#		else: break
-
-#func place_containers():
-#	var containers = dungeon_type.containers
-#
-#	for i in range(dungeon_type.container_count):
-#		var type = containers[randi() % containers.size()]
-#		var instance = place_on_floor("Objects/" + type)
-#		if instance: instance.item = int(Res.weighted_random(dungeon_type.container_contents))
-#		else: break
-
 func place_for_test(what):
 	if NewToTest == "": return
 	
@@ -219,48 +219,6 @@ func place_for_test(what):
 	ug_inst.position = Res.game.player.position + Vector2(200,200)
 	dungeon.get_parent().add_child(ug_inst)
 
-#func place_enemies():
-#	var enemies = dungeon_type.enemies
-#
-#	for i in range(dungeon_type.enemy_count):
-#		var type = enemies[randi() % enemies.size()]
-#		if !place_on_floor("Enemies/" + type): break
-#
-#	if NewToTest: place_for_test(Res.get_node(NewToTest))
-
-#func place_on_floor(object):
-#	if DungeonState.current_floor < 2 and ["Enemies/FLA-B", "Enemies/FLA-G", "Enemies/FLA-S"].has(object): return true
-#	if DungeonState.current_floor < 3 and ["Enemies/PuncherMKII"].has(object): return true ##ULTRAMEGAKURESUPEREXTRAHACK
-#	for dis in disabled: if object.find(dis) > -1: return ##DEBUG
-#	if floor_space.empty(): return null
-#
-#	var instance = Res.get_node(object).instance()
-#	var k = floor_space.keys()[randi() % floor_space.keys().size()]
-#
-#	instance.position = k + Vector2(40,40)
-#	floor_space.erase(k)
-#	dungeon.get_parent().add_child(instance)
-#
-#	return instance
-
-#func place_treasure_into_maze(what, how_many):
-#	for nmb in range(how_many):
-#		if floor_space.empty(): break
-#
-#		var ug_inst = what.instance()
-#		var i = randi()%floor_space.size()
-#		var temp = floor_space[i]+ Vector2(40,40)
-#		floor_space.remove(i)
-#
-#		ug_inst.position = temp
-#		ug_inst.item = 17
-#
-#		if what == Res.get_node("Objects/Chest"):
-#			ug_inst.item = randi()%4 + 28
-#
-#		dungeon.get_parent().add_child(ug_inst)
-#		if (what == Res.get_node("Objects/Barrel") and randi()%6 == 0) : ##hack ;_;
-#			ug_inst.item = randi()%2
 
 func get_possible_segments(spot):
 	var pos = spot.pos
@@ -352,7 +310,10 @@ func create_segment(segment, pos):
 	bottom.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.set_collision_layer_bit(3, true)
+
+	
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
+	
 	var no_objects = get_segment_data(pos).segment.has("no_objects")
 	
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
@@ -380,10 +341,20 @@ func create_segment(segment, pos):
 	dungeon.add_child(seg)
 	
 	if splitted_obj == null:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
 		splitted_obj = seg.get_splitted_elements()
+
+		
 	else:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1))
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
+
+
+
+	var segment_astar_points = seg.get_Astar_positions()
+	
+	for point in segment_astar_points:
+		aStar_points.append(point+seg.position)
+	
 	
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):

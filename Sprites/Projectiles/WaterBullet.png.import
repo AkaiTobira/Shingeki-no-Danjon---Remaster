@@ -7,10 +7,7 @@ path="res://.import/WaterBullet.png-f5b67020cfd72b18740e8fbfb8611d25.stex"
 [deps]
 
 source_file="res://Sprites/Projectiles/WaterBullet.png"
-source_md5="8b4c386f65d4b02d25dd05fefb9cef98"
-
 dest_files=[ "res://.import/WaterBullet.png-f5b67020cfd72b18740e8fbfb8611d25.stex" ]
-dest_md5="91041eb44e6562391e8a8f3dcec01436"
 
 [params]
 

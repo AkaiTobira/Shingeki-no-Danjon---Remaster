@@ -120,7 +120,7 @@ func _build_wall( tab = [] ):
 #	print(directions)
 	pass
 
-func damage(amount):
+func damage(amount, source):
 	Res.play_sample(self, "WoodBreak")
 	if health - amount > 0:
 		health -= amount

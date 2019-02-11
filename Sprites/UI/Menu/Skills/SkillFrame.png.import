@@ -7,10 +7,7 @@ path="res://.import/SkillFrame.png-e620d17bd0d5d76ac5169828e0f8e7ed.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Skills/SkillFrame.png"
-source_md5="4439bfeef2927d1dc074888cfafd0490"
-
 dest_files=[ "res://.import/SkillFrame.png-e620d17bd0d5d76ac5169828e0f8e7ed.stex" ]
-dest_md5="44813f188bc1ec4026812d1937e83b72"
 
 [params]
 

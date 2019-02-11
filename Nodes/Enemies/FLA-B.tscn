@@ -6,7 +6,7 @@
 [ext_resource path="res://Sprites/Enemies/FLA-B/FLA-B_Special.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -404,7 +404,7 @@ extents = Vector2( 10, 17.8173 )
 custom_solver_bias = 0.0
 radius = 10.0
 
-[node name="FLA-B" type="KinematicBody2D" index="0" groups=[
+[node name="FLA-B" type="KinematicBody2D" groups=[
 "enemies",
 ]]
 
@@ -416,6 +416,9 @@ collision_mask = 513
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "Pickable", "Transform", "Z Index" ]
+__meta__ = {
+"_edit_horizontal_guides_": [ -169.322 ]
+}
 
 [node name="Sprites" type="Node2D" parent="." index="0"]
 
@@ -517,6 +520,8 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 512
+collision_mask = 512
 audio_bus_override = false
 audio_bus_name = "Master"
 _sections_unfolded = [ "Collision" ]
@@ -536,7 +541,7 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-collision_layer = 2
+collision_layer = 3
 collision_mask = 2
 audio_bus_override = false
 audio_bus_name = "Master"
@@ -569,11 +574,23 @@ disabled = true
 
 [node name="Sprite" type="Sprite" parent="." index="7"]
 
-position = Vector2( 4.24136, -3.29517 )
-scale = Vector2( 1.63487, 1.65012 )
+position = Vector2( 3.59486, -5.33422 )
+scale = Vector2( 0.129715, 0.0688869 )
 z_index = -1
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Z Index" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="8"]
+
+position = Vector2( 1.1036, -63.7616 )
+scale = Vector2( 3.18884, 7.37616 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 

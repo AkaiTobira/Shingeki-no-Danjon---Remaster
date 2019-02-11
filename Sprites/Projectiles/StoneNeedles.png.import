@@ -7,10 +7,7 @@ path="res://.import/StoneNeedles.png-675ce9e10b68383a202ad5c4abd64d30.stex"
 [deps]
 
 source_file="res://Sprites/Projectiles/StoneNeedles.png"
-source_md5="df9c645733a6bf01be19d3b67a741718"
-
 dest_files=[ "res://.import/StoneNeedles.png-675ce9e10b68383a202ad5c4abd64d30.stex" ]
-dest_md5="00285ac055fe6a28944f5f59ca636f6d"
 
 [params]
 

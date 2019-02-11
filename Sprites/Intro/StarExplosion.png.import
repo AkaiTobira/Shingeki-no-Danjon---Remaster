@@ -7,10 +7,7 @@ path="res://.import/StarExplosion.png-4ae5b3a138587a56eebb4dd16eb3183b.stex"
 [deps]
 
 source_file="res://Sprites/Intro/StarExplosion.png"
-source_md5="ec07a75aa8092d6f8e7c6d83db4cf9d5"
-
 dest_files=[ "res://.import/StarExplosion.png-4ae5b3a138587a56eebb4dd16eb3183b.stex" ]
-dest_md5="114b58a50a7a724dffe843dda4713f42"
 
 [params]
 

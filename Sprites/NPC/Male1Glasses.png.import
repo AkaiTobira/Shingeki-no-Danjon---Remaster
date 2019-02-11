@@ -7,10 +7,7 @@ path="res://.import/Male1Glasses.png-2991f0b1c635985368a6114dccfd92f0.stex"
 [deps]
 
 source_file="res://Sprites/NPC/Male1Glasses.png"
-source_md5="5a745362c05db897bec4b1fc5f3cd94f"
-
 dest_files=[ "res://.import/Male1Glasses.png-2991f0b1c635985368a6114dccfd92f0.stex" ]
-dest_md5="18ad99e009081dabf0eea6767fad04fb"
 
 [params]
 

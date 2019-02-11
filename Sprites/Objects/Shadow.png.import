@@ -7,10 +7,7 @@ path="res://.import/Shadow.png-aac6c091cf364d87bf3d61e21560cec0.stex"
 [deps]
 
 source_file="res://Sprites/Objects/Shadow.png"
-source_md5="5e808428f465ee5a172e6adb315531ea"
-
 dest_files=[ "res://.import/Shadow.png-aac6c091cf364d87bf3d61e21560cec0.stex" ]
-dest_md5="c7c13835d10a4866504238af7266e295"
 
 [params]
 

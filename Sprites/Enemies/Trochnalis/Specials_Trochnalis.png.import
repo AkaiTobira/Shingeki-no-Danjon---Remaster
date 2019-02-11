@@ -7,10 +7,7 @@ path="res://.import/Specials_Trochnalis.png-5902666be7799e975b0f42cd5bba9f84.ste
 [deps]
 
 source_file="res://Sprites/Enemies/Trochnalis/Specials_Trochnalis.png"
-source_md5="c6fd21434747b85a0df64770175e093f"
-
 dest_files=[ "res://.import/Specials_Trochnalis.png-5902666be7799e975b0f42cd5bba9f84.stex" ]
-dest_md5="d325f21cd4084fa3a6fca60b5947de09"
 
 [params]
 

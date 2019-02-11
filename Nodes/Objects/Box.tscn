@@ -61,7 +61,7 @@ func fill(breakable_contains,dungeon_level):
 	
 	pass
 
-func damage(amount):
+func damage(amount, source = \"\", nothing = \"\"):
 	Res.play_sample(self, \"WoodBreak\")
 	$Animation.play(\"Destroyed\")
 	$DamageCollider.queue_free()
@@ -130,7 +130,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( -2.75148, -2.75504 ), Vector2( 1.5294, -0.685048 ), Vector2( -4.53518, 1.38495 ) ]
+"values": [ Vector2( -2.75148, 6.84495 ), Vector2( 1.5294, -0.685048 ), Vector2( -4.53518, 17.3849 ) ]
 }
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -143,9 +143,9 @@ extents = Vector2( 24.9147, 34.5188 )
 custom_solver_bias = 0.0
 extents = Vector2( 24, 20 )
 
-[node name="Barrel" type="StaticBody2D" index="0" groups=[
-"enviroment",
+[node name="Barrel" type="StaticBody2D" groups=[
 "enemies",
+"enviroment",
 ]]
 
 scale = Vector2( 1.25, 1.25 )
@@ -171,8 +171,8 @@ state = 1
 
 [node name="Sprite2" type="Sprite" parent="." index="0"]
 
-position = Vector2( -1.8806, 6.84496 )
-scale = Vector2( 0.147612, 0.135635 )
+position = Vector2( -2.75148, 6.84495 )
+scale = Vector2( 0.16908, 0.135635 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Offset", "Transform", "Z Index" ]
 
@@ -213,13 +213,13 @@ _sections_unfolded = [ "Collision" ]
 
 [node name="Shape" type="CollisionShape2D" parent="DamageCollider" index="0"]
 
-position = Vector2( -0.477784, 1.89996 )
-scale = Vector2( 1.30838, 1.26869 )
+position = Vector2( -0.689755, 17.42 )
+scale = Vector2( 1.03642, 0.807734 )
 shape = SubResource( 3 )
 
 [node name="Shape" type="CollisionShape2D" parent="." index="4"]
 
-position = Vector2( -2.35185, -20.5455 )
+position = Vector2( -2.35185, -9.34551 )
 scale = Vector2( 1.32088, 1.43794 )
 shape = SubResource( 4 )
 

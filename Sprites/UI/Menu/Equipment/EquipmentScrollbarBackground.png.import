@@ -7,10 +7,7 @@ path="res://.import/EquipmentScrollbarBackground.png-eab1f231759562b67d78bd570e3
 [deps]
 
 source_file="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png"
-source_md5="d5bd06f1f33b43cff4fe1a780e88149c"
-
 dest_files=[ "res://.import/EquipmentScrollbarBackground.png-eab1f231759562b67d78bd570e31d87f.stex" ]
-dest_md5="51fd2bae05135fb791b7e1de8d10f4a2"
 
 [params]
 

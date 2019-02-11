@@ -532,7 +532,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 9, 9.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1e-005, 1e-005 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("Phase3a/Eyeflash:modulate")
@@ -568,7 +568,7 @@ tracks/9/keys = {
 "times": PoolRealArray( 9, 9.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1e-005, 1e-005 ) ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("Phase3a/Eyeflash2:modulate")
@@ -1578,7 +1578,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[node name="Intro" type="Node2D"]
+[node name="Intro" type="Node2D" index="0"]
 
 editor/display_folded = true
 script = SubResource( 1 )
@@ -2678,7 +2678,7 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 1531, 360 )
 rotation = -3.14159
-scale = Vector2( 1e-05, 1e-05 )
+scale = Vector2( 1e-005, 1e-005 )
 texture = ExtResource( 20 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -2688,7 +2688,7 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 1476, 360 )
 rotation = -3.14159
-scale = Vector2( 1e-05, 1e-05 )
+scale = Vector2( 1e-005, 1e-005 )
 texture = ExtResource( 20 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 

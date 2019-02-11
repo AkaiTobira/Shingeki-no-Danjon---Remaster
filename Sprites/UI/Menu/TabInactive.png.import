@@ -7,10 +7,7 @@ path="res://.import/TabInactive.png-e02b6624bae1c57c7cb864c9ebb185f8.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/TabInactive.png"
-source_md5="a5a75ddae003ba3b81358c5804cd1737"
-
 dest_files=[ "res://.import/TabInactive.png-e02b6624bae1c57c7cb864c9ebb185f8.stex" ]
-dest_md5="45eee3a48b59a340b52ee98c80845151"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/DualSpark.png-2102e227aef4c725189bd8e1b20957f4.stex"
 [deps]
 
 source_file="res://Sprites/Skills/DualSpark.png"
-source_md5="65f6858486111410cdb2db8212815ae2"
-
 dest_files=[ "res://.import/DualSpark.png-2102e227aef4c725189bd8e1b20957f4.stex" ]
-dest_md5="8213645cdc8b0156fbee16bbe0bc420b"
 
 [params]
 

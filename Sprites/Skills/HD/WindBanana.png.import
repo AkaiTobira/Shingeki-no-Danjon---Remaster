@@ -7,10 +7,7 @@ path="res://.import/WindBanana.png-cd65b3c095aa33f5b1c72c895d9a5bbf.stex"
 [deps]
 
 source_file="res://Sprites/Skills/HD/WindBanana.png"
-source_md5="b399f3b87e2d187fc4e6d2c1ffb282f4"
-
 dest_files=[ "res://.import/WindBanana.png-cd65b3c095aa33f5b1c72c895d9a5bbf.stex" ]
-dest_md5="492403fdde3752be630456d7a074e333"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/Landscape.png-101efbe3286949c58647e953b307f8c4.stex"
 [deps]
 
 source_file="res://Sprites/Intro/Landscape.png"
-source_md5="6cfd56797c1d39efd975a829bc2f1bf2"
-
 dest_files=[ "res://.import/Landscape.png-101efbe3286949c58647e953b307f8c4.stex" ]
-dest_md5="899466bfbc7df3cb4499c32b0d16a128"
 
 [params]
 

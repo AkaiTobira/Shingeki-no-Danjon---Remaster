@@ -7,10 +7,7 @@ path="res://.import/IngredientFrame.png-484b5df9c1f19df034d6900bb21361f4.stex"
 [deps]
 
 source_file="res://Sprites/UI/Menu/Crafting/IngredientFrame.png"
-source_md5="7deaa639974d0cc5c7862cc747066138"
-
 dest_files=[ "res://.import/IngredientFrame.png-484b5df9c1f19df034d6900bb21361f4.stex" ]
-dest_md5="11ec5e9ea65be9750f08f99a46e4e37b"
 
 [params]
 

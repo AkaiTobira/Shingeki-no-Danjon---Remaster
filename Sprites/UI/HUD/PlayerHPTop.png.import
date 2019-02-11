@@ -7,10 +7,7 @@ path="res://.import/PlayerHPTop.png-a59c4f039ba98de913759ad6fa52bd16.stex"
 [deps]
 
 source_file="res://Sprites/UI/HUD/PlayerHPTop.png"
-source_md5="731685f9954de8b63110f7b198d49a08"
-
 dest_files=[ "res://.import/PlayerHPTop.png-a59c4f039ba98de913759ad6fa52bd16.stex" ]
-dest_md5="6214e7c688394c2e9af0dd294b520be7"
 
 [params]
 
