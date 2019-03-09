@@ -23,7 +23,7 @@ var statistic = {
 	"vital"  : [    1,   1,0,0,0],
 	"ph_dmg" : [    1,   1,0,0,0],
 	"ct_dmg" : [    2,   2,0,0,0],
-	"cr_res" : [  0.0, 0,0,0,0],
+	"cr_res" : [  0.0,   0,0,0,0],
 	"ct_chc" : [ 0.05,0.05,0,0,0],
 	"at_spd" : [    1,   1,0,0,0],
 	"mv_spd" : [    1,   1,0,0,0],
@@ -33,8 +33,8 @@ var statistic = {
 	"mx_man" : [  100, 100,0,0,0],
 	"sh_res" : [  0.0,   0,0,0,0],
 	"gh_dur" : [    1,   1,0,0,0],
-	"mn_reg" : [    1,1,0,0,0],
-	"ex_res" : [  0.0,0,0,0,0]
+	"mn_reg" : [    1,   1,0,0,0],
+	"ex_res" : [  0.0,   0,0,0,0]
 	}
 
 var money = 0
@@ -174,10 +174,29 @@ func add_experience(amount):
 		stat_points += 1
 		emit_signal("level_up")
 
+
+func simple_randomizer():
+	var tresholds = [ 60 , 84, 96, 106, 110, 112 ]
+	var prob = randi()%tresholds[5]
+	for i in range(len(tresholds)):
+		if prob < tresholds[i]: return i
+	return 0
+	
+func bless_randomizer():
+	var tresholds = { "none": 60 , "holy": 80, "cursed": 100 }
+	var prob = randi()%100
+	for i in tresholds.keys():
+		if prob < tresholds[i]: return i
+	return "none"
+	
+func get_if_have_one(id):
+	for item_id in len(inventory):
+		if inventory[item_id].id == id: return item_id
+	return -1
+
 func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
-	
 	var item = Res.items[id]
-	
+
 	var slot = -1
 	for i in range(inventory.size()):
 		if inventory[i].id == id and item.has("max_stack") and inventory[i].stack < item.max_stack:
@@ -188,23 +207,42 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 		inventory[slot].stack += 1
 		
 	elif inventory.size() < PlayerStats.INVENTORY_SIZE:
-		var _item = {"id": id, "stack": 1}
-		if item.has("durability"):
-			_item.durability = item.durability
-			_item.max_durability = item.durability
+		var _item = {"id": id, "stack": 1, "material": 0, "blessing": "none" , "add_to_stat": {} }
+		
+		var stacked = false
+		
+		match(item.type):
+			"consumable":
+				var _tr = get_if_have_one(id)
+				print( _tr )
+				if _tr >= 0 : 
+					inventory[_tr].stack += amount
+					stacked = true
+			"misc":
+				_item.material = 6
+				var _tr = get_if_have_one(id)
+				if _tr >= 0:
+					inventory[_tr].stack += amount
+					stacked = true
+			_:
+				_item.material = simple_randomizer()
+				_item.blessing =  bless_randomizer()
+				
+				if item.has("durability"):
+					_item.durability     = item.durability * _item.material
+					_item.max_durability = item.durability * _item.material
+					
+				if _item.blessing == "holy" :
+					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] = randf() + 1
+					
+				if _item.blessing == "cursed" : 
+					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] =  randf() + 2.5
+					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] = -randf() + 0.5
 
-		for stat in STAT_LIST:
-			if item.has(str(stat)):
-				_item[str(stat)] = item[str(stat)]
-
-		#DEMONIZACJA
-		if item.type == "weapon":
-			_item["p.resist"]  = 0.3
-
-		inventory.append(_item)
+		if not stacked : inventory.append(_item)
 	else:
 		return false
 	
-	Res.game.player.updateQuest("",id)
+#	Res.game.player.updateQuest("",id)
 	if notify: emit_signal("got_item", id)
 	return true

@@ -60,8 +60,8 @@ func _ready():
 	var resources = get_resource_list("Items")
 	items.resize(resources.size())
 	for item in resources:
-		var item_id = int(item.name)
-		items[item_id] = item.data
+		var item_id       = int(item.name)
+		items[item_id]    = item.data
 		items[item_id].id = item_id
 	
 	for skill in get_resource_list("Skills"):
