@@ -1580,7 +1580,6 @@ tracks/0/keys = {
 
 [node name="Intro" type="Node2D"]
 
-editor/display_folded = true
 script = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
@@ -1634,6 +1633,7 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Camera" type="Camera2D" parent="." index="2"]
 
+editor/display_folded = true
 z_index = 4
 offset = Vector2( 683, 384 )
 anchor_mode = 1
