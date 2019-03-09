@@ -5,6 +5,9 @@
 	"price": 25,
 	"durability": 15,
 	"block"     : 4,
-	"resists"   : [0.1,0.1,0.1,0.1],
+	"p.resist"  : 0.1,
+	"c.resist"  : 0.1,
+	"s.resist"  : 0.1,
+	"e.resist"  : 0.1,
 	"material"  : [0,4]
 }

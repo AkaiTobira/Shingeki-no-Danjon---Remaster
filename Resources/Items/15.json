@@ -5,6 +5,10 @@
 	"price": 50,
 	"durability": 50000,
 	"block"     : 4,
-	"resists"   : [0.05,0.05,0.05,0.05],
+	"p.resist"  : 0.05,
+	"c.resist"  : 0.05,
+	"s.resist"  : 0.05,
+	"e.resist"  : 0.05,
+	"move speed": 34,
 	"material"  : [0,4]
 }
