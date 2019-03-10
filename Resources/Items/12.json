@@ -6,10 +6,10 @@
 	"durability": 30,
 	"block"     : 4,
 	"stats" : {	 	
-		"ph_res"  : 0.05,
-		"cr_res"  : 0.05,
-		"sh_res"  : 0.05,
-		"ex_res"  : 0.05
+		"ph_res"  : 5,
+		"cr_res"  : 5,
+		"sh_res"  : 5,
+		"ex_res"  : 5
 	 },
 	"material"  : [0,4]
 }

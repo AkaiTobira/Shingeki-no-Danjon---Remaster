@@ -240,7 +240,7 @@ func damage(attacker, amount, _knockback, type = "NoDamage"):
 	damaged = 16
 	Res.play_pitched_sample(self, "PlayerHurt")
 	
-	amount = max(1, amount * (1.0-defence) )
+	amount = max(1, amount - defence/2 )
 	
 	var damage = amount
 	
@@ -298,7 +298,7 @@ func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("enemies"):
 		SkillBase.inc_stat("OneHanded")
 		SkillBase.inc_stat("Melee")
-		collider.get_parent().damage(PlayerStats.get_damage(),"player", "")
+		collider.get_parent().damage(PlayerStats.get_damage(),"player", "Physical")
 
 func change_dir(dir, force = false):
 	if !force and (direction == dir or !dead and (Input.is_action_pressed("Attack") or Input.is_action_pressed("Shield"))): return

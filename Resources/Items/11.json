@@ -6,10 +6,10 @@
 	"price": 50,
 	"stats" : {	 	
 		"block"     : 4,
-		"ph_res"  : 0.2,
-		"cr_res"  : 0.1,
-		"sh_res"  : 0.1,
-		"ex_res"  : 0.1
+		"ph_res"  : 20,
+		"cr_res"  : 10,
+		"sh_res"  : 10,
+		"ex_res"  : 10
 	 },
 	"durability": 30
 }

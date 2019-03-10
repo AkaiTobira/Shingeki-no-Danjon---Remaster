@@ -299,13 +299,14 @@ func damage(amount, source = "", type = ""):
 
 	match(type):
 		"Physical":
-			damage = max(1, int(amount * (1.0-( resists[0] + resists_modif[0]))))
+			damage = max(1, int(amount  -( resists[0] + resists_modif[0])/2))
 		"Explosion":
-			damage = max(1, int(amount * (1.0-( resists[1] + resists_modif[1]))))
+			damage = max(1, int(amount  -( resists[1] + resists_modif[1])/2))
 		"Shock":
-			damage = max(1, int(amount * (1.0-( resists[2] + resists_modif[2]))))
+			damage = max(1, int(amount  -( resists[2] + resists_modif[2])/2))
 		"Crush":
-			damage = max(1, int(amount * (1.0-( resists[3] + resists_modif[3]))))
+			damage = max(1, int(amount  -( resists[3] + resists_modif[3])/2))
+
 
 	if randi()%100 < PlayerStats.statistic["ct_chc"][0]*100 and source == "player": 
 	
