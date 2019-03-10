@@ -213,10 +213,12 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 		
 		match(item.type):
 			"consumable":
+				_item.material = 7
 				var _tr = get_if_have_one(id)
 				if _tr >= 0 : 
 					inventory[_tr].stack += amount
 					stacked = true
+				_item.add_to_stat = item.stats
 			"misc":
 				_item.material = 6
 				var _tr = get_if_have_one(id)

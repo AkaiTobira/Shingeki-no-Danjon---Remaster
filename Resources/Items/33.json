@@ -3,6 +3,9 @@
 	"name": "Cheese",
 	"description": "A piece of cheese. Restores some HP.",
 	"max_stack": 99,
+	"stats" : {
+		"res_hp" : 20
+	},
 	"price": 20,
 	"health": 20
 }

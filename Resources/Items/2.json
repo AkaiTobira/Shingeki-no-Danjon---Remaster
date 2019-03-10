@@ -3,6 +3,11 @@
 	"name": "Bread",
 	"description": "The rarest of the food. Restores 50HP.",
 	"max_stack": 99,
+
+	"stats" : {
+		"res_hp" : 50
+	},
+
 	"price": 20,
 	"health": 50
 }

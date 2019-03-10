@@ -3,6 +3,9 @@
 	"name": "Fries Mk2",
 	"description": "A specially modified food that restores your streng.",
 	"max_stack": 99,
+	"stats" : {
+		"res_hp" : 100
+	},
 	"price": 100,
 	"health": 100
 }

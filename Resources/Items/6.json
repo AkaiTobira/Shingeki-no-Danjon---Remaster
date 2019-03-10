@@ -3,6 +3,9 @@
 	"name": "Double Bread",
 	"description": "The mythical food created from 2 breads. Restores 100hp",
 	"max_stack": 99,
+	"stats" : {
+		"res_hp" : 100
+	},
 	"price": 200,
 	"health": 100
 }

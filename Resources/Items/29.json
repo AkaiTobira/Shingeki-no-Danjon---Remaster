@@ -3,6 +3,9 @@
 	"name": "Medium Health Potion",
 	"description": "The healing potion, restores 300hp.",
 	"max_stack": 99,
+	"stats" : {
+		"res_hp" : 300
+	},
 	"price": 200,
 	"health": 300
 }

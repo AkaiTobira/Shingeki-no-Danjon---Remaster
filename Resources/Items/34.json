@@ -3,6 +3,9 @@
 	"name": "Green Apple",
 	"description": "Uncommon kind of apple. Restores moderate amount of HP and MP.",
 	"max_stack": 99,
+	"stats" : {
+		"res_hp" : 25
+	},
 	"price": 40,
 	"health": 25,
 	"mana": 25
