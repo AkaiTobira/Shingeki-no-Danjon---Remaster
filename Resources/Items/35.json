@@ -2,7 +2,7 @@
 	"type": "consumable",
 	"name": "Fries Mk2",
 	"description": "A specially modified food that restores your streng.",
-	"max_stack": 5,
+	"max_stack": 99,
 	"price": 100,
 	"health": 100
 }

@@ -2,7 +2,7 @@
 	"type": "consumable",
 	"name": "Medium Health Potion",
 	"description": "The healing potion, restores 300hp.",
-	"max_stack": 6,
+	"max_stack": 99,
 	"price": 200,
 	"health": 300
 }

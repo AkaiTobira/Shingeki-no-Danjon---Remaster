@@ -2,6 +2,6 @@
 	"type": "misc",
 	"name": "Robot Scrap",
 	"description": "This used to be some robot.",
-	"max_stack": 20,
+	"max_stack": 99,
 	"price": 10
 }

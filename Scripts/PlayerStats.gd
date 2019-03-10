@@ -96,10 +96,10 @@ func _ready():
 func get_stats_from_items():
 	for eq in equipment:
 		if eq :
-			print(eq)
+			#print(eq)
 			#var item = Res.items[eq.id]
 			#for stat in item.scaling:
-			#	pass
+				pass
 
 
 func get_damage():
@@ -214,7 +214,6 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 		match(item.type):
 			"consumable":
 				var _tr = get_if_have_one(id)
-				print( _tr )
 				if _tr >= 0 : 
 					inventory[_tr].stack += amount
 					stacked = true
@@ -233,11 +232,17 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 					_item.max_durability = item.durability * _item.material
 					
 				if _item.blessing == "holy" :
-					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] = randf() + 1
+					var new_perk = statistic.keys()[randi()%len(statistic.keys())]
+					_item.add_to_stat[new_perk] = randf() + 1
 					
 				if _item.blessing == "cursed" : 
 					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] =  randf() + 2.5
-					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] = -randf() + 0.5
+					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] = -randf() - 0.5
+
+				if item.has("stats") :
+					for stat in item.stats.keys():
+						if _item.add_to_stat.has(stat): _item.add_to_stat[stat] += item.stats[stat]
+						else: _item.add_to_stat[stat] = item.stats[stat]
 
 		if not stacked : inventory.append(_item)
 	else:

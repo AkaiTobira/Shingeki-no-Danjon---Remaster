@@ -4,11 +4,13 @@
 	"description": "Perfect for walking long distances.",
 	"price": 50,
 	"durability": 50000,
-	"block"     : 4,
-	"p.resist"  : 0.05,
-	"c.resist"  : 0.05,
-	"s.resist"  : 0.05,
-	"e.resist"  : 0.05,
-	"move speed": 34,
+	"stats" : {	 	
+		"ph_res"  : 0.05,
+		"cr_res"  : 0.05,
+		"sh_res"  : 0.05,
+		"ex_res"  : 0.05,
+		"mv_spd"  : 34
+	 },
+
 	"material"  : [0,4]
 }

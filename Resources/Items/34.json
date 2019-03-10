@@ -2,7 +2,7 @@
 	"type": "consumable",
 	"name": "Green Apple",
 	"description": "Uncommon kind of apple. Restores moderate amount of HP and MP.",
-	"max_stack": 15,
+	"max_stack": 99,
 	"price": 40,
 	"health": 25,
 	"mana": 25

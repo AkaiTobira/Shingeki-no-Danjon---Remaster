@@ -6,7 +6,7 @@
 	"description": "One-handed sword made of iron.",
 	"price": 10,
 	"durability": 5,
-	"attack": [5,0,0,0],
+	"stats" : {	"ph_dmg": 5 },
 	"material"  : [0,4],
 	"scaling": {"streng": 1}
 }

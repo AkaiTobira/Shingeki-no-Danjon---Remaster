@@ -5,10 +5,13 @@
 	"description": "Shield made of barrel lid. How creative!",
 	"price": 10,
 	"durability": 10,
-	"block"     : 4,
-	"p.resist"  : 0.1,
-	"c.resist"  : 0.05,
-	"s.resist"  : 0.05,
-	"e.resist"  : 0.05,
+
+	"stats" : {	 
+		"block"     : 4,	
+		"ph_res"  : 0.1,
+		"cr_res"  : 0.05,
+		"sh_res"  : 0.05,
+		"ex_res"  : 0.05
+	 },
 	"material"  : [0,4]
 }

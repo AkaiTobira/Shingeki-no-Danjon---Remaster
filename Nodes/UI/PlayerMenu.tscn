@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Sprites/UI/Menu/PlayerMenu.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Menu/TabInactive.png" type="Texture" id=2]
@@ -26,16 +26,17 @@
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDescription.png" type="Texture" id=24]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=25]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=27]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=28]
-[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=29]
-[ext_resource path="res://Sprites/UI/Menu/Skills/HeaderActive.png" type="Texture" id=30]
-[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=31]
-[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=32]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=33]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=34]
-[ext_resource path="res://Sprites/UI/Menu/Map/skill_maps.png" type="Texture" id=35]
-[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=36]
+[ext_resource path="res://Resources/Fonts/Font18.tres" type="DynamicFont" id=27]
+[ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=28]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=29]
+[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=30]
+[ext_resource path="res://Sprites/UI/Menu/Skills/HeaderActive.png" type="Texture" id=31]
+[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=32]
+[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=33]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=34]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=35]
+[ext_resource path="res://Sprites/UI/Menu/Map/skill_maps.png" type="Texture" id=36]
+[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=37]
 
 [sub_resource type="GDScript" id=1]
 
@@ -284,6 +285,8 @@ func _process(delta):
 					PlayerStats.inventory.erase(item)
 					PlayerStats.equipment[eq] = item
 					
+					print( \"SELCTED \", PlayerStats.equipment[eq], \"END\" )
+					
 					PlayerStats.get_stats_from_items()
 					
 					if eq == PlayerStats.SLOTS[\"weapon\"]: Res.game.player.update_weapon()
@@ -456,15 +459,15 @@ func update_inventory(whatever = null):
 func update_equipment():
 	for i in range(PlayerStats.EQUIPMENT_SLOTS.size()):
 		var item = $Tabs/Equipment/Character/EquipmentSlots.get_child(i)
-		
+
 		if PlayerStats.equipment[i]:
 			var item2 = PlayerStats.equipment[i]
 			item.get_node(\"Icon\").texture = Res.get_item_texture(item2.id)
 			
 			if Res.items[item2.id].has(\"durability\"):
 				item.get_node(\"Durability\").max_value = item2.max_durability
-				item.get_node(\"Durability\").value = item2.durability
-				item.get_node(\"Durability\").visible = true
+				item.get_node(\"Durability\").value     = item2.durability
+				item.get_node(\"Durability\").visible   = true
 		else:
 			item.get_node(\"Icon\").texture = load(\"res://Sprites/UI/Menu/Equipment/Generic\" + PlayerStats.EQUIPMENT_SLOTS[i] + \".png\")
 			item.get_node(\"Durability\").visible = false
@@ -512,11 +515,11 @@ func select_inventory():
 	var itemstance
 	if inventory_select > -1:
 		itemstance = inventory_list[inventory_select]
-		item = Res.items[itemstance.id]
+		item       = Res.items[itemstance.id]
 	else:
 		if PlayerStats.equipment[-inventory_select - 1]:
 			itemstance = PlayerStats.equipment[-inventory_select - 1]
-			item = Res.items[itemstance.id]
+			item       = Res.items[itemstance.id]
 		else:
 			item = {description = \"Equipment slot (\" + PlayerStats.EQUIPMENT_SLOTS[-inventory_select - 1] + \") empty\"}
 	
@@ -534,9 +537,10 @@ func select_inventory():
 		$Tabs/Equipment/Description/Durability.value = itemstance.durability
 	else: $Tabs/Equipment/Description/Durability.visible = false
 	$Tabs/Equipment/Description/Text.text = item.description
+	
 	if item.has(\"id\"):
 		$Tabs/Equipment/Description/Icon.texture = Res.get_item_texture(item.id)
-		update_stats(item, inventory_select > -1)
+		update_stats(item, itemstance)
 	else:
 		$Tabs/Equipment/Description/Icon.texture = load(\"res://Sprites/UI/Menu/Equipment/Generic\" + PlayerStats.EQUIPMENT_SLOTS[-inventory_select - 1] + \".png\")
 #	print( item, itemstance)
@@ -720,43 +724,66 @@ func update_statistics():
 
 
 func stat_comparator_array(compare,stat_label,stat , old_item, stats):
-				var diff = 0
-				var c    = 0
-				for i in range(len(stats[stat])):
-					if compare and old_item and old_item.has(stat):
-						if stats[stat][i] == 0 and old_item[stat][i] == 0 : continue
-						var cmp = stats[stat][i] - old_item[stat][i]
-						diff += cmp
-						c    += stats[stat][i]
-
-				if diff < 0: stat_label.push_color( Color(0,0,0.6) )
-				else : stat_label.push_color( Color(1,1,1) )
-				
-				stat_label.append_bbcode( str( get_player_statistic(stat) + c ).substr(0,5) )
-				stat_label.pop()
-				
-				for i in range(len(stats[stat])):
-					if compare and old_item and old_item.has(stat):
-						if stats[stat][i] == 0 and old_item[stat][i] == 0 : continue
-						var cmp = stats[stat][i] - old_item[stat][i]
-						if cmp > 0:
-							if   i == 0 : stat_label.push_color( Color(1, 0.5, 0)     )
-							elif i == 1 : stat_label.push_color( Color(0.67,0.2,1)    )
-							elif i == 2 : stat_label.push_color( Color(0, 1, 1)       )
-							elif i == 3 : stat_label.push_color( Color(1,0.85,0)      )
-						else:
-							stat_label.push_color( Color(0,0,0.6) )
-					
-						stat_label.append_bbcode( \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\")
-						stat_label.pop()
-					if !old_item and stats[stat][i] :
-						stat_label.append_bbcode( \"(\" + (\"+\" if stats[stat][i] > 0  else \"\") + str(stats[stat][i]) + \")\")
-						stat_label.pop()
+	var diff = 0
+	var c    = 0
+	for i in range(len(stats[stat])):
+		if compare and old_item and old_item.has(stat):
+			if stats[stat][i] == 0 and old_item[stat][i] == 0 : continue
+			var cmp = stats[stat][i] - old_item[stat][i]
+			diff += cmp
+			c    += stats[stat][i]
+			
+	if diff < 0: stat_label.push_color( Color(0,0,0.6) )
+	else : stat_label.push_color( Color(1,1,1) )
 	
+	stat_label.append_bbcode( str( get_player_statistic(stat) + c ).substr(0,5) )
+	stat_label.pop()
+				
+	for i in range(len(stats[stat])):
+		if compare and old_item and old_item.has(stat):
+			if stats[stat][i] == 0 and old_item[stat][i] == 0 : continue
+			var cmp = stats[stat][i] - old_item[stat][i]
+			if cmp > 0:
+				if   i == 0 : stat_label.push_color( Color(1, 0.5, 0)     )
+				elif i == 1 : stat_label.push_color( Color(0.67,0.2,1)    )
+				elif i == 2 : stat_label.push_color( Color(0, 1, 1)       )
+				elif i == 3 : stat_label.push_color( Color(1,0.85,0)      )
+			else:
+				stat_label.push_color( Color(0,0,0.6) )
+				stat_label.append_bbcode( \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\")
+				stat_label.pop()
+			if !old_item and stats[stat][i] :
+				stat_label.append_bbcode( \"(\" + (\"+\" if stats[stat][i] > 0  else \"\") + str(stats[stat][i]) + \")\")
+				stat_label.pop()
+	
+	
+func stat_comparator2(compare,stat_label,stat, old_item, stats):
+	var diff = 0
+
+	if old_item and old_item.has(stat):
+		if stats[stat] == 0 and old_item[stat] == 0:
+			#stat_label.append_bbcode( str( get_player_statistic(stat) + stats[stat] ).substr(0,5) )
+			stat_label.clear() 
+			return
+		var cmp = stats[stat] - old_item[stat]
+		diff += cmp
+
+		if diff < 0: stat_label.push_color( Color(0,0,0.6) )
+		else : stat_label.push_color( Color(1,1,1) )
+		stat_label.append_bbcode( str( get_player_statistic(stat) + stats[stat] ).substr(0,5) )
+		
+		if cmp > 0: stat_label.push_color( Color(1,1,1) )
+		else: stat_label.push_color( Color(0,0,0.6) )
+		stat_label.append_bbcode( \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\")
+		stat_label.pop()
+	if !old_item and stats[stat] :
+		stat_label.append_bbcode(str(get_player_statistic(stat)).substr(0,5) + \"(\" + (\"+\" if stats[stat] > 0  else \"\") + str(stats[stat]) + \")\")
+		stat_label.pop()
+
 func stat_comparator(compare,stat_label,stat, old_item, stats):
 	var diff = 0
 
-	if compare and old_item and old_item.has(stat):
+	if old_item and old_item.has(stat):
 		if stats[stat] == 0 and old_item[stat] == 0 : 
 		
 			#stat_label.append_bbcode( str( get_player_statistic(stat) + stats[stat] ).substr(0,5) )
@@ -778,48 +805,173 @@ func stat_comparator(compare,stat_label,stat, old_item, stats):
 		stat_label.pop()
 
 func get_player_statistic(stat):
-	match(stat):
-		\"p.resist\":
-			return PlayerStats.statistic[\"ph_res\"][1]
-		\"c.resist\":
-			return PlayerStats.statistic[\"cr_res\"][1]
-		\"s.resist\":
-			return PlayerStats.statistic[\"sh_res\"][1]
-		\"e.resist\":
-			return PlayerStats.statistic[\"ex_res\"][1]
-		\"attack\"  :
-			return PlayerStats.statistic[\"ph_dmg\"][1]
-		\"move speed\":
-			return PlayerStats.statistic[\"mv_spd\"][1]
-		\"block\"   :
-			return 0#PlayerStats.statistic[\"ph_res\"][2]
-	return 0
+	return PlayerStats.statistic[stat][1]
+
 
 
 func get_name(stat_label, stat):
-		if   stat == \"p.resist\" : stat_label.push_color( Color(1, 0.2, 0.2)     )
+		if   stat == \"p.resist\" : stat_label.push_color( Color(1, 0.2, 0.2)   )
 		elif stat == \"c.resist\" : stat_label.push_color( Color(0.67,0.2,1)    )
 		elif stat == \"s.resist\" : stat_label.push_color( Color(0, 1, 1)       )
 		elif stat ==  \"e.resist\": stat_label.push_color( Color(1,0.85,0)      )
 		else: stat_label.push_color( Color(1,1,1) )
 		stat_label.append_bbcode( stat.capitalize() + \": \" )
 
-func update_stats(item, compare):
+func add_name_to_label(stat_label, stat):
+	match(stat):
+		\"streng\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Strength: \" )
+		\"dexter\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Dexternity: \" )
+		\"smart\"  : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Inteligence: \" )
+		\"vital\"  : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Vitality: \" )
+		\"ph_dmg\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Physical Damage: \" )
+		\"ct_dmg\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Critical Damage: \" )
+		\"cr_res\" : 
+			stat_label.push_color( Color(0.67,0.2,1)    )
+			stat_label.append_bbcode( \"Resistance Crush: \" )
+		\"ct_chc\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Critical Chanse: \" )
+		\"at_spd\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Attack Speed: \" )
+		\"mv_spd\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Move Speed: \" )
+		\"ph_res\" : 
+			stat_label.push_color( Color(1, 0.2, 0.2) )
+			stat_label.append_bbcode( \"Resistance Physical: \" )
+		\"mg_dmg\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Magical Damage: \" )
+		\"mx_hpp\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Max Health: \" )
+		\"mx_man\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Max Mana: \" )
+		\"sh_res\" : 
+			stat_label.push_color( Color(0, 1, 1)       )
+			stat_label.append_bbcode( \"Resistance Shock: \" )
+		\"gh_dur\" : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Ghost Time: \" )
+		\"mn_reg\" :
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Mana Regeneration: \" )
+		\"ex_res\" : 
+			stat_label.push_color( Color(1,0.85,0)      )
+			stat_label.append_bbcode( \"Resistance Explosion: \" )
+		\"block\"  :
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Block Rate: \" )
+	
+func new_stat_comparator(stat_label, stat, old_value, current_value):
+	var diff = old_value - current_value
+	
+	print( diff,\" \", old_value,\" \", current_value, \" \", stat )
+
+	if old_value > current_value: 
+		stat_label.push_color( Color(0.6,0.6,0.6) ) 
+		stat_label.add_text( str( current_value + get_player_statistic(stat) ).substr(0,4)+ \"(-\" +  str(abs(diff)).substr(0,4) + \")\")
+		stat_label.pop()
+		return
+	elif old_value < current_value:
+		stat_label.push_color( Color(1,1,0) )
+		stat_label.add_text( str( current_value + get_player_statistic(stat) ).substr(0,4)+ \"(+\" +  str(abs(diff)).substr(0,4) + \")\")
+		stat_label.pop()
+		return
+	else:
+		stat_label.push_color( Color(1,1,1) )
+		stat_label.add_text( str( current_value + get_player_statistic(stat) ).substr(0,4) + \"(0)\")
+		stat_label.pop()
+		return
+
+
+func update_stats(item, i_instance):
+	var equiped_item_instance = PlayerStats.equipment[get_eq_slot(item)]
 	var old_item
 	if PlayerStats.equipment[get_eq_slot(item)]: old_item = Res.items[PlayerStats.equipment[get_eq_slot(item)].id]
 	
-#	print( item, old_item )
+	if item.type == \"misc\": 
+		$Tabs/Equipment/Stats.visible = false
+		return
+		
+	if item.type == \"consumable\":  #osobna obsługa
+		$Tabs/Equipment/Stats.visible = false
+		return
+		
+	var stats = []
+
+	for stat in PlayerStats.statistic.keys():
+		if equiped_item_instance != null:
+			if equiped_item_instance.add_to_stat.has(stat):
+				stats.append(stat)
+				continue
+		if i_instance.add_to_stat.has(stat):
+			stats.append(stat)
+	
+#	print( stats )
+	
+	var irrelevant = true
+	for i in range($Tabs/Equipment/Stats/Stats.get_child_count()):
+		var stat_label = $Tabs/Equipment/Stats/Stats.get_child(i)
+		print( stat_label )
+		if i >= len(stats): stat_label.visible = false
+		else:
+			irrelevant = false
+			stat_label.clear()
+			add_name_to_label( stat_label, stats[i])
+			var old_item_value     = 0 
+			if equiped_item_instance != null and equiped_item_instance.add_to_stat.has(stats[i]):
+				old_item_value = equiped_item_instance.add_to_stat[stats[i]]
+			var current_item_value = 0 if not i_instance.add_to_stat.has(stats[i]) else i_instance.add_to_stat[stats[i]]
+			
+	#		print(  old_item_value,\" \", current_item_value, \" \", stats[i] )
+			new_stat_comparator(stat_label, stats[i], old_item_value, current_item_value)
+#			
+			stat_label.visible = true
+	
+	$Tabs/Equipment/Stats.visible = !irrelevant
+
+func update_stats2(item, compare, i_instance):
+	
+#	print( \"ITEMMMM Current\" ,item, i_instance )
+	
+	var old_item
+
+	if PlayerStats.equipment[get_eq_slot(item)]: old_item = Res.items[PlayerStats.equipment[get_eq_slot(item)].id]
+	
+	#print( \"ITEMMMM OLD\" , old_item)
+	#print( \"ITEM CUrrent\",  item )
+	
+	var current_item_instance =  PlayerStats.equipment[get_eq_slot(item)]
+	
 	
 	if item.type == \"misc\" or item.type == \"consumable\": 
 		$Tabs/Equipment/Stats.visible = false
 		return
 	
 	var stats = {}
+#	print(item)
 	for stat in STAT_LIST:
 		if item.has(stat):
 			stats[stat] = item[stat]
 		elif old_item and old_item.has(stat):
 			stats[stat] = 0
+	
+	print( stats )
 	
 	var irrelevant = true
 	for i in range($Tabs/Equipment/Stats/Stats.get_child_count()):
@@ -834,7 +986,7 @@ func update_stats(item, compare):
 			stat_label.clear()
 			get_name(stat_label, stat)
 			
-			if  typeof(value) == TYPE_ARRAY :
+			if typeof(value) == TYPE_ARRAY:
 				stat_comparator_array(compare,stat_label,stat, old_item, stats)
 			else:
 				stat_comparator(compare,stat_label,stat, old_item, stats)
@@ -2932,16 +3084,14 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Character" type="TextureRect" parent="Tabs/Equipment" index="0"]
 
-editor/display_folded = true
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 133.0
-margin_top = 210.0
+margin_top = 206.0
 margin_right = 533.0
-margin_bottom = 780.0
+margin_bottom = 776.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -3538,15 +3688,15 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Stats" type="TextureRect" parent="Tabs/Equipment" index="4"]
 
-
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 24.0
-margin_top = 558.0
+margin_top = 461.0
 margin_right = 409.0
-margin_bottom = 540.0
+margin_bottom = 501.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -3585,9 +3735,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -34.0
+margin_left = -14.0
 margin_top = 38.0
-margin_right = 366.0
+margin_right = 386.0
 margin_bottom = 169.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -3612,19 +3762,19 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/normal_font = ExtResource( 9 )
+custom_fonts/normal_font = ExtResource( 27 )
 bbcode_enabled = false
 bbcode_text = ""
 visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
-tab_size = 17
+tab_size = 15
 text = "COś"
 scroll_active = false
 scroll_following = false
 selection_enabled = false
 override_selected_font_color = true
-_sections_unfolded = [ "BBCode", "custom_constants", "custom_fonts" ]
+_sections_unfolded = [ "BBCode", "custom_fonts" ]
 
 [node name="RightHeader" type="TextureRect" parent="Tabs/Equipment" index="5"]
 
@@ -3644,7 +3794,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 27 )
+texture = ExtResource( 28 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -3672,6 +3822,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Categories" type="Control" parent="Tabs/Equipment" index="6"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3703,7 +3854,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 28 )
+texture = ExtResource( 29 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Equipment/Categories/Category1" index="0"]
@@ -3769,7 +3920,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 29 )
+texture = ExtResource( 30 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -3788,7 +3939,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 30 )
+texture = ExtResource( 31 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/ActivePanel/Header" index="0"]
@@ -3847,7 +3998,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 31 )
+texture = ExtResource( 32 )
 stretch_mode = 0
 
 [node name="Icon" type="TextureRect" parent="Tabs/Skills/ActivePanel/Skills/Skill1" index="0"]
@@ -3883,7 +4034,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 29 )
+texture = ExtResource( 30 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -3902,7 +4053,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 30 )
+texture = ExtResource( 31 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/PassivePanel/Header" index="0"]
@@ -3960,7 +4111,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 31 )
+texture = ExtResource( 32 )
 stretch_mode = 0
 
 [node name="Icon" type="TextureRect" parent="Tabs/Skills/PassivePanel/Skills/Skill1" index="0"]
@@ -4139,7 +4290,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 stretch_mode = 0
 
 [node name="LeftHeader2" type="TextureRect" parent="Tabs/Skills" index="3"]
@@ -4210,7 +4361,6 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Crafting" type="Control" parent="Tabs" index="3"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -4383,7 +4533,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4458,9 +4608,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 25.0
-margin_top = 560.0
+margin_top = 459.0
 margin_right = 410.0
-margin_bottom = 600.0
+margin_bottom = 499.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -4536,7 +4686,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 27 )
+texture = ExtResource( 28 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4578,7 +4728,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 34 )
+texture = ExtResource( 35 )
 stretch_mode = 0
 
 [node name="ActualScroll" type="TextureRect" parent="Tabs/Crafting/Scrollbar" index="0"]
@@ -4634,7 +4784,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 35 )
+texture = ExtResource( 36 )
 stretch_mode = 0
 
 [node name="Notes" type="Control" parent="Tabs" index="5"]
@@ -4671,7 +4821,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 36 )
+texture = ExtResource( 37 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 

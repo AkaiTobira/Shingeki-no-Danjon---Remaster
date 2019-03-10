@@ -2,6 +2,6 @@
 	"type": "misc",
 	"name": "FLA-B Rope",
 	"description": "Doesn't look like the rope.",
-	"max_stack": 20,
+	"max_stack": 99,
 	"price": 300
 }

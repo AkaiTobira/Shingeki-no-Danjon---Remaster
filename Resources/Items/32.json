@@ -2,7 +2,7 @@
 	"type": "consumable",
 	"name": "Apple",
 	"description": "A common, red apple. It's freshnes restores some HP and MP.",
-	"max_stack": 15,
+	"max_stack": 99,
 	"price": 15,
 	"health": 10,
 	"mana": 10

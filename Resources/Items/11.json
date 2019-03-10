@@ -4,10 +4,12 @@
 	"name": "Iron Shield",
 	"description": "A shield made of iron. Slightly worn out.",
 	"price": 50,
-	"block"     : 4,
-	"p.resist"  : 0.2,
-	"c.resist"  : 0.1,
-	"s.resist"  : 0.1,
-	"e.resist"  : 0.1,
+	"stats" : {	 	
+		"block"     : 4,
+		"ph_res"  : 0.2,
+		"cr_res"  : 0.1,
+		"sh_res"  : 0.1,
+		"ex_res"  : 0.1
+	 },
 	"durability": 30
 }

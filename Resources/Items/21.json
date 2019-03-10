@@ -2,6 +2,6 @@
 	"type": "misc",
 	"name": "Fire Soul",
 	"description": "As much deadly as hot.",
-	"max_stack": 20,
+	"max_stack": 99,
 	"price": 150
 }

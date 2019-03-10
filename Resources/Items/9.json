@@ -6,7 +6,7 @@
 	"description": "Cuts steel like it was butter.",
 	"price"      : 100,
 	"durability" : 60,
-	"attack"     : [22,0,0,0],
+	"stats"      : { "ph_dmg": 24 },
 	"material"   : [0,4],
 	"scaling"    : {"streng": 0.7,
 				   "dexter": 0.3}
