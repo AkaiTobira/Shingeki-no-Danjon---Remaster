@@ -228,8 +228,8 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 				_item.blessing =  bless_randomizer()
 				
 				if item.has("durability"):
-					_item.durability     = item.durability * _item.material
-					_item.max_durability = item.durability * _item.material
+					_item.durability     = int( item.durability *  ( 1.0 + (_item.material/5.0)) )
+					_item.max_durability = int( item.durability *  ( 1.0 + (_item.material/5.0)) )
 					
 				if _item.blessing == "holy" :
 					var new_perk = statistic.keys()[randi()%len(statistic.keys())]
@@ -241,8 +241,8 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 
 				if item.has("stats") :
 					for stat in item.stats.keys():
-						if _item.add_to_stat.has(stat): _item.add_to_stat[stat] += item.stats[stat]
-						else: _item.add_to_stat[stat] = item.stats[stat]
+						if _item.add_to_stat.has(stat): _item.add_to_stat[stat] += item.stats[stat] * ( 1.0 + (_item.material/5.0))
+						else: _item.add_to_stat[stat] = item.stats[stat] * ( 1.0 + (_item.material/5.0))
 
 		if not stacked : inventory.append(_item)
 	else:

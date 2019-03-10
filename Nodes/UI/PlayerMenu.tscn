@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Sprites/UI/Menu/PlayerMenu.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Menu/TabInactive.png" type="Texture" id=2]
@@ -19,24 +19,25 @@
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurabilityBackground.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurability.png" type="Texture" id=18]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotHoly.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotCursed.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/UI/Menu/ActualScrollbar.png" type="Texture" id=23]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDescription.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=26]
-[ext_resource path="res://Resources/Fonts/Font18.tres" type="DynamicFont" id=27]
-[ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=28]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=29]
-[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=30]
-[ext_resource path="res://Sprites/UI/Menu/Skills/HeaderActive.png" type="Texture" id=31]
-[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=32]
-[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=33]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=34]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=35]
-[ext_resource path="res://Sprites/UI/Menu/Map/skill_maps.png" type="Texture" id=36]
-[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=37]
+[ext_resource path="res://Sprites/Objects/Money.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotHoly.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotCursed.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/UI/Menu/ActualScrollbar.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDescription.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=26]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=27]
+[ext_resource path="res://Resources/Fonts/Font18.tres" type="DynamicFont" id=28]
+[ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=29]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=30]
+[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=31]
+[ext_resource path="res://Sprites/UI/Menu/Skills/HeaderActive.png" type="Texture" id=32]
+[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=33]
+[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=34]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=35]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=36]
+[ext_resource path="res://Sprites/UI/Menu/Map/skill_maps.png" type="Texture" id=37]
+[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=38]
 
 [sub_resource type="GDScript" id=1]
 
@@ -285,8 +286,6 @@ func _process(delta):
 					PlayerStats.inventory.erase(item)
 					PlayerStats.equipment[eq] = item
 					
-					print( \"SELCTED \", PlayerStats.equipment[eq], \"END\" )
-					
 					PlayerStats.get_stats_from_items()
 					
 					if eq == PlayerStats.SLOTS[\"weapon\"]: Res.game.player.update_weapon()
@@ -429,6 +428,15 @@ func get_material_type_texture(id):
 	#if id == 0: return
 	return Res.cache_resource(\"res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot\" + str(id) + \".png\")
 
+func get_material_name(id):
+	match(id):
+		0: return \"Normal item\"
+		1: return \"Magic item\"
+		2: return \"Epic item\"
+		3: return \"Legendary item\"
+		4: return \"Mythical item\"
+		5: return \"No Data\"
+		6: return \"Component\"
 
 func update_inventory(whatever = null):
 	for j in range(INVENTORY_SLOTS):
@@ -437,10 +445,12 @@ func update_inventory(whatever = null):
 		
 		if i < inventory_list.size():
 			item.visible = true
+			item.get_node(\"Material_name\").text = get_material_name(inventory_list[i].material)
 			if inventory_list[i].material != 0: 
 				item.get_node(\"Material\").texture = get_material_type_texture(inventory_list[i].material);
 				item.get_node(\"Material\").visible = true
-			else: item.get_node(\"Material\").visible = false
+			else: 
+				item.get_node(\"Material\").visible = false
 		
 			item.get_node(\"Cursed\").visible = false
 			item.get_node(\"Holy\"  ).visible = false
@@ -451,8 +461,20 @@ func update_inventory(whatever = null):
 
 			item.get_node(\"Name\"  ).text = Res.items[inventory_list[i].id].name + str(i)
 			item.get_node(\"Amount\").text = \"x\" + str(inventory_list[i].stack)
-			item.get_node(\"Price\" ).text = \"Price: \" + str(Res.items[inventory_list[i].id].price)
+			item.get_node(\"Price\" ).text = str(Res.items[inventory_list[i].id].price)
 			item.get_node(\"Icon\"  ).texture = Res.get_item_texture(inventory_list[i].id)
+			
+			if inventory_list[i].has(\"durability\"): 
+				item.get_node(\"Durability_word\").visible = true
+				item.get_node(\"Durability\").visible      = true
+				item.get_node(\"Durability\").text         = str(inventory_list[i].durability) + \"/\"  + str( inventory_list[i].max_durability )
+				var color_changer = float(inventory_list[i].durability)/float(inventory_list[i].max_durability)
+				item.get_node(\"Durability\").add_color_override(\"font_color\", Color(1,color_changer*1,color_changer*1))
+			else:
+				item.get_node(\"Durability\").visible      = false
+				item.get_node(\"Durability_word\").visible = false
+			
+			
 		else:
 			item.visible = false
 
@@ -543,7 +565,7 @@ func select_inventory():
 		update_stats(item, itemstance)
 	else:
 		$Tabs/Equipment/Description/Icon.texture = load(\"res://Sprites/UI/Menu/Equipment/Generic\" + PlayerStats.EQUIPMENT_SLOTS[-inventory_select - 1] + \".png\")
-#	print( item, itemstance)
+
 
 func select_skill():
 	var skill
@@ -722,100 +744,8 @@ func update_statistics():
 	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health).substr(0,6) + \" / \" + str(PlayerStats.statistic[\"mx_hpp\"][0]).substr(0,6)
 	$Tabs/Character/Statistics/Mana.text           = \"Mana: \"   + str(PlayerStats.mana).substr(0,6)     + \" / \" + str(PlayerStats.statistic[\"mx_man\"][0]).substr(0,6)
 
-
-func stat_comparator_array(compare,stat_label,stat , old_item, stats):
-	var diff = 0
-	var c    = 0
-	for i in range(len(stats[stat])):
-		if compare and old_item and old_item.has(stat):
-			if stats[stat][i] == 0 and old_item[stat][i] == 0 : continue
-			var cmp = stats[stat][i] - old_item[stat][i]
-			diff += cmp
-			c    += stats[stat][i]
-			
-	if diff < 0: stat_label.push_color( Color(0,0,0.6) )
-	else : stat_label.push_color( Color(1,1,1) )
-	
-	stat_label.append_bbcode( str( get_player_statistic(stat) + c ).substr(0,5) )
-	stat_label.pop()
-				
-	for i in range(len(stats[stat])):
-		if compare and old_item and old_item.has(stat):
-			if stats[stat][i] == 0 and old_item[stat][i] == 0 : continue
-			var cmp = stats[stat][i] - old_item[stat][i]
-			if cmp > 0:
-				if   i == 0 : stat_label.push_color( Color(1, 0.5, 0)     )
-				elif i == 1 : stat_label.push_color( Color(0.67,0.2,1)    )
-				elif i == 2 : stat_label.push_color( Color(0, 1, 1)       )
-				elif i == 3 : stat_label.push_color( Color(1,0.85,0)      )
-			else:
-				stat_label.push_color( Color(0,0,0.6) )
-				stat_label.append_bbcode( \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\")
-				stat_label.pop()
-			if !old_item and stats[stat][i] :
-				stat_label.append_bbcode( \"(\" + (\"+\" if stats[stat][i] > 0  else \"\") + str(stats[stat][i]) + \")\")
-				stat_label.pop()
-	
-	
-func stat_comparator2(compare,stat_label,stat, old_item, stats):
-	var diff = 0
-
-	if old_item and old_item.has(stat):
-		if stats[stat] == 0 and old_item[stat] == 0:
-			#stat_label.append_bbcode( str( get_player_statistic(stat) + stats[stat] ).substr(0,5) )
-			stat_label.clear() 
-			return
-		var cmp = stats[stat] - old_item[stat]
-		diff += cmp
-
-		if diff < 0: stat_label.push_color( Color(0,0,0.6) )
-		else : stat_label.push_color( Color(1,1,1) )
-		stat_label.append_bbcode( str( get_player_statistic(stat) + stats[stat] ).substr(0,5) )
-		
-		if cmp > 0: stat_label.push_color( Color(1,1,1) )
-		else: stat_label.push_color( Color(0,0,0.6) )
-		stat_label.append_bbcode( \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\")
-		stat_label.pop()
-	if !old_item and stats[stat] :
-		stat_label.append_bbcode(str(get_player_statistic(stat)).substr(0,5) + \"(\" + (\"+\" if stats[stat] > 0  else \"\") + str(stats[stat]) + \")\")
-		stat_label.pop()
-
-func stat_comparator(compare,stat_label,stat, old_item, stats):
-	var diff = 0
-
-	if old_item and old_item.has(stat):
-		if stats[stat] == 0 and old_item[stat] == 0 : 
-		
-			#stat_label.append_bbcode( str( get_player_statistic(stat) + stats[stat] ).substr(0,5) )
-			stat_label.clear() 
-			return
-		var cmp = stats[stat] - old_item[stat]
-		diff += cmp
-
-		if diff < 0: stat_label.push_color( Color(0,0,0.6) )
-		else : stat_label.push_color( Color(1,1,1) )
-		stat_label.append_bbcode( str( get_player_statistic(stat) + stats[stat] ).substr(0,5) )
-		
-		if cmp > 0: stat_label.push_color( Color(1,1,1) )
-		else: stat_label.push_color( Color(0,0,0.6) )
-		stat_label.append_bbcode( \"(\" + (\"+\" if cmp > 0  else \"\") + str(cmp) + \")\")
-		stat_label.pop()
-	if !old_item and stats[stat] :
-		stat_label.append_bbcode(str(get_player_statistic(stat)).substr(0,5) + \"(\" + (\"+\" if stats[stat] > 0  else \"\") + str(stats[stat]) + \")\")
-		stat_label.pop()
-
 func get_player_statistic(stat):
 	return PlayerStats.statistic[stat][1]
-
-
-
-func get_name(stat_label, stat):
-		if   stat == \"p.resist\" : stat_label.push_color( Color(1, 0.2, 0.2)   )
-		elif stat == \"c.resist\" : stat_label.push_color( Color(0.67,0.2,1)    )
-		elif stat == \"s.resist\" : stat_label.push_color( Color(0, 1, 1)       )
-		elif stat ==  \"e.resist\": stat_label.push_color( Color(1,0.85,0)      )
-		else: stat_label.push_color( Color(1,1,1) )
-		stat_label.append_bbcode( stat.capitalize() + \": \" )
 
 func add_name_to_label(stat_label, stat):
 	match(stat):
@@ -879,8 +809,6 @@ func add_name_to_label(stat_label, stat):
 	
 func new_stat_comparator(stat_label, stat, old_value, current_value):
 	var diff = old_value - current_value
-	
-	print( diff,\" \", old_value,\" \", current_value, \" \", stat )
 
 	if old_value > current_value: 
 		stat_label.push_color( Color(0.6,0.6,0.6) ) 
@@ -922,12 +850,10 @@ func update_stats(item, i_instance):
 		if i_instance.add_to_stat.has(stat):
 			stats.append(stat)
 	
-#	print( stats )
-	
 	var irrelevant = true
 	for i in range($Tabs/Equipment/Stats/Stats.get_child_count()):
 		var stat_label = $Tabs/Equipment/Stats/Stats.get_child(i)
-		print( stat_label )
+
 		if i >= len(stats): stat_label.visible = false
 		else:
 			irrelevant = false
@@ -938,62 +864,12 @@ func update_stats(item, i_instance):
 				old_item_value = equiped_item_instance.add_to_stat[stats[i]]
 			var current_item_value = 0 if not i_instance.add_to_stat.has(stats[i]) else i_instance.add_to_stat[stats[i]]
 			
-	#		print(  old_item_value,\" \", current_item_value, \" \", stats[i] )
 			new_stat_comparator(stat_label, stats[i], old_item_value, current_item_value)
 #			
 			stat_label.visible = true
 	
 	$Tabs/Equipment/Stats.visible = !irrelevant
 
-func update_stats2(item, compare, i_instance):
-	
-#	print( \"ITEMMMM Current\" ,item, i_instance )
-	
-	var old_item
-
-	if PlayerStats.equipment[get_eq_slot(item)]: old_item = Res.items[PlayerStats.equipment[get_eq_slot(item)].id]
-	
-	#print( \"ITEMMMM OLD\" , old_item)
-	#print( \"ITEM CUrrent\",  item )
-	
-	var current_item_instance =  PlayerStats.equipment[get_eq_slot(item)]
-	
-	
-	if item.type == \"misc\" or item.type == \"consumable\": 
-		$Tabs/Equipment/Stats.visible = false
-		return
-	
-	var stats = {}
-#	print(item)
-	for stat in STAT_LIST:
-		if item.has(stat):
-			stats[stat] = item[stat]
-		elif old_item and old_item.has(stat):
-			stats[stat] = 0
-	
-	print( stats )
-	
-	var irrelevant = true
-	for i in range($Tabs/Equipment/Stats/Stats.get_child_count()):
-		var stat_label = $Tabs/Equipment/Stats/Stats.get_child(i)
-		
-		if i >= stats.keys().size(): stat_label.visible = false
-		else:
-			irrelevant = false
-			var stat = stats.keys()[i]
-			var value = stats[stat]
-			
-			stat_label.clear()
-			get_name(stat_label, stat)
-			
-			if typeof(value) == TYPE_ARRAY:
-				stat_comparator_array(compare,stat_label,stat, old_item, stats)
-			else:
-				stat_comparator(compare,stat_label,stat, old_item, stats)
-			
-			stat_label.visible = true
-	
-	$Tabs/Equipment/Stats.visible = !irrelevant
 
 func update_category(whatever = null):
 	for i in range(CATEGORIES.size()):
@@ -3300,7 +3176,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="Inventory" type="Control" parent="Tabs/Equipment" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3318,7 +3193,6 @@ size_flags_vertical = 1
 
 [node name="Slots" type="Control" parent="Tabs/Equipment/Inventory" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3336,7 +3210,6 @@ size_flags_vertical = 1
 
 [node name="Slot1" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3396,7 +3269,29 @@ texture = ExtResource( 16 )
 expand = true
 stretch_mode = 4
 
-[node name="Name" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="2"]
+[node name="Icon2" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 257.0
+margin_top = 58.0
+margin_right = 294.0
+margin_bottom = 97.0
+rect_scale = Vector2( 0.6, 0.6 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 20 )
+expand = true
+stretch_mode = 2
+_sections_unfolded = [ "Rect" ]
+
+[node name="Name" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -3404,7 +3299,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 81.0
 margin_top = 5.0
-margin_right = 221.0
+margin_right = 379.0
 margin_bottom = 33.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -3419,15 +3314,63 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
-[node name="Amount" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="3"]
+[node name="Material_name" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 81.0
+margin_left = 85.0
+margin_top = 34.0
+margin_right = 478.0
+margin_bottom = 62.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Normal item"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
+
+[node name="Durability_word" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 296.0
+margin_top = 47.0
+margin_right = 477.0
+margin_bottom = 75.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Durability:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
+
+[node name="Amount" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="6"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 71.0
 margin_top = 51.0
-margin_right = 207.0
+margin_right = 120.0
 margin_bottom = 79.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -3442,16 +3385,16 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
-[node name="Price" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="4"]
+[node name="Price" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 148.0
-margin_top = 52.0
-margin_right = 302.0
-margin_bottom = 80.0
+margin_left = 204.0
+margin_top = 59.0
+margin_right = 260.0
+margin_bottom = 87.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -3459,35 +3402,66 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 9 )
-text = "Price: 3000"
+text = "3000"
+align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
-[node name="Holy" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="5"]
+[node name="Price_word" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="8"]
 
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 168.0
-margin_top = 16.0
-margin_right = 222.0
-margin_bottom = 70.0
+margin_left = 143.0
+margin_top = 64.0
+margin_right = 227.0
+margin_bottom = 92.0
+rect_scale = Vector2( 0.7, 0.7 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 1
+mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 20 )
-expand = true
-stretch_mode = 4
-_sections_unfolded = [ "Material", "Visibility" ]
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+text = "Price:"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
 
-[node name="Cursed" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="6"]
+[node name="Durability" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="9"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 280.0
+margin_top = 60.0
+margin_right = 460.0
+margin_bottom = 88.0
+rect_scale = Vector2( 0.6, 0.6 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "50/50"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
+
+[node name="Holy" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="10"]
 
 visible = false
 anchor_left = 0.0
@@ -3509,6 +3483,28 @@ expand = true
 stretch_mode = 4
 _sections_unfolded = [ "Material", "Visibility" ]
 
+[node name="Cursed" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots/Slot1" index="11"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 168.0
+margin_top = 16.0
+margin_right = 222.0
+margin_bottom = 70.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 22 )
+expand = true
+stretch_mode = 4
+_sections_unfolded = [ "Material", "Visibility" ]
+
 [node name="Scrollbar" type="TextureRect" parent="Tabs/Equipment/Inventory" index="1"]
 
 editor/display_folded = true
@@ -3526,7 +3522,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 22 )
+texture = ExtResource( 23 )
 stretch_mode = 0
 
 [node name="ActualScrollbar" type="TextureRect" parent="Tabs/Equipment/Inventory/Scrollbar" index="0"]
@@ -3543,7 +3539,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 23 )
+texture = ExtResource( 24 )
 stretch_mode = 0
 
 [node name="Description" type="TextureRect" parent="Tabs/Equipment" index="2"]
@@ -3564,7 +3560,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 
 [node name="Text" type="Label" parent="Tabs/Equipment/Description" index="0"]
@@ -3614,9 +3610,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 25 )
+texture_under = ExtResource( 26 )
 texture_over = null
-texture_progress = ExtResource( 26 )
+texture_progress = ExtResource( 27 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3762,7 +3758,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/normal_font = ExtResource( 27 )
+custom_fonts/normal_font = ExtResource( 28 )
 bbcode_enabled = false
 bbcode_text = ""
 visible_characters = -1
@@ -3794,7 +3790,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 28 )
+texture = ExtResource( 29 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -3854,7 +3850,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 29 )
+texture = ExtResource( 30 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Equipment/Categories/Category1" index="0"]
@@ -3920,7 +3916,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 30 )
+texture = ExtResource( 31 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -3939,7 +3935,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 31 )
+texture = ExtResource( 32 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/ActivePanel/Header" index="0"]
@@ -3998,7 +3994,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 stretch_mode = 0
 
 [node name="Icon" type="TextureRect" parent="Tabs/Skills/ActivePanel/Skills/Skill1" index="0"]
@@ -4034,7 +4030,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 30 )
+texture = ExtResource( 31 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -4053,7 +4049,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 31 )
+texture = ExtResource( 32 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/PassivePanel/Header" index="0"]
@@ -4111,7 +4107,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 stretch_mode = 0
 
 [node name="Icon" type="TextureRect" parent="Tabs/Skills/PassivePanel/Skills/Skill1" index="0"]
@@ -4290,7 +4286,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 stretch_mode = 0
 
 [node name="LeftHeader2" type="TextureRect" parent="Tabs/Skills" index="3"]
@@ -4361,6 +4357,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Crafting" type="Control" parent="Tabs" index="3"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -4533,7 +4530,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 34 )
+texture = ExtResource( 35 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4686,7 +4683,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 28 )
+texture = ExtResource( 29 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4728,7 +4725,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 35 )
+texture = ExtResource( 36 )
 stretch_mode = 0
 
 [node name="ActualScroll" type="TextureRect" parent="Tabs/Crafting/Scrollbar" index="0"]
@@ -4746,7 +4743,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 23 )
+texture = ExtResource( 24 )
 stretch_mode = 0
 
 [node name="Map" type="Control" parent="Tabs" index="4"]
@@ -4784,7 +4781,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 36 )
+texture = ExtResource( 37 )
 stretch_mode = 0
 
 [node name="Notes" type="Control" parent="Tabs" index="5"]
@@ -4821,7 +4818,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 37 )
+texture = ExtResource( 38 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
