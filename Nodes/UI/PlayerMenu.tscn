@@ -878,7 +878,6 @@ func update_stats(item, i_instance):
 	
 	$Tabs/Equipment/Stats.visible = !irrelevant
 
-
 class CategorySorter:
 	static func sort(a, b):
 		if a[\"id\"] < b[\"id\"]:
