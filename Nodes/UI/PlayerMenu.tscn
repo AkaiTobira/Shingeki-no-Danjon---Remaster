@@ -3,31 +3,31 @@
 [ext_resource path="res://Sprites/UI/Menu/PlayerMenu.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Menu/TabInactive.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/Menu/IconCharacterInactive.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/Menu/Character/CharacterAvatar.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/Menu/Character/CharacterExp.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/Menu/Character/CharacterExpFill.png" type="Texture" id=6]
-[ext_resource path="res://Resources/Fonts/Font12.tres" type="DynamicFont" id=7]
-[ext_resource path="res://Sprites/UI/Menu/Character/CharacterLevel.png" type="Texture" id=8]
-[ext_resource path="res://Resources/Fonts/Font24.tres" type="DynamicFont" id=9]
-[ext_resource path="res://Sprites/UI/Menu/LeftHeader.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/UI/Menu/Character/CharacterSkillpointInactive.png" type="Texture" id=11]
-[ext_resource path="res://Resources/Fonts/Font36.tres" type="DynamicFont" id=12]
-[ext_resource path="res://Sprites/UI/MessageBox.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentAvatar.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlot.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/Items/0.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurabilityBackground.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurability.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/Objects/Money.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotHoly.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotCursed.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png" type="Texture" id=23]
-[ext_resource path="res://Sprites/UI/Menu/ActualScrollbar.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDescription.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=27]
-[ext_resource path="res://Resources/Fonts/Font18.tres" type="DynamicFont" id=28]
+[ext_resource path="res://Resources/Fonts/Font15.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Sprites/UI/Menu/Character/CharacterAvatar.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/Menu/Character/CharacterExp.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/Menu/Character/CharacterExpFill.png" type="Texture" id=7]
+[ext_resource path="res://Resources/Fonts/Font12.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Sprites/UI/Menu/Character/CharacterLevel.png" type="Texture" id=9]
+[ext_resource path="res://Resources/Fonts/Font24.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Sprites/UI/Menu/LeftHeader.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/Menu/Character/CharacterSkillpointInactive.png" type="Texture" id=12]
+[ext_resource path="res://Resources/Fonts/Font36.tres" type="DynamicFont" id=13]
+[ext_resource path="res://Sprites/UI/MessageBox.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentAvatar.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlot.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Items/0.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurabilityBackground.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurability.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/Objects/Money.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotHoly.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotCursed.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/UI/Menu/ActualScrollbar.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDescription.png" type="Texture" id=26]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=28]
 [ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=29]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=30]
 [ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=31]
@@ -1056,7 +1056,32 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CharacterAvatar" type="TextureRect" parent="Tabs/Character" index="0"]
+[node name="Manual" type="Label" parent="Tabs/Character" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 371.0
+margin_top = 708.0
+margin_right = 1394.0
+margin_bottom = 750.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 4 )
+text = "Use arrows to navigate, Press \"Space\" to spend point, Press \"Enter\" to exit"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="CharacterAvatar" type="TextureRect" parent="Tabs/Character" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1072,10 +1097,10 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 0
 
-[node name="CharacterExp" type="TextureProgress" parent="Tabs/Character" index="1"]
+[node name="CharacterExp" type="TextureProgress" parent="Tabs/Character" index="2"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -1099,9 +1124,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 5 )
+texture_under = ExtResource( 6 )
 texture_over = null
-texture_progress = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1123,7 +1148,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 8 )
 text = "0 / 100"
 align = 1
 valign = 1
@@ -1132,7 +1157,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="CharacterLevel" type="TextureRect" parent="Tabs/Character" index="2"]
+[node name="CharacterLevel" type="TextureRect" parent="Tabs/Character" index="3"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -1149,7 +1174,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Character/CharacterLevel" index="0"]
@@ -1166,7 +1191,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "1"
 align = 1
 valign = 1
@@ -1175,7 +1200,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="CharacterSkillPointBar" type="TextureRect" parent="Tabs/Character" index="3"]
+[node name="CharacterSkillPointBar" type="TextureRect" parent="Tabs/Character" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1191,7 +1216,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -1210,7 +1235,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.552941, 0.490196, 0.435294, 1 )
 text = "SKILL POINTS:"
 align = 2
@@ -1235,7 +1260,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "0"
 valign = 1
 percent_visible = 1.0
@@ -1243,7 +1268,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Skillpoints" type="Control" parent="Tabs/Character" index="4"]
+[node name="Skillpoints" type="Control" parent="Tabs/Character" index="5"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -1275,7 +1300,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Character/Skillpoints/SP1" index="0"]
@@ -1294,7 +1319,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "STRENGTH"
 align = 1
 valign = 1
@@ -1303,7 +1328,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="StatsLabel" type="Label" parent="Tabs/Character" index="5"]
+[node name="StatsLabel" type="Label" parent="Tabs/Character" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1319,14 +1344,14 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "STATISTICS"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Statistics" type="Control" parent="Tabs/Character" index="6"]
+[node name="Statistics" type="Control" parent="Tabs/Character" index="7"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -1375,7 +1400,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 stretch_mode = 3
 _sections_unfolded = [ "Rect" ]
 
@@ -1410,7 +1435,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Strength:
 "
 percent_visible = 1.0
@@ -1434,7 +1459,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1457,7 +1482,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1496,7 +1521,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Physical damage: 
 "
 percent_visible = 1.0
@@ -1520,7 +1545,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1543,7 +1568,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1582,7 +1607,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Critical damage: "
 percent_visible = 1.0
 lines_skipped = 0
@@ -1605,7 +1630,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1628,7 +1653,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1667,7 +1692,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.67, 0.2, 1, 1 )
 text = "Crush resist   : "
 percent_visible = 1.0
@@ -1691,7 +1716,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1714,7 +1739,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1755,7 +1780,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 stretch_mode = 3
 _sections_unfolded = [ "Rect" ]
 
@@ -1791,7 +1816,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Dexterity: "
 percent_visible = 1.0
 lines_skipped = 0
@@ -1814,7 +1839,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1837,7 +1862,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1876,7 +1901,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Critical chance : "
 percent_visible = 1.0
 lines_skipped = 0
@@ -1899,7 +1924,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1922,7 +1947,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -1962,7 +1987,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Atack speed     : "
 percent_visible = 1.0
 lines_skipped = 0
@@ -1985,7 +2010,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2008,7 +2033,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2048,7 +2073,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.78125, 0.10376, 0.10376, 1 )
 text = "Physical resist :"
 percent_visible = 1.0
@@ -2072,7 +2097,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2095,7 +2120,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2136,7 +2161,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 stretch_mode = 3
 _sections_unfolded = [ "Rect" ]
 
@@ -2173,7 +2198,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Intelligence: "
 percent_visible = 1.0
 lines_skipped = 0
@@ -2196,7 +2221,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2219,7 +2244,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2259,7 +2284,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Magic damage : "
 percent_visible = 1.0
 lines_skipped = 0
@@ -2282,7 +2307,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2305,7 +2330,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2345,7 +2370,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0, 0.74902, 1, 1 )
 text = "Shock resist : "
 percent_visible = 1.0
@@ -2369,7 +2394,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2392,7 +2417,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2432,7 +2457,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Ghost time   : "
 percent_visible = 1.0
@@ -2456,7 +2481,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2479,7 +2504,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2520,7 +2545,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 stretch_mode = 3
 _sections_unfolded = [ "Rect" ]
 
@@ -2557,7 +2582,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Vitality:"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2580,7 +2605,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2603,7 +2628,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2643,7 +2668,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Mana regeneration:"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2666,7 +2691,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2689,7 +2714,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2729,7 +2754,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 0.847059, 0, 1 )
 text = "Explosion resist :"
 percent_visible = 1.0
@@ -2753,7 +2778,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2776,7 +2801,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2816,7 +2841,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Val"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2839,7 +2864,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+ 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2862,7 +2887,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Movement speed   :"
 percent_visible = 1.0
 lines_skipped = 0
@@ -2885,7 +2910,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.854902, 0.254902, 0.254902, 1 )
 text = "+ 0"
 percent_visible = 1.0
@@ -2909,7 +2934,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.364706, 0.717647, 0.964706, 1 )
 text = "+ 0"
 percent_visible = 1.0
@@ -2933,7 +2958,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.854902, 0.254902, 0.254902, 1 )
 text = "Health: 0 / 0"
 percent_visible = 1.0
@@ -2957,7 +2982,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.364706, 0.717647, 0.964706, 1 )
 text = "Mana: 0 / 0"
 percent_visible = 1.0
@@ -2981,23 +3006,49 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Character" type="TextureRect" parent="Tabs/Equipment" index="0"]
+[node name="Manual" type="Label" parent="Tabs/Equipment" index="0"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 371.0
+margin_top = 708.0
+margin_right = 1424.0
+margin_bottom = 750.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 4 )
+text = "Press \"Esc\" for return to category select, Press \"Shift\" to change item category "
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="Character" type="TextureRect" parent="Tabs/Equipment" index="1"]
+
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 133.0
 margin_top = 206.0
-margin_right = 533.0
-margin_bottom = 776.0
+margin_right = 289.0
+margin_bottom = 440.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 stretch_mode = 0
 
 [node name="EquipmentSlots" type="Control" parent="Tabs/Equipment/Character" index="0"]
@@ -3033,7 +3084,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 expand = true
 stretch_mode = 4
 _sections_unfolded = [ "Rect" ]
@@ -3052,7 +3103,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 expand = true
 stretch_mode = 4
 _sections_unfolded = [ "Margin", "Rect" ]
@@ -3081,9 +3132,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 17 )
+texture_under = ExtResource( 18 )
 texture_over = null
-texture_progress = ExtResource( 18 )
+texture_progress = ExtResource( 19 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3197,13 +3248,14 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Inventory" type="Control" parent="Tabs/Equipment" index="1"]
+[node name="Inventory" type="Control" parent="Tabs/Equipment" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 499.0
+margin_left = 465.0
 margin_top = 119.0
 margin_right = 1325.0
 margin_bottom = 737.0
@@ -3247,7 +3299,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -3288,7 +3340,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 expand = true
 stretch_mode = 4
 
@@ -3309,7 +3361,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 expand = true
 stretch_mode = 2
 _sections_unfolded = [ "Rect" ]
@@ -3320,17 +3372,18 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 81.0
-margin_top = 5.0
-margin_right = 379.0
-margin_bottom = 33.0
+margin_left = 79.0
+margin_top = 7.0
+margin_right = 382.0
+margin_bottom = 35.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Test Sword"
 percent_visible = 1.0
 lines_skipped = 0
@@ -3354,7 +3407,8 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Normal item"
 percent_visible = 1.0
 lines_skipped = 0
@@ -3378,7 +3432,8 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Durability:"
 percent_visible = 1.0
 lines_skipped = 0
@@ -3401,7 +3456,8 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "x1"
 percent_visible = 1.0
 lines_skipped = 0
@@ -3424,7 +3480,8 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "3000"
 align = 2
 percent_visible = 1.0
@@ -3449,7 +3506,8 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Price:"
 align = 2
 percent_visible = 1.0
@@ -3474,7 +3532,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "50/50"
@@ -3501,7 +3559,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 expand = true
 stretch_mode = 4
 _sections_unfolded = [ "Material", "Visibility" ]
@@ -3523,21 +3581,20 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 22 )
+texture = ExtResource( 23 )
 expand = true
 stretch_mode = 4
 _sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="Scrollbar" type="TextureRect" parent="Tabs/Equipment/Inventory" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 800.0
+margin_left = 842.0
 margin_top = 112.0
-margin_right = 820.0
+margin_right = 862.0
 margin_bottom = 494.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -3545,7 +3602,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 23 )
+texture = ExtResource( 24 )
 stretch_mode = 0
 
 [node name="ActualScrollbar" type="TextureRect" parent="Tabs/Equipment/Inventory/Scrollbar" index="0"]
@@ -3562,11 +3619,12 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 
-[node name="Description" type="TextureRect" parent="Tabs/Equipment" index="2"]
+[node name="Description" type="TextureRect" parent="Tabs/Equipment" index="3"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
@@ -3582,7 +3640,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 stretch_mode = 0
 
 [node name="Text" type="Label" parent="Tabs/Equipment/Description" index="0"]
@@ -3601,7 +3659,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Description time!"
 autowrap = true
 percent_visible = 1.0
@@ -3632,9 +3690,9 @@ page = 0.0
 value = 0.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 26 )
+texture_under = ExtResource( 27 )
 texture_over = null
-texture_progress = ExtResource( 27 )
+texture_progress = ExtResource( 28 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3656,10 +3714,10 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 stretch_mode = 6
 
-[node name="LeftHeader" type="TextureRect" parent="Tabs/Equipment" index="3"]
+[node name="LeftHeader" type="TextureRect" parent="Tabs/Equipment" index="4"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -3676,7 +3734,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -3695,7 +3753,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "EQUIPMENT"
 align = 1
 valign = 1
@@ -3704,8 +3762,9 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Stats" type="TextureRect" parent="Tabs/Equipment" index="4"]
+[node name="Stats" type="TextureRect" parent="Tabs/Equipment" index="5"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
@@ -3721,7 +3780,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Equipment/Stats" index="0"]
@@ -3738,7 +3797,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "STATS"
 align = 1
 valign = 1
@@ -3780,7 +3839,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/normal_font = ExtResource( 28 )
+custom_fonts/normal_font = ExtResource( 4 )
 bbcode_enabled = false
 bbcode_text = ""
 visible_characters = -1
@@ -3794,7 +3853,7 @@ selection_enabled = false
 override_selected_font_color = true
 _sections_unfolded = [ "BBCode", "custom_fonts" ]
 
-[node name="RightHeader" type="TextureRect" parent="Tabs/Equipment" index="5"]
+[node name="RightHeader" type="TextureRect" parent="Tabs/Equipment" index="6"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -3831,14 +3890,14 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "INVENTORY"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="Categories" type="Control" parent="Tabs/Equipment" index="6"]
+[node name="Categories" type="Control" parent="Tabs/Equipment" index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -3861,11 +3920,11 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 471.0
-margin_top = 137.0
-margin_right = 618.0
-margin_bottom = 185.0
-rect_scale = Vector2( 0.83, 1 )
+margin_left = 439.0
+margin_top = 144.0
+margin_right = 586.0
+margin_bottom = 192.0
+rect_scale = Vector2( 0.83, 0.9 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -3892,14 +3951,14 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 8 )
 text = "All"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+_sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
 
 [node name="Skills" type="Control" parent="Tabs" index="2"]
 
@@ -3923,7 +3982,32 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="ActivePanel" type="TextureRect" parent="Tabs/Skills" index="0"]
+[node name="Manual" type="Label" parent="Tabs/Skills" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 371.0
+margin_top = 708.0
+margin_right = 1394.0
+margin_bottom = 750.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 4 )
+text = "Use arrows to navigate"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="ActivePanel" type="TextureRect" parent="Tabs/Skills" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -3976,7 +4060,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "ACTIVE"
 align = 1
 percent_visible = 1.0
@@ -4036,7 +4120,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 stretch_mode = 0
 
-[node name="PassivePanel" type="TextureRect" parent="Tabs/Skills" index="1"]
+[node name="PassivePanel" type="TextureRect" parent="Tabs/Skills" index="2"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -4090,7 +4174,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "PASSIVE"
 align = 1
 percent_visible = 1.0
@@ -4149,7 +4233,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 stretch_mode = 0
 
-[node name="LeftHeader" type="TextureRect" parent="Tabs/Skills" index="2"]
+[node name="LeftHeader" type="TextureRect" parent="Tabs/Skills" index="3"]
 
 editor/display_folded = true
 visible = false
@@ -4167,7 +4251,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4185,7 +4269,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "SKILL INFO"
 align = 1
 percent_visible = 1.0
@@ -4225,7 +4309,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "SKILL INFO"
 align = 1
 percent_visible = 1.0
@@ -4249,7 +4333,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 expand = true
 stretch_mode = 0
 
@@ -4285,7 +4369,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "+50 cośtam"
 percent_visible = 1.0
 lines_skipped = 0
@@ -4312,7 +4396,7 @@ size_flags_vertical = 1
 texture = ExtResource( 34 )
 stretch_mode = 0
 
-[node name="LeftHeader2" type="TextureRect" parent="Tabs/Skills" index="3"]
+[node name="LeftHeader2" type="TextureRect" parent="Tabs/Skills" index="4"]
 
 editor/display_folded = true
 visible = false
@@ -4330,7 +4414,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Tabs/Skills/LeftHeader2" index="0"]
@@ -4347,7 +4431,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "DESCRIPTION"
 align = 1
 percent_visible = 1.0
@@ -4370,7 +4454,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Long gdfg dfgdf gfd gfd gf gf g g f g dfg sdf gf decscite tdfgdf gdf gdfgsdfg"
 autowrap = true
 percent_visible = 1.0
@@ -4380,6 +4464,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Crafting" type="Control" parent="Tabs" index="3"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
@@ -4430,7 +4515,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4450,7 +4535,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 expand = true
 stretch_mode = 4
 
@@ -4470,7 +4555,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Test Sword Name LOL"
 percent_visible = 1.0
 lines_skipped = 0
@@ -4493,7 +4578,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4511,7 +4596,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "MATERIALS"
 align = 1
 percent_visible = 1.0
@@ -4571,7 +4656,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -4591,7 +4676,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "Test Sword Name LOL"
 percent_visible = 1.0
 lines_skipped = 0
@@ -4614,7 +4699,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "2/10"
 percent_visible = 1.0
 lines_skipped = 0
@@ -4637,7 +4722,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 
 [node name="Description" type="Label" parent="Tabs/Crafting/Info" index="0"]
@@ -4657,7 +4742,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 text = "This is a very long description to test very long descriptions and how they fit and stuff."
 autowrap = true
 percent_visible = 1.0
@@ -4680,7 +4765,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "DESCRIPTION"
 align = 1
 percent_visible = 1.0
@@ -4724,7 +4809,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 13 )
 text = "AVAILABLE ITEMS"
 align = 1
 percent_visible = 1.0
@@ -4766,7 +4851,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 stretch_mode = 0
 
 [node name="Map" type="Control" parent="Tabs" index="4"]
@@ -4809,6 +4894,7 @@ stretch_mode = 0
 
 [node name="Notes" type="Control" parent="Tabs" index="5"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
