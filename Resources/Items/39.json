@@ -1,0 +1,17 @@
+{
+	"type": "shield",
+    "name": "Grinder Shield",
+    "sprite": "Shield2",
+	"description": "Shield made from Gear, Who is Grinder now ?",
+	"max_stack": 1,
+    "price": 200,
+    "stats" : {	 	
+		"ph_res"  : 22,
+		"cr_res"  : 30,
+		"sh_res"  : 12,
+        "ex_res"  : 19,
+        "block"   : 22
+	 },
+    "material"  : [0,4],
+    "durability": 50
+}

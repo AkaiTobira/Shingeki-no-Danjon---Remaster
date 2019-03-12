@@ -1,0 +1,15 @@
+{
+	"type": "helmet",
+	"name": "Puncher Helmet",
+	"description": "It's still looks like alive.",
+	"price": 180,
+	"durability": 45,
+	"block"     : 7,
+	"stats" : {	 	
+		"ph_res"  : 9,
+		"cr_res"  : 9,
+		"sh_res"  : 9,
+		"ex_res"  : 9
+	 },
+	"material"  : [0,4]
+}
