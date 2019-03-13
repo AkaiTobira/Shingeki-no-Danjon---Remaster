@@ -54,13 +54,13 @@ tracks/0/keys = {
 
 [node name="Item" type="Node2D"]
 
-z_index = 1
 script = SubResource( 1 )
 _sections_unfolded = [ "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 1 )
+_sections_unfolded = [ "Z Index" ]
 
 [node name="CollectArea" type="Area2D" parent="." index="1"]
 

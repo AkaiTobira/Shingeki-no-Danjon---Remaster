@@ -52,7 +52,7 @@ const STAT_LIST   = [\"attack\", \"p.resist\", \"c.resist\", \"s.resist\", \"e.r
 const TABS        = [\"Character\", \"Equipment\", \"Skills\", \"Crafting\", \"Map\", \"Notes\"]
 const SKILLPOINTS = [\"Strength\", \"Dexterity\", \"Intelligence\", \"Vitality\"]
 const CATEGORIES  = [\"All\", \"Consumable\", \"Weapons\", \"Armors\", \"Accessories\", \"Components\"]#, \"Other\"]
-const SKILL_CATEGORIES  = [\"Active\", \"Passive\"]#, \"Other\"]
+const SKILL_CATEGORIES  = [\"Magic\", \"Passive\"]#, \"Other\"]
 const CATEGORY_TYPES = {Consumable = [\"consumable\"], Weapons = [\"weapon\", \"shield\"], Armors = [\"armor\", \"helmet\", \"boots\", \"pants\"], Accessories = [\"ring\", \"amulet\"], Components = [\"misc\"]}
 
 var in_tab = false setget in_out_tab
@@ -684,7 +684,6 @@ func exit_tab():
 func get_eq_slot(item):
 	return PlayerStats.EQUIPMENT_SLOTS.find(item.type)
 
-
 func update_strenght():
 	$Tabs/Character/Statistics/Strength/Control/Val.text  = str(PlayerStats.statistic[\"streng\"][0]).substr(0,5)
 	$Tabs/Character/Statistics/Strength/Control2/Val.text = str(PlayerStats.statistic[\"ph_dmg\"][0]).substr(0,5)
@@ -973,7 +972,7 @@ func auto_move(delta):
 	return 0"
 _sections_unfolded = [ "Resource" ]
 
-[node name="PlayerMenu" type="TextureRect" index="0"]
+[node name="PlayerMenu" type="TextureRect"]
 
 anchor_left = 0.0
 anchor_top = 0.0
