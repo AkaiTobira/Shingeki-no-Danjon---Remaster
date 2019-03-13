@@ -2,6 +2,7 @@
 	"type": "ring",
 	"name": "Iron Ring",
 	"description": "Seriously, how much equipment can you make from iron?",
+	"stats" : {	},
 	"price": 50,
 	"durability": 30
 }

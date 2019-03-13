@@ -232,14 +232,18 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 				if item.has("durability"):
 					_item.durability     = int( item.durability *  ( 1.0 + (_item.material/5.0)) )
 					_item.max_durability = int( item.durability *  ( 1.0 + (_item.material/5.0)) )
-					
-				if _item.blessing == "holy" :
-					var new_perk = statistic.keys()[randi()%len(statistic.keys())]
-					_item.add_to_stat[new_perk] = randf() + 1
-					
-				if _item.blessing == "cursed" : 
-					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] =  randf() + 2.5
-					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] = -randf() - 0.5
+				
+				if item.type == "ring" or item.type =="amulet":
+					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] =  randf() + 0.5
+				
+				match(_item.blessing):
+					"holy" :
+						var new_perk = statistic.keys()[randi()%len(statistic.keys())]
+						_item.add_to_stat[new_perk] = randf() + 1
+					"cursed" : 
+						_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] =  randf() + 2.5
+						_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] = -randf() - 0.5
+					"none": pass
 
 				if item.has("stats") :
 					for stat in item.stats.keys():

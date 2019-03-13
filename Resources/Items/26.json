@@ -2,5 +2,6 @@
 	"type": "amulet",
 	"name": "Emerald Necklace",
 	"description": "Shiny!",
+	"stats" : {	},
 	"price": 10
 }

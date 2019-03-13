@@ -2,6 +2,7 @@
 	"type": "ring",
 	"name": "Golden Ring",
 	"description": "A golden ring with embedded weak magic stone.",
+	"stats" : {	},
 	"price": 50,
 	"intelligence": 5
 }
