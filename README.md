@@ -13,4 +13,5 @@ Currently playable  : Unhandled Error Remaining(1) - Nope
 
 
 Since there is no portable version it's need to be played from Godot editor.
+
 Require : Godot Engine https://godotengine.org/download/windows
