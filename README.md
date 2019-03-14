@@ -1,6 +1,6 @@
 # Shingeki no Danjon : Remaster
 ![Alt text](/Screenshots/Title.png?raw=true "Optional Title")
-Dungeon Crawler made for one of courses. After that game is developed only by me.
+Dungeon Crawler made for one of courses. Game have a lot of potential and interesting features. Currently in demo version
 
 ![Alt text](/Screenshots/InGame1.png?raw=true "Optional Title")
 ![Alt text](/Screenshots/InGame2.png?raw=true "Optional Title")
