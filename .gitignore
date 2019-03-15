@@ -2,3 +2,5 @@
 Thumbs.db
 *.xcf
 
+.~lock.TODO.odt#
+*.import

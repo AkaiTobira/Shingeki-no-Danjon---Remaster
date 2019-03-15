@@ -36,7 +36,7 @@
 [ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=34]
 [ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=35]
 [ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=36]
-[ext_resource path="res://Sprites/UI/Menu/Map/skill_maps.png" type="Texture" id=37]
+[ext_resource path="res://Sprites/UI/Menu/Map/map_placeholder.png" type="Texture" id=37]
 [ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=38]
 
 [sub_resource type="GDScript" id=1]
@@ -53,6 +53,7 @@ const TABS        = [\"Character\", \"Equipment\", \"Skills\", \"Crafting\", \"M
 const SKILLPOINTS = [\"Strength\", \"Dexterity\", \"Intelligence\", \"Vitality\"]
 const CATEGORIES  = [\"All\", \"Consumable\", \"Weapons\", \"Armors\", \"Accessories\", \"Components\"]#, \"Other\"]
 const SKILL_CATEGORIES  = [\"Magic\", \"Passive\"]#, \"Other\"]
+const LOCATION_CATEGORIES  = [\"Mechania\", \"Locked\"]#, \"Other\"]
 const CATEGORY_TYPES = {Consumable = [\"consumable\"], Weapons = [\"weapon\", \"shield\"], Armors = [\"armor\", \"helmet\", \"boots\", \"pants\"], Accessories = [\"ring\", \"amulet\"], Components = [\"misc\"]}
 
 var in_tab = false setget in_out_tab
@@ -131,6 +132,13 @@ func _ready():
 		clone.get_node(\"Label\").text = SKILL_CATEGORIES[i+1]
 		$Tabs/Skills/Categories.add_child(clone)
 	
+	sheep = $Tabs/Map/Categories/Category1
+	for i in range(LOCATION_CATEGORIES.size()-1):
+		var clone = sheep.duplicate(DUPLICATE_USE_INSTANCING)
+		clone.rect_position = sheep.rect_position + Vector2((i+1) * 119, 0)
+		clone.get_node(\"Label\").text = LOCATION_CATEGORIES[i+1]
+		$Tabs/Map/Categories.add_child(clone)
+	
 	sheep = $Tabs/Equipment/Stats/Stats/Stat1
 	for i in range(MAX_STATS-1):
 		var clone = sheep.duplicate(DUPLICATE_USE_INSTANCING)
@@ -166,6 +174,7 @@ func _ready():
 	update_skills()
 	
 	update_tabs()
+	PlayerStats.recalc_stats()
 	clear_statistic_incremntation_propositions()
 
 func _process(delta):
@@ -203,8 +212,6 @@ func _process(delta):
 				Res.ui_sample(\"MenuFailed\")
 	else: match current_tab:
 		0:
-			
-			
 			for i in range(SKILLPOINTS.size()):
 				$Tabs/Character/Skillpoints.get_child(i).texture = load(\"res://Sprites/UI/Menu/Character/CharacterSkillpoint\" + (\"Active\" if skillpoint_select == i else \"Inactive\") + \".png\")
 			
@@ -235,6 +242,7 @@ func _process(delta):
 				PlayerStats.stat_points -= 1
 				PlayerStats.update_skills(skillpoint_select)
 				PlayerStats.recalc_stats()
+				
 				update_statistics()
 				if PlayerStats.stat_points > 0:
 					 fill_selected(skillpoint_select)
@@ -711,26 +719,26 @@ func fill_selected(stat):
 	match(stat):
 		1:
 			$Tabs/Character/Statistics/Dexterity/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Dexterity/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*multipler* 100).substr(0,4) + \"%\"
-			$Tabs/Character/Statistics/Dexterity/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Dexterity/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*multipler).substr(0,4)
+			$Tabs/Character/Statistics/Dexterity/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][0]* 100).substr(0,4) + \"%\"
+			$Tabs/Character/Statistics/Dexterity/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]).substr(0,4)
+			$Tabs/Character/Statistics/Dexterity/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]).substr(0,4)
 		0:
 			$Tabs/Character/Statistics/Strength/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Strength/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Strength/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Strength/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*multipler).substr(0,4) 
+			$Tabs/Character/Statistics/Strength/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][0]).substr(0,4)
+			$Tabs/Character/Statistics/Strength/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][1]).substr(0,4)
+			$Tabs/Character/Statistics/Strength/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][2]).substr(0,4) 
 		2:
 			$Tabs/Character/Statistics/Intelligence/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Intelligence/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Intelligence/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][0]*multipler).substr(0,4) 
-			$Tabs/Character/Statistics/Intelligence/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Up3.text                      = \"+\" + str(PlayerStats.increments[stat][2]*multipler).substr(0,4)
+			$Tabs/Character/Statistics/Intelligence/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]).substr(0,4)
+			$Tabs/Character/Statistics/Intelligence/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][0]).substr(0,4) 
+			$Tabs/Character/Statistics/Intelligence/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]).substr(0,4)
+			$Tabs/Character/Statistics/Up3.text                      = \"+\" + str(PlayerStats.increments[stat][2]).substr(0,4)
 		3:
 			$Tabs/Character/Statistics/Vitality/Control/Up.text  = \"+\" + str(1)
-			$Tabs/Character/Statistics/Vitality/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Vitality/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][2]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Vitality/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]*multipler).substr(0,4)
-			$Tabs/Character/Statistics/Up2.text                  = \"+\" + str(PlayerStats.increments[stat][0]*multipler).substr(0,4)
+			$Tabs/Character/Statistics/Vitality/Control2/Up.text = \"+\" + str(PlayerStats.increments[stat][1]).substr(0,4)
+			$Tabs/Character/Statistics/Vitality/Control3/Up.text = \"+\" + str(PlayerStats.increments[stat][2]).substr(0,4)
+			$Tabs/Character/Statistics/Vitality/Control4/Up.text = \"+\" + str(PlayerStats.increments[stat][3]).substr(0,4)
+			$Tabs/Character/Statistics/Up2.text                  = \"+\" + str(PlayerStats.increments[stat][0]).substr(0,4)
 			
 func update_dexternity():
 	$Tabs/Character/Statistics/Dexterity/Control/Val.text  = str(PlayerStats.statistic[\"dexter\"][0]        ).substr(0,5)
@@ -753,6 +761,8 @@ func update_vitality():
 
 
 func update_statistics():
+
+	
 	update_strenght()
 	update_dexternity()
 	update_vitality()
@@ -889,6 +899,9 @@ func update_stats(item, i_instance):
 				old_item_value = equiped_item_instance.add_to_stat[stats[i]]
 			var current_item_value = 0 if not i_instance.add_to_stat.has(stats[i]) else i_instance.add_to_stat[stats[i]]
 			
+			old_item_value     += PlayerStats.statistic[stats[i]][1]
+			current_item_value += PlayerStats.statistic[stats[i]][1]
+			
 			new_stat_comparator(stat_label, stats[i], old_item_value, current_item_value)
 #			
 			stat_label.visible = true
@@ -972,7 +985,7 @@ func auto_move(delta):
 	return 0"
 _sections_unfolded = [ "Resource" ]
 
-[node name="PlayerMenu" type="TextureRect"]
+[node name="PlayerMenu" type="TextureRect" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -3021,6 +3034,8 @@ _sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
 
 [node name="Equipment" type="Control" parent="Tabs" index="1"]
 
+editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3314,6 +3329,7 @@ size_flags_vertical = 1
 
 [node name="Slot1" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3793,7 +3809,6 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Stats" type="TextureRect" parent="Tabs/Equipment" index="5"]
 
-editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
@@ -3837,6 +3852,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Stats" type="Control" parent="Tabs/Equipment/Stats" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3992,6 +4008,7 @@ _sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
 
 [node name="Skills" type="Control" parent="Tabs" index="2"]
 
+visible = false
 self_modulate = Color( 1, 0.501961, 0.501961, 0.501961 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -4835,8 +4852,6 @@ stretch_mode = 0
 
 [node name="Map" type="Control" parent="Tabs" index="4"]
 
-editor/display_folded = true
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -4853,15 +4868,358 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TextureRect" type="TextureRect" parent="Tabs/Map" index="0"]
+[node name="Categories" type="Control" parent="Tabs/Map" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -1.0
+margin_top = -4.0
+margin_right = 39.0
+margin_bottom = 36.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Category1" type="TextureRect" parent="Tabs/Map/Categories" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -15.0
-margin_right = 1351.0
-margin_bottom = 768.0
+margin_left = 439.0
+margin_top = 144.0
+margin_right = 586.0
+margin_bottom = 192.0
+rect_scale = Vector2( 0.83, 0.9 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 30 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Label" type="Label" parent="Tabs/Map/Categories/Category1" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 4.0
+margin_top = 6.0
+margin_right = 143.0
+margin_bottom = 48.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 31 )
+text = "Mechania"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
+
+[node name="LeftHeader" type="TextureRect" parent="Tabs/Map" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 24.0
+margin_top = 149.0
+margin_right = 409.0
+margin_bottom = 189.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 11 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Slots" type="Control" parent="Tabs/Map/LeftHeader" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 461.0
+margin_top = 28.0
+margin_right = 501.0
+margin_bottom = 68.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Slot1" type="TextureRect" parent="Tabs/Map/LeftHeader/Slots" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -436.0
+margin_top = 19.0
+margin_right = -46.0
+margin_bottom = 104.0
+rect_scale = Vector2( 0.92, 0.92 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 20 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/LeftHeader/Slots/Slot1" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 17.0
+margin_top = 16.0
+margin_right = 71.0
+margin_bottom = 70.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+expand = true
+stretch_mode = 4
+
+[node name="Name" type="Label" parent="Tabs/Map/LeftHeader/Slots/Slot1" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 86.0
+margin_top = 7.0
+margin_right = 389.0
+margin_bottom = 35.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "TestLocation"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="Material_name" type="Label" parent="Tabs/Map/LeftHeader/Slots/Slot1" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 85.0
+margin_top = 55.0
+margin_right = 514.0
+margin_bottom = 96.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Location Type"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
+
+[node name="Scrollbar" type="TextureRect" parent="Tabs/Map/LeftHeader" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 3.0
+margin_top = 48.0
+margin_right = 23.0
+margin_bottom = 430.0
+rect_scale = Vector2( 1, 0.9 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 24 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="ActualScrollbar" type="TextureRect" parent="Tabs/Map/LeftHeader/Scrollbar" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 20.0
+margin_bottom = 100.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 25 )
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Tabs/Map/LeftHeader" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 10.0
+margin_right = 373.0
+margin_bottom = 41.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 13 )
+text = "LOCATION"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Description" type="TextureRect" parent="Tabs/Map" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 24.0
+margin_top = 556.0
+margin_right = 409.0
+margin_bottom = 596.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 11 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Label" type="Label" parent="Tabs/Map/Description" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 10.0
+margin_right = 373.0
+margin_bottom = 41.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 13 )
+text = "DESCRIPTION"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Info" type="Label" parent="Tabs/Map/Description" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 5.0
+margin_top = 42.0
+margin_right = 380.0
+margin_bottom = 182.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 31 )
+text = "Some Info"
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="Map_graphics" type="Control" parent="Tabs/Map" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Map1" type="TextureRect" parent="Tabs/Map/Map_graphics" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 440.0
+margin_top = 185.0
+margin_right = 2360.0
+margin_bottom = 1265.0
+rect_scale = Vector2( 0.465, 0.465 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -4870,6 +5228,3305 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 37 )
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place1" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 207.0
+margin_top = 132.0
+margin_right = 247.0
+margin_bottom = 172.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place1" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place2" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 329.0
+margin_top = 204.0
+margin_right = 369.0
+margin_bottom = 244.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place3" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 185.0
+margin_top = 318.0
+margin_right = 225.0
+margin_bottom = 358.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place4" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 467.0
+margin_top = 162.0
+margin_right = 507.0
+margin_bottom = 202.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place5" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="4"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 325.0
+margin_top = 390.0
+margin_right = 365.0
+margin_bottom = 430.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place5" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place6" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="5"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 59.1828
+margin_top = 204.946
+margin_right = 99.1828
+margin_bottom = 244.946
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place6" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place7" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="6"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 181.0
+margin_top = 462.0
+margin_right = 221.0
+margin_bottom = 502.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place7" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place8" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="7"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 569.0
+margin_top = 288.0
+margin_right = 609.0
+margin_bottom = 328.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place8" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place9" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="8"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 667.0
+margin_top = 198.0
+margin_right = 707.0
+margin_bottom = 238.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place9" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place10" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="9"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 383.0
+margin_top = 524.0
+margin_right = 423.0
+margin_bottom = 564.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place10" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place11" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="10"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 249.0
+margin_top = 582.0
+margin_right = 289.0
+margin_bottom = 622.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place11" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place12" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="11"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 452.0
+margin_top = 645.0
+margin_right = 492.0
+margin_bottom = 685.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place12" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place13" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="12"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 773.0
+margin_top = 244.0
+margin_right = 813.0
+margin_bottom = 284.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place13" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place15" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="13"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 932.0
+margin_top = 204.0
+margin_right = 972.0
+margin_bottom = 244.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place15" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place16" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="14"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 890.0
+margin_top = 348.0
+margin_right = 930.0
+margin_bottom = 388.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place16" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place23" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="15"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1052.0
+margin_top = 322.0
+margin_right = 1092.0
+margin_bottom = 362.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place23" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place28" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="16"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1110.0
+margin_top = 564.0
+margin_right = 1150.0
+margin_bottom = 604.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place28" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place30" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="17"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1204.0
+margin_top = 448.0
+margin_right = 1244.0
+margin_bottom = 488.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place30" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place31" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="18"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1148.0
+margin_top = 704.0
+margin_right = 1188.0
+margin_bottom = 744.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place31" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place32" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="19"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1258.0
+margin_top = 596.0
+margin_right = 1298.0
+margin_bottom = 636.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place32" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place33" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="20"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1286.0
+margin_top = 782.0
+margin_right = 1326.0
+margin_bottom = 822.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place33" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place34" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="21"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1452.0
+margin_top = 782.0
+margin_right = 1492.0
+margin_bottom = 822.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place34" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place35" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="22"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1600.0
+margin_top = 782.0
+margin_right = 1640.0
+margin_bottom = 822.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place35" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place36" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="23"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1550.0
+margin_top = 668.0
+margin_right = 1590.0
+margin_bottom = 708.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place36" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place37" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="24"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1442.0
+margin_top = 542.0
+margin_right = 1482.0
+margin_bottom = 582.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place37" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place38" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="25"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1362.0
+margin_top = 446.0
+margin_right = 1402.0
+margin_bottom = 486.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place38" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place39" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="26"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1362.0
+margin_top = 302.0
+margin_right = 1402.0
+margin_bottom = 342.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place39" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place40" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="27"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1496.0
+margin_top = 344.0
+margin_right = 1536.0
+margin_bottom = 384.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place40" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place41" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="28"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1592.0
+margin_top = 476.0
+margin_right = 1632.0
+margin_bottom = 516.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place41" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place42" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="29"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1592.0
+margin_top = 216.0
+margin_right = 1632.0
+margin_bottom = 256.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place42" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place24" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="30"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1006.0
+margin_top = 442.0
+margin_right = 1046.0
+margin_bottom = 482.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place24" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place25" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="31"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1006.0
+margin_top = 778.0
+margin_right = 1046.0
+margin_bottom = 818.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place25" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place29" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="32"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1154.0
+margin_top = 890.0
+margin_right = 1194.0
+margin_bottom = 930.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place29" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place26" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="33"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 846.0
+margin_top = 730.0
+margin_right = 886.0
+margin_bottom = 770.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place26" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place27" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="34"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 952.0
+margin_top = 662.0
+margin_right = 992.0
+margin_bottom = 702.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place27" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place17" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="35"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 471.0
+margin_top = 376.0
+margin_right = 511.0
+margin_bottom = 416.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place17" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place18" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="36"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 621.0
+margin_top = 462.0
+margin_right = 661.0
+margin_bottom = 502.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place18" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place19" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="37"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 773.0
+margin_top = 434.0
+margin_right = 813.0
+margin_bottom = 474.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place19" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place20" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="38"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 857.0
+margin_top = 564.0
+margin_right = 897.0
+margin_bottom = 604.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place20" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place21" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="39"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 683.0
+margin_top = 618.0
+margin_right = 723.0
+margin_bottom = 658.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place21" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place22" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="40"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 579.0
+margin_top = 728.0
+margin_right = 619.0
+margin_bottom = 768.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place22" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place14" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="41"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 327.0
+margin_top = 756.0
+margin_right = 367.0
+margin_bottom = 796.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place14" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Map2" type="TextureRect" parent="Tabs/Map/Map_graphics" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 440.0
+margin_top = 185.0
+margin_right = 2360.0
+margin_bottom = 1265.0
+rect_scale = Vector2( 0.465, 0.465 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 37 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place1" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 207.0
+margin_top = 132.0
+margin_right = 247.0
+margin_bottom = 172.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place1" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place2" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 329.0
+margin_top = 204.0
+margin_right = 369.0
+margin_bottom = 244.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place3" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 185.0
+margin_top = 318.0
+margin_right = 225.0
+margin_bottom = 358.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place4" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 467.0
+margin_top = 162.0
+margin_right = 507.0
+margin_bottom = 202.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place5" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="4"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 325.0
+margin_top = 390.0
+margin_right = 365.0
+margin_bottom = 430.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place5" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place6" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="5"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 59.1828
+margin_top = 204.946
+margin_right = 99.1828
+margin_bottom = 244.946
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place6" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place7" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="6"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 181.0
+margin_top = 462.0
+margin_right = 221.0
+margin_bottom = 502.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place7" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place8" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="7"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 569.0
+margin_top = 288.0
+margin_right = 609.0
+margin_bottom = 328.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place8" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place9" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="8"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 667.0
+margin_top = 198.0
+margin_right = 707.0
+margin_bottom = 238.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place9" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place10" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="9"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 383.0
+margin_top = 524.0
+margin_right = 423.0
+margin_bottom = 564.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place10" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place11" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="10"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 249.0
+margin_top = 582.0
+margin_right = 289.0
+margin_bottom = 622.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place11" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place12" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="11"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 452.0
+margin_top = 645.0
+margin_right = 492.0
+margin_bottom = 685.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place12" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place13" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="12"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 773.0
+margin_top = 244.0
+margin_right = 813.0
+margin_bottom = 284.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place13" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place15" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="13"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 932.0
+margin_top = 204.0
+margin_right = 972.0
+margin_bottom = 244.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place15" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place16" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="14"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 890.0
+margin_top = 348.0
+margin_right = 930.0
+margin_bottom = 388.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place16" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place23" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="15"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1052.0
+margin_top = 322.0
+margin_right = 1092.0
+margin_bottom = 362.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place23" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place28" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="16"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1110.0
+margin_top = 564.0
+margin_right = 1150.0
+margin_bottom = 604.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place28" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place30" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="17"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1204.0
+margin_top = 448.0
+margin_right = 1244.0
+margin_bottom = 488.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place30" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place31" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="18"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1148.0
+margin_top = 704.0
+margin_right = 1188.0
+margin_bottom = 744.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place31" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place32" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="19"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1258.0
+margin_top = 596.0
+margin_right = 1298.0
+margin_bottom = 636.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place32" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place33" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="20"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1286.0
+margin_top = 782.0
+margin_right = 1326.0
+margin_bottom = 822.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place33" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place34" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="21"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1452.0
+margin_top = 782.0
+margin_right = 1492.0
+margin_bottom = 822.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place34" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place35" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="22"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1600.0
+margin_top = 782.0
+margin_right = 1640.0
+margin_bottom = 822.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place35" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place36" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="23"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1550.0
+margin_top = 668.0
+margin_right = 1590.0
+margin_bottom = 708.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place36" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place37" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="24"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1442.0
+margin_top = 542.0
+margin_right = 1482.0
+margin_bottom = 582.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place37" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place38" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="25"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1362.0
+margin_top = 446.0
+margin_right = 1402.0
+margin_bottom = 486.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place38" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place39" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="26"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1362.0
+margin_top = 302.0
+margin_right = 1402.0
+margin_bottom = 342.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place39" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place40" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="27"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1496.0
+margin_top = 344.0
+margin_right = 1536.0
+margin_bottom = 384.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place40" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place41" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="28"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1592.0
+margin_top = 476.0
+margin_right = 1632.0
+margin_bottom = 516.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place41" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place42" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="29"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1592.0
+margin_top = 216.0
+margin_right = 1632.0
+margin_bottom = 256.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place42" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place24" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="30"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1006.0
+margin_top = 442.0
+margin_right = 1046.0
+margin_bottom = 482.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place24" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place25" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="31"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1006.0
+margin_top = 778.0
+margin_right = 1046.0
+margin_bottom = 818.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place25" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place29" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="32"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1154.0
+margin_top = 890.0
+margin_right = 1194.0
+margin_bottom = 930.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place29" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place26" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="33"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 846.0
+margin_top = 730.0
+margin_right = 886.0
+margin_bottom = 770.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place26" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place27" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="34"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 952.0
+margin_top = 662.0
+margin_right = 992.0
+margin_bottom = 702.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place27" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place17" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="35"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 471.0
+margin_top = 376.0
+margin_right = 511.0
+margin_bottom = 416.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place17" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place18" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="36"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 621.0
+margin_top = 462.0
+margin_right = 661.0
+margin_bottom = 502.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place18" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place19" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="37"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 773.0
+margin_top = 434.0
+margin_right = 813.0
+margin_bottom = 474.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place19" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place20" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="38"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 857.0
+margin_top = 564.0
+margin_right = 897.0
+margin_bottom = 604.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place20" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place21" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="39"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 683.0
+margin_top = 618.0
+margin_right = 723.0
+margin_bottom = 658.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place21" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place22" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="40"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 579.0
+margin_top = 728.0
+margin_right = 619.0
+margin_bottom = 768.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place22" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Place14" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="41"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 327.0
+margin_top = 756.0
+margin_right = 367.0
+margin_bottom = 796.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 33 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place14" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="Notes" type="Control" parent="Tabs" index="5"]
 

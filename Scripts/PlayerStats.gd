@@ -34,7 +34,8 @@ var statistic = {
 	"sh_res" : [  0.0,   0,0,0,0],
 	"gh_dur" : [    1,   1,0,0,0],
 	"mn_reg" : [    1,   1,0,0,0],
-	"ex_res" : [  0.0,   0,0,0,0]
+	"ex_res" : [  0.0,   0,0,0,0],
+	"block"  : [  0.0,   0,0,0,0]
 	}
 
 var money = 0
@@ -46,60 +47,62 @@ signal level_up
 signal got_item
 signal equipment_changed
 
-var multiplier = [2,2,2,2]
-var parameter  = 0.9
-
 var increments = [
-	[   1.7,  3.2, 4.5],
-	[ 0.015, 0.12, 4.5],
-	[ 0.045,    1,  23, 4.5],
-	[    30,  0.5, 4.5, 5.0]
+	[   1.25,   2.50,  1.01],
+	[  0.015,   0.12,  1.01],
+	[   1.01,      1,    23, 1.01],
+	[     30,    0.5,  1.01,  5.0]
 ]
 
 func update_skills(skill):
-	parameter  = pow(0.90,multiplier[skill])
 	match(skill):
 		0:
 			statistic["streng"][1] += 1
-			statistic["ph_dmg"][1] += increments[skill][0]*parameter
-			statistic["ct_dmg"][1] += increments[skill][1]*parameter
-			statistic["cr_res"][1] += increments[skill][2]*parameter
-			multiplier[skill]      += 1
 		1:
 			statistic["dexter"][1] += 1
-			statistic["ct_chc"][1] += increments[skill][0]*parameter
-			statistic["at_spd"][1] += increments[skill][1]*parameter
-			statistic["ph_res"][1] += increments[skill][2]*parameter
-			if statistic["at_spd"][1] > 5: statistic["at_spd"][1] = 5.0
-			multiplier[skill]      += 1
 		2:
 			statistic["smart" ][1] += 1
-			statistic["sh_res"][1] += increments[skill][0]*parameter
-			statistic["mg_dmg"][1] += increments[skill][1]*parameter
-			statistic["mx_man"][1] += increments[skill][2]*parameter
-			mana                   += increments[skill][2]*parameter
-			statistic["gh_dur"][1] += increments[skill][3]*parameter
-			multiplier[skill]      += 1
 		3:
 			statistic["vital" ][1] += 1
-			statistic["mx_hpp"][1] += increments[skill][0]*parameter
-			health                 += increments[skill][0]*parameter
-			statistic["mn_reg"][1] += increments[skill][1]*parameter
-			statistic["ex_res"][1] += increments[skill][2]*parameter
-			statistic["mv_spd"][1] += increments[skill][3]*parameter
-			multiplier[skill]      += 1
+	refresh_skill()
+
+
+func refresh_skill():
+	statistic["ph_dmg"][1] = statistic["streng"][1] * increments[0][0]
+	statistic["ct_dmg"][1] = statistic["streng"][1] * increments[0][1]
+	statistic["cr_res"][1] = statistic["streng"][1] * increments[0][2]
+	statistic["ct_chc"][1] = statistic["dexter"][1] * increments[1][0]
+	statistic["at_spd"][1] = statistic["dexter"][1] * increments[1][1] + 0.5
+	statistic["ph_res"][1] = statistic["dexter"][1] * increments[1][2]
+	if statistic["at_spd"][1] > 5: statistic["at_spd"][1] = 5.0
+	statistic["sh_res"][1] = increments[2][0]*statistic["smart" ][1]
+	statistic["mg_dmg"][1] = increments[2][1]*statistic["smart" ][1]
+	statistic["mx_man"][1] = increments[2][2]*statistic["smart" ][1] + 100
+	mana                   = increments[2][2]*statistic["smart" ][1] + 100
+	statistic["gh_dur"][1] = increments[2][3]*statistic["smart" ][1]
+	statistic["mx_hpp"][1] = increments[3][0]*statistic["vital" ][1] + 100
+	health                 = increments[3][0]*statistic["vital" ][1] + 100
+	statistic["mn_reg"][1] = increments[3][1]*statistic["vital" ][1] 
+	statistic["ex_res"][1] = increments[3][2]*statistic["vital" ][1] 
+	statistic["mv_spd"][1] = increments[3][3]*statistic["vital" ][1] 
+
 
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())
 	for i in range(EQUIPMENT_SLOTS.size()): SLOTS[EQUIPMENT_SLOTS[i]] = i
 
+
 func get_stats_from_items():
+	for state in statistic:
+		statistic[state][2] = 0 
+
 	for eq in equipment:
 		if eq :
-			#print(eq)
-			#var item = Res.items[eq.id]
-			#for stat in item.scaling:
-				pass
+			for stat in eq.add_to_stat:
+				statistic[stat][2] += eq.add_to_stat[stat]
+	refresh_skill()
+	recalc_stats()
+	
 
 
 func get_damage():
@@ -157,6 +160,7 @@ func consume(item):
 		Res.play_sample(Res.game.player, "MenuFailed", false)
 
 func recalc_stats():
+	refresh_skill()
 	for stat in statistic.keys():
 		statistic[stat][0] =  statistic[stat][1] + statistic[stat][2] + statistic[stat][3] + statistic[stat][4] 
 
@@ -234,7 +238,7 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 					_item.max_durability = int( item.durability *  ( 1.0 + (_item.material/5.0)) )
 				
 				if item.type == "ring" or item.type =="amulet":
-					_item.add_to_stat[statistic.keys()[randi()%len(statistic.keys())]] =  randf() + 0.5
+					_item.add_to_stat[statistic.keys()[randi()%( len(statistic.keys()) -1 )]] =  randf() + 0.5
 				
 				match(_item.blessing):
 					"holy" :
