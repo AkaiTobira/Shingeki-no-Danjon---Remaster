@@ -714,7 +714,6 @@ func fill_selected(stat):
 	for i in range(4):
 		get_node(\"Tabs/Character/Statistics/\"+SKILLPOINTS[stat]+\"/Control\" + (str(i+1) if i != 0 else \"\") + \"/Up\").add_color_override(\"font_color\", Color(1,0.27,0) )
 	
-	var multipler = pow(0.90, PlayerStats.multiplier[stat])
 	
 	match(stat):
 		1:
