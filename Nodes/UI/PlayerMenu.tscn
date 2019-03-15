@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Sprites/UI/Menu/PlayerMenu.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Menu/TabInactive.png" type="Texture" id=2]
@@ -37,7 +37,8 @@
 [ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=35]
 [ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=36]
 [ext_resource path="res://Sprites/UI/Menu/Map/map_placeholder.png" type="Texture" id=37]
-[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=38]
+[ext_resource path="res://Sprites/UI/ItemHighligh.png" type="Texture" id=38]
+[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=39]
 
 [sub_resource type="GDScript" id=1]
 
@@ -56,23 +57,27 @@ const SKILL_CATEGORIES  = [\"Magic\", \"Passive\"]#, \"Other\"]
 const LOCATION_CATEGORIES  = [\"Mechania\", \"Locked\"]#, \"Other\"]
 const CATEGORY_TYPES = {Consumable = [\"consumable\"], Weapons = [\"weapon\", \"shield\"], Armors = [\"armor\", \"helmet\", \"boots\", \"pants\"], Accessories = [\"ring\", \"amulet\"], Components = [\"misc\"]}
 
-var in_tab = false setget in_out_tab
+var in_tab      = false setget in_out_tab
 var current_tab = 0 setget update_tabs
 
-var skillpoint_select = 0
-var inventory_scroll = 0 setget scroll_inventory
-var inventory_select = 0
+var skillpoint_select  = 0
+var inventory_scroll   = 0 setget scroll_inventory
+var inventory_select   = 0
 var inventory_category = 0
-var inventory_list = []
+var inventory_list     = []
 
 var skill_select   = -1
 var skill_category = 0
 var skill_scroll   = 0
 
 var crafting_station setget set_station
-var crafting_list = []
+var crafting_list   = []
 var crafting_select = 0
 var crafting_scroll = 0
+
+var location_category = 0
+var location_select   = 0
+var location_list     = []
 
 var auto_move
 
@@ -167,11 +172,14 @@ func _ready():
 	
 	if inventory_list.empty(): inventory_select = -1
 	
+	set_maps_with_locations([ [4,2,1,5],[2,5,1,1] ] )
+	
 	update_crafting()
 	update_category()
 	update_skill_category()
 	update_equipment()
 	update_skills()
+	update_location_category()
 	
 	update_tabs()
 	PlayerStats.recalc_stats()
@@ -420,6 +428,47 @@ func _process(delta):
 					for i in range(materials.keys().size()):
 						PlayerStats.subtract_items(int(materials.keys()[i]), materials.values()[i])
 					select_crafting()
+		4:
+			if Input.is_action_just_pressed(\"ui_cancel\") or Input.is_action_just_pressed(\"ui_up\"):
+				Res.ui_sample(\"MenuCancel\")
+				self.in_tab = false
+		
+			if Input.is_action_just_pressed(\"Magic\"):
+				Res.ui_sample(\"MenuMove\")
+				location_category += 1
+				self.location_select = 0
+				if location_category == LOCATION_CATEGORIES.size(): location_category = 0
+				#$Tabs/Skills/ActivePanel/Skills.get_child(self.skill_select).modulate = Color(1, 1, 1)
+				update_location_category()
+				select_location()
+
+
+			if Input.is_action_just_pressed(\"ui_right\"):
+				location_select = max(location_select-1, 0)
+				select_location()
+			elif Input.is_action_just_pressed(\"ui_left\"):
+				location_select = min(location_select+1, location_list[location_category].size())
+				select_location()
+
+		#	var prev_sel = skill_select
+			
+		#	if Input.is_action_just_pressed(\"ui_left\"):
+		#		if skill_select % 12 > 0:
+		#			skill_select = max(skill_select-1, 0)
+		#		select_skill()
+		#	elif Input.is_action_just_pressed(\"ui_right\"):
+		#		if skill_select % 12 < 12 and skill_select < get_active_skills_size()-1:
+		#			skill_select = min(skill_select+1, get_active_skills_size()-1)
+		#		select_skill()
+		#	elif Input.is_action_just_pressed(\"ui_up\"):
+		#		skill_select = max(skill_select-12, 0)
+		#		select_skill()
+		#	elif Input.is_action_just_pressed(\"ui_down\"):
+		#		if skill_select < get_active_skills_size()-1:
+		#			skill_select = min(skill_select+12, get_active_skills_size()-1)
+		#		select_skill()
+
+		#	if prev_sel != skill_select: Res.ui_sample(\"MenuMove\")
 		_:
 			if Input.is_action_just_pressed(\"ui_cancel\") or Input.is_action_just_pressed(\"ui_up\"):
 				Res.ui_sample(\"MenuCancel\")
@@ -450,6 +499,61 @@ func update_skills(optional = null):
 func get_material_type_texture(id):
 	#if id == 0: return
 	return Res.cache_resource(\"res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot\" + str(id) + \".png\")
+
+func generate_random_numbers(maximum, size):
+	var numb = []
+	for i in range(size):
+		var t = randi()%maximum
+		while ( t + 1 in numb ) :
+			t = randi()%maximum
+		numb.append(t+1)
+	return numb
+
+func set_maps_with_locations(numbers):
+	var map_index = 0
+	for dung_name in Res.location:
+		location_list.append([])
+		
+		var avaible_places_size = get_node( \"Tabs/Map/Map_graphics/Map\" + str(map_index + 1)).get_child_count()
+		
+		var sum_of_locations  = 0
+		for i in numbers[map_index]:
+			sum_of_locations += i
+			
+		var random_indexes = generate_random_numbers(avaible_places_size, sum_of_locations)
+		var location_type = 0
+		sum_of_locations = numbers[map_index][location_type]
+		for i in range(len(random_indexes)):
+			if i >= sum_of_locations : 
+				location_type += 1
+				sum_of_locations     += numbers[map_index][location_type]
+			location_list[map_index].append( { \"id\" : i, \"type\" : location_type , \"place_id\" :random_indexes[i] })
+		map_index += 1
+		
+	_fill_places_in_maps()
+
+
+func _fill_places_in_maps():
+	for map in range(LOCATION_CATEGORIES.size()):
+		for place_id in (get_node(\"Tabs/Map/Map_graphics/Map\" + str(map+1) ).get_child_count()):
+			if place_id == 0: continue
+			var place = get_node(\"Tabs/Map/Map_graphics/Map\" + str(map+1) + \"/Place\" + str(place_id))
+			place.visible = false
+			for location in location_list[map]:
+				if place_id == location[\"place_id\"]: 
+					place.visible = true
+					match(location[\"type\"]):
+						2:
+							place.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/SmallTower.png\")
+						1:
+							place.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/BossTower.png\")
+						0:
+							place.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/Start.png\")
+						3:
+							place.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/Town.png\")
+					#setDecription
+	select_location()
+
 
 func get_material_name(id):
 	match(id):
@@ -588,6 +692,17 @@ func select_inventory():
 	else:
 		$Tabs/Equipment/Description/Icon.texture = load(\"res://Sprites/UI/Menu/Equipment/Generic\" + PlayerStats.EQUIPMENT_SLOTS[-inventory_select - 1] + \".png\")
 
+func select_location():
+	
+#	printt(location_list)
+	
+	for location in location_list[location_category]:
+		if location_select == location[\"id\"]:
+			var place  = get_node(\"Tabs/Map/Map_graphics/Map\" + str(location_category+1) + \"/Place\" + str(location[\"place_id\"]))
+			var active = get_node(\"Tabs/Map/Map_graphics/Map\" + str(location_category+1) + \"/Active\")
+			active.rect_position = place.rect_position - Vector2(12, 10)
+			
+
 
 func select_skill():
 	var skill
@@ -698,7 +813,6 @@ func update_strenght():
 	$Tabs/Character/Statistics/Strength/Control3/Val.text = str(PlayerStats.statistic[\"ct_dmg\"][0]).substr(0,5)
 	$Tabs/Character/Statistics/Strength/Control4/Val.text = str(PlayerStats.statistic[\"cr_res\"][0]).substr(0,5)
 	
-	
 func clear_statistic_incremntation_propositions():
 		for stat in SKILLPOINTS:
 			for i in range(4):
@@ -751,17 +865,13 @@ func update_intelligence():
 	$Tabs/Character/Statistics/Intelligence/Control3/Val.text = str(PlayerStats.statistic[\"sh_res\"][0]).substr(0,5)
 	$Tabs/Character/Statistics/Intelligence/Control4/Val.text = str(PlayerStats.statistic[\"gh_dur\"][0]).substr(0,5)
 
-
 func update_vitality():
 	$Tabs/Character/Statistics/Vitality/Control/Val.text  = str(PlayerStats.statistic[\"vital\"][0]).substr(0,5)
 	$Tabs/Character/Statistics/Vitality/Control2/Val.text = str(PlayerStats.statistic[\"mn_reg\"][0]).substr(0,5)
 	$Tabs/Character/Statistics/Vitality/Control3/Val.text = str(PlayerStats.statistic[\"ex_res\"][0]).substr(0,5)
 	$Tabs/Character/Statistics/Vitality/Control4/Val.text = str(PlayerStats.statistic[\"mv_spd\"][0]).substr(0,5)
 
-
 func update_statistics():
-
-	
 	update_strenght()
 	update_dexternity()
 	update_vitality()
@@ -845,7 +955,6 @@ func new_stat_comparator(stat_label, stat, old_value, current_value):
 		stat_label.push_color( Color(1,1,1) )
 		stat_label.add_text( str( current_value + get_player_statistic(stat) ).substr(0,4) + \"(0)\")
 	stat_label.pop()
-
 
 func update_stats(item, i_instance):
 	var equiped_item_instance = PlayerStats.equipment[get_eq_slot(item)]
@@ -940,6 +1049,11 @@ func update_category(whatever = null):
 	update_inventory()
 	select_inventory()
 
+func update_location_category(nothing = null):
+	for i in range(LOCATION_CATEGORIES.size()):
+		$Tabs/Map/Categories.get_child(i).texture   = load(\"res://Sprites/UI/Menu/Equipment/EquipmentCategory\" + (\"Active\" if location_category == i else \"\") + \".png\")
+		$Tabs/Map/Map_graphics.get_child(i).visible = true if location_category == i else false
+
 func update_skill_category(nothing = null):
 	
 	for i in range(SKILL_CATEGORIES.size()):
@@ -947,7 +1061,6 @@ func update_skill_category(nothing = null):
 	
 	update_skills()
 	select_skill()
-
 
 func refresh():
 	crafting_select = 0
@@ -970,7 +1083,6 @@ func scroll_inventory(scroll):
 	var max_scroll = inventory_list.size()-7
 	$Tabs/Equipment/Inventory/Scrollbar/ActualScrollbar.rect_position.y = inventory_scroll / max(float(max_scroll), 1) * 283
 	if $Tabs/Equipment/Inventory/Scrollbar/ActualScrollbar.rect_position.y > 283: $Tabs/Equipment/Inventory/Scrollbar/ActualScrollbar.rect_position.y = 283
-
 
 func auto_move(delta):
 	if !auto_move or auto_move[1] == \"up\" and !Input.is_action_pressed(\"ui_up\") or auto_move[1] == \"down\" and !Input.is_action_pressed(\"ui_down\"):
@@ -1003,7 +1115,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 script = SubResource( 1 )
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Rect", "Visibility" ]
 
 [node name="TabsBar" type="Control" parent="." index="0"]
 
@@ -4007,6 +4119,7 @@ _sections_unfolded = [ "Rect", "custom_colors", "custom_fonts" ]
 
 [node name="Skills" type="Control" parent="Tabs" index="2"]
 
+editor/display_folded = true
 visible = false
 self_modulate = Color( 1, 0.501961, 0.501961, 0.501961 )
 anchor_left = 0.0
@@ -5209,7 +5322,6 @@ size_flags_vertical = 1
 
 [node name="Map1" type="TextureRect" parent="Tabs/Map/Map_graphics" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -5231,7 +5343,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="Place1" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -6867,9 +6978,31 @@ size_flags_vertical = 1
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
+[node name="Active" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1" index="42"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 195.0
+margin_top = 121.0
+margin_right = 278.0
+margin_bottom = 201.0
+rect_scale = Vector2( 1.25, 1.25 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 38 )
+expand = true
+stretch_mode = 0
+_sections_unfolded = [ "Material", "Pause", "Rect", "Visibility" ]
+
 [node name="Map2" type="TextureRect" parent="Tabs/Map/Map_graphics" index="1"]
 
-editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -8527,6 +8660,28 @@ size_flags_vertical = 1
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
+[node name="Active" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2" index="42"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 195.0
+margin_top = 122.0
+margin_right = 278.0
+margin_bottom = 202.0
+rect_scale = Vector2( 1.25, 1.25 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 38 )
+expand = true
+stretch_mode = 0
+_sections_unfolded = [ "Material", "Pause", "Visibility" ]
+
 [node name="Notes" type="Control" parent="Tabs" index="5"]
 
 editor/display_folded = true
@@ -8562,7 +8717,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 38 )
+texture = ExtResource( 39 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 

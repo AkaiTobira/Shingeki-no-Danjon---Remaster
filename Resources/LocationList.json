@@ -1,0 +1,22 @@
+{
+    "Mechania" : {
+        "start_point"     : "JigsawRoom",
+        "asset_info"      : "Mechanic",
+        "nmbSmallTowers"  : 9,
+        "nmbSmallFloors"  : 7,
+        "small_tower_top" : [],
+        "nmbBossFloors"   : 4,
+        "boss_tower_top"  : "BossRoom",
+        "town"            : ""
+    },
+    "Locked" : {
+        "start_point"     : "",
+        "asset_info"      : "",
+        "nmbSmallTowers"  : 0,
+        "nmbSmallFloors"  : 0,
+        "small_tower_top" : [],
+        "nmbBossFloors"   : 0,
+        "boss_tower_top"  : "",
+        "town"            : ""
+    }
+}

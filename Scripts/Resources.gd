@@ -5,10 +5,11 @@ var cache = {}
 var segments = {}
 var segment_nodes = {}
 var tilesets = {}
-var items = []
-var skills = {}
+var items    = []
+var skills   = {}
 var dungeons = {}
 var crafting = []
+var location = {}
 var enemies
 
 var game
@@ -75,6 +76,7 @@ func _ready():
 
 	
 	crafting = read_json("res://Resources/CraftingList.json")
+	location = read_json("res://Resources/LocationList.json")
 	
 	##meh meh (DEBUG)
 	SkillBase.acquired_skills.append("Fireball")
