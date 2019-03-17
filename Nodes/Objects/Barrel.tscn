@@ -3,7 +3,6 @@
 [ext_resource path="res://Sprites/Objects/Barrel.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
-
 resource_name = "Barrel"
 script/source = "extends Node2D
 
@@ -72,12 +71,9 @@ func damage(amount, source, nothing):
 		it.id = item
 		it.z_index = 100
 		get_parent().add_child(it)"
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="Animation" id=2]
-
 length = 2.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -93,79 +89,43 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=3]
-
-custom_solver_bias = 0.0
 extents = Vector2( 24.9147, 34.5188 )
 
 [sub_resource type="RectangleShape2D" id=4]
-
-custom_solver_bias = 0.0
 extents = Vector2( 24, 20 )
 
 [node name="Barrel" type="StaticBody2D" groups=[
 "enemies",
 "enviroment",
 ]]
-
-input_pickable = false
 collision_layer = 13
 collision_mask = 13
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
 script = SubResource( 1 )
 placement = 5
-offset_position = Vector2( 0, 0 )
-size = Vector2( 1, 1 )
-variants = ""
-can_flip_h = false
-const_object = false
 state = 1
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
-
+[node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -30 )
 z_index = 1
 texture = ExtResource( 1 )
 hframes = 3
-_sections_unfolded = [ "Animation", "Z Index" ]
 
-[node name="Animation" type="AnimationPlayer" parent="." index="1"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="Animation" type="AnimationPlayer" parent="."]
 playback_speed = 8.0
 anims/Destroyed = SubResource( 2 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="DamageCollider" type="Area2D" parent="." index="2"]
-
+[node name="DamageCollider" type="Area2D" parent="."]
 position = Vector2( -0.777163, -27.2376 )
 scale = Vector2( 1.37523, 1.08633 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
 collision_layer = 2
 collision_mask = 2
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Collision" ]
 
-[node name="Shape" type="CollisionShape2D" parent="DamageCollider" index="0"]
-
+[node name="Shape" type="CollisionShape2D" parent="DamageCollider"]
 position = Vector2( -0.477784, 1.89996 )
 scale = Vector2( 1.30838, 1.26869 )
 shape = SubResource( 3 )
 
-[node name="Shape" type="CollisionShape2D" parent="." index="3"]
-
+[node name="Shape" type="CollisionShape2D" parent="."]
 position = Vector2( -0.803871, -10.4729 )
 shape = SubResource( 4 )
-
 

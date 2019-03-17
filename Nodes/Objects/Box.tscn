@@ -60,8 +60,13 @@ func fill(breakable_contains,dungeon_level):
 	
 
 func damage(amount, source = \"\", nothing = \"\"):
-	set_deferred(\"free\", 10 )
-
+	if item > -1:
+		var it = Res.create_instance(\"Item\")
+		it.position = position
+		it.id = item
+		it.z_index = 100
+		get_parent().add_child(it)
+		
 	Res.play_sample(self, \"WoodBreak\")
 	$Animation.play(\"Destroyed\")
 	$DamageCollider.call_deferred('free')
@@ -69,14 +74,7 @@ func damage(amount, source = \"\", nothing = \"\"):
 	z_index = -1
 	$\"/root/Game\".save_state(self)
 	
-	destroyed = true
-	
-	if item > -1:
-		var it = Res.create_instance(\"Item\")
-		it.position = position
-		it.id = item
-		it.z_index = 100
-		get_parent().add_child(it)"
+	destroyed = true"
 
 [sub_resource type="Animation" id=2]
 length = 2.0
