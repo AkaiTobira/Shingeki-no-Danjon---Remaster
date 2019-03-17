@@ -9,9 +9,9 @@ The basic assumptions of the game are that the player has a large amount of skil
 
 Current work status : Casualy updated
 
-Currently playable  : Unhandled Error Remaining(1) - Nope
+Currently playable status : Alpha, i expect bugs to be found 
 
 
-Since there is no portable version it's need to be played from Godot editor.
+Since there is no portable version it's need to be played from Godot editor. After loading to editor press F5.
 
 Require : Godot Engine https://godotengine.org/download/windows
