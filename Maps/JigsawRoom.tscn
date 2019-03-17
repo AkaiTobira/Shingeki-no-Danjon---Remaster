@@ -117,6 +117,7 @@ __meta__ = {
 
 position = Vector2( 400, 160 )
 region_rect = Rect2( 160, 480, 160, 160 )
+location_change = true
 
 [node name="Position2D" type="Position2D" parent="." index="3"]
 

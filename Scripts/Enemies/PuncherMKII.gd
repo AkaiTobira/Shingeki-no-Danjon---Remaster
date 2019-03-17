@@ -44,7 +44,7 @@ func _process(delta):
 func process_atacks():
 	match(current_atack):
 		"Magic":
-			turn_on_magic_state()
+			.turn_on_magic_state()
 			return
 		"Skill":
 			play_animation_if_not_playing("Special")

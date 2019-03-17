@@ -90,7 +90,7 @@ func get_tile_ids_from_TileSet():
 	tile_const_id   = $BottomTiles.tile_set.find_tile_by_name("FloorC")
 	tile_blocked_id = $BottomTiles.tile_set.find_tile_by_name("FloorS")
 
-func _ready():
+func initialize():
 	used_rect = $BottomTiles.get_used_rect()
 
 	get_tile_ids_from_TileSet()
@@ -113,9 +113,9 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	var object_name = obj_splitted_by_wall_dependency[orientation][style][randi()%len(obj_splitted_by_wall_dependency[orientation][style])]
 	var flip        = false
 
-	var instance = load(get_path(style) + object_name +".tscn")
+	var instance = load(get_path_toObj(style) + object_name +".tscn")
 	if instance == null:
-		print( name + ":: not Found " + get_path(style) + object_name +".tscn" )
+		print( name + ":: not Found " + get_path_toObj(style) + object_name +".tscn" )
 		return false
 	instance = instance.instance()
 	
@@ -143,7 +143,7 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 				if not tab[i][j+y] in SIDES[orientation]: 
 					return false
 			i = i + 1 - obj_size.x
-			if instance.placement == instance.LEFT_OR_RIGHT_WALL or instance.can_flip_h:
+			if instance.placement == instance.PLACEMENT.LEFT_OR_RIGHT_WALL or instance.can_flip_h:
 				flip = true
 				
 			if style == Objects.TRAPS:
@@ -282,13 +282,14 @@ func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
 			if tab[i][j] >= TileState.free and tab[i][j] < TileState.destroyableObject:
 				if randi()%1000 < prob:
 					var object_name = enemies[randi()%len(enemies)]
-					var instance = load(get_path(Objects.ENEMIES) + object_name + ".tscn").instance()
+					var instance = load(get_path_toObj(Objects.ENEMIES) + object_name + ".tscn").instance()
 					instance.position = Vector2((i*80)+40,(j*80)+40) 
 					instance._load_stats(enemy[dung_name][object_name],object_name)
 					Obj_to_Append.append(instance)
 					monster_counter +=1
 
 func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [] ):
+	initialize()
 	flooor = current_level
 	
 	items_in_containers = file_json["containers_contents"]
@@ -370,7 +371,7 @@ func reset():
 			cell.append(j)
 		tab.append(cell)	
 
-func get_path(objType):
+func get_path_toObj(objType):
 	match(objType):
 		Objects.CONST:
 			return "res://Nodes/Environment/"
@@ -386,27 +387,27 @@ func get_path(objType):
 func split_enviroments_by_wallDependency(enviroments, objType):
 
 	for i in enviroments:
-		var instance = load(get_path(objType) + i +".tscn")
+		var instance = load(get_path_toObj(objType) + i +".tscn")
 		if instance == null  : 
-			print( i, " not insaid " + get_path(objType) ) 
+			print( i, " not insaid " + get_path_toObj(objType) ) 
 			continue
 		instance = instance.instance()
-		if instance.placement == instance.LEFT_OR_RIGHT_WALL:
+		if instance.placement == instance.PLACEMENT.LEFT_OR_RIGHT_WALL:
 				obj_splitted_by_wall_dependency[Wall_Orientations.Left  ][objType].append(i)
 				obj_splitted_by_wall_dependency[Wall_Orientations.Right ][objType].append(i)
-		elif instance.placement == instance.UP_OR_DOWN_WALL:
+		elif instance.placement == instance.PLACEMENT.UP_OR_DOWN_WALL:
 				obj_splitted_by_wall_dependency[Wall_Orientations.Up    ][objType].append(i)
 				obj_splitted_by_wall_dependency[Wall_Orientations.Down  ][objType].append(i)
-		elif instance.placement == instance.DOWN_WALL:
+		elif instance.placement == instance.PLACEMENT.DOWN_WALL:
 				obj_splitted_by_wall_dependency[Wall_Orientations.Down  ][objType].append(i)
-		elif instance.placement == instance.UP_WALL:
+		elif instance.placement == instance.PLACEMENT.UP_WALL:
 				obj_splitted_by_wall_dependency[Wall_Orientations.Up    ][objType].append(i)
-		elif instance.placement == instance.EVERY_WALL:
+		elif instance.placement == instance.PLACEMENT.EVERY_WALL:
 				obj_splitted_by_wall_dependency[Wall_Orientations.Left  ][objType].append(i)
 				obj_splitted_by_wall_dependency[Wall_Orientations.Right ][objType].append(i)
 				obj_splitted_by_wall_dependency[Wall_Orientations.Up    ][objType].append(i)
 				obj_splitted_by_wall_dependency[Wall_Orientations.Down  ][objType].append(i)
-		elif instance.placement == instance.WALL_FREE:
+		elif instance.placement == instance.PLACEMENT.WALL_FREE:
 				obj_splitted_by_wall_dependency[Wall_Orientations.Free  ][objType].append(i)
 
 func covert_tiles_to_structure():

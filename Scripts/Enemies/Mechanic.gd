@@ -24,13 +24,18 @@ var fire_bomb_prob     = 250
 
 var max_hp = 500
 
+
+ 
+var damage = 0
+var knockback = 0
+
 var follow = false
 
 var ar = 0.999
 var RShieldON = true
 var LShieldON = true
 
-var MAT = load("res://Resources/Materials/ColorShader.tres")
+#var MAT2 = load("res://Resources/Materials/ColorShader.tres")
 #var MAT_RED  = load("res://Resources/Materials/ColorShader.tres")
 # class member variables go here, for example:
 # var a = 2

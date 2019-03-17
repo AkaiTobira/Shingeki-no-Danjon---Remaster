@@ -100,11 +100,10 @@ func check_combo(combo):
 
 
 func _process(delta):
+	delta += 1
 	for action in ["Attack", "Magic", "Special", "Shield", "Up", "Right", "Down", "Left"]:
 		if Input.is_action_just_pressed(action):
 			current_combo.append({"action": action, "time": OS.get_ticks_msec(), "hold": true})
-	
-
 	
 	if !current_combo.empty():
 		var action = current_combo.back()

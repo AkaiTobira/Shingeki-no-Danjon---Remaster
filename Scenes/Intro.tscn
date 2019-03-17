@@ -45,7 +45,6 @@
 [ext_resource path="res://Sprites/Intro/Slasher.png" type="Texture" id=43]
 
 [sub_resource type="GDScript" id=1]
-
 resource_name = "Intro"
 script/source = "extends Node2D
 
@@ -224,10 +223,8 @@ func recursive_visible(node):
 func recursive_retexture(node):
 	if node is Sprite: node.texture = preload(\"res://Sprites/Intro/BuildingRuined.png\")
 	for node2 in node.get_children(): recursive_retexture(node2)"
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="Shader" id=2]
-
 code = "shader_type canvas_item;
 
 void fragment() {
@@ -236,17 +233,11 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=3]
-
-render_priority = 0
 shader = SubResource( 2 )
-_sections_unfolded = [ "shader_param" ]
 
 [sub_resource type="Animation" id=4]
-
 resource_name = "Phase1"
 length = 10.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Phase1/StarSky:position")
 tracks/0/interp = 1
@@ -368,11 +359,8 @@ tracks/8/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-
 resource_name = "Phase2"
 length = 9.0
-loop = false
-step = 0.1
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
@@ -431,11 +419,8 @@ tracks/3/keys = {
 }
 
 [sub_resource type="Animation" id=6]
-
 resource_name = "Phase3"
 length = 13.5
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Phase2/ColorRect:modulate")
 tracks/0/interp = 1
@@ -584,10 +569,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=7]
-
 length = 9.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Camera:position")
 tracks/0/interp = 1
@@ -643,11 +625,8 @@ tracks/3/keys = {
 }
 
 [sub_resource type="Animation" id=8]
-
 resource_name = "Phase5"
 length = 12.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Phase5/ColorRect:modulate")
 tracks/0/interp = 1
@@ -787,11 +766,8 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id=9]
-
 resource_name = "Phase6"
 length = 12.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Camera:position")
 tracks/0/interp = 1
@@ -874,11 +850,8 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Animation" id=10]
-
 resource_name = "Phase7"
 length = 6.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Camera:zoom")
 tracks/0/interp = 1
@@ -958,11 +931,8 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Animation" id=11]
-
 resource_name = "Phase8"
 length = 22.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Phase7:visible")
 tracks/0/interp = 1
@@ -1267,10 +1237,7 @@ tracks/23/keys = {
 }
 
 [sub_resource type="Animation" id=12]
-
 length = 4.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:percent_visible")
 tracks/0/interp = 1
@@ -1297,58 +1264,26 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Gradient" id=13]
-
 offsets = PoolRealArray( 0.512953, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=14]
-
-flags = 4
 gradient = SubResource( 13 )
-width = 2048
 
 [sub_resource type="ParticlesMaterial" id=15]
-
-render_priority = 0
-trail_divisor = 1
 emission_shape = 2
 emission_box_extents = Vector3( 683, 1, 1 )
-flag_align_y = false
-flag_rotate_y = false
 flag_disable_z = true
-spread = 45.0
-flatness = 0.0
 gravity = Vector3( 0, -100, 0 )
 initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
 color_ramp = SubResource( 14 )
-hue_variation = 0.0
-hue_variation_random = 0.0
 anim_speed = 16.0
-anim_speed_random = 0.0
 anim_offset = 1.0
 anim_offset_random = 1.0
-anim_loop = true
-_sections_unfolded = [ "Animation", "Color", "Emission Shape", "Gravity", "Scale" ]
 
 [sub_resource type="Animation" id=16]
-
 length = 8.0
 loop = true
 step = 1.0
@@ -1378,7 +1313,6 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=17]
-
 length = 12.0
 loop = true
 step = 1.0
@@ -1420,7 +1354,6 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id=18]
-
 length = 4.0
 loop = true
 step = 1.0
@@ -1438,7 +1371,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=19]
-
 length = 4.0
 loop = true
 step = 1.0
@@ -1456,7 +1388,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=20]
-
 length = 4.0
 loop = true
 step = 1.0
@@ -1474,7 +1405,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=21]
-
 length = 4.0
 loop = true
 step = 1.0
@@ -1492,7 +1422,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=22]
-
 length = 4.0
 loop = true
 step = 1.0
@@ -1510,61 +1439,25 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Gradient" id=23]
-
 offsets = PoolRealArray( 0.533679, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=24]
-
-flags = 4
 gradient = SubResource( 23 )
-width = 2048
 
 [sub_resource type="ParticlesMaterial" id=25]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
 flag_disable_z = true
 spread = 90.0
-flatness = 0.0
 gravity = Vector3( -100, -50, 0 )
 initial_velocity = 50.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
 color_ramp = SubResource( 24 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angle", "Spread" ]
 
 [sub_resource type="Animation" id=26]
-
 resource_name = "Run"
 length = 2.0
 loop = true
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -1579,47 +1472,23 @@ tracks/0/keys = {
 }
 
 [node name="Intro" type="Node2D"]
-
 script = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Shader" type="CanvasLayer" parent="." index="0"]
-
+[node name="Shader" type="CanvasLayer" parent="."]
 editor/display_folded = true
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="Effect" type="ColorRect" parent="Shader" index="0"]
-
+[node name="Effect" type="ColorRect" parent="Shader"]
 visible = false
 material = SubResource( 3 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 1366.0
 margin_bottom = 768.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-color = Color( 1, 1, 1, 1 )
-_sections_unfolded = [ "Material", "Rect" ]
 
-[node name="Animator" type="AnimationPlayer" parent="." index="1"]
-
-root_node = NodePath("..")
+[node name="Animator" type="AnimationPlayer" parent="."]
 autoplay = "Phase1"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
 anims/Phase1 = SubResource( 4 )
 anims/Phase2 = SubResource( 5 )
 anims/Phase3 = SubResource( 6 )
@@ -1628,306 +1497,137 @@ anims/Phase5 = SubResource( 8 )
 anims/Phase6 = SubResource( 9 )
 anims/Phase7 = SubResource( 10 )
 anims/Phase8 = SubResource( 11 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Camera" type="Camera2D" parent="." index="2"]
-
+[node name="Camera" type="Camera2D" parent="."]
 editor/display_folded = true
 z_index = 4
 offset = Vector2( 683, 384 )
-anchor_mode = 1
-rotating = false
 current = true
-zoom = Vector2( 1, 1 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
 drag_margin_h_enabled = false
 drag_margin_v_enabled = false
-smoothing_enabled = false
-smoothing_speed = 5.0
-offset_v = 0.0
-offset_h = 0.0
 drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
-editor_draw_screen = true
-editor_draw_limits = false
-editor_draw_drag_margin = false
-_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Texts" type="CanvasLayer" parent="Camera" index="0"]
-
+[node name="Texts" type="CanvasLayer" parent="Camera"]
 editor/display_folded = true
 layer = 3
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="TextAnimator" type="AnimationPlayer" parent="Camera/Texts" index="0"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
+[node name="TextAnimator" type="AnimationPlayer" parent="Camera/Texts"]
 anims/AnimateText = SubResource( 12 )
-blend_times = [  ]
 
-[node name="Text1" type="Label" parent="Camera/Texts" index="1"]
-
+[node name="Text1" type="Label" parent="Camera/Texts"]
 modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 380.0
 margin_top = 329.0
 margin_right = 1062.0
 margin_bottom = 414.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 text = "Thousands of years ago,
 a star has fallen from the sky."
 align = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_fonts" ]
 
-[node name="Text2" type="Label" parent="Camera/Texts" index="2"]
-
+[node name="Text2" type="Label" parent="Camera/Texts"]
 modulate = Color( 1, 1, 1, 0.5 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 277.0
 margin_top = 329.0
 margin_right = 1157.0
 margin_bottom = 414.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "It brought a devastation upon the world,
 causing nearly all life to go extinct."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text3" type="Label" parent="Camera/Texts" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text3" type="Label" parent="Camera/Texts"]
 margin_left = 183.0
 margin_top = 329.0
 margin_right = 1217.0
 margin_bottom = 414.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "On the ruins of the former world,
 centuries later a civilization has established."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text4" type="Label" parent="Camera/Texts" index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text4" type="Label" parent="Camera/Texts"]
 margin_left = 161.0
 margin_top = 297.0
 margin_right = 1239.0
 margin_bottom = 426.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "The so called Ancient Ones, utilized the fallen
 star’s power to create beings known as Engineers."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text5" type="Label" parent="Camera/Texts" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text5" type="Label" parent="Camera/Texts"]
 margin_left = 136.0
 margin_top = 297.0
 margin_right = 1324.0
 margin_bottom = 426.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "These artificial beings made of all kinds of materials
 were the main builders of ancient great cities."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text6" type="Label" parent="Camera/Texts" index="6"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text6" type="Label" parent="Camera/Texts"]
 margin_left = 53.0
 margin_top = 297.0
 margin_right = 1307.0
 margin_bottom = 426.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "For their hard work, Ancient Ones bestowed Engineers with
 the gift of sentience, using the star’s power again."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text7" type="Label" parent="Camera/Texts" index="7"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text7" type="Label" parent="Camera/Texts"]
 margin_left = 53.0
 margin_top = 297.0
 margin_right = 1307.0
 margin_bottom = 426.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "That was a grave mistake."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text8" type="Label" parent="Camera/Texts" index="8"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text8" type="Label" parent="Camera/Texts"]
 margin_left = 321.0
 margin_top = 297.0
 margin_right = 1113.0
 margin_bottom = 426.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "The great cataclysm of the past was
 caused by star’s own malicious will."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text9" type="Label" parent="Camera/Texts" index="9"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text9" type="Label" parent="Camera/Texts"]
 margin_left = 271.0
 margin_top = 297.0
 margin_right = 1173.0
 margin_bottom = 426.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "This will was now inherited by Engineers."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text10" type="Label" parent="Camera/Texts" index="10"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text10" type="Label" parent="Camera/Texts"]
 margin_left = 204.0
 margin_top = 42.0
 margin_right = 1194.0
 margin_bottom = 171.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "The world was met with another crisis,
@@ -1935,156 +1635,72 @@ but Ancient Ones were able to fix their
 mistake with the power of Eight Divine Seals."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text11" type="Label" parent="Camera/Texts" index="11"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text11" type="Label" parent="Camera/Texts"]
 margin_left = 204.0
 margin_top = 45.0
 margin_right = 1128.0
 margin_bottom = 174.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Engineers were stopped and sealed in
 a great structure, known as The Labyrinth."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text12" type="Label" parent="Camera/Texts" index="12"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text12" type="Label" parent="Camera/Texts"]
 margin_left = 249.0
 margin_top = 46.0
 margin_right = 1085.0
 margin_bottom = 175.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Over hundreds of years,
 that place became shrouded in legends."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text13" type="Label" parent="Camera/Texts" index="13"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text13" type="Label" parent="Camera/Texts"]
 margin_left = 101.0
 margin_top = 48.0
 margin_right = 1223.0
 margin_bottom = 177.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "The nightmare of Engineers has ultimately returned,
 accidentally released by a curious adventurer."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text14" type="Label" parent="Camera/Texts" index="14"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text14" type="Label" parent="Camera/Texts"]
 margin_left = 338.0
 margin_top = 81.0
 margin_right = 1042.0
 margin_bottom = 210.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "All over the world, structures
 known as Dungeons have appeared."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text15" type="Label" parent="Camera/Texts" index="15"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text15" type="Label" parent="Camera/Texts"]
 margin_left = 107.0
 margin_top = 77.0
 margin_right = 1251.0
 margin_bottom = 206.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "They were the source of Engineers’ new power,
 serving as outposts for extracting human lifeforce."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text16" type="Label" parent="Camera/Texts" index="16"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text16" type="Label" parent="Camera/Texts"]
 margin_left = 244.0
 margin_top = 79.0
 margin_right = 1124.0
 margin_bottom = 208.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Without the ancient power,
@@ -2092,26 +1708,12 @@ mankind had no other choice than to hide
 inside the walls of its great ancestors."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text17" type="Label" parent="Camera/Texts" index="17"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text17" type="Label" parent="Camera/Texts"]
 margin_left = 244.0
 margin_top = 58.0
 margin_right = 1278.0
 margin_bottom = 187.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "With a constant terror and fear of death,
@@ -2119,120 +1721,56 @@ their only hope was to find the 8 Divine Seals,
 to stop Engineers’ genocide."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text18" type="Label" parent="Camera/Texts" index="18"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text18" type="Label" parent="Camera/Texts"]
 margin_left = 102.0
 margin_top = 118.0
 margin_right = 1224.0
 margin_bottom = 247.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "But that would require delving into enemy territory
 to destroy Dungeons and reclaim stolen lands."
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Text19" type="Label" parent="Camera/Texts" index="19"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Text19" type="Label" parent="Camera/Texts"]
 margin_left = 147.0
 margin_top = 333.0
 margin_right = 1225.0
 margin_bottom = 374.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "Does a human brave enough exist to save his kind?"
 align = 1
 percent_visible = 0.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
 
-[node name="Title" type="TextureRect" parent="Camera/Texts" index="20"]
-
+[node name="Title" type="TextureRect" parent="Camera/Texts"]
 visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 40.0
 margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Visibility" ]
 
-[node name="Landscape" type="Sprite" parent="Camera" index="1"]
-
+[node name="Landscape" type="Sprite" parent="Camera"]
 editor/display_folded = true
 visible = false
 position = Vector2( 683, 384 )
 z_as_relative = false
 texture = ExtResource( 7 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Burnscape" type="Sprite" parent="Camera/Landscape" index="0"]
-
+[node name="Burnscape" type="Sprite" parent="Camera/Landscape"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 8 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Particles2D" type="Particles2D" parent="Camera/Landscape/Burnscape" index="0"]
-
+[node name="Particles2D" type="Particles2D" parent="Camera/Landscape/Burnscape"]
 position = Vector2( 0, 374 )
-emitting = true
 amount = 200
 lifetime = 4.0
-one_shot = false
 preprocess = 4.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
 process_material = SubResource( 15 )
 texture = ExtResource( 9 )
-normal_map = null
-h_frames = 1
-v_frames = 8
-_sections_unfolded = [ "Process Material", "Time" ]
 
-[node name="Fire" type="Sprite" parent="Camera/Landscape" index="1"]
-
+[node name="Fire" type="Sprite" parent="Camera/Landscape"]
 editor/display_folded = true
 position = Vector2( 2050, 820 )
 z_index = 2
@@ -2240,873 +1778,589 @@ texture = ExtResource( 10 )
 vframes = 8
 region_enabled = true
 region_rect = Rect2( 0, 303, 1366, 101 )
-_sections_unfolded = [ "Animation", "Region", "Transform", "Z Index" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/Landscape/Fire" index="0"]
-
-root_node = NodePath("..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/Landscape/Fire"]
 autoplay = "Idle"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
 playback_speed = 16.0
 anims/Idle = SubResource( 16 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Phase1" type="Node2D" parent="." index="3"]
-
+[node name="Phase1" type="Node2D" parent="."]
 editor/display_folded = true
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Sky" type="Sprite" parent="Phase1" index="0"]
-
+[node name="Sky" type="Sprite" parent="Phase1"]
 editor/display_folded = true
 position = Vector2( 1366, 768 )
 texture = ExtResource( 11 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 2732, 1536 )
-_sections_unfolded = [ "Region", "Transform" ]
 
-[node name="Dinosaur" type="Sprite" parent="Phase1/Sky" index="0"]
-
+[node name="Dinosaur" type="Sprite" parent="Phase1/Sky"]
 position = Vector2( -1103, 557 )
 texture = ExtResource( 12 )
 flip_h = true
-_sections_unfolded = [ "Offset" ]
 
-[node name="Dinosaur2" type="Sprite" parent="Phase1/Sky" index="1"]
-
+[node name="Dinosaur2" type="Sprite" parent="Phase1/Sky"]
 position = Vector2( -428, 451 )
 texture = ExtResource( 12 )
 
-[node name="Dinosaur4" type="Sprite" parent="Phase1/Sky" index="2"]
-
+[node name="Dinosaur4" type="Sprite" parent="Phase1/Sky"]
 position = Vector2( 1093, 532 )
 texture = ExtResource( 12 )
 
-[node name="Dinosaur3" type="Sprite" parent="Phase1/Sky" index="3"]
-
+[node name="Dinosaur3" type="Sprite" parent="Phase1/Sky"]
 position = Vector2( 405, 519 )
 texture = ExtResource( 12 )
 flip_h = true
-_sections_unfolded = [ "Offset" ]
 
-[node name="StarSky" type="Sprite" parent="Phase1" index="1"]
-
+[node name="StarSky" type="Sprite" parent="Phase1"]
 editor/display_folded = true
 position = Vector2( -743, -82 )
 texture = ExtResource( 13 )
 flip_v = true
 hframes = 3
 frame = 2
-_sections_unfolded = [ "Animation", "Offset", "Transform" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase1/StarSky" index="0"]
-
-root_node = NodePath("..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase1/StarSky"]
 autoplay = "Idle"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
 playback_speed = 8.0
 anims/Idle = SubResource( 17 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="StarExplosion" type="Sprite" parent="Phase1" index="2"]
-
+[node name="StarExplosion" type="Sprite" parent="Phase1"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 683, 640 )
 texture = ExtResource( 14 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Phase3" type="Node2D" parent="." index="4"]
-
+[node name="Phase3" type="Node2D" parent="."]
 editor/display_folded = true
 visible = false
-_sections_unfolded = [ "Visibility" ]
 
-[node name="Buildings" type="Node2D" parent="Phase3" index="0"]
-
+[node name="Buildings" type="Node2D" parent="Phase3"]
 editor/display_folded = true
 
-[node name="Building6" type="Sprite" parent="Phase3/Buildings" index="0"]
-
+[node name="Building6" type="Sprite" parent="Phase3/Buildings"]
 editor/display_folded = true
 position = Vector2( 348, 422 )
 scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building6" index="0"]
-
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building6"]
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building6/Building2" index="0"]
-
+[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building6/Building2"]
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building" type="Sprite" parent="Phase3/Buildings" index="1"]
-
+[node name="Building" type="Sprite" parent="Phase3/Buildings"]
 editor/display_folded = true
 position = Vector2( 219, 582 )
 texture = ExtResource( 15 )
 
-[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building" index="0"]
-
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building"]
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building2" type="Sprite" parent="Phase3/Buildings" index="2"]
-
+[node name="Building2" type="Sprite" parent="Phase3/Buildings"]
 editor/display_folded = true
 position = Vector2( 695, 463 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building2" index="0"]
-
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building2"]
 editor/display_folded = true
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building2/Building2" index="0"]
-
+[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building2/Building2"]
 editor/display_folded = true
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building4" type="Sprite" parent="Phase3/Buildings/Building2/Building2/Building3" index="0"]
-
+[node name="Building4" type="Sprite" parent="Phase3/Buildings/Building2/Building2/Building3"]
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building3" type="Sprite" parent="Phase3/Buildings" index="3"]
-
+[node name="Building3" type="Sprite" parent="Phase3/Buildings"]
 editor/display_folded = true
 position = Vector2( 1162, 491 )
 scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building3" index="0"]
-
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building3"]
 editor/display_folded = true
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building3/Building2" index="0"]
-
+[node name="Building3" type="Sprite" parent="Phase3/Buildings/Building3/Building2"]
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building4" type="Sprite" parent="Phase3/Buildings" index="4"]
-
+[node name="Building4" type="Sprite" parent="Phase3/Buildings"]
 editor/display_folded = true
 position = Vector2( 487, 521 )
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building4" index="0"]
-
+[node name="Building2" type="Sprite" parent="Phase3/Buildings/Building4"]
 position = Vector2( 0, -260 )
 texture = ExtResource( 15 )
 
-[node name="Building5" type="Sprite" parent="Phase3/Buildings" index="5"]
-
+[node name="Building5" type="Sprite" parent="Phase3/Buildings"]
 position = Vector2( 977, 591 )
 scale = Vector2( 1.2, 1.2 )
 z_index = 1
 texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Creators" type="Sprite" parent="Phase3" index="1"]
-
+[node name="Creators" type="Sprite" parent="Phase3"]
 position = Vector2( 2166, 610 )
 texture = ExtResource( 16 )
 flip_h = true
-_sections_unfolded = [ "Offset" ]
 
-[node name="Creators2" type="Sprite" parent="Phase3" index="2"]
-
+[node name="Creators2" type="Sprite" parent="Phase3"]
 position = Vector2( 2303, 610 )
 texture = ExtResource( 16 )
 flip_h = true
-_sections_unfolded = [ "Offset" ]
 
-[node name="Creators3" type="Sprite" parent="Phase3" index="3"]
-
+[node name="Creators3" type="Sprite" parent="Phase3"]
 position = Vector2( 2440, 610 )
 texture = ExtResource( 16 )
 flip_h = true
-_sections_unfolded = [ "Offset" ]
 
-[node name="StarPower" type="Sprite" parent="Phase3" index="4"]
-
+[node name="StarPower" type="Sprite" parent="Phase3"]
 position = Vector2( 1897, 263 )
 texture = ExtResource( 17 )
 
-[node name="Phase2" type="Node2D" parent="." index="5"]
-
+[node name="Phase2" type="Node2D" parent="."]
 editor/display_folded = true
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="Phase2" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ColorRect" type="ColorRect" parent="Phase2"]
 margin_right = 1366.0
 margin_bottom = 768.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-color = Color( 1, 1, 1, 1 )
-_sections_unfolded = [ "Rect", "Visibility" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Mover" type="Node2D" parent="Phase2" index="1"]
-
-editor/display_folded = true
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Civilization" type="Node2D" parent="Phase2/Mover" index="0"]
-
+[node name="Mover" type="Node2D" parent="Phase2"]
 editor/display_folded = true
 
-[node name="Human" type="Sprite" parent="Phase2/Mover/Civilization" index="0"]
+[node name="Civilization" type="Node2D" parent="Phase2/Mover"]
+editor/display_folded = true
 
+[node name="Human" type="Sprite" parent="Phase2/Mover/Civilization"]
 position = Vector2( 128, 618 )
 texture = ExtResource( 18 )
 hframes = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Human2" type="Sprite" parent="Phase2/Mover/Civilization" index="1"]
-
+[node name="Human2" type="Sprite" parent="Phase2/Mover/Civilization"]
 position = Vector2( 308, 550 )
 texture = ExtResource( 18 )
 hframes = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Human3" type="Sprite" parent="Phase2/Mover/Civilization" index="2"]
-
+[node name="Human3" type="Sprite" parent="Phase2/Mover/Civilization"]
 position = Vector2( 522, 626 )
 texture = ExtResource( 18 )
 hframes = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Human4" type="Sprite" parent="Phase2/Mover/Civilization" index="3"]
-
+[node name="Human4" type="Sprite" parent="Phase2/Mover/Civilization"]
 position = Vector2( 703, 551 )
 texture = ExtResource( 18 )
 hframes = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Human5" type="Sprite" parent="Phase2/Mover/Civilization" index="4"]
-
+[node name="Human5" type="Sprite" parent="Phase2/Mover/Civilization"]
 position = Vector2( 926, 627 )
 texture = ExtResource( 18 )
 hframes = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Human6" type="Sprite" parent="Phase2/Mover/Civilization" index="5"]
-
+[node name="Human6" type="Sprite" parent="Phase2/Mover/Civilization"]
 position = Vector2( 1109, 552 )
 texture = ExtResource( 18 )
 hframes = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Human7" type="Sprite" parent="Phase2/Mover/Civilization" index="6"]
-
+[node name="Human7" type="Sprite" parent="Phase2/Mover/Civilization"]
 position = Vector2( 1275, 621 )
 texture = ExtResource( 18 )
 hframes = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Creators" type="Sprite" parent="Phase2/Mover" index="1"]
-
+[node name="Creators" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 1480, 608 )
 texture = ExtResource( 16 )
 
-[node name="Creators3" type="Sprite" parent="Phase2/Mover" index="2"]
-
+[node name="Creators3" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 1706, 608 )
 texture = ExtResource( 16 )
 
-[node name="Creators2" type="Sprite" parent="Phase2/Mover" index="3"]
-
+[node name="Creators2" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 1593, 608 )
 texture = ExtResource( 16 )
 
-[node name="Creators4" type="Sprite" parent="Phase2/Mover" index="4"]
-
+[node name="Creators4" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 1815, 608 )
 texture = ExtResource( 16 )
 
-[node name="Engineer" type="Sprite" parent="Phase2/Mover" index="5"]
-
+[node name="Engineer" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 2178, 516 )
 texture = ExtResource( 4 )
 
-[node name="Engineer2" type="Sprite" parent="Phase2/Mover" index="6"]
-
+[node name="Engineer2" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 2412, 516 )
 texture = ExtResource( 4 )
 
-[node name="Engineer3" type="Sprite" parent="Phase2/Mover" index="7"]
-
+[node name="Engineer3" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 2641, 516 )
 texture = ExtResource( 4 )
 
-[node name="StarPower" type="Sprite" parent="Phase2/Mover" index="8"]
-
+[node name="StarPower" type="Sprite" parent="Phase2/Mover"]
 position = Vector2( 1822, 270 )
 texture = ExtResource( 17 )
 
-[node name="StarRays" type="Sprite" parent="Phase2/Mover" index="9"]
-
+[node name="StarRays" type="Sprite" parent="Phase2/Mover"]
 editor/display_folded = true
 position = Vector2( 2201.5, 390 )
 texture = ExtResource( 19 )
 vframes = 4
 frame = 2
-_sections_unfolded = [ "Animation" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase2/Mover/StarRays" index="0"]
-
-root_node = NodePath("..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase2/Mover/StarRays"]
 autoplay = "Idle"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
 playback_speed = 16.0
 anims/Idle = SubResource( 18 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Phase3a" type="Node2D" parent="." index="6"]
-
+[node name="Phase3a" type="Node2D" parent="."]
 editor/display_folded = true
 visible = false
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Engineer" type="Sprite" parent="Phase3a" index="0"]
-
+[node name="Engineer" type="Sprite" parent="Phase3a"]
 editor/display_folded = true
 position = Vector2( 812, 516 )
 texture = ExtResource( 4 )
-_sections_unfolded = [ "Animation" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer" index="0"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer"]
 playback_speed = 8.0
 anims/Walk = SubResource( 19 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Engineer2" type="Sprite" parent="Phase3a" index="1"]
-
+[node name="Engineer2" type="Sprite" parent="Phase3a"]
 editor/display_folded = true
 position = Vector2( 1046, 516 )
 texture = ExtResource( 4 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer2" index="0"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer2"]
 playback_speed = 8.0
 anims/Walk = SubResource( 20 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Engineer3" type="Sprite" parent="Phase3a" index="2"]
-
+[node name="Engineer3" type="Sprite" parent="Phase3a"]
 editor/display_folded = true
 position = Vector2( 1275, 516 )
 texture = ExtResource( 4 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer3" index="0"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer3"]
 playback_speed = 8.0
 anims/Walk = SubResource( 21 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Engineer4" type="Sprite" parent="Phase3a" index="3"]
-
+[node name="Engineer4" type="Sprite" parent="Phase3a"]
 editor/display_folded = true
 position = Vector2( 1506, 516 )
 texture = ExtResource( 4 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer4" index="0"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase3a/Engineer4"]
 playback_speed = 8.0
 anims/Walk = SubResource( 22 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Eyeflash" type="Sprite" parent="Phase3a" index="4"]
-
+[node name="Eyeflash" type="Sprite" parent="Phase3a"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 1531, 360 )
 rotation = -3.14159
 scale = Vector2( 1e-005, 1e-005 )
 texture = ExtResource( 20 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Eyeflash2" type="Sprite" parent="Phase3a" index="5"]
-
+[node name="Eyeflash2" type="Sprite" parent="Phase3a"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 1476, 360 )
 rotation = -3.14159
 scale = Vector2( 1e-005, 1e-005 )
 texture = ExtResource( 20 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Phase4" type="Node2D" parent="." index="7"]
-
+[node name="Phase4" type="Node2D" parent="."]
 editor/display_folded = true
 
-[node name="SealLayer" type="CanvasLayer" parent="Phase4" index="0"]
-
+[node name="SealLayer" type="CanvasLayer" parent="Phase4"]
 editor/display_folded = true
 layer = 2
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="Seals" type="Node2D" parent="Phase4/SealLayer" index="0"]
-
+[node name="Seals" type="Node2D" parent="Phase4/SealLayer"]
 editor/display_folded = true
 visible = false
 position = Vector2( 683, 384 )
 z_index = 1
-_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="Seal1" type="Sprite" parent="Phase4/SealLayer/Seals" index="0"]
-
+[node name="Seal1" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 98, -205 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal1" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal1"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Seal2" type="Sprite" parent="Phase4/SealLayer/Seals" index="1"]
-
+[node name="Seal2" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 modulate = Color( 0, 0.0859375, 1, 1 )
 position = Vector2( 234, -77 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal2" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal2"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Seal3" type="Sprite" parent="Phase4/SealLayer/Seals" index="2"]
-
+[node name="Seal3" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 modulate = Color( 0.945313, 0, 1, 1 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal3" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal3"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Seal4" type="Sprite" parent="Phase4/SealLayer/Seals" index="3"]
-
+[node name="Seal4" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 modulate = Color( 0, 1, 0.953125, 1 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal4" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal4"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Seal5" type="Sprite" parent="Phase4/SealLayer/Seals" index="4"]
-
+[node name="Seal5" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 modulate = Color( 0.101563, 1, 0, 1 )
 position = Vector2( -85, 79 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal5" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal5"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Seal6" type="Sprite" parent="Phase4/SealLayer/Seals" index="5"]
-
+[node name="Seal6" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 modulate = Color( 1, 0.9375, 0, 1 )
 position = Vector2( -55, -42 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal6" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal6"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Seal7" type="Sprite" parent="Phase4/SealLayer/Seals" index="6"]
-
+[node name="Seal7" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 modulate = Color( 1, 0.539063, 0, 1 )
 position = Vector2( -191, 23 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal7" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal7"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Seal8" type="Sprite" parent="Phase4/SealLayer/Seals" index="7"]
-
+[node name="Seal8" type="Sprite" parent="Phase4/SealLayer/Seals"]
 editor/display_folded = true
 position = Vector2( -76, 219 )
 texture = ExtResource( 21 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal8" index="0"]
-
+[node name="SealFX" type="Sprite" parent="Phase4/SealLayer/Seals/Seal8"]
 visible = false
 texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Phase5" type="Node2D" parent="." index="8"]
-
+[node name="Phase5" type="Node2D" parent="."]
 editor/display_folded = true
 z_index = 1
-_sections_unfolded = [ "Transform" ]
 
-[node name="LabyrinthLocation" type="Sprite" parent="Phase5" index="0"]
-
+[node name="LabyrinthLocation" type="Sprite" parent="Phase5"]
 editor/display_folded = true
 position = Vector2( 683, 384 )
 texture = ExtResource( 23 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="LabyrinthLocation2" type="Sprite" parent="Phase5/LabyrinthLocation" index="0"]
-
+[node name="LabyrinthLocation2" type="Sprite" parent="Phase5/LabyrinthLocation"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 24 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="LabyrinthLocation3" type="Sprite" parent="Phase5/LabyrinthLocation/LabyrinthLocation2" index="0"]
-
+[node name="LabyrinthLocation3" type="Sprite" parent="Phase5/LabyrinthLocation/LabyrinthLocation2"]
 modulate = Color( 1, 1, 1, 0 )
 z_index = 1
 texture = ExtResource( 25 )
-_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="LabyrinthLocation4" type="Sprite" parent="Phase5/LabyrinthLocation/LabyrinthLocation2/LabyrinthLocation3" index="0"]
-
+[node name="LabyrinthLocation4" type="Sprite" parent="Phase5/LabyrinthLocation/LabyrinthLocation2/LabyrinthLocation3"]
 modulate = Color( 1, 1, 1, 0 )
 z_index = 1
 texture = ExtResource( 26 )
-_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="ColorRect" type="ColorRect" parent="Phase5" index="1"]
-
+[node name="ColorRect" type="ColorRect" parent="Phase5"]
 modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 1366.0
 margin_bottom = 768.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 color = Color( 0, 0, 0, 1 )
-_sections_unfolded = [ "Rect", "Visibility" ]
 
-[node name="Labyrinth" type="Sprite" parent="Phase5" index="2"]
-
+[node name="Labyrinth" type="Sprite" parent="Phase5"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 683.5, 284.5 )
 texture = ExtResource( 27 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Phase6" type="Node2D" parent="." index="9"]
-
+[node name="Phase6" type="Node2D" parent="."]
 editor/display_folded = true
 z_index = 1
-_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Adventurer" type="Sprite" parent="Phase6" index="0"]
-
+[node name="Adventurer" type="Sprite" parent="Phase6"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 678, 593 )
 texture = ExtResource( 28 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="Spooky" type="Sprite" parent="Phase6" index="1"]
-
+[node name="Spooky" type="Sprite" parent="Phase6"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 689, 569 )
 texture = ExtResource( 29 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="World" type="Sprite" parent="Phase6" index="2"]
-
+[node name="World" type="Sprite" parent="Phase6"]
 position = Vector2( 683, 384 )
 z_index = -2
 texture = ExtResource( 30 )
-_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Dungeons" type="Node2D" parent="Phase6" index="3"]
-
+[node name="Dungeons" type="Node2D" parent="Phase6"]
 editor/display_folded = true
 
-[node name="Dungeon1" type="Sprite" parent="Phase6/Dungeons" index="0"]
-
+[node name="Dungeon1" type="Sprite" parent="Phase6/Dungeons"]
 position = Vector2( 1942, 1043 )
 texture = ExtResource( 31 )
 
-[node name="Dungeon2" type="Sprite" parent="Phase6/Dungeons" index="1"]
-
+[node name="Dungeon2" type="Sprite" parent="Phase6/Dungeons"]
 position = Vector2( 2007, -323 )
 texture = ExtResource( 32 )
 
-[node name="Dungeon3" type="Sprite" parent="Phase6/Dungeons" index="2"]
-
+[node name="Dungeon3" type="Sprite" parent="Phase6/Dungeons"]
 position = Vector2( -810, -335 )
 texture = ExtResource( 33 )
 
-[node name="Dungeon4" type="Sprite" parent="Phase6/Dungeons" index="3"]
-
+[node name="Dungeon4" type="Sprite" parent="Phase6/Dungeons"]
 position = Vector2( -1088, 1183 )
 texture = ExtResource( 34 )
 
-[node name="Dungeon5" type="Sprite" parent="Phase6/Dungeons" index="4"]
-
+[node name="Dungeon5" type="Sprite" parent="Phase6/Dungeons"]
 position = Vector2( -32, 330 )
 texture = ExtResource( 35 )
 
-[node name="Phase7" type="Node2D" parent="." index="10"]
-
+[node name="Phase7" type="Node2D" parent="."]
 editor/display_folded = true
 z_index = 2
-_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="Castle" type="Sprite" parent="Phase7" index="0"]
-
+[node name="Castle" type="Sprite" parent="Phase7"]
 position = Vector2( 683, 384 )
 texture = ExtResource( 36 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Engineer" type="Sprite" parent="Phase7" index="1"]
-
+[node name="Engineer" type="Sprite" parent="Phase7"]
 position = Vector2( 653, 407 )
 texture = ExtResource( 4 )
 
-[node name="Panic" type="Sprite" parent="Phase7" index="2"]
-
+[node name="Panic" type="Sprite" parent="Phase7"]
 position = Vector2( 879, 512 )
 texture = ExtResource( 2 )
 
-[node name="Lifeforce" type="Particles2D" parent="Phase7" index="3"]
-
+[node name="Lifeforce" type="Particles2D" parent="Phase7"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 859, 452 )
-emitting = true
 amount = 50
 lifetime = 2.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 1.0
 explosiveness = 0.2
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
 process_material = SubResource( 25 )
 texture = ExtResource( 37 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Visibility" ]
 
-[node name="Phase8" type="Node2D" parent="." index="11"]
-
+[node name="Phase8" type="Node2D" parent="."]
+editor/display_folded = true
 z_index = 2
-_sections_unfolded = [ "Visibility" ]
 
-[node name="City" type="Sprite" parent="Phase8" index="0"]
-
+[node name="City" type="Sprite" parent="Phase8"]
 visible = false
 position = Vector2( 341, 384 )
 texture = ExtResource( 38 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="People" type="YSort" parent="Phase8/City" index="0"]
-
+[node name="People" type="YSort" parent="Phase8/City"]
 editor/display_folded = true
 position = Vector2( -341, -384 )
-sort_enabled = true
 
-[node name="Smuteczek" type="Sprite" parent="Phase8/City/People" index="0"]
-
+[node name="Smuteczek" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 521, 500 )
 texture = ExtResource( 39 )
 
-[node name="Smuteczek5" type="Sprite" parent="Phase8/City/People" index="1"]
-
+[node name="Smuteczek5" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 825, 462 )
 texture = ExtResource( 39 )
 
-[node name="Smuteczek6" type="Sprite" parent="Phase8/City/People" index="2"]
-
+[node name="Smuteczek6" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 197, 347 )
 texture = ExtResource( 39 )
 
-[node name="Smuteczek7" type="Sprite" parent="Phase8/City/People" index="3"]
-
+[node name="Smuteczek7" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 239, 103 )
 texture = ExtResource( 39 )
 
-[node name="Smuteczek8" type="Sprite" parent="Phase8/City/People" index="4"]
-
+[node name="Smuteczek8" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 883, 342 )
 texture = ExtResource( 39 )
 
-[node name="Smuteczek2" type="Sprite" parent="Phase8/City/People" index="5"]
-
+[node name="Smuteczek2" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 796, 272 )
 texture = ExtResource( 39 )
 
-[node name="Smuteczek3" type="Sprite" parent="Phase8/City/People" index="6"]
-
+[node name="Smuteczek3" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 1014, 310 )
 texture = ExtResource( 39 )
 
-[node name="Smuteczek4" type="Sprite" parent="Phase8/City/People" index="7"]
-
+[node name="Smuteczek4" type="Sprite" parent="Phase8/City/People"]
 position = Vector2( 1099, 478 )
 texture = ExtResource( 39 )
 
-[node name="Warrior" type="Sprite" parent="Phase8/City" index="1"]
-
+[node name="Warrior" type="Sprite" parent="Phase8/City"]
 editor/display_folded = true
 visible = false
 position = Vector2( -358.433, 344 )
 texture = ExtResource( 40 )
 hframes = 3
 frame = 2
-_sections_unfolded = [ "Animation", "Transform", "Visibility" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase8/City/Warrior" index="0"]
-
-root_node = NodePath("..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Phase8/City/Warrior"]
 autoplay = "Run"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
 playback_speed = 8.0
 anims/Run = SubResource( 26 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="WariorHead" type="Sprite" parent="Phase8/City/Warrior" index="1"]
-
+[node name="WariorHead" type="Sprite" parent="Phase8/City/Warrior"]
 visible = false
 position = Vector2( 5.46985, -39.9125 )
 texture = ExtResource( 41 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Slash" type="Sprite" parent="Phase8/City" index="2"]
-
+[node name="Slash" type="Sprite" parent="Phase8/City"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -730, 337 )
 texture = ExtResource( 42 )
 vframes = 7
 frame = 6
-_sections_unfolded = [ "Animation", "Visibility" ]
 
-[node name="Slasher" type="Sprite" parent="Phase8/City" index="3"]
-
+[node name="Slasher" type="Sprite" parent="Phase8/City"]
 visible = false
 position = Vector2( -654, 332 )
 texture = ExtResource( 43 )
 hframes = 2
 frame = 1
-_sections_unfolded = [ "Animation", "Transform", "Visibility" ]
 
-[node name="ColorRect" type="ColorRect" parent="Phase8" index="1"]
-
+[node name="ColorRect" type="ColorRect" parent="Phase8"]
 modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 1.0
 margin_top = 3.0
 margin_right = 1367.0
 margin_bottom = 771.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 color = Color( 0, 0, 0, 1 )
-_sections_unfolded = [ "Visibility" ]
 
 [connection signal="animation_finished" from="Animator" to="." method="_on_phase_finished"]
-
-

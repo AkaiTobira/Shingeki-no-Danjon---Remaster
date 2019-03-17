@@ -47,6 +47,7 @@ script/source = "extends Control
 
 const MAX_STATS = 10
 const INVENTORY_SLOTS = 8
+const LOCATIONS_SLOTS = 4
 const CRAFTING_SIZE = 10
 const MAX_INGREDIENTS = 5
 const STAT_LIST   = [\"attack\", \"p.resist\", \"c.resist\", \"s.resist\", \"e.resist\" , \"block\", \"move speed\"]
@@ -77,9 +78,13 @@ var crafting_scroll = 0
 
 var location_category = 0
 var location_select   = 0
+var location_scroll   = 0
 var location_list     = []
 
 var auto_move
+
+var can_change_location = true
+var new_location = { \"id\" : -1 }
 
 func _ready():
 	PlayerStats.connect(\"got_item\", self, \"update_category\")
@@ -122,6 +127,12 @@ func _ready():
 		var clone = sheep.duplicate(DUPLICATE_USE_INSTANCING)
 		clone.rect_position = sheep.rect_position + Vector2((i+1)%2 * 404, (i+1)/2 * 99)
 		$Tabs/Equipment/Inventory/Slots.add_child(clone)
+		
+	sheep = $Tabs/Map/LeftHeader/Slots/Slot1
+	for i in range(LOCATIONS_SLOTS-1):
+		var clone = sheep.duplicate(DUPLICATE_USE_INSTANCING)
+		clone.rect_position = sheep.rect_position + Vector2(0, (i+1) * 85)
+		$Tabs/Map/LeftHeader/Slots.add_child(clone)
 		
 	sheep = $Tabs/Equipment/Categories/Category1
 	for i in range(CATEGORIES.size()-1):
@@ -172,14 +183,16 @@ func _ready():
 	
 	if inventory_list.empty(): inventory_select = -1
 	
-	set_maps_with_locations([ [4,2,1,5],[2,5,1,1] ] )
+
 	
 	update_crafting()
 	update_category()
 	update_skill_category()
 	update_equipment()
 	update_skills()
-	update_location_category()
+
+	#location_category = 0
+	
 	
 	update_tabs()
 	PlayerStats.recalc_stats()
@@ -429,7 +442,7 @@ func _process(delta):
 						PlayerStats.subtract_items(int(materials.keys()[i]), materials.values()[i])
 					select_crafting()
 		4:
-			if Input.is_action_just_pressed(\"ui_cancel\") or Input.is_action_just_pressed(\"ui_up\"):
+			if Input.is_action_just_pressed(\"ui_cancel\") or ( Input.is_action_just_pressed(\"ui_up\") and location_select == 0 ):
 				Res.ui_sample(\"MenuCancel\")
 				self.in_tab = false
 		
@@ -438,37 +451,34 @@ func _process(delta):
 				location_category += 1
 				self.location_select = 0
 				if location_category == LOCATION_CATEGORIES.size(): location_category = 0
-				#$Tabs/Skills/ActivePanel/Skills.get_child(self.skill_select).modulate = Color(1, 1, 1)
 				update_location_category()
 				select_location()
 
-
-			if Input.is_action_just_pressed(\"ui_right\"):
+			var prev_select = location_select
+			if Input.is_action_just_pressed(\"ui_up\"):
 				location_select = max(location_select-1, 0)
+				if location_select != prev_select:
+					if location_select < location_list[location_category].size()- 4 and location_select - location_scroll < 0 : location_scroll = max( location_scroll - 1, 0 )
+					prev_select = location_select 
 				select_location()
-			elif Input.is_action_just_pressed(\"ui_left\"):
-				location_select = min(location_select+1, location_list[location_category].size())
+				update_location()
+			elif Input.is_action_just_pressed(\"ui_down\"):
+				location_select = min(location_select+1, location_list[location_category].size()-1)
+				if location_select != prev_select:
+					if location_select > 3 and location_select - location_scroll > 3: location_scroll += 1
+					prev_select = location_select 
 				select_location()
+				update_location()
+				
+			if can_change_location: 
+				if Input.is_action_just_pressed(\"Interact\"):
+					new_location = { \"id\" : location_select }
+					can_change_location = false
+					self.in_tab = false
+			else:
+				new_location = { \"id\" : -1 }
+				
 
-		#	var prev_sel = skill_select
-			
-		#	if Input.is_action_just_pressed(\"ui_left\"):
-		#		if skill_select % 12 > 0:
-		#			skill_select = max(skill_select-1, 0)
-		#		select_skill()
-		#	elif Input.is_action_just_pressed(\"ui_right\"):
-		#		if skill_select % 12 < 12 and skill_select < get_active_skills_size()-1:
-		#			skill_select = min(skill_select+1, get_active_skills_size()-1)
-		#		select_skill()
-		#	elif Input.is_action_just_pressed(\"ui_up\"):
-		#		skill_select = max(skill_select-12, 0)
-		#		select_skill()
-		#	elif Input.is_action_just_pressed(\"ui_down\"):
-		#		if skill_select < get_active_skills_size()-1:
-		#			skill_select = min(skill_select+12, get_active_skills_size()-1)
-		#		select_skill()
-
-		#	if prev_sel != skill_select: Res.ui_sample(\"MenuMove\")
 		_:
 			if Input.is_action_just_pressed(\"ui_cancel\") or Input.is_action_just_pressed(\"ui_up\"):
 				Res.ui_sample(\"MenuCancel\")
@@ -494,7 +504,6 @@ func update_skills(optional = null):
 		if i < skills.size():
 			$Tabs/Skills/ActivePanel/Skills.get_child(i).get_node(\"Icon\").texture = Res.get_skill_texture(skills[i])
 		else: $Tabs/Skills/ActivePanel/Skills.get_child(i).get_node(\"Icon\").texture = null
-	
 
 func get_material_type_texture(id):
 	#if id == 0: return
@@ -509,7 +518,11 @@ func generate_random_numbers(maximum, size):
 		numb.append(t+1)
 	return numb
 
-func set_maps_with_locations(numbers):
+
+func random_from(array):
+	return array[randi()%array.size()]
+
+func set_maps_with_locations(numbers, types, names, descriptions):
 	var map_index = 0
 	for dung_name in Res.location:
 		location_list.append([])
@@ -527,11 +540,19 @@ func set_maps_with_locations(numbers):
 			if i >= sum_of_locations : 
 				location_type += 1
 				sum_of_locations     += numbers[map_index][location_type]
-			location_list[map_index].append( { \"id\" : i, \"type\" : location_type , \"place_id\" :random_indexes[i] })
+			var location_name  = random_from(names[location_category][location_type])
+			location_list[map_index].append( {  \"id\" : i, 
+												\"type\" : location_type , 
+												\"place_id\" :random_indexes[i], 
+												\"type_name\" : types[location_category][location_type], 
+												\"location_name\": location_name,
+												\"description\"  : random_from(descriptions[location_category][location_type]) + \" \" + location_name
+												 })
 		map_index += 1
 		
 	_fill_places_in_maps()
-
+	update_location_category()
+	update_location()
 
 func _fill_places_in_maps():
 	for map in range(LOCATION_CATEGORIES.size()):
@@ -553,7 +574,6 @@ func _fill_places_in_maps():
 							place.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/Town.png\")
 					#setDecription
 	select_location()
-
 
 func get_material_name(id):
 	match(id):
@@ -693,16 +713,42 @@ func select_inventory():
 		$Tabs/Equipment/Description/Icon.texture = load(\"res://Sprites/UI/Menu/Equipment/Generic\" + PlayerStats.EQUIPMENT_SLOTS[-inventory_select - 1] + \".png\")
 
 func select_location():
-	
-#	printt(location_list)
-	
+
+	for id in get_node(\"Tabs/Map/LeftHeader/Slots/\").get_child_count():
+		get_node(\"Tabs/Map/LeftHeader/Slots/\").get_child(id).texture = load(\"res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png\" )
+
 	for location in location_list[location_category]:
 		if location_select == location[\"id\"]:
 			var place  = get_node(\"Tabs/Map/Map_graphics/Map\" + str(location_category+1) + \"/Place\" + str(location[\"place_id\"]))
 			var active = get_node(\"Tabs/Map/Map_graphics/Map\" + str(location_category+1) + \"/Active\")
 			active.rect_position = place.rect_position - Vector2(12, 10)
+
+			var slot = get_node(\"Tabs/Map/LeftHeader/Slots/\").get_child(location[\"id\"] - location_scroll)		
+			slot.texture = load(\"res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotActive.png\" )
+			$Tabs/Map/Description/Info.text = location[\"description\"]
 			
 
+func update_location():
+	var start_index = location_select - ( location_select - location_scroll )
+	
+	for i in range( LOCATIONS_SLOTS ):
+		var slot = get_node(\"Tabs/Map/LeftHeader/Slots\").get_child( i )
+		match(location_list[location_category][start_index + i][\"type\"]):
+			2:
+				slot.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/SmallTower.png\")
+			1:
+				slot.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/BossTower.png\")
+			0:
+				slot.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/Start.png\")
+			3:
+				slot.get_child(0).texture = load(\"res://Sprites/UI/Menu/Map/Town.png\")
+		
+		slot.get_child(1).text = str(location_list[location_category][start_index + i][\"location_name\"])
+		slot.get_child(2).text = str(location_list[location_category][start_index + i][\"type_name\"])
+		
+	
+	scroll_location()
+	
 
 func select_skill():
 	var skill
@@ -803,6 +849,7 @@ func exit_tab():
 			
 			for i in $Tabs/Crafting/Items.get_child_count():
 				$Tabs/Crafting/Items.get_child(i).texture = load(\"res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png\")
+	can_change_location = false
 
 func get_eq_slot(item):
 	return PlayerStats.EQUIPMENT_SLOTS.find(item.type)
@@ -1050,9 +1097,13 @@ func update_category(whatever = null):
 	select_inventory()
 
 func update_location_category(nothing = null):
+	location_select = 0
+	location_scroll = 0
 	for i in range(LOCATION_CATEGORIES.size()):
 		$Tabs/Map/Categories.get_child(i).texture   = load(\"res://Sprites/UI/Menu/Equipment/EquipmentCategory\" + (\"Active\" if location_category == i else \"\") + \".png\")
 		$Tabs/Map/Map_graphics.get_child(i).visible = true if location_category == i else false
+		
+	update_location()
 
 func update_skill_category(nothing = null):
 	
@@ -1078,6 +1129,12 @@ func refresh():
 	$Tabs/Equipment/Inventory/Scrollbar/ActualScrollbar.rect_position.y = 0
 	$Tabs/Equipment/Inventory/Scrollbar.visible = (inventory_list.size() > 8)
 
+func scroll_location():
+	#scroll = location_scroll
+	var max_scroll = location_list[location_category].size()-4
+	$Tabs/Map/LeftHeader/Scrollbar/ActualScrollbar.rect_position.y = location_scroll / max(float(max_scroll), 1) * 283
+	if $Tabs/Map/LeftHeader/Scrollbar/ActualScrollbar.rect_position.y > 283: $Tabs/Map/LeftHeader/Scrollbar/ActualScrollbar.rect_position.y = 283
+
 func scroll_inventory(scroll):
 	inventory_scroll = scroll
 	var max_scroll = inventory_list.size()-7
@@ -1096,7 +1153,7 @@ func auto_move(delta):
 	return 0"
 _sections_unfolded = [ "Resource" ]
 
-[node name="PlayerMenu" type="TextureRect" index="0"]
+[node name="PlayerMenu" type="TextureRect"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1175,6 +1232,7 @@ stretch_mode = 4
 
 [node name="Tabs" type="Control" parent="." index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -5067,7 +5125,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="Slots" type="Control" parent="Tabs/Map/LeftHeader" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -5085,7 +5142,6 @@ size_flags_vertical = 1
 
 [node name="Slot1" type="TextureRect" parent="Tabs/Map/LeftHeader/Slots" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -5211,6 +5267,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 25 )
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="Label" type="Label" parent="Tabs/Map/LeftHeader" index="2"]
 
@@ -5244,9 +5301,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 24.0
-margin_top = 556.0
+margin_top = 544.0
 margin_right = 409.0
-margin_bottom = 596.0
+margin_bottom = 584.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -5307,6 +5364,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Map_graphics" type="Control" parent="Tabs/Map" index="3"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0

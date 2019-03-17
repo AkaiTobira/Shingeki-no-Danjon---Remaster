@@ -6,8 +6,8 @@ var NewToTest = "Uganda"#"Enemies/Puncher"#"Enemies/Mechanic" #jak zrobisz tak t
 const SEG_W = 800
 const SEG_H = 800
 const DIRECTIONS = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
-const DOFFSET = [Vector2(1, 0), Vector2(0, 1)]
-const OPPOSITE = [2, 3, 0, 1]
+const DOFFSET    = [Vector2(1, 0), Vector2(0, 1)]
+const OPPOSITE   = [2, 3, 0, 1]
 
 const MIN_MAP_SIZE = 25
 
@@ -17,11 +17,13 @@ var width = 100
 var height = 100
 var dungeon_name 
 
-var empty_spots = []
-var segments = []
-var map = []
-var floor_space = {}
-var wall_space = []
+var empty_spots   = []
+
+var segments      = []
+var map           = []
+var floor_space   = {}
+var wall_space    = []
+var current_floor = -1
 
 var navigation = AStar.new()
 
@@ -33,19 +35,18 @@ var splitted_obj
 
 var size_of_segments = [Vector2(999999999,999999999), Vector2(0,0)]
 
-func generate(level_name,w, h, aStar):
+func generate(level_name,w, h, aStar, current_floor1):
 	width = w
 	height = h
 	map.resize(width * height)
 	dungeon_name = level_name
 	var end = false
-	
-	#print(DungeonState.current_floor)
-	
+
+	current_floor = current_floor1
+
 	var start = Vector2(randi() % width, randi() % height)
 	empty_spots.append({"pos": start})
 
-	
 	while !end:
 		while !empty_spots.empty():
 			var spot = empty_spots[randi() % empty_spots.size()]
@@ -77,13 +78,11 @@ func generate(level_name,w, h, aStar):
 			start = Vector2(randi() % width, randi() % height)
 			empty_spots = [{"pos": start}]
 
-	
 	for x in range(width):
 		for y in range(height):
 			var segment = map[x + y * width]
 			if segment and segment.piece_x + segment.piece_y == 0:
 				create_segment(segment.segment.name, Vector2(x, y))
-
 
 	for i in range(len(aStar_points)):
 		aStar.add_point(i,Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
@@ -99,22 +98,6 @@ func generate(level_name,w, h, aStar):
 			if aStar_points[i] + Vector2(-80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
 			if aStar_points[i] + Vector2( 80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
 
-#	var resss = []
-#
-#	for i in range(100):
-#		resss.append([])
-#		for j in range(100):
-#			resss[i].append("-")
-#
-#	for p in aStar_points:
-#		var c = p - Vector2(40,40)
-#		resss[int(c.x/80)][int(c.y/80)] = "X"
-#
-#	for u in resss:
-#		print(u)
-	
-
-
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
 
 	create_stairs()
@@ -126,7 +109,7 @@ func generate(level_name,w, h, aStar):
 	for i in ts.get_tiles_ids():
 		tileset_dict[ts.tile_get_name(i)] = i
 
-	for segment in dungeon.get_children():
+	for segment in get_parent().segments_holder:
 		var bottom = segment.find_node("BottomTiles", true, false)
 		
 		if bottom != null :
@@ -172,22 +155,21 @@ func generate(level_name,w, h, aStar):
 						bottom.set_cellv(cell + Vector2(t, 0 ), tileset_dict["Wall" + str(new_tile+t) + "Up"  ])
 						bottom.set_cellv(cell + Vector2(t, 1 ), tileset_dict["Wall" + str(new_tile+t) + "Down"])
 
-
 	queue_free()
 
 func create_stairs():
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
-	var segments = dungeon.get_children()
+	#var segments = se#dungeon.get_children()
 	
-	var segment_enter  = segments[randi()%len(segments)]	
-	var stairs_pos = segment_enter.get_stairs_position() 
+	var segment_enter  = get_parent().segments_holder[randi()%len(segments)]	
+	var stairs_pos     = segment_enter.get_stairs_position() 
 	while(!segment_enter.can_have_stairs or !len(stairs_pos) ):
-		segment_enter  = segments[randi()%len(segments)]	
+		segment_enter  = get_parent().segments_holder[randi()%len(segments)]	
 		stairs_pos = segment_enter.get_stairs_position() 
 
 
 	var stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
-	Res.game.player.position = stairs_position  + segment_enter.position + Vector2(80, 160)
+	get_parent().player_enter_position = stairs_position  + segment_enter.position + Vector2(80, 160)
 
 	var sprite = load("res://Sprites/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".png")
 
@@ -195,13 +177,14 @@ func create_stairs():
 	stairs.texture = sprite
 	stairs.position = stairs_position + Vector2(80, 80) + segment_enter.position
 	stairs.set_stairs("up" if Res.dungeons[dungeon_name]["progress"] != get_parent().from else "down", tileset)
-	dungeon.add_child(stairs)
+	
+	get_parent().stairs_holder.append(stairs)
 
-	var segment_exit  = segments[randi()%len(segments)]	
+	var segment_exit  = get_parent().segments_holder[randi()%len(segments)]	
 	stairs_pos = segment_exit.get_stairs_position() 
 	while(!segment_exit.can_have_stairs or !len(stairs_pos) or segment_exit == segment_enter ):
-		segment_exit  = segments[randi()%len(segments)]	
-		stairs_pos = segment_exit.get_stairs_position() 
+		segment_exit  = get_parent().segments_holder[randi()%len(segments)]	
+		stairs_pos    = segment_exit.get_stairs_position() 
 
 	stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
 
@@ -209,8 +192,7 @@ func create_stairs():
 	stairs.texture = sprite
 	stairs.position = stairs_position + Vector2(80, 80) + segment_exit.position
 	stairs.set_stairs("up" if Res.dungeons[dungeon_name]["progress"] == get_parent().from else "down", tileset)
-	dungeon.add_child(stairs)
-
+	get_parent().stairs_holder.append(stairs)
 
 func place_for_test(what):
 	if NewToTest == "": return
@@ -218,7 +200,6 @@ func place_for_test(what):
 	var ug_inst = what.instance()
 	ug_inst.position = Res.game.player.position + Vector2(200,200)
 	dungeon.get_parent().add_child(ug_inst)
-
 
 func get_possible_segments(spot):
 	var pos = spot.pos
@@ -303,67 +284,41 @@ func remove_segment(segment):
 	segments.erase(segment)
 
 func create_segment(segment, pos):
-	var seg = Res.segment_nodes[segment].instance()
+	var seg    = Res.segment_nodes[segment].instance()
 	var bottom = seg.get_node("BottomTiles")
-	var top = seg.get_node("TopTiles")
+	var top    = seg.get_node("TopTiles")
 	
 	bottom.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
-	top.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
+	top.tile_set    = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.set_collision_layer_bit(3, true)
 
-	
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
 	
 	var no_objects = get_segment_data(pos).segment.has("no_objects")
 	
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
 	var floorTileID = bottom.tile_set.find_tile_by_name("FloorMarker")
-#
-#	for cell in bottom.get_used_cells():
-#		var poss = Vector2(pos.x*SEG_W, pos.y*SEG_H) + cell * 80
-#		var celll = {"no_walls": true}
-#
-#		match bottom.get_cellv(cell):
-#			floorTileID:
-#				for i in range(4):
-#					var dcell = cell + DIRECTIONS[i]
-#					if bottom.get_cellv(dcell) != 19:
-#						celll.no_walls = false
-#						if i == 0 and cell.y > 0: celll.top_wall = true
-#						elif i == 1 and cell.x < 9: celll.right_wall = true
-#						elif i == 2 and cell.y < 9: celll.bottom_wall = true
-#						elif i == 3 and cell.x > 0: celll.left_wall = true
-#
-#				if !no_objects: floor_space[poss] = celll
-#				pass
-#			wallTileId : if !no_objects: wall_space.append(Vector2(pos.x*SEG_W, pos.y*SEG_H) + cell * 80)
-#
-	dungeon.add_child(seg)
+
+	get_parent().segments_holder.append(seg)
+#	dungeon.add_child(seg)
 	
 	if splitted_obj == null:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, current_floor, Res.enemies)
 		splitted_obj = seg.get_splitted_elements()
-
-		
 	else:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, str(DungeonState.current_floor-1), Res.enemies)
-
-
+		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, current_floor, Res.enemies)
 
 	var segment_astar_points = seg.get_Astar_positions()
-	
+
 	for point in segment_astar_points:
 		aStar_points.append(point+seg.position)
-	
-	
+
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):
 			var node = seg.get_node("Objects").get_child(0)
-			var npos = node.global_position
 			seg.get_node("Objects").remove_child(node) ##może nie działać dla kilku
-			dungeon.get_parent().add_child(node)
-			node.global_position = npos
-	
+			get_parent().objects_holder.append([ node , node.position + seg.position ])
+			
 	return seg
 
 func reset():

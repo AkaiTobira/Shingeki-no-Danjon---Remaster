@@ -31,7 +31,7 @@ func _process(delta):
 		if magic_active:
 			timeout_magic += delta
 			if timeout_magic > 15:
-				turn_off_magic_state()
+				.turn_off_magic_state()
 
 		if current_atack == "Wait":
 			if is_close_enought():
@@ -52,7 +52,7 @@ func _process(delta):
 func process_atacks():
 	match(current_atack):
 		"Magic":
-			turn_on_magic_state()
+			.turn_on_magic_state()
 			return
 		"Skill":
 			play_animation_if_not_playing("Special"+ direction)

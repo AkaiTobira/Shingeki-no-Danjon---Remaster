@@ -3,6 +3,6 @@ Thumbs.db
 *.xcf
 
 .~lock.TODO.odt#
-*.import
-*.import
-*.import
+*.ogg.import
+*.png.import
+*.png.import

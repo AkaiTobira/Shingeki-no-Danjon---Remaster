@@ -36,6 +36,7 @@ var dead = false
 
 const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
 
+
 func _ready():
 	change_animation("Body", "Idle")
 	$BodyAnimator.play("Idle")
@@ -110,8 +111,8 @@ func _physics_process(delta):
 		change_animation("LeftArm", "ShieldOff")
 		shielding = false
 	
-	if Input.is_action_just_pressed("Spell1") and PlayerStats.get_skill(0) and PlayerStats.mana > PlayerStats.get_skill(0).cost:
-		cast_spell(0)
+#	if Input.is_action_just_pressed("Spell1") and PlayerStats.get_skill(0) and PlayerStats.mana > PlayerStats.get_skill(0).cost:
+#		cast_spell(0)
 	
 	if PlayerStats.mana < PlayerStats.statistic["mx_man"][0] and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mn_reg"][0], PlayerStats.statistic["mx_man"][0])
 #	if PlayerStats.hp   < PlayerStats.max_hp   and frame_counter % 20 == 0: PlayerStats.hp   = min(PlayerStats.hp + 1, PlayerStats.max_hp)
@@ -218,7 +219,6 @@ func _physics_process(delta):
 	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(10000) ##debug
 #	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
 
-const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
 
 func damage(attacker, amount, _knockback, type = "NoDamage"):
 	if dead: return

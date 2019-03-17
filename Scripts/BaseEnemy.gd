@@ -66,6 +66,9 @@ const TIME_TO_DISAPEARD = 4.5
 
 func prepeare_ability():
 	for abillity in ABILITY_TYPE.keys():
+		
+		print( str(abillity)," ", str( ABILITY_TYPE[str(abillity)] )," ", ability_ready[ABILITY_TYPE[str(abillity)] ], " ", can_use_ability[ABILITY_TYPE[str(abillity)]] )
+		
 		if !ability_ready[ABILITY_TYPE[str(abillity)] ] and can_use_ability[ABILITY_TYPE[str(abillity)]]:  
 			ability_ready[ABILITY_TYPE[str(abillity)] ]  = (
 				randi()%(
@@ -131,6 +134,9 @@ func ameansure_preparation_timeout(delta ):
 		timeout_flash = 0
 		return true
 	return false
+	
+func turn_off_magic_state():
+	pass
 	
 func is_close_enought():
 #	print((player.position - position).length())
@@ -271,6 +277,7 @@ onready var sprites = $Sprites.get_children()
 var MAT = load("res://Resources/Materials/ColorShader.tres")
 
 func _ready():
+	Map    = get_parent()
 	health = max_health
 	health_bar.max_value = max_health
 	health_bar.value = health

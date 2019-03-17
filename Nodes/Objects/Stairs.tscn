@@ -8,6 +8,7 @@ resource_name = "Stairs"
 script/source = "extends Sprite
 
 export var change = 1
+export var location_change = false
 var player_in
 var released
 
@@ -19,7 +20,7 @@ func set_stairs(updown, tileset):
 func _process(delta):
 	if player_in and Input.is_action_pressed(\"Up\") and released:
 		Res.ui_sample(\"Stairs\")
-		get_tree().current_scene.change_floor(change)
+		get_tree().current_scene.change_floor(change,location_change)
 	
 	if !Input.is_action_pressed(\"Up\"): released = true
 
@@ -40,6 +41,7 @@ region_rect = Rect2( 0, 480, 160, 160 )
 script = SubResource( 1 )
 _sections_unfolded = [ "Region" ]
 change = 1
+location_change = false
 
 [node name="Enter" type="Area2D" parent="." index="0"]
 

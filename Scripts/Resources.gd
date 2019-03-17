@@ -92,6 +92,7 @@ func _ready():
 #	SkillBase.acquired_skills.append("Tornado")
 
 func _process(delta):
+	delta += 1
 	##wszystko to debug D:
 	if Input.is_key_pressed(KEY_F2) and Input.is_action_just_pressed("Interact"):
 		save_setting("no_music", !File.new().file_exists("user://no_music"))

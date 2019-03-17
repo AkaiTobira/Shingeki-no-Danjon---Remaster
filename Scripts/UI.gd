@@ -14,7 +14,7 @@ func _physics_process(delta):
 	if !get_tree().paused: return
 	
 	if !$DialogueBox.process():
-		if Input.is_action_just_pressed("Menu") and ($PlayerMenu.visible or $Shop.visible) and !just_opened:
+		if Input.is_action_just_pressed("Menu") and ($PlayerMenu.visible or $Shop.visible) and !just_opened or $PlayerMenu.new_location["id"] != -1:
 			Res.ui_sample("MenuCancel")
 			$"FloorLabel".visible = true
 			Res.game.leave_menu = true
@@ -25,6 +25,13 @@ func _physics_process(delta):
 			get_tree().paused = false
 	
 	just_opened = false
+
+func init_map_menu(values, types, names, descriptions):
+	$PlayerMenu.set_maps_with_locations( values, types, names, descriptions )
+
+func set_location_change_screen(): #TOFINISH
+	$PlayerMenu.current_tab         = 4
+	$PlayerMenu.can_change_location = true
 
 func enable():
 	$PlayerMenu.visible = true
@@ -49,6 +56,16 @@ func on_add_stat(stat):
 	
 	PlayerStats.recalc_stats()
 	refresh()
+
+func disable_map_change():
+	$PlayerMenu.can_change_location = false
+	$PlayerMenu.new_location["id"]  = -1
+
+func need_map_change():
+	return  $PlayerMenu.new_location["id"] != -1
+	
+func get_new_map_id():
+	return  $PlayerMenu.new_location["id"]
 
 func on_inventory_click(i):
 	var item = Res.items[PlayerStats.inventory[i].id]
