@@ -58,14 +58,8 @@ func disable():
 #	call_deferred(\"set_monitoring\", false)
 	Res.play_sample(self, \"WoodBreak\")
 	$Animation.play(\"Destroyed\")
-	$DamageCollider.set_collision_layer_bit(0)
-	$DamageCollider.set_collision_mask_bit(0)
-	$Shape.set_collision_layer_bit(0)
-	$Shape.set_collision_mask_bit(0)
-	
-	
-#	$DamageCollider.call_deferred(\"set_enable_monitoring\", false)
-#	$Shape.call_deferred(\"set_enable_monitoring\", false)
+	$DamageCollider.queue_free()#call_deferred(\"set_enable_monitoring\", false)
+	$Shape.queue_free()#call_deferred(\"set_enable_monitoring\", false)
 	z_index = -1
 	$\"/root/Game\".save_state(self)
 

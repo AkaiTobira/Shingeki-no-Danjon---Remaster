@@ -260,9 +260,9 @@ func _on_dead():
 	block_logic   =  true
 	
 	$"AnimationPlayer".play("Dead")
-	$"Shape".disabled = true
-	$"DamageCollider/Shape".disabled = true
-	$"AttackCollider/Shape".disabled = true
+	$"Shape".queue_free()
+	$"DamageCollider/Shape".queue_free() 
+	$"AttackCollider/Shape".queue_free() 
 	
 	for i in range(sprites.size()):
 		sprites[i].modulate = Color(1,1,1,1)

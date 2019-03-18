@@ -7,7 +7,7 @@ var current_floor    = 0
 
 #TODO change in load from json
 func get_location_numbers() :
-	return [ [1,1,5,1],[2,5,1,1] ]
+	return [ [1,1,0,0],[2,5,1,1] ]
 	
 func get_location_types() :
 	return [ { 0 : "Start Point", 1: "Main Tower", 2 : "Supply Tower", 3 : "Settlement" }, { 0 : "Start Point", 1: "Main Tower", 2 : "Supply Tower", 3 : "Settlement" }]

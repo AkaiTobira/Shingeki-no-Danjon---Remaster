@@ -731,6 +731,7 @@ func update_location():
 	var start_index = location_select - ( location_select - location_scroll )
 	
 	for i in range( LOCATIONS_SLOTS ):
+		if i >= location_list[location_category].size() : continue
 		var slot = get_node(\"Tabs/Map/LeftHeader/Slots\").get_child( i )
 		match(location_list[location_category][start_index + i][\"type\"]):
 			2:
@@ -744,8 +745,7 @@ func update_location():
 		
 		slot.get_child(1).text = str(location_list[location_category][start_index + i][\"location_name\"])
 		slot.get_child(2).text = str(location_list[location_category][start_index + i][\"type_name\"])
-		
-	
+
 	scroll_location()
 	
 
@@ -1101,7 +1101,11 @@ func update_location_category(nothing = null):
 	for i in range(LOCATION_CATEGORIES.size()):
 		$Tabs/Map/Categories.get_child(i).texture   = load(\"res://Sprites/UI/Menu/Equipment/EquipmentCategory\" + (\"Active\" if location_category == i else \"\") + \".png\")
 		$Tabs/Map/Map_graphics.get_child(i).visible = true if location_category == i else false
-		
+	
+	for i in range(LOCATIONS_SLOTS):
+		$Tabs/Map/LeftHeader/Slots.get_child(i).visible = i < location_list[location_category].size()
+
+	
 	update_location()
 
 func update_skill_category(nothing = null):
