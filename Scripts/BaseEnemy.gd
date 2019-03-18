@@ -146,7 +146,7 @@ func is_close_enought():
 	
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("players"):
-		if current_atack == "Wait": return
+		if current_atack == "Wait" or current_atack == "Dead": return
 		collider.get_parent().damage(self, 
 			damages[ABILITY_TYPE[current_atack]] + damages_modif[ABILITY_TYPE[current_atack]], 
 			knockbacks[ABILITY_TYPE[current_atack]],
