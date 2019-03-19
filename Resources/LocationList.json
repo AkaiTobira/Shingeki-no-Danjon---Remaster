@@ -5,10 +5,30 @@
         "nmbSmallTowers"  : 9,
         "nmbSmallFloors"  : 7,
         "small_tower_top" : [],
-        "nmbBossFloors"   : 4,
+        "nmbBossFloors"   : 3,
         "boss_tower_top"  : "BossRoom",
-        "town"            : ""
+        "town"            : "",
+
+        "location_names"     : { 
+            "0" : ["Jigsaw Room"], 
+            "1" : ["Mechanic Tower"], 
+            "2" : ["Test Name1","Test Name2","Test Name3"],
+            "3" : ["Forgoten Mine Town"]
+            },
+        "types_names"        : { 
+            "0" : "Start Point", 
+            "1" : "Main Tower", 
+            "2" : "Supply Tower", 
+            "3" : "Settlement" 
+        },
+        "types_descriptions" : { 
+            "0" : ["A small room occupied by mysterious masked man and his toy selling robo-friend, who knows why there is this "], 
+            "1" : ["A huge tower builded from steel and copper, on the highest floor powerfull Engineer called Mechanic is processing his awful experiments. This ancient place is called"], 
+            "2" : [ "Test:Tower"], 
+            "3" : [ "Test:Settlement" ] 
+        }
     },
+
     "Locked" : {
         "start_point"     : "",
         "asset_info"      : "",
@@ -17,6 +37,27 @@
         "small_tower_top" : [],
         "nmbBossFloors"   : 0,
         "boss_tower_top"  : "",
-        "town"            : ""
+        "town"            : "",
+
+        "location_names"     : { 
+            "0" : [], 
+            "1" : [],
+            "2" : [],
+            "3" : []
+            },
+        "types_names"        : { 
+            "0" : "", 
+            "1" : "", 
+            "2" : "", 
+            "3" : "" 
+        },
+        "types_descriptions" : { 
+            "0" : [],
+            "1" : [],
+            "2" : [],
+            "3" : [],
+        }
+
+
     }
 }

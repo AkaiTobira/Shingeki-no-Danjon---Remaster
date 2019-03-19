@@ -64,6 +64,9 @@ func disable_map_change():
 func need_map_change():
 	return  $PlayerMenu.new_location["id"] != -1
 	
+func get_new_map_world():
+	return  $PlayerMenu.new_location["world"]
+	
 func get_new_map_id():
 	return  $PlayerMenu.new_location["id"]
 

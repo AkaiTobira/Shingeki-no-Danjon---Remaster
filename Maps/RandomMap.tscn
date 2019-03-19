@@ -10,10 +10,6 @@ onready var dungeon = $\"Segments\"
 var from = \"UP\"
 var my_seed
 
-var dungeon_name = \"Mechanic\"
-
-var player_enter_position = Vector2(0,0)
-var player_exit_position   = Vector2(0,0)
 var segments_holder = []
 var objects_holder  = []
 var stairs_holder   = []
@@ -28,7 +24,6 @@ func set_player_position(change):
 
 func initialize():
 
-	
 	if initialized : return
 	Res.play_music(\"LowerWorkshop\")
 	initialized = true
@@ -50,28 +45,12 @@ func initialize():
 	for object in objects_holder:
 		var node = object[0]
 		add_child(node)
-	#	print(object.global_position)
 		node.global_position = object[1]
-	
-#	for node in get_children() :
-#		if node extends Node2D :
-#			node.disabled  = true
-	
-	print( player_enter_position, \" \", player_exit_position)
 
-
-func checker():
-	var counter = 0 
-	for node in get_children():
-		if node in objects_holder:
-			counter += 1
-	print( counter, \" \", get_child_count() )
-
-	
-func generate(current_floor):
+func generate(dungeon_name, current_floor):
 	nav = AStar.new()
 	self.current_floor = current_floor
-	$Generator.generate(dungeon_name,10, 10,nav, current_floor)
+	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)
 	"
 
 [node name="RandomMap" type="YSort"]

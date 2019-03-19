@@ -70,7 +70,7 @@ func check_probs():
 	if !FIRE_BOMB:
 		if randi()%fire_bomb_prob     == 0: FIRE_BOMB     = true
 
-func _process(delta):
+func _physics_process(delta):
 	#position += Vector2(0.0, 0.5)
 	
 	if dead:

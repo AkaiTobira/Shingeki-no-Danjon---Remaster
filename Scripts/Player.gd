@@ -48,7 +48,10 @@ func _ready():
 	PlayerStats.connect("equipment_changed", self, "update_weapon")
 	PlayerStats.connect("equipment_changed", self, "update_shield")
 
+
+
 func _physics_process(delta):
+
 	if dead: return
 	if is_ghost: ##( ･_･)
 		$Body/RightArm/Weapon.visible = false

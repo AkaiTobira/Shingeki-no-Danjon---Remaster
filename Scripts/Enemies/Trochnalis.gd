@@ -6,7 +6,7 @@ func _ready():
 	drops.append([4, 200])
 	drops.append([21,200])
 
-func _process(delta):
+func _physics_process(delta):
 	
 	if current_state == "Dead":
 		meansure_dead_timeout(delta)

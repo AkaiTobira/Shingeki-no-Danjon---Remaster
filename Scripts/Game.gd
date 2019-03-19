@@ -31,15 +31,15 @@ func _ready():
 	
 	player.UI.init_map_menu(map_manager.get_location_numbers(), map_manager.get_location_types(), map_manager.get_locations_names(), map_manager.get_loations_descriptions())
 	current_map_id = -1
-	change_map(0)
+	change_map(0, "Mechania")
 
-func acquire_new_map( change, type_of_flor ):
+func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	if map:
 		map.remove_child(player)
 		remove_child(map) #Debug : find a way to disable physical detections
 	else: remove_child(player)
 	
-	var new_map = map_manager.get_new_map(change) if type_of_flor == "Location" else map_manager.get_new_floor(change)
+	var new_map = map_manager.get_new_map(change, selected_world) if type_of_flor == "Location" else map_manager.get_new_floor(change)
 	new_map.add_child(player)
 	
 	map = new_map
@@ -47,20 +47,19 @@ func acquire_new_map( change, type_of_flor ):
 	new_map.initialize()
 	new_map.set_player_position(change)
 
-func change_map(map_id):
+func change_map(map_id, selected_world):
 	player.UI.disable_map_change()
 	if current_map_id == map_id : 
 		return
 	current_map_id = map_id
 	
-	acquire_new_map( map_id, "Location" )
+	acquire_new_map( map_id, "Location" , selected_world )
 	
 
-func _process(delta):
+func _physics_process(delta):
 	
 	if player.UI.need_map_change():
-		var new_id = player.UI.get_new_map_id()
-		change_map(new_id)
+		change_map(player.UI.get_new_map_id(), player.UI.get_new_map_world())
 	
 	if Input.is_action_just_pressed("Menu") and !leave_menu:
 		Res.ui_sample("MenuEnter")

@@ -104,7 +104,6 @@ func get_stats_from_items():
 	recalc_stats()
 	
 
-
 func get_damage():
 	return statistic["ph_dmg"][0]
 

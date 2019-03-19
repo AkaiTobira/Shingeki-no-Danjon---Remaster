@@ -197,7 +197,7 @@ func _ready():
 	PlayerStats.recalc_stats()
 	clear_statistic_incremntation_propositions()
 
-func _process(delta):
+func _physics_process(delta):
 	if !visible: return
 	
 	if current_tab == 0:
@@ -471,7 +471,7 @@ func _process(delta):
 				
 			if can_change_location: 
 				if Input.is_action_just_pressed(\"Interact\"):
-					new_location = { \"id\" : location_select }
+					new_location = { \"id\" : location_select, \"world\" : LOCATION_CATEGORIES[location_category] }
 					can_change_location = false
 					self.in_tab = false
 			else:
@@ -539,13 +539,13 @@ func set_maps_with_locations(numbers, types, names, descriptions):
 			if i >= sum_of_locations : 
 				location_type += 1
 				sum_of_locations     += numbers[map_index][location_type]
-			var location_name  = random_from(names[location_category][location_type])
+			var location_name  = random_from(names[location_category][str(location_type)])
 			location_list[map_index].append( {  \"id\" : i, 
 												\"type\" : location_type , 
 												\"place_id\" :random_indexes[i], 
-												\"type_name\" : types[location_category][location_type], 
+												\"type_name\" : types[location_category][str(location_type)], 
 												\"location_name\": location_name,
-												\"description\"  : random_from(descriptions[location_category][location_type]) + \" \" + location_name
+												\"description\"  : random_from(descriptions[location_category][str(location_type)]) + \" \" + location_name
 												 })
 		map_index += 1
 		

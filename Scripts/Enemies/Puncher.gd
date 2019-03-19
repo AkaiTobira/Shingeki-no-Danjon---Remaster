@@ -1,6 +1,6 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-func _process(delta):
+func _physics_process(delta):
 	
 	if current_state == "Dead":
 		meansure_dead_timeout(delta)
