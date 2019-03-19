@@ -23,7 +23,6 @@ func get_new_floor(change):
 	return maps[current_location][current_floor]
 
 func get_new_map(location_id):
-	if location_id > 1 : return maps[current_location][0]
 	current_location = location_id
 	current_floor    = 0
 	return maps[current_location][0]
@@ -36,15 +35,12 @@ func _init(): #TODO ... still
 	new_map1.generate(0)
 	new_map1.stairs_holder[0].location_change = true
 
-
 	var new_map2 = load("res://Maps/RandomMap.tscn").instance()
 	new_map2.generate(1)
 
-	
 	var new_map3 = load("res://Maps/RandomMap.tscn").instance()
 	new_map3.generate(2)
 	
-	var new_map4 = load("res://Maps/BossRoom.tscn").instance()
-	
+	var new_map4 = load("res://Maps/BossRoom.tscn").instance()	
 	maps.append( [ new_map1, new_map2, new_map3, new_map4 ] )
 	

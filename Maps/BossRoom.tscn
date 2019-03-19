@@ -11,6 +11,10 @@ onready var meka = $Mechanic
 
 var nav = AStar.new()
 
+func set_player_position(none):
+	Res.game.player.position = $Position2D.position
+
+
 func initialize():
 	
 	var special_points = []
@@ -34,7 +38,6 @@ func initialize():
 			if special_points[i] + Vector2(-80, 80) == special_points[j]: nav.connect_points(i,j,false)
 			if special_points[i] + Vector2( 80,-80) == special_points[j]: nav.connect_points(i,j,false)
 	
-	Res.game.player.position = $Position2D.position
 	Res.play_music(\"MechanicBattle\")
 
 func _process(delta):

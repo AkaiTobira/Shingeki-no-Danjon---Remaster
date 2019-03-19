@@ -169,7 +169,7 @@ func create_stairs():
 
 
 	var stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
-	get_parent().player_enter_position = stairs_position  + segment_enter.position + Vector2(80, 160)
+	get_parent().player_enter_position = stairs_position  + segment_enter.position + Vector2(80, 190)
 
 	var sprite = load("res://Sprites/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".png")
 
@@ -188,10 +188,12 @@ func create_stairs():
 
 	stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
 
+
 	stairs = Res.create_instance("Objects/Stairs")
 	stairs.texture = sprite
 	stairs.position = stairs_position + Vector2(80, 80) + segment_exit.position
 	stairs.set_stairs("up" if Res.dungeons[dungeon_name]["progress"] == get_parent().from else "down", tileset)
+	get_parent().player_exit_position = stairs.position  + Vector2(0, 800)
 	get_parent().stairs_holder.append(stairs)
 
 func place_for_test(what):

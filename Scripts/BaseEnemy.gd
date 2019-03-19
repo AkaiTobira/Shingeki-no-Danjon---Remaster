@@ -67,8 +67,6 @@ const TIME_TO_DISAPEARD = 4.5
 func prepeare_ability():
 	for abillity in ABILITY_TYPE.keys():
 		
-		print( str(abillity)," ", str( ABILITY_TYPE[str(abillity)] )," ", ability_ready[ABILITY_TYPE[str(abillity)] ], " ", can_use_ability[ABILITY_TYPE[str(abillity)]] )
-		
 		if !ability_ready[ABILITY_TYPE[str(abillity)] ] and can_use_ability[ABILITY_TYPE[str(abillity)]]:  
 			ability_ready[ABILITY_TYPE[str(abillity)] ]  = (
 				randi()%(

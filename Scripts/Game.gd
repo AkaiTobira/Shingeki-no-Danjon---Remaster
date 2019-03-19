@@ -33,26 +33,28 @@ func _ready():
 	current_map_id = -1
 	change_map(0)
 
-
-func change_map(map_id):
-	print( "changing map to " + str(map_id) )
-	player.UI.disable_map_change()
-	if current_map_id == map_id : 
-		return
-	current_map_id = map_id
-	
+func acquire_new_map( change, type_of_flor ):
 	if map:
 		map.remove_child(player)
 		remove_child(map) #Debug : find a way to disable physical detections
-
 	else: remove_child(player)
 	
-	var new_map = map_manager.get_new_map(map_id)
+	var new_map = map_manager.get_new_map(change) if type_of_flor == "Location" else map_manager.get_new_floor(change)
 	new_map.add_child(player)
 	
 	map = new_map
 	add_child(new_map)
 	new_map.initialize()
+	new_map.set_player_position(change)
+
+func change_map(map_id):
+	player.UI.disable_map_change()
+	if current_map_id == map_id : 
+		return
+	current_map_id = map_id
+	
+	acquire_new_map( map_id, "Location" )
+	
 
 func _process(delta):
 	
@@ -71,24 +73,14 @@ func open_menu():
 	player.UI.get_node("FloorLabel").visible = false
 	get_tree().paused = true
 
+
 func change_floor(change, location_change = false):
 	if location_change: 
 		open_menu()
 		player.UI.set_location_change_screen()
 		return
 	
-	if map:
-		map.remove_child(player)
-		remove_child(map) #Debug : find a way to disable physical detections
-	else: remove_child(player)
-	
-	var new_map = map_manager.get_new_floor(change)
-	new_map.add_child(player)
-	
-	map = new_map
-	add_child(new_map)
-	new_map.initialize()
-	
+	acquire_new_map( change, "Floor" )
 	
 	#TO BE CHECKED (_)
 	
