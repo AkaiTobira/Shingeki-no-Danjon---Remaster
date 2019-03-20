@@ -30,9 +30,20 @@ var item = -1
 var destroy_time = 0.0
 var destroyed = false
 
-func _process(delta):
+func spawn_item():
+	if item > -1:
+		var it      = Res.create_instance(\"Item\")
+		it.position = position
+		it.id       = item
+		it.z_index  = 100
+		get_parent().add_child(it)
+
+func _physics_process(delta):
 	if destroyed :
+		if destroy_time == 0:
+			spawn_item()
 		destroy_time += delta
+		z_index = 0
 		if destroy_time > 3:
 			call_deferred('free')
 
@@ -64,13 +75,6 @@ func disable():
 	$\"/root/Game\".save_state(self)
 
 func damage(amount, source = \"\", nothing = \"\"):
-	if item > -1:
-		var it = Res.create_instance(\"Item\")
-		it.position = position
-		it.id = item
-		it.z_index = 100
-		get_parent().add_child(it)
-		
 	destroyed = true
 	disable()"
 

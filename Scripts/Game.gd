@@ -36,6 +36,7 @@ func _ready():
 func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	if map:
 		map.remove_child(player)
+	#	map.call_deferred(
 		remove_child(map) #Debug : find a way to disable physical detections
 	else: remove_child(player)
 	

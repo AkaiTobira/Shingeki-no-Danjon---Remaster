@@ -74,6 +74,7 @@ func prepeare_ability():
 					ab_prob_modif[ABILITY_TYPE[str(abillity)]]) == 0)
 
 func meansure_dead_timeout(delta):
+	if timeout_dead == 0 : create_drop()
 	timeout_dead += delta
 	if timeout_dead > TIME_TO_DISAPEARD: queue_free()
 
@@ -339,17 +340,7 @@ func damage(amount, source = "", type = ""):
 
 		_on_dead()
 
-		var drop = get_drop_id()
 
-		if drop > -1:
-			var item = Res.create_instance("Item")
-			item.position = position + Vector2(randi()%60-30,randi()%60-30)
-			item.id = drop
-			get_parent().add_child(item)
-		elif randi() % 1000 < 100:
-			var item = Res.create_instance("Money")
-			item.position = position + Vector2(randi()%60-30,randi()%60-30)
-			get_parent().add_child(item)
 	else:
 		_on_damage()
 
@@ -365,3 +356,16 @@ func get_drop_id():
 	chances[-1] = nil
 	return Res.weighted_random(chances)
 
+func create_drop():
+	var drop = get_drop_id()
+
+	if drop > -1:
+		var item = Res.create_instance("Item")
+		item.position = position + Vector2(randi()%60-30,randi()%60-30)
+		item.id = drop
+		get_parent().add_child(item)
+	elif randi() % 1000 < 100:
+		var item = Res.create_instance("Money")
+		item.position = position + Vector2(randi()%60-30,randi()%60-30)
+		get_parent().add_child(item)
+		

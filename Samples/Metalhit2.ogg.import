@@ -2,12 +2,12 @@
 
 importer="ogg_vorbis"
 type="AudioStreamOGGVorbis"
-path="res://.import/Metalhit2.ogg-e78b3b3a8b896f8c5b4cb7026a9b6e7c.oggstr"
+path="res://.import/MetalHit2.ogg-5be841377b8b5c27d0209feeb000af2e.oggstr"
 
 [deps]
 
-source_file="res://Samples/Metalhit2.ogg"
-dest_files=[ "res://.import/Metalhit2.ogg-e78b3b3a8b896f8c5b4cb7026a9b6e7c.oggstr" ]
+source_file="res://Samples/MetalHit2.ogg"
+dest_files=[ "res://.import/MetalHit2.ogg-5be841377b8b5c27d0209feeb000af2e.oggstr" ]
 
 [params]
 
