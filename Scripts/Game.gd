@@ -36,8 +36,8 @@ func _ready():
 func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	if map:
 		map.remove_child(player)
-	#	map.call_deferred(
-		remove_child(map) #Debug : find a way to disable physical detections
+		call_deferred("remove_child", map )
+	#	remove_child(map) #Debug : find a way to disable physical detections
 	else: remove_child(player)
 	
 	var new_map = map_manager.get_new_map(change, selected_world) if type_of_flor == "Location" else map_manager.get_new_floor(change)
@@ -106,7 +106,7 @@ func change_floor(change, location_change = false):
 #	set_map(new_map)
 	player.change_dir(2)
 	
-#s	DungeonState.emit_signal("floor_changed", DungeonState.current_floor)
+	DungeonState.emit_signal("floor_changed", DungeonState.current_floor)
 
 func perma_state(object, method):
 	var already_saved = false

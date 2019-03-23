@@ -22,8 +22,8 @@
             "3" : "Settlement" 
         },
         "types_descriptions" : { 
-            "0" : ["A small room occupied by mysterious masked man and his toy selling robo-friend, who knows why there is this "], 
-            "1" : ["A huge tower builded from steel and copper, on the highest floor powerfull Engineer called Mechanic is processing his awful experiments. This ancient place is called"], 
+            "0" : ["A small room occupied by mysterious masked man and his toy-selling robo-friend. Who knows why there is this"], 
+            "1" : ["A huge tower built from steel and copper, on the highest floor powerful Engineer called Mechanic is processing his awful experiments. This ancient place is called"], 
             "2" : [ "Test:Tower"], 
             "3" : [ "Test:Settlement" ] 
         }

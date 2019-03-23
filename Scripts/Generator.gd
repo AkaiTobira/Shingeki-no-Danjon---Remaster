@@ -181,7 +181,6 @@ func create_stairs():
 
 	var segment_exit  = get_parent().segments_holder[randi()%len(segments)]	
 	stairs_pos = segment_exit.get_stairs_position() 
-	print( stairs_pos )
 	while(!segment_exit.can_have_stairs 
 	   or !len(stairs_pos) 
 	   or segment_exit == segment_enter 

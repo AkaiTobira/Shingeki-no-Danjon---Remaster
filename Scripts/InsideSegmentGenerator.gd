@@ -308,7 +308,7 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 
 	put_elements_on_scene( file_json["probs"] )
 	
-	var time_start = OS.get_unix_time()
+#	var time_start = OS.get_unix_time()
 	
 	while !check_correctnes():
 		reset()
@@ -319,8 +319,8 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 
 	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level), e,dungeon )
 
-	var time_now = OS.get_unix_time()
-	print( "generate_functions : ", (time_now - time_start)) 
+#	var time_now = OS.get_unix_time()
+#	print( "generate_functions : ", (time_now - time_start)) 
 	
 
 	if DEBUG :
@@ -413,7 +413,7 @@ func split_enviroments_by_wallDependency(enviroments, objType):
 func covert_tiles_to_structure():
 
 	
-	var time_start = OS.get_unix_time()
+#	var time_start = OS.get_unix_time()
 	
 	for i in range(used_rect.end.x+2):
 		var cell = []
@@ -439,8 +439,8 @@ func covert_tiles_to_structure():
 			cell.append(j)
 		structure.append(cell)	
 		
-	var time_now = OS.get_unix_time()
-	print( "mark_functions : ", (time_now - time_start)) 
+#	var time_now = OS.get_unix_time()
+#	print( "mark_functions : ", (time_now - time_start)) 
 		
 
 func mark_walls():
