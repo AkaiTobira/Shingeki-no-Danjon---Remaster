@@ -74,6 +74,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/1:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "PunchDown"
@@ -278,7 +290,7 @@ tracks/0/keys = {
 extents = Vector2( 14.008, 10 )
 
 [sub_resource type="RectangleShape2D" id=13]
-extents = Vector2( 5.28243, 2.88868 )
+extents = Vector2( 3.17211, 2.35094 )
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 39.8092, 47.0572 )
@@ -297,11 +309,9 @@ script = ExtResource( 1 )
 position = Vector2( 0, -49 )
 
 [node name="1" type="Sprite" parent="Sprites"]
-visible = false
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 8
-frame = 15
 
 [node name="2" type="Sprite" parent="Sprites"]
 visible = false
@@ -311,6 +321,7 @@ vframes = 2
 hframes = 4
 
 [node name="3" type="Sprite" parent="Sprites"]
+visible = false
 position = Vector2( 1, -34 )
 texture = ExtResource( 4 )
 vframes = 4
@@ -343,7 +354,7 @@ scale = Vector2( 23.9231, 22.5782 )
 shape = SubResource( 12 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( -0.631054, 14.0343 )
+position = Vector2( 0, -3 )
 scale = Vector2( 4.65708, 2.61691 )
 shape = SubResource( 13 )
 

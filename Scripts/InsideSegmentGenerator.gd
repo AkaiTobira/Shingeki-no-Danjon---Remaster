@@ -535,9 +535,9 @@ func get_Astar_positions():
 
 func check_fields_around(i, j):
 	if i > 0 and j > 0:
-		if tab[i][j-1] >= TileState.free or tab[i-1][j] <= TileState.containerObject:
+		if tab[i][j-1] >= TileState.free or tab[i-1][j]     <= TileState.containerObject:
 			return false
-		if tab[i-1][j] >= TileState.free or tab[i-1][j] <= TileState.containerObject:
+		if tab[i-1][j] >= TileState.free or tab[i-1][j]     <= TileState.containerObject:
 			return false
 		if tab[i-1][j-1] >= TileState.free or tab[i-1][j-1] <= TileState.containerObject:
 			return false
@@ -545,9 +545,9 @@ func check_fields_around(i, j):
 	if i < used_rect.end.x+1 and j < used_rect.end.y+1:
 		if tab[i+1][j+1] >= TileState.free or tab[i+1][j+1] <= TileState.containerObject:
 			return false
-		if tab[i+1][j] >= TileState.free or tab[i+1][j] <= TileState.containerObject:
+		if tab[i+1][j] >= TileState.free or tab[i+1][j]     <= TileState.containerObject:
 			return false
-		if tab[i][j+1] >= TileState.free or tab[i][j+1] <= TileState.containerObject:
+		if tab[i][j+1] >= TileState.free or tab[i][j+1]     <= TileState.containerObject:
 			return false
 
 	if i < used_rect.end.x+1 and j > 0:
@@ -558,7 +558,6 @@ func check_fields_around(i, j):
 			return false
 	
 	return true
-
 
 func block_unreacheable():
 	var t = 0
@@ -627,8 +626,6 @@ func switch_patern_into_normal_tile(ts, sptrite_sheet_name):
 			i.get_node("Sprite").texture =  load("res://Sprites/Tilesets/" + sptrite_sheet_name + ".png")
 			i.get_node("Sprite2").texture = load("res://Sprites/Tilesets/" + sptrite_sheet_name + ".png")
 
-
-
 func reserve_tile_under_obj( obj_size, i, j, style = Objects.CONST ):
 	for x in range(obj_size.x):
 		for y in range(obj_size.y):
@@ -641,7 +638,6 @@ func reserve_tile_under_obj( obj_size, i, j, style = Objects.CONST ):
 			elif style == Objects.TRAPS:
 				tab[i+x][j+y] = TileState.destroyableObject
 
-			
 func check_correctnes():
 	var set   = [ Enters[0] ]
 	var i = 0

@@ -174,7 +174,7 @@ func move_along_path(distance):
 var path_length = 100
 
 func  _move5(delta):
-	if path_length * 0.3 >= len(path) or len(path) == 1:
+	if path_length * 0.6 >= len(path) or len(path) == 1:
 		path_length =  len(path)
 		path = Map.nav.get_point_path(
 			Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
@@ -195,6 +195,7 @@ func  _move5(delta):
 	elif(distance.x <= distance.y ):# and axis.y):
 		if abs(move.y) != 0: 
 			direction         = "Up"    if move.y > 0 else "Down"
+	print( direction )
 	play_animation_if_not_playing(direction)
 
 

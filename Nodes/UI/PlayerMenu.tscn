@@ -1188,7 +1188,6 @@ expand = true
 stretch_mode = 4
 
 [node name="Tabs" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -1890,8 +1889,6 @@ custom_colors/font_color = Color( 0.364706, 0.717647, 0.964706, 1 )
 text = "Mana: 0 / 0"
 
 [node name="Equipment" type="Control" parent="Tabs"]
-editor/display_folded = true
-visible = false
 margin_right = 1366.0
 margin_bottom = 768.0
 mouse_filter = 1
@@ -1990,7 +1987,6 @@ margin_bottom = 446.0
 mouse_filter = 1
 
 [node name="Inventory" type="Control" parent="Tabs/Equipment"]
-editor/display_folded = true
 margin_left = 465.0
 margin_top = 119.0
 margin_right = 1325.0
@@ -2004,7 +2000,6 @@ margin_right = 60.0
 margin_bottom = 98.0
 
 [node name="Slot1" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots"]
-editor/display_folded = true
 margin_left = -46.0
 margin_top = 52.0
 margin_right = 344.0
@@ -2030,9 +2025,9 @@ expand = true
 stretch_mode = 4
 
 [node name="Icon2" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots/Slot1"]
-margin_left = 257.0
+margin_left = 249.0
 margin_top = 58.0
-margin_right = 294.0
+margin_right = 286.0
 margin_bottom = 97.0
 rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 21 )
@@ -2060,9 +2055,9 @@ text = "Normal item"
 
 [node name="Durability_word" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1"]
 margin_left = 296.0
-margin_top = 47.0
+margin_top = 51.0
 margin_right = 477.0
-margin_bottom = 75.0
+margin_bottom = 79.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -2078,9 +2073,9 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "x1"
 
 [node name="Price" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1"]
-margin_left = 204.0
+margin_left = 196.0
 margin_top = 59.0
-margin_right = 260.0
+margin_right = 252.0
 margin_bottom = 87.0
 custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -2088,9 +2083,9 @@ text = "3000"
 align = 2
 
 [node name="Price_word" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1"]
-margin_left = 143.0
+margin_left = 136.0
 margin_top = 64.0
-margin_right = 227.0
+margin_right = 220.0
 margin_bottom = 92.0
 rect_scale = Vector2( 0.7, 0.7 )
 custom_fonts/font = ExtResource( 10 )
@@ -2099,10 +2094,10 @@ text = "Price:"
 align = 2
 
 [node name="Durability" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1"]
-margin_left = 280.0
-margin_top = 60.0
-margin_right = 460.0
-margin_bottom = 88.0
+margin_left = 279.676
+margin_top = 65.0
+margin_right = 459.676
+margin_bottom = 93.0
 rect_scale = Vector2( 0.6, 0.6 )
 custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -2584,6 +2579,7 @@ margin_bottom = 100.0
 texture = ExtResource( 25 )
 
 [node name="Map" type="Control" parent="Tabs"]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
