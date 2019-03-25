@@ -20,7 +20,7 @@ func _init():
 
 func _ready():
 	VisualServer.set_default_clear_color(Color(0.05, 0.05, 0.07))
-#	ProjectSettings.set_setting("rendering/environment/default_clear_color", "1a1918") ##usunąć, gdy naprawią powyższe :/
+	ProjectSettings.set_setting("rendering/environment/default_clear_color", "1a1918") ##usunąć, gdy naprawią powyższe :/
 	player = $Player
 	
 	DungeonState.current_floor = 0

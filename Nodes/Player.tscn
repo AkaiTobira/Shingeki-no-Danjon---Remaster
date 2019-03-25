@@ -12,26 +12,17 @@
 [ext_resource path="res://Sprites/UI/HUD/ElementSelect.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
 extents = Vector2( 12.7266, 3.18475 )
 
 [sub_resource type="RectangleShape2D" id=2]
-
-custom_solver_bias = 0.0
 extents = Vector2( 30.7129, 58.1424 )
 
 [sub_resource type="RectangleShape2D" id=3]
-
-custom_solver_bias = 0.0
 extents = Vector2( 30.7129, 50.1693 )
 
 [sub_resource type="Animation" id=4]
-
 resource_name = "Magic"
 length = 3.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/RightArm:frame")
 tracks/0/interp = 1
@@ -46,9 +37,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-
 length = 3.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/LeftArm:frame")
@@ -76,9 +65,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=6]
-
 length = 3.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/LeftArm:frame")
@@ -106,10 +93,8 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=7]
-
 resource_name = "SpinAttack"
 length = 15.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/RightArm:frame")
@@ -137,9 +122,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=8]
-
 length = 11.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/RightArm:frame")
@@ -203,9 +186,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=9]
-
 length = 11.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/RightArm:frame")
@@ -269,9 +250,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=10]
-
 length = 11.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/RightArm:frame")
@@ -335,9 +314,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=11]
-
 length = 11.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/RightArm:frame")
@@ -401,9 +378,6 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=12]
-
-length = 1.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:frame")
@@ -419,9 +393,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=13]
-
 length = 10.0
-loop = false
 step = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:frame")
@@ -437,7 +409,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=14]
-
 length = 24.0
 loop = true
 step = 0.2
@@ -455,9 +426,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=15]
-
 length = 16.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:frame")
@@ -473,7 +442,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=16]
-
 length = 45.0
 loop = true
 step = 1.0
@@ -491,10 +459,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=17]
-
-length = 1.0
 loop = true
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
 tracks/0/interp = 1
@@ -511,142 +476,80 @@ tracks/0/keys = {
 [node name="Player" type="KinematicBody2D" groups=[
 "players",
 ]]
-
 z_index = 1
-input_pickable = false
 collision_layer = 513
 collision_mask = 513
-collision/safe_margin = 0.08
 script = ExtResource( 1 )
-_sections_unfolded = [ "Collision", "Transform", "Z Index" ]
 
-[node name="Body" type="Sprite" parent="." index="0"]
-
+[node name="Body" type="Sprite" parent="."]
 position = Vector2( -1.25651, -53.6657 )
 texture = ExtResource( 2 )
 hframes = 10
-_sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
-[node name="RightArm" type="Sprite" parent="Body" index="0"]
-
+[node name="RightArm" type="Sprite" parent="Body"]
 editor/display_folded = true
 texture = ExtResource( 3 )
 hframes = 7
 frame = 6
-_sections_unfolded = [ "Animation", "Visibility" ]
 
-[node name="Weapon" type="Sprite" parent="Body/RightArm" index="0"]
-
+[node name="Weapon" type="Sprite" parent="Body/RightArm"]
 show_behind_parent = true
 texture = ExtResource( 4 )
 hframes = 10
 frame = 6
-_sections_unfolded = [ "Animation", "Visibility" ]
 
-[node name="LeftArm" type="Sprite" parent="Body" index="1"]
-
+[node name="LeftArm" type="Sprite" parent="Body"]
 editor/display_folded = true
 position = Vector2( 0, 1 )
 texture = ExtResource( 5 )
 hframes = 7
-_sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
-[node name="Shield" type="Sprite" parent="Body/LeftArm" index="0"]
-
+[node name="Shield" type="Sprite" parent="Body/LeftArm"]
 texture = ExtResource( 6 )
 hframes = 3
-_sections_unfolded = [ "Animation" ]
 
-[node name="Camera" type="Camera2D" parent="." index="1"]
-
+[node name="Camera" type="Camera2D" parent="."]
 editor/display_folded = true
 z_index = 10
-anchor_mode = 1
-rotating = false
 current = true
-zoom = Vector2( 1, 1 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
 drag_margin_h_enabled = false
 drag_margin_v_enabled = false
-smoothing_enabled = false
-smoothing_speed = 5.0
-offset_v = 0.0
-offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
-editor_draw_screen = true
-editor_draw_limits = false
-editor_draw_drag_margin = false
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="UI" parent="Camera" index="0" instance=ExtResource( 7 )]
+[node name="UI" parent="Camera" instance=ExtResource( 7 )]
 
-[node name="Collider" type="CollisionShape2D" parent="." index="2"]
-
+[node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -2 )
 shape = SubResource( 1 )
-_sections_unfolded = [ "Transform" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="AttackCollider" type="Area2D" parent="." index="3"]
-
+[node name="AttackCollider" type="Area2D" parent="."]
 editor/display_folded = true
 position = Vector2( 0, -55 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
 collision_layer = 2
 collision_mask = 2
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Transform" ]
 
-[node name="Shape" type="CollisionShape2D" parent="AttackCollider" index="0"]
-
+[node name="Shape" type="CollisionShape2D" parent="AttackCollider"]
 position = Vector2( -69.6396, -9.47833 )
 rotation = 3.67057
 scale = Vector2( 0.922973, 0.136567 )
 shape = SubResource( 2 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="DamageCollider" type="Area2D" parent="." index="4"]
-
+[node name="DamageCollider" type="Area2D" parent="."]
 position = Vector2( 0, -55 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
 collision_layer = 524801
 collision_mask = 524801
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Collision", "Transform" ]
 
-[node name="Shape" type="CollisionShape2D" parent="DamageCollider" index="0"]
-
+[node name="Shape" type="CollisionShape2D" parent="DamageCollider"]
 position = Vector2( -1.46303, 1.11593 )
 scale = Vector2( 1, 1.181 )
 shape = SubResource( 3 )
 
-[node name="ArmAnimator" type="AnimationPlayer" parent="." index="5"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="ArmAnimator" type="AnimationPlayer" parent="."]
 playback_speed = 16.0
 anims/Magic = SubResource( 4 )
 anims/ShieldOff = SubResource( 5 )
@@ -656,100 +559,64 @@ anims/SwordAttackBack = SubResource( 8 )
 anims/SwordAttackFront = SubResource( 9 )
 anims/SwordAttackLeft = SubResource( 10 )
 anims/SwordAttackRight = SubResource( 11 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="BodyAnimator" type="AnimationPlayer" parent="." index="6"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="BodyAnimator" type="AnimationPlayer" parent="."]
 playback_speed = 16.0
 anims/Damage = SubResource( 12 )
 anims/Death = SubResource( 13 )
 anims/Idle = SubResource( 14 )
 anims/SpinAttack = SubResource( 15 )
 anims/Walk = SubResource( 16 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Interact" type="Sprite" parent="." index="7"]
-
+[node name="Interact" type="Sprite" parent="."]
 visible = false
 position = Vector2( 0, -155 )
 texture = ExtResource( 8 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Elements" type="Node2D" parent="." index="8"]
-
+[node name="Elements" type="Node2D" parent="."]
 editor/display_folded = true
 visible = false
 position = Vector2( 0, -55.9997 )
 z_index = 100
-_sections_unfolded = [ "Z Index" ]
 
-[node name="1" type="Sprite" parent="Elements" index="0"]
-
+[node name="1" type="Sprite" parent="Elements"]
 texture = ExtResource( 9 )
 hframes = 5
-_sections_unfolded = [ "Animation" ]
 
-[node name="2" type="Sprite" parent="Elements" index="1"]
-
+[node name="2" type="Sprite" parent="Elements"]
 position = Vector2( -128, 0 )
 texture = ExtResource( 9 )
 hframes = 5
 frame = 1
-_sections_unfolded = [ "Animation", "Transform" ]
 
-[node name="3" type="Sprite" parent="Elements" index="2"]
-
+[node name="3" type="Sprite" parent="Elements"]
 position = Vector2( 128, 0 )
 texture = ExtResource( 9 )
 hframes = 5
 frame = 2
-_sections_unfolded = [ "Animation", "Transform" ]
 
-[node name="4" type="Sprite" parent="Elements" index="3"]
-
+[node name="4" type="Sprite" parent="Elements"]
 position = Vector2( 0, -128 )
 texture = ExtResource( 9 )
 hframes = 5
 frame = 3
-_sections_unfolded = [ "Animation", "Transform" ]
 
-[node name="5" type="Sprite" parent="Elements" index="4"]
-
+[node name="5" type="Sprite" parent="Elements"]
 position = Vector2( 0, 128 )
 texture = ExtResource( 9 )
 hframes = 5
 frame = 4
-_sections_unfolded = [ "Animation", "Transform" ]
 
-[node name="Select" type="Sprite" parent="Elements" index="5"]
-
+[node name="Select" type="Sprite" parent="Elements"]
 editor/display_folded = true
 rotation = 5.80278
 texture = ExtResource( 10 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Elements/Select" index="0"]
-
-root_node = NodePath("..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Elements/Select"]
 autoplay = "Idle"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
 anims/Idle = SubResource( 17 )
-blend_times = [  ]
 
 [connection signal="area_entered" from="AttackCollider" to="." method="_on_attack_hit"]
-
 [connection signal="body_entered" from="AttackCollider" to="." method="_on_other_attack_hit"]
-
 [connection signal="animation_finished" from="ArmAnimator" to="." method="_on_animation_finished"]
-
 [connection signal="animation_finished" from="BodyAnimator" to="." method="_on_animation_finished"]
-
-

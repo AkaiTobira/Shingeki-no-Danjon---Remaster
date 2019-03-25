@@ -32,9 +32,7 @@ func _physics_process(delta):
 
 func _ready():
 	._ready()
-	drops.append([3, 500])
-	drops.append([24, 600])
-	$"AnimationPlayer".play("Idle")
+
 
 func process_atacks():
 	if current_state == "Dead": return 

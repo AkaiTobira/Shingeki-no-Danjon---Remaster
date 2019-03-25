@@ -2,8 +2,6 @@ extends "res://Scripts/BaseEnemy.gd"
 
 func _ready():
 	._ready()
-	drops.append([3, 500])
-	drops.append([24, 900])
 
 func _physics_process(delta):
 	

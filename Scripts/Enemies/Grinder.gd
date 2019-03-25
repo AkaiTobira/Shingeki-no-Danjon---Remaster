@@ -2,8 +2,6 @@ extends "res://Scripts/BaseEnemy.gd"
 
 func _ready():
 	._ready()
-	drops.append([3,  500 ])
-	drops.append([19, 500 ])
 	#MAT.set_shader_param("ucolor", Color(1, 1, 1))
 
 func _process(delta):

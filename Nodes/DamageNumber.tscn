@@ -3,7 +3,6 @@
 [ext_resource path="res://Resources/Fonts/Breathe Fire.otf" type="DynamicFontData" id=1]
 
 [sub_resource type="GDScript" id=1]
-
 resource_name = "DamageNumber"
 script/source = "extends Node2D
 
@@ -25,8 +24,7 @@ const VIOLET = Color(0.67,0.2,1)
 func damage(node, amount, type = \"physical\"):
 	node.get_parent().add_child(self)
 	position = node.position - Vector2(0, 128)
-	$Label.text = str(amount)
-
+	$Label.text = str(stepify(amount, 0.01))
 
 	match(type):
 		\"crit\":
@@ -51,43 +49,20 @@ func _physics_process(delta):
 	position.y -= delta * 50
 	life_time -= delta
 	if life_time <= 0: queue_free()"
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="DynamicFont" id=2]
-
 size = 20
-use_mipmaps = false
-use_filter = false
 font_data = ExtResource( 1 )
-_sections_unfolded = [ "Font", "Settings" ]
 
 [node name="DamageNumber" type="Node2D"]
-
 z_index = 5
 script = SubResource( 1 )
-_sections_unfolded = [ "Material", "Z Index" ]
 
-[node name="Label" type="Label" parent="." index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Label" type="Label" parent="."]
 margin_right = 40.0
 margin_bottom = 14.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.472667, 0.0424652, 0.0424652, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "100"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility", "custom_colors", "custom_fonts" ]
-
 

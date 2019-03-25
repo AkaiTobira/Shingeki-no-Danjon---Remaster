@@ -4,9 +4,6 @@ extends "res://Scripts/BaseEnemy.gd"
 
 func _ready():
 	._ready()
-	drops.append([18, 400])
-	drops.append([20, 500])
-	drops.append([25, 500])
 #	if !DEBBUG_RUN : .set_statistics(HP, XP, ARM)
 	$"AnimationPlayer".play("Idle")
 	
@@ -53,7 +50,7 @@ func _physics_process(delta):
 func process_atacks():
 	match(current_atack):
 		"Magic":
-			.turn_on_magic_state()
+			turn_on_magic_state()
 			return
 		"Skill":
 			play_animation_if_not_playing("Special"+ direction)
@@ -113,7 +110,6 @@ func runaway_move_behaviour(delta):
 	else:
 		play_animation_if_not_playing(current_animation)
 
-
 func shoot_arrow():
 	Res.play_sample(self, "Arrow")
 	var projectile = Res.create_instance("Projectiles/FireArrow")
@@ -160,9 +156,7 @@ func shoot_arrows():
 				arrow.set_rot(rotation)
 				
 		rotation += 15
-		
 
-	
 	match direction:
 		"Left":
 			arrows[0].position -= Vector2(0,30) 
@@ -189,3 +183,8 @@ func shoot_arrows():
 		arrow.intiated()
 		arrow.damage = damages[ABILITY_TYPE["Skill"]]
 		
+func turn_off_magic_state():
+	pass
+	
+func turn_on_magic_state():
+	pass

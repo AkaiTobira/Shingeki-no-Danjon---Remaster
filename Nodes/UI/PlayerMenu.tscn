@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Sprites/UI/Menu/PlayerMenu.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Menu/TabInactive.png" type="Texture" id=2]
@@ -20,7 +20,7 @@
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurabilityBackground.png" type="Texture" id=18]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentSlotDurability.png" type="Texture" id=19]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/Objects/Money.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/Money.png" type="Texture" id=21]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotHoly.png" type="Texture" id=22]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentInventorySlotCursed.png" type="Texture" id=23]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentScrollbarBackground.png" type="Texture" id=24]
@@ -29,16 +29,17 @@
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurabilityBackground.png" type="Texture" id=27]
 [ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentDurability.png" type="Texture" id=28]
 [ext_resource path="res://Sprites/UI/Menu/RightHeader.png" type="Texture" id=29]
-[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=30]
+[ext_resource path="res://Sprites/UI/Menu/Shop/Item.png" type="Texture" id=30]
 [ext_resource path="res://Resources/Fonts/Font18.tres" type="DynamicFont" id=31]
-[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=32]
-[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=33]
-[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=34]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=35]
-[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=36]
-[ext_resource path="res://Sprites/UI/Menu/Map/map_placeholder.png" type="Texture" id=37]
-[ext_resource path="res://Sprites/UI/ItemHighligh.png" type="Texture" id=38]
-[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=39]
+[ext_resource path="res://Sprites/UI/Menu/Equipment/EquipmentCategory.png" type="Texture" id=32]
+[ext_resource path="res://Sprites/UI/Menu/Skills/Panel.png" type="Texture" id=33]
+[ext_resource path="res://Sprites/UI/Menu/Skills/SkillFrame.png" type="Texture" id=34]
+[ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=35]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=36]
+[ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=37]
+[ext_resource path="res://Sprites/UI/Menu/Map/map_placeholder.png" type="Texture" id=38]
+[ext_resource path="res://Sprites/UI/ItemHighligh.png" type="Texture" id=39]
+[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=40]
 
 [sub_resource type="GDScript" id=1]
 resource_name = "PlayerMenu"
@@ -190,6 +191,8 @@ func _ready():
 	update_equipment()
 	update_skills()
 
+	update_money()
+
 	#location_category = 0
 	
 	
@@ -211,6 +214,7 @@ func _physics_process(delta):
 		
 		if !in_tab: for i in range(SKILLPOINTS.size()):
 			$Tabs/Character/Skillpoints.get_child(i).texture = load(\"res://Sprites/UI/Menu/Character/CharacterSkillpointInactive.png\")
+	elif current_tab == 1 : update_money()
 	
 	if !in_tab:
 		var old_tab = current_tab
@@ -639,6 +643,9 @@ func update_equipment():
 			item.get_node(\"Icon\").texture = load(\"res://Sprites/UI/Menu/Equipment/Generic\" + PlayerStats.EQUIPMENT_SLOTS[i] + \".png\")
 			item.get_node(\"Durability\").visible = false
 
+func update_money():
+	$Tabs/Equipment/RightHeader/Money_box/Money.text = str(PlayerStats.money)
+
 func update_crafting():
 	crafting_list.clear()
 	for item in Res.crafting:
@@ -704,6 +711,9 @@ func select_inventory():
 		$Tabs/Equipment/Description/Durability.value = itemstance.durability
 	else: $Tabs/Equipment/Description/Durability.visible = false
 	$Tabs/Equipment/Description/Text.text = item.description
+	
+	
+	
 	
 	if item.has(\"id\"):
 		$Tabs/Equipment/Description/Icon.texture = Res.get_item_texture(item.id)
@@ -1889,6 +1899,8 @@ custom_colors/font_color = Color( 0.364706, 0.717647, 0.964706, 1 )
 text = "Mana: 0 / 0"
 
 [node name="Equipment" type="Control" parent="Tabs"]
+editor/display_folded = true
+visible = false
 margin_right = 1366.0
 margin_bottom = 768.0
 mouse_filter = 1
@@ -1987,10 +1999,10 @@ margin_bottom = 446.0
 mouse_filter = 1
 
 [node name="Inventory" type="Control" parent="Tabs/Equipment"]
-margin_left = 465.0
-margin_top = 119.0
-margin_right = 1325.0
-margin_bottom = 737.0
+margin_left = 468.671
+margin_top = 120.399
+margin_right = 1328.67
+margin_bottom = 738.399
 mouse_filter = 1
 
 [node name="Slots" type="Control" parent="Tabs/Equipment/Inventory"]
@@ -2000,6 +2012,7 @@ margin_right = 60.0
 margin_bottom = 98.0
 
 [node name="Slot1" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots"]
+editor/display_folded = true
 margin_left = -46.0
 margin_top = 52.0
 margin_right = 344.0
@@ -2025,9 +2038,9 @@ expand = true
 stretch_mode = 4
 
 [node name="Icon2" type="TextureRect" parent="Tabs/Equipment/Inventory/Slots/Slot1"]
-margin_left = 249.0
+margin_left = 252.0
 margin_top = 58.0
-margin_right = 286.0
+margin_right = 293.0
 margin_bottom = 97.0
 rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 21 )
@@ -2035,9 +2048,9 @@ expand = true
 stretch_mode = 2
 
 [node name="Name" type="Label" parent="Tabs/Equipment/Inventory/Slots/Slot1"]
-margin_left = 79.0
+margin_left = 81.0
 margin_top = 7.0
-margin_right = 382.0
+margin_right = 384.0
 margin_bottom = 35.0
 custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -2138,8 +2151,6 @@ margin_bottom = 100.0
 texture = ExtResource( 25 )
 
 [node name="Description" type="TextureRect" parent="Tabs/Equipment"]
-editor/display_folded = true
-visible = false
 margin_left = 451.0
 margin_top = 617.0
 margin_right = 1316.0
@@ -2191,6 +2202,7 @@ align = 1
 valign = 1
 
 [node name="Stats" type="TextureRect" parent="Tabs/Equipment"]
+editor/display_folded = true
 visible = false
 margin_left = 24.0
 margin_top = 461.0
@@ -2226,7 +2238,6 @@ scroll_active = false
 override_selected_font_color = true
 
 [node name="RightHeader" type="TextureRect" parent="Tabs/Equipment"]
-editor/display_folded = true
 margin_left = 431.0
 margin_top = 182.0
 margin_right = 1284.0
@@ -2241,6 +2252,46 @@ margin_bottom = 41.0
 custom_fonts/font = ExtResource( 13 )
 text = "INVENTORY"
 
+[node name="Money_box" type="TextureRect" parent="Tabs/Equipment/RightHeader"]
+margin_left = 594.872
+margin_top = -1.0
+margin_right = 937.872
+margin_bottom = 84.0
+rect_scale = Vector2( 0.75, 0.5 )
+texture = ExtResource( 30 )
+
+[node name="Money" type="Label" parent="Tabs/Equipment/RightHeader/Money_box"]
+margin_left = 48.72
+margin_top = 2.22829
+margin_right = 204.72
+margin_bottom = 43.2283
+rect_scale = Vector2( 1.33, 2 )
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+
+[node name="Money2" type="Label" parent="Tabs/Equipment/RightHeader/Money_box"]
+margin_left = -63.7851
+margin_top = 22.871
+margin_right = 92.2149
+margin_bottom = 63.871
+rect_scale = Vector2( 1.33, 2 )
+custom_fonts/font = ExtResource( 31 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Money :"
+align = 2
+
+[node name="TextureRect" type="TextureRect" parent="Tabs/Equipment/RightHeader/Money_box"]
+margin_left = 264.769
+margin_top = 6.77583
+margin_right = 304.769
+margin_bottom = 46.7758
+rect_scale = Vector2( 1.2, 1.8 )
+texture = ExtResource( 21 )
+
 [node name="Categories" type="Control" parent="Tabs/Equipment"]
 editor/display_folded = true
 margin_left = -1.0
@@ -2254,7 +2305,7 @@ margin_top = 144.0
 margin_right = 586.0
 margin_bottom = 192.0
 rect_scale = Vector2( 0.83, 0.9 )
-texture = ExtResource( 30 )
+texture = ExtResource( 32 )
 
 [node name="Label" type="Label" parent="Tabs/Equipment/Categories/Category1"]
 margin_left = 4.0
@@ -2313,7 +2364,7 @@ margin_top = 144.0
 margin_right = 586.0
 margin_bottom = 192.0
 rect_scale = Vector2( 0.83, 0.9 )
-texture = ExtResource( 30 )
+texture = ExtResource( 32 )
 
 [node name="Label" type="Label" parent="Tabs/Skills/Categories/Category1"]
 margin_left = 4.0
@@ -2331,7 +2382,7 @@ margin_top = 220.0
 margin_right = 1338.0
 margin_bottom = 743.0
 rect_scale = Vector2( 1.02, 0.9 )
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 
 [node name="Skills" type="Control" parent="Tabs/Skills/ActivePanel"]
 margin_right = 40.0
@@ -2342,7 +2393,7 @@ margin_left = 26.0
 margin_top = 67.0
 margin_right = 66.0
 margin_bottom = 107.0
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Skills/ActivePanel/Skills/Skill1"]
 margin_right = 40.0
@@ -2406,7 +2457,7 @@ margin_left = 95.0
 margin_top = 392.0
 margin_right = 339.0
 margin_bottom = 486.0
-texture = ExtResource( 34 )
+texture = ExtResource( 35 )
 
 [node name="LeftHeader2" type="TextureRect" parent="Tabs/Skills"]
 editor/display_folded = true
@@ -2501,7 +2552,7 @@ margin_left = -761.0
 margin_top = 108.0
 margin_right = -721.0
 margin_bottom = 148.0
-texture = ExtResource( 35 )
+texture = ExtResource( 36 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Crafting/LeftHeader/Ingredients/Ingredient1"]
 margin_right = 40.0
@@ -2570,7 +2621,7 @@ margin_left = 1300.0
 margin_top = 217.0
 margin_right = 1320.0
 margin_bottom = 663.0
-texture = ExtResource( 36 )
+texture = ExtResource( 37 )
 
 [node name="ActualScroll" type="TextureRect" parent="Tabs/Crafting/Scrollbar"]
 margin_top = 1.0
@@ -2579,7 +2630,6 @@ margin_bottom = 100.0
 texture = ExtResource( 25 )
 
 [node name="Map" type="Control" parent="Tabs"]
-visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
@@ -2599,7 +2649,7 @@ margin_top = 144.0
 margin_right = 586.0
 margin_bottom = 192.0
 rect_scale = Vector2( 0.83, 0.9 )
-texture = ExtResource( 30 )
+texture = ExtResource( 32 )
 
 [node name="Label" type="Label" parent="Tabs/Map/Categories/Category1"]
 margin_left = 4.0
@@ -2612,7 +2662,6 @@ align = 1
 valign = 1
 
 [node name="LeftHeader" type="TextureRect" parent="Tabs/Map"]
-editor/display_folded = true
 margin_left = 24.0
 margin_top = 149.0
 margin_right = 409.0
@@ -2652,11 +2701,11 @@ text = "TestLocation"
 
 [node name="Material_name" type="Label" parent="Tabs/Map/LeftHeader/Slots/Slot1"]
 margin_left = 85.0
-margin_top = 55.0
+margin_top = 35.4348
 margin_right = 514.0
-margin_bottom = 96.0
-rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/font = ExtResource( 13 )
+margin_bottom = 76.4348
+rect_scale = Vector2( 0.5, 0.45 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Location Type"
 
@@ -2720,7 +2769,7 @@ margin_top = 185.0
 margin_right = 2360.0
 margin_bottom = 1265.0
 rect_scale = Vector2( 0.465, 0.465 )
-texture = ExtResource( 37 )
+texture = ExtResource( 38 )
 
 [node name="Place1" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 margin_left = 207.0
@@ -2728,7 +2777,7 @@ margin_top = 132.0
 margin_right = 247.0
 margin_bottom = 172.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place1"]
 margin_right = 40.0
@@ -2741,7 +2790,7 @@ margin_top = 204.0
 margin_right = 369.0
 margin_bottom = 244.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place2"]
 margin_right = 40.0
@@ -2754,7 +2803,7 @@ margin_top = 318.0
 margin_right = 225.0
 margin_bottom = 358.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place3"]
 margin_right = 40.0
@@ -2767,7 +2816,7 @@ margin_top = 162.0
 margin_right = 507.0
 margin_bottom = 202.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place4"]
 margin_right = 40.0
@@ -2780,7 +2829,7 @@ margin_top = 390.0
 margin_right = 365.0
 margin_bottom = 430.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place5"]
 margin_right = 40.0
@@ -2793,7 +2842,7 @@ margin_top = 204.946
 margin_right = 99.1828
 margin_bottom = 244.946
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place6"]
 margin_right = 40.0
@@ -2806,7 +2855,7 @@ margin_top = 462.0
 margin_right = 221.0
 margin_bottom = 502.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place7"]
 margin_right = 40.0
@@ -2819,7 +2868,7 @@ margin_top = 288.0
 margin_right = 609.0
 margin_bottom = 328.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place8"]
 margin_right = 40.0
@@ -2832,7 +2881,7 @@ margin_top = 198.0
 margin_right = 707.0
 margin_bottom = 238.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place9"]
 margin_right = 40.0
@@ -2845,7 +2894,7 @@ margin_top = 524.0
 margin_right = 423.0
 margin_bottom = 564.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place10"]
 margin_right = 40.0
@@ -2858,7 +2907,7 @@ margin_top = 582.0
 margin_right = 289.0
 margin_bottom = 622.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place11"]
 margin_right = 40.0
@@ -2871,7 +2920,7 @@ margin_top = 645.0
 margin_right = 492.0
 margin_bottom = 685.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place12"]
 margin_right = 40.0
@@ -2884,7 +2933,7 @@ margin_top = 244.0
 margin_right = 813.0
 margin_bottom = 284.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place13"]
 margin_right = 40.0
@@ -2897,7 +2946,7 @@ margin_top = 204.0
 margin_right = 972.0
 margin_bottom = 244.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place15"]
 margin_right = 40.0
@@ -2910,7 +2959,7 @@ margin_top = 348.0
 margin_right = 930.0
 margin_bottom = 388.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place16"]
 margin_right = 40.0
@@ -2923,7 +2972,7 @@ margin_top = 322.0
 margin_right = 1092.0
 margin_bottom = 362.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place23"]
 margin_right = 40.0
@@ -2936,7 +2985,7 @@ margin_top = 564.0
 margin_right = 1150.0
 margin_bottom = 604.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place28"]
 margin_right = 40.0
@@ -2949,7 +2998,7 @@ margin_top = 448.0
 margin_right = 1244.0
 margin_bottom = 488.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place30"]
 margin_right = 40.0
@@ -2962,7 +3011,7 @@ margin_top = 704.0
 margin_right = 1188.0
 margin_bottom = 744.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place31"]
 margin_right = 40.0
@@ -2975,7 +3024,7 @@ margin_top = 596.0
 margin_right = 1298.0
 margin_bottom = 636.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place32"]
 margin_right = 40.0
@@ -2988,7 +3037,7 @@ margin_top = 782.0
 margin_right = 1326.0
 margin_bottom = 822.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place33"]
 margin_right = 40.0
@@ -3001,7 +3050,7 @@ margin_top = 782.0
 margin_right = 1492.0
 margin_bottom = 822.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place34"]
 margin_right = 40.0
@@ -3014,7 +3063,7 @@ margin_top = 782.0
 margin_right = 1640.0
 margin_bottom = 822.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place35"]
 margin_right = 40.0
@@ -3027,7 +3076,7 @@ margin_top = 668.0
 margin_right = 1590.0
 margin_bottom = 708.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place36"]
 margin_right = 40.0
@@ -3040,7 +3089,7 @@ margin_top = 542.0
 margin_right = 1482.0
 margin_bottom = 582.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place37"]
 margin_right = 40.0
@@ -3053,7 +3102,7 @@ margin_top = 446.0
 margin_right = 1402.0
 margin_bottom = 486.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place38"]
 margin_right = 40.0
@@ -3066,7 +3115,7 @@ margin_top = 302.0
 margin_right = 1402.0
 margin_bottom = 342.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place39"]
 margin_right = 40.0
@@ -3079,7 +3128,7 @@ margin_top = 344.0
 margin_right = 1536.0
 margin_bottom = 384.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place40"]
 margin_right = 40.0
@@ -3092,7 +3141,7 @@ margin_top = 476.0
 margin_right = 1632.0
 margin_bottom = 516.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place41"]
 margin_right = 40.0
@@ -3105,7 +3154,7 @@ margin_top = 216.0
 margin_right = 1632.0
 margin_bottom = 256.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place42"]
 margin_right = 40.0
@@ -3118,7 +3167,7 @@ margin_top = 442.0
 margin_right = 1046.0
 margin_bottom = 482.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place24"]
 margin_right = 40.0
@@ -3131,7 +3180,7 @@ margin_top = 778.0
 margin_right = 1046.0
 margin_bottom = 818.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place25"]
 margin_right = 40.0
@@ -3144,7 +3193,7 @@ margin_top = 890.0
 margin_right = 1194.0
 margin_bottom = 930.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place29"]
 margin_right = 40.0
@@ -3157,7 +3206,7 @@ margin_top = 730.0
 margin_right = 886.0
 margin_bottom = 770.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place26"]
 margin_right = 40.0
@@ -3170,7 +3219,7 @@ margin_top = 662.0
 margin_right = 992.0
 margin_bottom = 702.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place27"]
 margin_right = 40.0
@@ -3183,7 +3232,7 @@ margin_top = 376.0
 margin_right = 511.0
 margin_bottom = 416.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place17"]
 margin_right = 40.0
@@ -3196,7 +3245,7 @@ margin_top = 462.0
 margin_right = 661.0
 margin_bottom = 502.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place18"]
 margin_right = 40.0
@@ -3209,7 +3258,7 @@ margin_top = 434.0
 margin_right = 813.0
 margin_bottom = 474.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place19"]
 margin_right = 40.0
@@ -3222,7 +3271,7 @@ margin_top = 564.0
 margin_right = 897.0
 margin_bottom = 604.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place20"]
 margin_right = 40.0
@@ -3235,7 +3284,7 @@ margin_top = 618.0
 margin_right = 723.0
 margin_bottom = 658.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place21"]
 margin_right = 40.0
@@ -3248,7 +3297,7 @@ margin_top = 728.0
 margin_right = 619.0
 margin_bottom = 768.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place22"]
 margin_right = 40.0
@@ -3261,7 +3310,7 @@ margin_top = 756.0
 margin_right = 367.0
 margin_bottom = 796.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1/Place14"]
 margin_right = 40.0
@@ -3273,7 +3322,7 @@ margin_top = 121.0
 margin_right = 278.0
 margin_bottom = 201.0
 rect_scale = Vector2( 1.25, 1.25 )
-texture = ExtResource( 38 )
+texture = ExtResource( 39 )
 expand = true
 
 [node name="Map2" type="TextureRect" parent="Tabs/Map/Map_graphics"]
@@ -3283,7 +3332,7 @@ margin_top = 185.0
 margin_right = 2360.0
 margin_bottom = 1265.0
 rect_scale = Vector2( 0.465, 0.465 )
-texture = ExtResource( 37 )
+texture = ExtResource( 38 )
 
 [node name="Place1" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2"]
 editor/display_folded = true
@@ -3292,7 +3341,7 @@ margin_top = 132.0
 margin_right = 247.0
 margin_bottom = 172.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place1"]
 margin_right = 40.0
@@ -3305,7 +3354,7 @@ margin_top = 204.0
 margin_right = 369.0
 margin_bottom = 244.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place2"]
 margin_right = 40.0
@@ -3318,7 +3367,7 @@ margin_top = 318.0
 margin_right = 225.0
 margin_bottom = 358.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place3"]
 margin_right = 40.0
@@ -3331,7 +3380,7 @@ margin_top = 162.0
 margin_right = 507.0
 margin_bottom = 202.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place4"]
 margin_right = 40.0
@@ -3344,7 +3393,7 @@ margin_top = 390.0
 margin_right = 365.0
 margin_bottom = 430.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place5"]
 margin_right = 40.0
@@ -3357,7 +3406,7 @@ margin_top = 204.946
 margin_right = 99.1828
 margin_bottom = 244.946
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place6"]
 margin_right = 40.0
@@ -3370,7 +3419,7 @@ margin_top = 462.0
 margin_right = 221.0
 margin_bottom = 502.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place7"]
 margin_right = 40.0
@@ -3383,7 +3432,7 @@ margin_top = 288.0
 margin_right = 609.0
 margin_bottom = 328.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place8"]
 margin_right = 40.0
@@ -3396,7 +3445,7 @@ margin_top = 198.0
 margin_right = 707.0
 margin_bottom = 238.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place9"]
 margin_right = 40.0
@@ -3409,7 +3458,7 @@ margin_top = 524.0
 margin_right = 423.0
 margin_bottom = 564.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place10"]
 margin_right = 40.0
@@ -3422,7 +3471,7 @@ margin_top = 582.0
 margin_right = 289.0
 margin_bottom = 622.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place11"]
 margin_right = 40.0
@@ -3435,7 +3484,7 @@ margin_top = 645.0
 margin_right = 492.0
 margin_bottom = 685.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place12"]
 margin_right = 40.0
@@ -3448,7 +3497,7 @@ margin_top = 244.0
 margin_right = 813.0
 margin_bottom = 284.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place13"]
 margin_right = 40.0
@@ -3461,7 +3510,7 @@ margin_top = 204.0
 margin_right = 972.0
 margin_bottom = 244.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place15"]
 margin_right = 40.0
@@ -3474,7 +3523,7 @@ margin_top = 348.0
 margin_right = 930.0
 margin_bottom = 388.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place16"]
 margin_right = 40.0
@@ -3487,7 +3536,7 @@ margin_top = 322.0
 margin_right = 1092.0
 margin_bottom = 362.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place23"]
 margin_right = 40.0
@@ -3500,7 +3549,7 @@ margin_top = 564.0
 margin_right = 1150.0
 margin_bottom = 604.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place28"]
 margin_right = 40.0
@@ -3513,7 +3562,7 @@ margin_top = 448.0
 margin_right = 1244.0
 margin_bottom = 488.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place30"]
 margin_right = 40.0
@@ -3526,7 +3575,7 @@ margin_top = 704.0
 margin_right = 1188.0
 margin_bottom = 744.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place31"]
 margin_right = 40.0
@@ -3539,7 +3588,7 @@ margin_top = 596.0
 margin_right = 1298.0
 margin_bottom = 636.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place32"]
 margin_right = 40.0
@@ -3552,7 +3601,7 @@ margin_top = 782.0
 margin_right = 1326.0
 margin_bottom = 822.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place33"]
 margin_right = 40.0
@@ -3565,7 +3614,7 @@ margin_top = 782.0
 margin_right = 1492.0
 margin_bottom = 822.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place34"]
 margin_right = 40.0
@@ -3578,7 +3627,7 @@ margin_top = 782.0
 margin_right = 1640.0
 margin_bottom = 822.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place35"]
 margin_right = 40.0
@@ -3591,7 +3640,7 @@ margin_top = 668.0
 margin_right = 1590.0
 margin_bottom = 708.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place36"]
 margin_right = 40.0
@@ -3604,7 +3653,7 @@ margin_top = 542.0
 margin_right = 1482.0
 margin_bottom = 582.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place37"]
 margin_right = 40.0
@@ -3617,7 +3666,7 @@ margin_top = 446.0
 margin_right = 1402.0
 margin_bottom = 486.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place38"]
 margin_right = 40.0
@@ -3630,7 +3679,7 @@ margin_top = 302.0
 margin_right = 1402.0
 margin_bottom = 342.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place39"]
 margin_right = 40.0
@@ -3643,7 +3692,7 @@ margin_top = 344.0
 margin_right = 1536.0
 margin_bottom = 384.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place40"]
 margin_right = 40.0
@@ -3656,7 +3705,7 @@ margin_top = 476.0
 margin_right = 1632.0
 margin_bottom = 516.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place41"]
 margin_right = 40.0
@@ -3669,7 +3718,7 @@ margin_top = 216.0
 margin_right = 1632.0
 margin_bottom = 256.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place42"]
 margin_right = 40.0
@@ -3682,7 +3731,7 @@ margin_top = 442.0
 margin_right = 1046.0
 margin_bottom = 482.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place24"]
 margin_right = 40.0
@@ -3695,7 +3744,7 @@ margin_top = 778.0
 margin_right = 1046.0
 margin_bottom = 818.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place25"]
 margin_right = 40.0
@@ -3708,7 +3757,7 @@ margin_top = 890.0
 margin_right = 1194.0
 margin_bottom = 930.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place29"]
 margin_right = 40.0
@@ -3721,7 +3770,7 @@ margin_top = 730.0
 margin_right = 886.0
 margin_bottom = 770.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place26"]
 margin_right = 40.0
@@ -3734,7 +3783,7 @@ margin_top = 662.0
 margin_right = 992.0
 margin_bottom = 702.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place27"]
 margin_right = 40.0
@@ -3747,7 +3796,7 @@ margin_top = 376.0
 margin_right = 511.0
 margin_bottom = 416.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place17"]
 margin_right = 40.0
@@ -3760,7 +3809,7 @@ margin_top = 462.0
 margin_right = 661.0
 margin_bottom = 502.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place18"]
 margin_right = 40.0
@@ -3773,7 +3822,7 @@ margin_top = 434.0
 margin_right = 813.0
 margin_bottom = 474.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place19"]
 margin_right = 40.0
@@ -3786,7 +3835,7 @@ margin_top = 564.0
 margin_right = 897.0
 margin_bottom = 604.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place20"]
 margin_right = 40.0
@@ -3799,7 +3848,7 @@ margin_top = 618.0
 margin_right = 723.0
 margin_bottom = 658.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place21"]
 margin_right = 40.0
@@ -3812,7 +3861,7 @@ margin_top = 728.0
 margin_right = 619.0
 margin_bottom = 768.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place22"]
 margin_right = 40.0
@@ -3825,7 +3874,7 @@ margin_top = 756.0
 margin_right = 367.0
 margin_bottom = 796.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 
 [node name="Icon" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2/Place14"]
 margin_right = 40.0
@@ -3837,7 +3886,7 @@ margin_top = 122.0
 margin_right = 278.0
 margin_bottom = 202.0
 rect_scale = Vector2( 1.25, 1.25 )
-texture = ExtResource( 38 )
+texture = ExtResource( 39 )
 expand = true
 
 [node name="Notes" type="Control" parent="Tabs"]
@@ -3853,5 +3902,5 @@ __meta__ = {
 margin_left = -13.0
 margin_right = 1353.0
 margin_bottom = 768.0
-texture = ExtResource( 39 )
+texture = ExtResource( 40 )
 

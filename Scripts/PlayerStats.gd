@@ -258,5 +258,5 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 		return false
 	
 #	Res.game.player.updateQuest("",id)
-	if notify: emit_signal("got_item", id)
+	if notify: emit_signal("got_item", [ id, amount ])
 	return true

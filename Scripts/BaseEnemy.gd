@@ -4,6 +4,11 @@ const DEBBUG_RUN = false
 const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
 const ABILITY_TYPE = { "Atack" : 0,"Skill" : 1, "Magic" : 2 }
 
+onready var sprites = $Sprites.get_children()
+onready var health_bar = $HealthBar
+onready var player = get_tree().get_root().find_node("Player", true, false)
+onready var Map    = get_tree().get_root().find_node("RandomMap",true,false)
+
 var can_use_ability = []
 var ability_probs   = [0,0,0]
 var damages         = [0,0,0]
@@ -24,6 +29,10 @@ var enemy_name = ""
 var last_atack_type = 0
 
 var music 
+var drops 
+var MAT
+
+var direction       = "Down"
 
 func _load_stats(file, kind):
 	enemy_name = kind
@@ -35,6 +44,7 @@ func _load_stats(file, kind):
 	personal_space = file["Range"  ]
 	music          = file["Music"  ]
 	resists        = file["Resists"]
+	drops          = file["Drops"  ]
 	
 	for abillity in ABILITY_TYPE.keys():
 		can_use_ability.append(bool(file[abillity][0]))
@@ -44,8 +54,6 @@ func _load_stats(file, kind):
 		damage_type[ABILITY_TYPE[str(abillity)] ]   = DAMAGE_TYPE[file[str(abillity)][4]]
 
 
-
-onready var health_bar = $HealthBar
 
 var timeout_bar   = 0.0
 var timeout_flash = 0.0
@@ -58,11 +66,21 @@ var magic_active      = false
 var block_logic       = false
 var current_animation = ""
 
-onready var player = get_tree().get_root().find_node("Player", true, false)
-onready var Map    = get_tree().get_root().find_node("RandomMap",true,false)
-
 var ability_ready = [ false, false, false ]
 const TIME_TO_DISAPEARD = 4.5
+
+
+func select_shader(shader_color):
+	match(shader_color):
+		"red"  : 
+			MAT = load("res://Resources/Materials/FLAG-shader.tres")
+			MAT.set_shader_param("ucolor", Color(1.1, 0.4, 0.4))
+		"blue" : 
+			MAT = load("res://Resources/Materials/FLAS-shader.tres")
+			MAT.set_shader_param("ucolor", Color(0.4, 0.4, 1))
+		_: 
+			MAT = null
+
 
 func prepeare_ability():
 	for abillity in ABILITY_TYPE.keys():
@@ -113,15 +131,14 @@ func flash(delta):
 	if int(time)%4 == 0:
 		for i in range(sprites.size()):
 			if current_atack == "Atack":
-				sprites[i].modulate = Color(1000,1000,1,1000) 
+				sprites[i].modulate = Color(2,2,0.1,3) 
 			elif current_atack == "Skill":
-				sprites[i].modulate =  Color(10,1,1,10)
+				sprites[i].modulate =  Color(2,0.1,0.1,3)
 			elif current_atack == "Magic":
-				sprites[i].modulate =  Color(1,10,1,10)
+				sprites[i].modulate =  Color(0.1,2,0.1,3)
 	else:
 		for i in range(sprites.size()):
 			sprites[i].modulate = Color(1,1,1,1)
-	pass
 	
 func ameansure_preparation_timeout(delta ):
 	
@@ -134,11 +151,7 @@ func ameansure_preparation_timeout(delta ):
 		return true
 	return false
 	
-func turn_off_magic_state():
-	pass
-	
 func is_close_enought():
-#	print((player.position - position).length())
 	if (player.position - position).length() >  personal_space :
 		return false
 	return true
@@ -170,7 +183,6 @@ func move_along_path(distance):
 		last_point = Vector2(path[0].x,path[0].y)
 		path.remove(0)
 
-
 var path_length = 100
 
 func  _move5(delta):
@@ -195,7 +207,6 @@ func  _move5(delta):
 	elif(distance.x <= distance.y ):# and axis.y):
 		if abs(move.y) != 0: 
 			direction         = "Up"    if move.y > 0 else "Down"
-	print( direction )
 	play_animation_if_not_playing(direction)
 
 
@@ -235,20 +246,12 @@ func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		current_state = "Follow"
 
-
-var red_color_changing = false
 func _on_animation_started(anim_name):
 	var anim = $AnimationPlayer.get_animation(anim_name)
 	if anim and sprites:
 		var main_sprite = int(anim.track_get_path(0).get_name(1))
 		for i in range(sprites.size()):
 			sprites[i].visible = (i+1 == main_sprite)
-			
-			if red_color_changing:
-				sprites[i].modulate =Color(1,0.4,0.4)
-			else:
-				sprites[i].modulate = Color(1,1,1)
-			
 
 func _on_dead():
 	Res.game.player.updateQuest(enemy_name)
@@ -267,14 +270,6 @@ func _on_dead():
 	for i in range(sprites.size()):
 		sprites[i].modulate = Color(1,1,1,1)
 
-var drops = []
-
-var direction       = "Down"
-
-onready var sprites = $Sprites.get_children()
-
-
-var MAT = load("res://Resources/Materials/ColorShader.tres")
 
 func _ready():
 	Map    = get_parent()
@@ -356,17 +351,33 @@ func get_drop_id():
 	
 	chances[-1] = nil
 	return Res.weighted_random(chances)
-
+	
+const MAX_NUMBER_OF_DROPS = 4
 func create_drop():
-	var drop = get_drop_id()
 
-	if drop > -1:
-		var item = Res.create_instance("Item")
-		item.position = position + Vector2(randi()%60-30,randi()%60-30)
-		item.id = drop
-		get_parent().add_child(item)
-	elif randi() % 1000 < 100:
-		var item = Res.create_instance("Money")
-		item.position = position + Vector2(randi()%60-30,randi()%60-30)
-		get_parent().add_child(item)
+	for i in range( MAX_NUMBER_OF_DROPS ):
+		var drop = get_drop_id()
+	
+		if drop > -1:
+			var stack = 1 
+			stack += 1 if randi() % 30  < 15 else 0 
+			stack += 1 if randi() % 60  < 20 else 0  
+			stack += 1 if randi() % 90  < 25 else 0 
+			stack += 1 if randi() % 120 < 30 else 0 
+			
+			var item      = Res.create_instance("Item")
+			item.set_stack(stack)
+			item.position = position + (Vector2( randf() * -1 if randi()%2 == 0 else 1, 
+												 randf() * -1 if randi()%2 == 0 else 1 
+												).normalized() * 40 )
+			item.id       = drop
+			get_parent().add_child(item)
+		elif randi() % 1000 < 300:
+			var stack     = randi()%121 + 1
+			var item      = Res.create_instance("Money")
+			item.set_stack(stack)
+			item.position = position + (Vector2( randf() * -1 if randi()%2 == 0 else 1, 
+												 randf() * -1 if randi()%2 == 0 else 1 
+												).normalized() * 40 )
+			get_parent().add_child(item)
 		

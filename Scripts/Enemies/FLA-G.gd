@@ -2,11 +2,7 @@ extends "res://Scripts/BaseEnemy.gd"
 
 func _ready():
 	._ready()
-	drops.append([18, 500])
-	drops.append([20, 500])
-	drops.append([22, 500])
-	$"AnimationPlayer".play("Idle")
-	MAT.set_shader_param("ucolor", Color(0.1, 0.4, 1))
+	.select_shader("blue")
 
 func _physics_process(delta):
 	
@@ -18,12 +14,10 @@ func _physics_process(delta):
 		play_animation_if_not_playing("Idle")
 		return
 
-
 	if current_state == "Follow" and !block_logic:
 		_player_run_away()
 		prepeare_ability()
 
-		
 		_move5(delta)
 
 		if magic_active:
@@ -43,9 +37,6 @@ func _physics_process(delta):
 			if ameansure_preparation_timeout( delta ):
 				process_atacks()
 				block_logic = true
-				pass
-
-
 
 func process_atacks():
 	match(current_atack):
@@ -72,7 +63,7 @@ func turn_off_magic_state():
 	movespeed              += 50
 
 	for i in range(len(resists_modif)):
-		resists_modif[i] = 0.3
+		resists_modif[i] = 8
 
 	play_animation_if_not_playing("Magic", true)
 
@@ -81,10 +72,9 @@ func turn_on_magic_state():
 
 	play_animation_if_not_playing("Magic")
 	$Sprites.material = MAT
-	block_logic = true
-	magic_active = true
+	block_logic       = true
+	magic_active      = true
 	
-
 	ab_prob_modif[ABILITY_TYPE["Atack"]] = 0
 	movespeed              -= 50
 
