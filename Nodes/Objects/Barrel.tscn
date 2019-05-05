@@ -33,7 +33,7 @@ func _process(delta):
 		if destroy_time > 3:
 			queue_free()
 
-func _ready():
+func _init():
 	Res.game.perma_state(self, \"queue_free\")
 	if  randi()% 100 < 15:
 		if randi()%HOW_MANT_ITMES < 5 :

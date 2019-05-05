@@ -85,7 +85,7 @@ func get_size():
 
 
 func get_tile_ids_from_TileSet():
-	tile_exit_id   = $BottomTiles.tile_set.find_tile_by_name("FloorE")
+	tile_exit_id    = $BottomTiles.tile_set.find_tile_by_name("FloorE")
 	tile_free_id    = $BottomTiles.tile_set.find_tile_by_name("FloorF")
 	tile_const_id   = $BottomTiles.tile_set.find_tile_by_name("FloorC")
 	tile_blocked_id = $BottomTiles.tile_set.find_tile_by_name("FloorS")

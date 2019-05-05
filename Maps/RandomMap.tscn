@@ -7,7 +7,7 @@ resource_name = "RandomMap"
 script/source = "extends Node2D
 
 onready var dungeon = $\"Segments\"
-var from = \"UP\"
+var from            = \"UP\"
 var my_seed
 
 var segments_holder = []
@@ -18,27 +18,25 @@ var nav             = null
 
 var initialized     = false
 
-
 func set_player_position(change):
 	Res.game.player.position = ( stairs_holder[0].position  if change >= 0 else stairs_holder[1].position ) + Vector2(0,160)
 
 func initialize():
-
 	if initialized : return
+	
 	Res.play_music(\"LowerWorkshop\")
 	initialized = true
 	
 	if !my_seed:
 		randomize()
 		my_seed = randi()
-		print(\"Seed: \", my_seed)
-		seed(my_seed)
-	else:
-		seed(my_seed)
+#		print(\"Seed: \", my_seed)
+	seed(my_seed)
 	
 	for segment in segments_holder:
 		dungeon.add_child(segment)
-	
+
+func fill():
 	for stairs in stairs_holder:
 		dungeon.add_child(stairs)
 	
@@ -47,11 +45,16 @@ func initialize():
 		add_child(node)
 		node.global_position = object[1]
 
+func clear(): 
+	for child in get_children(): 
+		if child.name == \"Segments\" : continue
+		call_deferred(\"remove_child\", child)
+		call_deferred(\"queue_free\"  , child)
+
 func generate(dungeon_name, current_floor):
 	nav = AStar.new()
 	self.current_floor = current_floor
-	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)
-	"
+	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)"
 
 [node name="RandomMap" type="YSort"]
 script = SubResource( 1 )

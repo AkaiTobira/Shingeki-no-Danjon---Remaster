@@ -37,6 +37,7 @@ func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	if map:
 		map.remove_child(player)
 		call_deferred("remove_child", map )
+		map.clear()
 	#	remove_child(map) #Debug : find a way to disable physical detections
 	else: remove_child(player)
 	
@@ -46,6 +47,7 @@ func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	map = new_map
 	add_child(new_map)
 	new_map.initialize()
+	new_map.fill()
 	new_map.set_player_position(change)
 
 func change_map(map_id, selected_world):
@@ -55,7 +57,6 @@ func change_map(map_id, selected_world):
 	current_map_id = map_id
 	
 	acquire_new_map( map_id, "Location" , selected_world )
-	
 
 func _physics_process(delta):
 	

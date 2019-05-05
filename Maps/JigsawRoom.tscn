@@ -23,7 +23,13 @@ func initialize():
 func _process(delta):
 	if !PlayerStats.events.has(\"jigsaw\") and Res.game.player.position.y < 400:
 		Res.game.player.UI.get_node(\"DialogueBox\").initiate_dialogue(\"Jigsaw\")
-		PlayerStats.events[\"jigsaw\"] = true"
+		PlayerStats.events[\"jigsaw\"] = true
+
+func clear(): pass
+
+
+func fill(): pass
+"
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 32, 22.5213 )

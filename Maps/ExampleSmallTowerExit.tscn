@@ -1,59 +1,62 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=1]
-[ext_resource path="res://Nodes/Enemies/Mechanic.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Nodes/Objects/Stairs.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=2]
 [ext_resource path="res://Resources/Fonts/Font80.tres" type="DynamicFont" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-onready var meka = $Mechanic
-
-var nav = AStar.new()
-
 func set_player_position(none):
 	Res.game.player.position = $Position2D.position
 
+var chests      = []
+var initialized = false
+var blocked     = []
+
 func initialize():
+	if initialized : return 
 	
-	var special_points = []
-	
-	for i in range( 1, 13, 1):
-		for j in range( -2, 8, 1):
-			if i in range( 6, 9, 1) and j in range( 2, 4, 1 ) : continue
-			special_points.append(Vector2(40 + 80*i, 40 +80*j))
-			
-	for i in range( special_points.size() ):
-		nav.add_point(i, Vector3(special_points[i].x, special_points[i].y, 0 ))
+	chests = []
+	for i in range(16): 
+		var chest = load( \"res://Nodes/Objects/Chest.tscn\" ).instance()
 		
-	for i in range(len(special_points)):
-		for j in range(len(special_points)):
-			if special_points[i] + Vector2( 80,  0) == special_points[j]: nav.connect_points(i,j,false)
-			if special_points[i] + Vector2(-80,  0) == special_points[j]: nav.connect_points(i,j,false)
-			if special_points[i] + Vector2(  0, 80) == special_points[j]: nav.connect_points(i,j,false)
-			if special_points[i] + Vector2(  0,-80) == special_points[j]: nav.connect_points(i,j,false)
-			if special_points[i] + Vector2( 80, 80) == special_points[j]: nav.connect_points(i,j,false)
-			if special_points[i] + Vector2(-80,-80) == special_points[j]: nav.connect_points(i,j,false)
-			if special_points[i] + Vector2(-80, 80) == special_points[j]: nav.connect_points(i,j,false)
-			if special_points[i] + Vector2( 80,-80) == special_points[j]: nav.connect_points(i,j,false)
-	
-	Res.play_music(\"MechanicBattle\")
+		var used_range =  $BottomTiles.get_used_rect().size 
+		
+		var positon = Vector2( randi()%( int(used_range[0]) - 1 ) + $BottomTiles.get_used_rect().position[0] + 1,
+							   randi()%( int(used_range[1]) - 3 ) + $BottomTiles.get_used_rect().position[1] + 3 ) * 80
+		
+		while positon in blocked: 
+			positon = Vector2( randi()%( int(used_range[0]) - 1 ) + $BottomTiles.get_used_rect().position[0] + 1,
+							   randi()%( int(used_range[1]) - 3 ) + $BottomTiles.get_used_rect().position[1] + 3 ) * 80
+		
+		chest.position = positon
+		blocked.append(positon)
+		chests.append(chest)
+	initialized = true
 
-func fill(): pass
+func fill(): 
+	for chest in chests:
+		add_child( chest )
 
-func clear(): pass
+func clear(): 
+	for child in get_children():
+		if \"hest\" in child.name: 
+			call_deferred( \"remove_child\", child )
+			call_deferred( \"queue_free\", child )
 
-func _process(delta):
-	if !\"mekaded\" in PlayerStats.events.keys() and meka.health <= 0:
-		PlayerStats.events[\"mekaded\"] = true
-		$CanvasLayer/Label.visible = true
-		Res.music.stop()"
+func _process(delta): pass"
 
 [node name="Segment" type="YSort"]
 script = SubResource( 1 )
 
+[node name="Stairs" parent="." instance=ExtResource( 1 )]
+position = Vector2( 560, -240 )
+z_index = 1
+location_change = true
+
 [node name="BottomTiles" type="TileMap" parent="."]
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
 collision_layer = 5
 format = 1
@@ -64,7 +67,7 @@ __meta__ = {
 
 [node name="TopTiles" type="TileMap" parent="."]
 z_index = 5
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
 collision_layer = 5
 format = 1
@@ -75,9 +78,6 @@ __meta__ = {
 
 [node name="Position2D" type="Position2D" parent="."]
 position = Vector2( 400, 760 )
-
-[node name="Mechanic" parent="." instance=ExtResource( 2 )]
-position = Vector2( 617.745, 272.608 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

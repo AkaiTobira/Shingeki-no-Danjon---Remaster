@@ -3,10 +3,6 @@
 [ext_resource path="res://Resources/Fonts/courbd.ttf" type="DynamicFontData" id=1]
 
 [resource]
-
 size = 36
-use_mipmaps = false
-use_filter = false
 font_data = ExtResource( 1 )
-_sections_unfolded = [ "Font", "Settings" ]
 

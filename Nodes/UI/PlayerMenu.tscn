@@ -56,7 +56,12 @@ const SKILLPOINTS = [\"Strength\", \"Dexterity\", \"Intelligence\", \"Vitality\"
 const CATEGORIES  = [\"All\", \"Consumable\", \"Weapons\", \"Armors\", \"Accessories\", \"Components\"]#, \"Other\"]
 const SKILL_CATEGORIES  = [\"Magic\", \"Passive\"]#, \"Other\"]
 const LOCATION_CATEGORIES  = [\"Mechania\"]#, \"Locked\"]#, \"Other\"]
-const CATEGORY_TYPES = {Consumable = [\"consumable\"], Weapons = [\"weapon\", \"shield\"], Armors = [\"armor\", \"helmet\", \"boots\", \"pants\"], Accessories = [\"ring\", \"amulet\"], Components = [\"misc\"]}
+const CATEGORY_TYPES = { Consumable  = [\"consumable\"], 
+                         Weapons     = [\"weapon\", \"shield\"], 
+						 Armors      = [\"armor\", \"helmet\", \"boots\", \"pants\"], 
+						 Accessories = [\"ring\", \"amulet\"], 
+						 Components  = [\"misc\"]
+					   }
 
 var in_tab      = false setget in_out_tab
 var current_tab = 0 setget update_tabs
@@ -65,6 +70,7 @@ var skillpoint_select  = 0
 var inventory_scroll   = 0 setget scroll_inventory
 var inventory_select   = 0
 var inventory_category = 0
+var eq_panel_enabled   = false
 var inventory_list     = []
 
 var skill_select   = -1
@@ -280,12 +286,18 @@ func _physics_process(delta):
 			
 			if Input.is_action_just_pressed(\"Magic\"):
 				Res.ui_sample(\"MenuMove\")
-				inventory_category += 1
+				eq_panel_enabled      = false 
+				inventory_category   += 1
 				self.inventory_scroll = 0
 				self.inventory_select = 0
 				if inventory_category == CATEGORIES.size(): inventory_category = 0
 				update_category()
-			
+				
+			if Input.is_action_just_pressed(\"shift_tab\"): 
+				eq_panel_enabled = not eq_panel_enabled
+				inventory_select = -1 if eq_panel_enabled else 0
+				select_inventory()
+
 			var prev_sel = inventory_select
 			
 			if inventory_select >= 0:
@@ -315,7 +327,10 @@ func _physics_process(delta):
 					select_inventory()
 				
 				var item = inventory_list[inventory_select]
+				
 				var eq = get_eq_slot(Res.items[item.id])
+				print( eq )
+				
 				if eq > -1 and Input.is_action_just_pressed(\"Interact\"):
 					Res.ui_sample(\"MenuAccept\")
 					if PlayerStats.equipment[eq]: PlayerStats.inventory.append(PlayerStats.equipment[eq])
@@ -358,7 +373,6 @@ func _physics_process(delta):
 					select_inventory()
 					
 					PlayerStats.get_stats_from_items()
-					
 			
 			if inventory_select != prev_sel: select_inventory()
 		2:
@@ -681,7 +695,8 @@ func update_tabs(tab = current_tab):
 		$TabsBar.get_child(i).get_node(\"Icon\").texture = load(\"res://Sprites/UI/Menu/Icon\" + TABS[i] + (\"\" if i == tab else \"Inactive\") + \".png\")
 
 func select_inventory():
-	if inventory_select > -1 and inventory_list.empty(): inventory_select = -1
+	
+	if inventory_select > -1 and inventory_list.empty(): inventory_select = -1	
 	if inventory_select >= inventory_list.size(): inventory_select = inventory_list.size()-1
 	var scrolled_select = (inventory_select - inventory_scroll)
 	
@@ -690,20 +705,23 @@ func select_inventory():
 	if inventory_select > -1:
 		itemstance = inventory_list[inventory_select]
 		item       = Res.items[itemstance.id]
-	else:
+	elif eq_panel_enabled:
 		if PlayerStats.equipment[-inventory_select - 1]:
 			itemstance = PlayerStats.equipment[-inventory_select - 1]
 			item       = Res.items[itemstance.id]
 		else:
 			item = {description = \"Equipment slot (\" + PlayerStats.EQUIPMENT_SLOTS[-inventory_select - 1] + \") empty\"}
+	else: 
+		for i in $Tabs/Equipment/Character/EquipmentSlots.get_child_count(): $Tabs/Equipment/Character/EquipmentSlots.get_child(i).texture = load(\"res://Sprites/UI/Menu/Equipment/EquipmentSlot.png\")
+		return
 	
 	for i in $Tabs/Equipment/Inventory/Slots.get_child_count():
 		$Tabs/Equipment/Inventory/Slots.get_child(i).visible = i + inventory_scroll < inventory_list.size()
 		$Tabs/Equipment/Inventory/Slots.get_child(i).texture = load(\"res://Sprites/UI/Menu/Equipment/EquipmentInventorySlot\" + (\"Active\" if i == inventory_select - inventory_scroll else \"\") + \".png\")
-	
+
 	for i in $Tabs/Equipment/Character/EquipmentSlots.get_child_count():
 		$Tabs/Equipment/Character/EquipmentSlots.get_child(i).texture = load(\"res://Sprites/UI/Menu/Equipment/EquipmentSlot\" + (\"Active\" if i == -inventory_select-1 else \"\") + \".png\")
-	
+
 	$Tabs/Equipment/Description.visible = true
 	if item.has(\"durability\"):
 		$Tabs/Equipment/Description/Durability.visible = true
@@ -711,10 +729,7 @@ func select_inventory():
 		$Tabs/Equipment/Description/Durability.value = itemstance.durability
 	else: $Tabs/Equipment/Description/Durability.visible = false
 	$Tabs/Equipment/Description/Text.text = item.description
-	
-	
-	
-	
+		
 	if item.has(\"id\"):
 		$Tabs/Equipment/Description/Icon.texture = Res.get_item_texture(item.id)
 		update_stats(item, itemstance)

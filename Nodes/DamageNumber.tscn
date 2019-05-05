@@ -24,11 +24,13 @@ const VIOLET = Color(0.67,0.2,1)
 func damage(node, amount, type = \"physical\"):
 	node.get_parent().add_child(self)
 	position = node.position - Vector2(0, 128)
-	$Label.text = str(stepify(amount, 0.01))
+	
+	$Label.text = str(stepify(amount, 0.01)) if amount > 0 else \"BLOCKED\"
 
 	match(type):
 		\"crit\":
 			$Label.add_color_override(\"font_color\", WHITE)
+			$Label.text += \"!\"
 		\"Shock\":
 			$Label.add_color_override(\"font_color\", LBLUE)
 		\"Physical\":

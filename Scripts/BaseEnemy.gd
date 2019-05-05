@@ -81,7 +81,6 @@ func select_shader(shader_color):
 		_: 
 			MAT = null
 
-
 func prepeare_ability():
 	for abillity in ABILITY_TYPE.keys():
 		
@@ -311,12 +310,9 @@ func damage(amount, source = "", type = ""):
 
 
 	if randi()%100 < PlayerStats.statistic["ct_chc"][0]*100 and source == "player": 
-	
 		damage += PlayerStats.statistic["ct_dmg"][0]
-		
-		Res.create_instance("DamageNumber").damage(self, str(damage)+"!", "crit")
-	else:
-		Res.create_instance("DamageNumber").damage(self, damage,type)
+		type = "crit"
+	Res.create_instance("DamageNumber").damage(self, damage, type)
 	
 	health -= damage
 	
@@ -326,16 +322,11 @@ func damage(amount, source = "", type = ""):
 	
 	if health <= 0:
 		$"/root/Game".save_state(self)
-		
 		current_state = "Dead"
-		
 		health_bar.visible = false
 		PlayerStats.add_experience(experience)
-
 		z_index -=1
-
 		_on_dead()
-
 
 	else:
 		_on_damage()
@@ -380,4 +371,3 @@ func create_drop():
 												 randf() * -1 if randi()%2 == 0 else 1 
 												).normalized() * 40 )
 			get_parent().add_child(item)
-		

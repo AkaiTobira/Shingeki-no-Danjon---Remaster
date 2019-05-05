@@ -86,11 +86,9 @@ func refresh_skill():
 	statistic["ex_res"][1] = increments[3][2]*statistic["vital" ][1] 
 	statistic["mv_spd"][1] = increments[3][3]*statistic["vital" ][1] 
 
-
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())
 	for i in range(EQUIPMENT_SLOTS.size()): SLOTS[EQUIPMENT_SLOTS[i]] = i
-
 
 func get_stats_from_items():
 	for state in statistic:
@@ -103,7 +101,6 @@ func get_stats_from_items():
 	refresh_skill()
 	recalc_stats()
 	
-
 func get_damage():
 	return statistic["ph_dmg"][0]
 
@@ -176,7 +173,6 @@ func add_experience(amount):
 		level += 1
 		stat_points += 1
 		emit_signal("level_up")
-
 
 func simple_randomizer():
 	var tresholds = [ 60 , 84, 96, 106, 110, 112 ]
@@ -256,7 +252,6 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 		if not stacked : inventory.append(_item)
 	else:
 		return false
-	
 #	Res.game.player.updateQuest("",id)
 	if notify: emit_signal("got_item", [ id, amount ])
 	return true
