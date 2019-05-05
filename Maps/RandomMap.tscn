@@ -42,6 +42,7 @@ func fill():
 	
 	for object in objects_holder:
 		var node = object[0]
+		if not is_instance_valid(node) : continue
 		add_child(node)
 		node.global_position = object[1]
 
