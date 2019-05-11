@@ -57,6 +57,13 @@ func _ready():
 		else :
 			item = randi()%21 + 17 
 
+func enable_collisions():
+	if is_instance_valid($\"DamageCollider/Shape\"): $\"DamageCollider/Shape\".set_disabled(false) 
+	if is_instance_valid($\"Shape\"): $\"Shape\".set_disabled(false) 
+
+func disable_collisions(): 
+	if is_instance_valid($\"DamageCollider/Shape\"): $\"DamageCollider/Shape\".set_disabled(true) 
+	if is_instance_valid($\"Shape\"): $\"Shape\".set_disabled(true) 
 
 func fill(breakable_contains,dungeon_level):
 	var i = randi()%len(breakable_contains)
@@ -178,4 +185,3 @@ shape = SubResource( 3 )
 position = Vector2( -2.35185, -9.34551 )
 scale = Vector2( 1.32088, 1.43794 )
 shape = SubResource( 4 )
-

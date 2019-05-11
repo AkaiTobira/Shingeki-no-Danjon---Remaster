@@ -4,57 +4,27 @@
 [ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=2]
 
 [node name="Segment" type="Node2D"]
-
 script = ExtResource( 1 )
 can_have_stairs = true
 
-[node name="BottomTiles" type="TileMap" parent="." index="0"]
-
-mode = 0
+[node name="BottomTiles" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
-cell_quadrant_size = 16
-cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-cell_half_offset = 2
-cell_tile_origin = 0
-cell_y_sort = false
-cell_clip_uv = false
-collision_use_kinematic = false
-collision_friction = 1.0
-collision_bounce = 0.0
+cell_y_sort = true
 collision_layer = 5
-collision_mask = 1
-occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray( 65538, 65, 0, 65539, 65, 0, 65540, 65, 0, 65541, 65, 0, 65542, 65, 0, 65543, 65, 0, 131074, 66, 0, 131075, 66, 0, 131076, 66, 0, 131077, 66, 0, 131078, 66, 0, 131079, 66, 0, 196610, 64, 0, 196611, 64, 0, 196612, 63, 0, 196613, 63, 0, 196614, 64, 0, 196615, 64, 0, 262146, 64, 0, 262147, 64, 0, 262148, 64, 0, 262149, 64, 0, 262150, 64, 0, 262151, 64, 0, 327682, 64, 0, 327683, 64, 0, 327684, 64, 0, 327685, 64, 0, 327686, 64, 0, 327687, 64, 0, 393218, 64, 0, 393219, 64, 0, 393220, 64, 0, 393221, 64, 0, 393222, 64, 0, 393223, 64, 0, 458754, 64, 0, 458755, 64, 0, 458756, 64, 0, 458757, 64, 0, 458758, 64, 0, 458759, 64, 0, 524290, 64, 0, 524291, 64, 0, 524292, 64, 0, 524293, 64, 0, 524294, 64, 0, 524295, 64, 0, 589827, 64, 0, 589828, 63, 0, 589829, 63, 0, 589830, 64, 0 )
-_sections_unfolded = [ "Cell" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TopTiles" type="TileMap" parent="." index="1"]
-
+[node name="TopTiles" type="TileMap" parent="."]
 z_index = 5
-mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
-cell_quadrant_size = 16
-cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-cell_half_offset = 2
-cell_tile_origin = 0
-cell_y_sort = false
-cell_clip_uv = false
-collision_use_kinematic = false
-collision_friction = 1.0
-collision_bounce = 0.0
 collision_layer = 5
-collision_mask = 1
-occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray( 0, 4, 0, 1, 17, 0, 2, 7, 0, 3, 7, 0, 4, 7, 0, 5, 7, 0, 6, 7, 0, 7, 7, 0, 8, 18, 0, 9, 4, 0, 65536, 4, 0, 65537, 5, 0, 65544, 3, 0, 65545, 4, 0, 131072, 4, 0, 131073, 5, 0, 131080, 3, 0, 131081, 4, 0, 196608, 4, 0, 196609, 5, 0, 196616, 3, 0, 196617, 4, 0, 262144, 4, 0, 262145, 5, 0, 262152, 3, 0, 262153, 4, 0, 327680, 4, 0, 327681, 5, 0, 327688, 3, 0, 327689, 4, 0, 393216, 4, 0, 393217, 5, 0, 393224, 3, 0, 393225, 4, 0, 458752, 4, 0, 458753, 5, 0, 458760, 3, 0, 458761, 4, 0, 524288, 4, 0, 524289, 5, 0, 524296, 3, 0, 524297, 4, 0, 589824, 4, 0, 589825, 16, 0, 589826, 2, 0, 589831, -2147483648, 0, 589832, -2147483633, 0, 589833, 4, 0 )
-_sections_unfolded = [ "Z Index" ]
 __meta__ = {
 "_edit_lock_": true
 }
-
-

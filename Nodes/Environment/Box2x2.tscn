@@ -47,4 +47,3 @@ hframes = 2
 position = Vector2( -53.0201, -192.593 )
 scale = Vector2( 1.28703, 2.3065 )
 rect = Rect2( 0, 0, 100, 100 )
-

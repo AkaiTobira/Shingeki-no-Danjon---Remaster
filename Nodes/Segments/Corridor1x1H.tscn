@@ -4,69 +4,33 @@
 [ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=2]
 
 [sub_resource type="NavigationPolygon" id=1]
-
 vertices = PoolVector2Array( -4.3114, -0.345184, 799.008, -0.345184, 800.116, 319.875, -0.98732, 319.875 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 outlines = [ PoolVector2Array( -4.3114, -0.345184, 799.008, -0.345184, 800.116, 319.875, -0.98732, 319.875 ) ]
 
 [node name="Segment" type="Node2D"]
-
 script = ExtResource( 1 )
 can_have_stairs = true
 
-[node name="BottomTiles" type="TileMap" parent="." index="0"]
-
-mode = 0
+[node name="BottomTiles" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
-cell_quadrant_size = 16
-cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-cell_half_offset = 2
-cell_tile_origin = 0
-cell_y_sort = false
-cell_clip_uv = false
-collision_use_kinematic = false
-collision_friction = 1.0
-collision_bounce = 0.0
-collision_layer = 1
-collision_mask = 1
-occluder_light_mask = 1
+cell_y_sort = true
 format = 1
 tile_data = PoolIntArray( 131072, 65, 0, 131073, 65, 0, 131074, 65, 0, 131075, 65, 0, 131076, 65, 0, 131077, 65, 0, 131078, 65, 0, 131079, 65, 0, 131080, 65, 0, 131081, 65, 0, 196608, 66, 0, 196609, 66, 0, 196610, 66, 0, 196611, 66, 0, 196612, 66, 0, 196613, 66, 0, 196614, 66, 0, 196615, 66, 0, 196616, 66, 0, 196617, 66, 0, 262144, 64, 0, 262145, 64, 0, 262146, 64, 0, 262147, 64, 0, 262148, 64, 0, 262149, 64, 0, 262150, 64, 0, 262151, 64, 0, 262152, 64, 0, 262153, 64, 0, 327680, 63, 0, 327681, 64, 0, 327682, 64, 0, 327683, 64, 0, 327684, 64, 0, 327685, 64, 0, 327686, 64, 0, 327687, 64, 0, 327688, 64, 0, 327689, 63, 0, 393216, 63, 0, 393217, 64, 0, 393218, 64, 0, 393219, 64, 0, 393220, 64, 0, 393221, 64, 0, 393222, 64, 0, 393223, 64, 0, 393224, 64, 0, 393225, 63, 0, 458752, 64, 0, 458753, 64, 0, 458754, 64, 0, 458755, 64, 0, 458756, 64, 0, 458757, 64, 0, 458758, 64, 0, 458759, 64, 0, 458760, 64, 0, 458761, 64, 0 )
-_sections_unfolded = [ "Cell", "Collision" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TopTiles" type="TileMap" parent="." index="1"]
-
+[node name="TopTiles" type="TileMap" parent="."]
 z_index = 2
-mode = 0
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
-cell_quadrant_size = 16
-cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-cell_half_offset = 2
-cell_tile_origin = 0
-cell_y_sort = false
-cell_clip_uv = false
-collision_use_kinematic = false
-collision_friction = 1.0
-collision_bounce = 0.0
-collision_layer = 1
-collision_mask = 1
-occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray( 0, 4, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 6, 4, 0, 7, 4, 0, 8, 4, 0, 9, 4, 0, 65536, 7, 0, 65537, 7, 0, 65538, 7, 0, 65539, 7, 0, 65540, 7, 0, 65541, 7, 0, 65542, 7, 0, 65543, 7, 0, 65544, 7, 0, 65545, 7, 0, 524288, 1, 0, 524289, 1, 0, 524290, 1, 0, 524291, 1, 0, 524292, 1, 0, 524293, 1, 0, 524294, 1, 0, 524295, 1, 0, 524296, 1, 0, 524297, 1, 0, 589824, 4, 0, 589825, 4, 0, 589826, 4, 0, 589827, 4, 0, 589828, 4, 0, 589829, 4, 0, 589830, 4, 0, 589831, 4, 0, 589832, 4, 0, 589833, 4, 0 )
-_sections_unfolded = [ "Cell", "Z Index" ]
 
-[node name="Navigation2D" type="Navigation2D" parent="." index="2"]
+[node name="Navigation2D" type="Navigation2D" parent="."]
 
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D" index="0"]
-
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 position = Vector2( 2.21606, 317.784 )
 navpoly = SubResource( 1 )
-enabled = true
-_sections_unfolded = [ "Transform" ]
-
-

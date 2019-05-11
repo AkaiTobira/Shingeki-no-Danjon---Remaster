@@ -64,6 +64,13 @@ func fill(breakable_contains,dungeon_level):
 	else:
 		item = -1	
 
+func enable_collisions():
+	if is_instance_valid($\"DamageCollider/Shape\"): $\"DamageCollider/Shape\".set_disabled(false) 
+	if is_instance_valid($\"Shape\"): $\"Shape\".set_disabled(false) 
+
+func disable_collisions(): 
+	if is_instance_valid($\"DamageCollider/Shape\"): $\"DamageCollider/Shape\".set_disabled(true) 
+	if is_instance_valid($\"Shape\"): $\"Shape\".set_disabled(true) 
 
 func disable():
 #	call_deferred(\"set_monitoring\", false)
@@ -139,4 +146,3 @@ shape = SubResource( 4 )
 [node name="Sprite2" type="Sprite" parent="."]
 scale = Vector2( 0.1, 0.07 )
 texture = ExtResource( 2 )
-

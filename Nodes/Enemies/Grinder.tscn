@@ -379,7 +379,7 @@ visible = false
 collision_layer = 512
 collision_mask = 512
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Radar"]
+[node name="Shape" type="CollisionShape2D" parent="Radar"]
 position = Vector2( -13.5791, -10.1375 )
 scale = Vector2( 30.8352, 20.2098 )
 shape = SubResource( 14 )
@@ -393,7 +393,6 @@ texture = ExtResource( 7 )
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( 0.459501, -33.9882 )
 scale = Vector2( 3.18444, 4.90934 )
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_started"]
 [connection signal="area_entered" from="AttackCollider" to="." method="_on_attack_hit"]

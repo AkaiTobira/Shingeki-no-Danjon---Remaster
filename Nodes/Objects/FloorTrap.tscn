@@ -5,7 +5,6 @@
 [ext_resource path="res://Sprites/Enemies/Mechanic/FireExplosion.png" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
-
 resource_name = "CrushingWalls"
 script/source = "extends Area2D
 
@@ -37,6 +36,14 @@ func _ready():
 		disabled = true
 	pass
 	
+func enable_collisions():
+	if is_instance_valid($\"Triger/CollisionShape2D\"):  $\"Triger/CollisionShape2D\".set_disabled(false) 
+#	if is_instance_valid($\"DamageShape\"):     $\"DamageShape\".set_disabled(false) 
+
+func disable_collisions(): 
+	if is_instance_valid($\"Triger/CollisionShape2D\"):  $\"Triger/CollisionShape2D\".set_disabled(true) 
+	if is_instance_valid($\"DamageShape\")    : $\"DamageShape\".set_disabled(true) 
+	
 func _process(delta):
 	if $Sprite.frame > 5 and $Sprite.frame < 10:	
 		Res.play_sample(self, \"Explosion\")
@@ -52,23 +59,15 @@ func _on_Triger_body_entered(body):
 	if !disabled : $\"AnimationPlayer\".play(\"Explode\")
 	pass # replace with function body
 "
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="RectangleShape2D" id=2]
 
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
-
 [sub_resource type="RectangleShape2D" id=3]
-
-custom_solver_bias = 0.0
 extents = Vector2( 80, 40 )
 
 [sub_resource type="Animation" id=4]
-
 resource_name = "Explode"
 length = 16.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite3:visible")
@@ -134,105 +133,54 @@ tracks/4/keys = {
 [node name="FloorTrap" type="Area2D" groups=[
 "enviroment",
 ]]
-
 position = Vector2( 0, 6 )
 input_pickable = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 script = SubResource( 1 )
 placement = 5
-offset_position = Vector2( 0, 0 )
 size = Vector2( 1, 1 )
-variants = ""
-can_flip_h = false
-const_object = false
-need_two_side_wall = false
-need_enable_directions = null
-need_enemies_list = false
 
-[node name="Triger" type="Area2D" parent="." index="0"]
-
+[node name="Triger" type="Area2D" parent="."]
 position = Vector2( -3, 0 )
 scale = Vector2( 0.98, 0.98 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Triger" index="0"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triger"]
 position = Vector2( 2.4987, 1.06124 )
 scale = Vector2( 3.9224, 3.9224 )
 shape = SubResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="." index="1"]
-
+[node name="Sprite" type="Sprite" parent="."]
 visible = false
 position = Vector2( 1, 1 )
 texture = ExtResource( 1 )
 vframes = 8
 hframes = 16
 frame = 65
-_sections_unfolded = [ "Animation", "Offset", "Transform", "Z Index" ]
 
-[node name="Sprite2" type="Sprite" parent="." index="2"]
-
+[node name="Sprite2" type="Sprite" parent="."]
 position = Vector2( 1, 1 )
 texture = ExtResource( 2 )
 hframes = 5
-_sections_unfolded = [ "Animation", "Offset", "Transform" ]
 
-[node name="Sprite3" type="Sprite" parent="." index="3"]
-
+[node name="Sprite3" type="Sprite" parent="."]
 visible = false
 z_index = 2
 texture = ExtResource( 3 )
 hframes = 10
 frame = 5
-_sections_unfolded = [ "Animation", "Offset", "Region", "Transform", "Visibility", "Z Index" ]
 
-[node name="DamageShape" type="CollisionShape2D" parent="." index="4" groups=[
+[node name="DamageShape" type="CollisionShape2D" parent="." groups=[
 "enviroment",
 ]]
-
 scale = Vector2( 1.37349, 2.72093 )
 shape = SubResource( 3 )
 disabled = true
-_sections_unfolded = [ "Transform" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 15.0
 anims/Explode = SubResource( 4 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="6"]
-
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( -40, -39 )
 rect = Rect2( 0, 0, 80, 80 )
-pause_animations = true
-freeze_bodies = true
-pause_particles = true
-pause_animated_sprites = true
-process_parent = false
-physics_process_parent = false
-_sections_unfolded = [ "Transform" ]
-
 [connection signal="area_entered" from="." to="." method="_on_attack"]
-
 [connection signal="body_entered" from="Triger" to="." method="_on_Triger_body_entered"]
-
-

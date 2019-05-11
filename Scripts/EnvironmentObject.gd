@@ -34,6 +34,8 @@ func reset() :
 					return
 	
 
+func disable_collisions(): pass
+
 func _init():
 	
 	if has_node("Animation") and const_object and not block_animation:

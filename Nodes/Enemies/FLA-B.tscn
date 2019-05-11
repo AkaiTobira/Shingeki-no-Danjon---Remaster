@@ -432,6 +432,7 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 
 [node name="Radar" type="Area2D" parent="."]
+editor/display_folded = true
 position = Vector2( 141.574, -53.4956 )
 collision_layer = 512
 collision_mask = 512
@@ -470,7 +471,6 @@ texture = ExtResource( 7 )
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( 1.1036, -63.7616 )
 scale = Vector2( 3.18884, 7.37616 )
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_started"]
 [connection signal="body_entered" from="Radar" to="." method="_on_Radar_body_entered"]

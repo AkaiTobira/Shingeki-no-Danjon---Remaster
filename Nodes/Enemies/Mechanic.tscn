@@ -823,7 +823,6 @@ scale = Vector2( 1, 0.5 )
 texture = ExtResource( 11 )
 hframes = 10
 frame = 9
-
 [connection signal="body_entered" from="Radar" to="." method="_on_Radar_body_entered"]
 [connection signal="area_entered" from="AttackCollider" to="." method="_on_attack_hit"]
 [connection signal="animation_finished" from="RightShield/AnimationPlayer" to="RightShield" method="_on_AnimationPlayer_animation_finished"]

@@ -52,6 +52,14 @@ func fill(breakable_contains,dungeon_level):
 			
 	item = breakable_contains[len(breakable_contains)-1][0]
 
+func enable_collisions():
+	if is_instance_valid($\"InteractArea/Shape\"): $\"InteractArea/Shape\".set_disabled(false) 
+	if is_instance_valid($\"Shape\"): $\"Shape\".set_disabled(false) 
+
+func disable_collisions(): 
+	if is_instance_valid($\"InteractArea/Shape\"): $\"InteractArea/Shape\".set_disabled(true) 
+	if is_instance_valid($\"Shape\"): $\"Shape\".set_disabled(true) 
+
 func interact():
 	Res.play_sample(self, \"Chest\")
 	Res.game.save_state(self)
@@ -134,4 +142,3 @@ shape = SubResource( 3 )
 [node name="Animation" type="AnimationPlayer" parent="."]
 playback_speed = 8.0
 anims/Open = SubResource( 4 )
-

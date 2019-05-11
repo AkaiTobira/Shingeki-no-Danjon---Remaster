@@ -44,11 +44,13 @@ func fill():
 		var node = object[0]
 		if not is_instance_valid(node) : continue
 		add_child(node)
+		if node.has_method(\"enable_collisions\"): node.enable_collisions()
 		node.global_position = object[1]
 
 func clear(): 
 	for child in get_children(): 
 		if child.name == \"Segments\" : continue
+		if child.has_method(\"disable_collisions\"): child.disable_collisions()
 		call_deferred(\"remove_child\", child)
 		call_deferred(\"queue_free\"  , child)
 
@@ -64,4 +66,3 @@ script = SubResource( 1 )
 script = ExtResource( 1 )
 
 [node name="Segments" type="Node2D" parent="."]
-

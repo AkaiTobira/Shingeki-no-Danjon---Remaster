@@ -252,6 +252,18 @@ func _on_animation_started(anim_name):
 		for i in range(sprites.size()):
 			sprites[i].visible = (i+1 == main_sprite)
 
+func enable_collisions():
+	if is_instance_valid($"Shape"): $"Shape".set_disabled(false)
+	if is_instance_valid($"AttackCollider/Shape"):   $"AttackCollider/Shape".set_disabled(false)
+	if is_instance_valid($"DamageCollider/Shape"):   $"DamageCollider/Shape".set_disabled(false)
+	if is_instance_valid($"Radar/Shape"): $"Radar/Shape".set_disabled(false)
+
+func disable_collisions(): 
+	if is_instance_valid($"Shape"): $"Shape".set_disabled(true)
+	if is_instance_valid($"AttackCollider/Shape"):   $"AttackCollider/Shape".set_disabled(true)
+	if is_instance_valid($"DamageCollider/Shape"):   $"DamageCollider/Shape".set_disabled(true)
+	if is_instance_valid($"Radar/Shape"): $"Radar/Shape".set_disabled(true)
+
 func _on_dead():
 	Res.game.player.updateQuest(enemy_name)
 	
@@ -269,7 +281,6 @@ func _on_dead():
 	for i in range(sprites.size()):
 		sprites[i].modulate = Color(1,1,1,1)
 
-
 func _ready():
 	Map    = get_parent()
 	health = max_health
@@ -277,6 +288,7 @@ func _ready():
 	health_bar.value = health
 	$"/root/Game".perma_state(self, "queue_free")
 	$"AnimationPlayer".play("Idle")
+	enable_collisions()
 
 func scale_stats_to( max_hp, ar ):
 	var t = float(health)/float(max_health)

@@ -38,4 +38,3 @@ centered = false
 position = Vector2( -76.5503, -135.81 )
 scale = Vector2( 1.90541, 2.17828 )
 rect = Rect2( 0, 0, 100, 100 )
-
