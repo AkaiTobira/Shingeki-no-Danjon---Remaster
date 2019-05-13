@@ -16,7 +16,11 @@ var current_map_id
 
 func _init():
 	Res.game = self
-	map_manager = load("res://Scripts/MapManager.gd").new()
+
+func set_map_manager(location_manager):
+	map_manager    = location_manager
+	current_map_id = -1
+
 
 func _ready():
 	VisualServer.set_default_clear_color(Color(0.05, 0.05, 0.07))
@@ -30,7 +34,6 @@ func _ready():
 	PlayerStats.mana   = PlayerStats.statistic["mx_man"][0]
 	
 	player.UI.init_map_menu(map_manager.get_location_numbers(), map_manager.get_location_types(), map_manager.get_locations_names(), map_manager.get_loations_descriptions())
-	current_map_id = -1
 	change_map(0, "Mechania")
 
 func acquire_new_map( change, type_of_flor, selected_world = "" ):
@@ -38,10 +41,11 @@ func acquire_new_map( change, type_of_flor, selected_world = "" ):
 		map.remove_child(player)
 		call_deferred("remove_child", map )
 		map.clear()
-	#	remove_child(map) #Debug : find a way to disable physical detections
 	else: remove_child(player)
 	
 	var new_map = map_manager.get_new_map(change, selected_world) if type_of_flor == "Location" else map_manager.get_new_floor(change)
+	map_manager.mutex.unlock()
+	
 	new_map.add_child(player)
 	
 	map = new_map

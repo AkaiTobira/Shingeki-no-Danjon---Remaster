@@ -12,6 +12,12 @@ func _ready():
 
 func go_foward():
 	var game = load(\"res://Scenes/Game.tscn\").instance()
+	var m_manager = load(\"res://Scripts/MapManager.gd\").new()
+	
+	m_manager.load_basic_maps()
+	
+	game.set_map_manager(m_manager)
+	
 	$\"/root\".add_child(game)
 	get_tree().current_scene = game
 	queue_free()
@@ -35,4 +41,3 @@ margin_right = 1093.96
 margin_bottom = 665.595
 custom_fonts/font = ExtResource( 2 )
 text = "LOADING"
-

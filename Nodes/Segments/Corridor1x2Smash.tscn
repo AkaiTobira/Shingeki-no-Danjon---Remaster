@@ -29,10 +29,10 @@ tile_data = PoolIntArray( 0, 4, 0, 1, 4, 0, 2, 5, 0, 7, 3, 0, 8, 4, 0, 9, 4, 0, 
 [node name="ConstObjects" type="Node2D" parent="."]
 
 [node name="CrushingWalls" parent="ConstObjects" instance=ExtResource( 3 )]
-position = Vector2( 400, 1360 )
+position = Vector2( 396, 1360 )
 
 [node name="CrushingWalls2" parent="ConstObjects" instance=ExtResource( 3 )]
-position = Vector2( 400, 880 )
+position = Vector2( 397, 880 )
 
 [node name="CrushingWalls3" parent="ConstObjects" instance=ExtResource( 3 )]
-position = Vector2( 400, 400 )
+position = Vector2( 396, 400 )

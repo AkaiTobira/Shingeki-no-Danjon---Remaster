@@ -289,7 +289,13 @@ func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
 					monster_counter +=1
 
 func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [] ):
+	
+#	var time_start = OS.get_ticks_msec()
+#	var time_start1 = OS.get_ticks_msec()
 	initialize()
+#	print( "ISG: initialization takes : ", (OS.get_ticks_msec() - time_start)) 
+#	time_start = OS.get_ticks_msec()
+	
 	flooor = current_level
 	
 	items_in_containers = file_json["containers_contents"]
@@ -297,6 +303,9 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 	enemies             = file_json["floor"][str(current_level)]
 	tilesetName         = file_json["tileset"]
 	
+#	print( "ISG: loading json takes : ", (OS.get_ticks_msec() - time_start)) 
+#	time_start = OS.get_ticks_msec()
+
 	if splitted_obj == null:
 		split_enviroments_by_wallDependency(file_json["environment_objects"], Objects.CONST)
 		split_enviroments_by_wallDependency(file_json["breakable_objects"  ], Objects.DESTROYABLE)
@@ -305,12 +314,13 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 	else:
 		obj_splitted_by_wall_dependency = splitted_obj
 		
-
+#	print( "ISG: spliting takes : ", (OS.get_ticks_msec() - time_start)) 
+#	time_start = OS.get_ticks_msec()
+#	var cout = 0
 	put_elements_on_scene( file_json["probs"] )
-	
-#	var time_start = OS.get_unix_time()
-	
+		
 	while !check_correctnes():
+#		cout += 1
 		reset()
 		put_elements_on_scene( file_json["probs"] )
 
@@ -319,20 +329,24 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 
 	put_enemies              ( file_json["floor"][str(current_level)],file_json["probs"]["enemies"], str(current_level), e,dungeon )
 
-#	var time_now = OS.get_unix_time()
-#	print( "generate_functions : ", (time_now - time_start)) 
-	
+#	print( "ISG: checking coreectness takes : ", (OS.get_ticks_msec() - time_start) , " " , cout ) 
+#	time_start = OS.get_ticks_msec()
 
 	if DEBUG :
 		print(name," : Reset Called ", numration_counter, " times" )
 		print(name," :: ",  len(Obj_to_Append)-monster_counter == debugCounter, " : Control sum of Objects ", len(Obj_to_Append)-monster_counter, " in order to ", debugCounter )
 		print(name," :: Monster Number  is ", monster_counter )
 
-
 	var tileset = load("res://Resources/Tilesets/" + file_json["tileset"] + ".tres")
-
+#	print( "ISG: loading tileset takes : ", (OS.get_ticks_msec() - time_start)) 
+#	time_start = OS.get_ticks_msec()
+	
 	switch_patern_into_normal_tile(tileset, file_json["tileset"])
+#	print( "ISG: switch patern takes : ", (OS.get_ticks_msec() - time_start)) 
+#	time_start = OS.get_ticks_msec()
 	translate_const_obj()
+#	print( "ISG: translate consts takes : ", (OS.get_ticks_msec() - time_start)) 
+#	print( "ISG: end takes : ", (OS.get_ticks_msec() - time_start1)) 
 
 func put_elements_on_scene( probs ):
 	put_wall_related_objects ( probs["traps"], Objects.TRAPS)

@@ -1,12 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/InsideSegmentGenerator.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Tilesets/Dungeon.tres" type="TileSet" id=2]
-
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( -4.3114, -0.345184, 799.008, -0.345184, 800.116, 319.875, -0.98732, 319.875 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( -4.3114, -0.345184, 799.008, -0.345184, 800.116, 319.875, -0.98732, 319.875 ) ]
 
 [node name="Segment" type="Node2D"]
 script = ExtResource( 1 )
@@ -28,9 +23,3 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
 format = 1
 tile_data = PoolIntArray( 0, 4, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 6, 4, 0, 7, 4, 0, 8, 4, 0, 9, 4, 0, 65536, 7, 0, 65537, 7, 0, 65538, 7, 0, 65539, 7, 0, 65540, 7, 0, 65541, 7, 0, 65542, 7, 0, 65543, 7, 0, 65544, 7, 0, 65545, 7, 0, 524288, 1, 0, 524289, 1, 0, 524290, 1, 0, 524291, 1, 0, 524292, 1, 0, 524293, 1, 0, 524294, 1, 0, 524295, 1, 0, 524296, 1, 0, 524297, 1, 0, 589824, 4, 0, 589825, 4, 0, 589826, 4, 0, 589827, 4, 0, 589828, 4, 0, 589829, 4, 0, 589830, 4, 0, 589831, 4, 0, 589832, 4, 0, 589833, 4, 0 )
-
-[node name="Navigation2D" type="Navigation2D" parent="."]
-
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
-position = Vector2( 2.21606, 317.784 )
-navpoly = SubResource( 1 )

@@ -307,7 +307,7 @@ func change_dir(dir, force = false):
 	if !force and (direction == dir or !dead and (Input.is_action_pressed("Attack") or Input.is_action_pressed("Shield"))): return
 #	running = false
 	
-	$ArmAnimator.playback_speed = 12 *  PlayerStats.statistic["at_spd"][0]
+	$ArmAnimator.playback_speed = 16 *  PlayerStats.statistic["at_spd"][0]
 
 	direction = dir
 	sprite_direction = ["Back", "Right", "Front", "Left"][dir]

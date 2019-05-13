@@ -11,7 +11,7 @@ func _ready():
 	DungeonState.connect("floor_changed", $FloorLabel, "new_floor")
 
 func _physics_process(delta):
-	if !get_tree().paused: return
+	if not is_instance_valid(get_tree()) and !get_tree().paused : return
 	
 	if !$DialogueBox.process():
 		if Input.is_action_just_pressed("Menu") and ($PlayerMenu.visible or $Shop.visible) and !just_opened or $PlayerMenu.new_location["id"] != -1:

@@ -47,14 +47,21 @@ func generate(level_name,w, h, aStar, current_floor1):
 	var start = Vector2(randi() % width, randi() % height)
 	empty_spots.append({"pos": start})
 
+#	var rest1 = OS.get_ticks_msec()
+#	var rest = OS.get_ticks_msec()
+#	var cout = 0
+
 	while !end:
 		while !empty_spots.empty():
+		#	print( "generation" )
 			var spot = empty_spots[randi() % empty_spots.size()]
+		#	print( empty_spots )
 			empty_spots.erase(spot)
 			
 			var segments = get_possible_segments(spot)
 			
 			if !segments.empty():
+			#	print( "segment_size: ", len(segments) )
 				var segment = segments[randi() % segments.size()]
 				var offset = segment.offset
 				segment = segment.segment
@@ -66,17 +73,23 @@ func generate(level_name,w, h, aStar, current_floor1):
 					for i in range(segment[dim]):
 						var ds = DIRECTIONS[dir] + DOFFSET[dir%2] * i
 						if segment["ways" + str(dir)][i]: empty_spots.append({"pos": spot.pos + offset + ds, "dir": dir})
-		
+		#	else: print( "No vaild segment" )
 		if segments.size() >= MIN_MAP_SIZE:
 			end = true
 #		elif !segments.empty():
 #			remove_segment(segments[randi() % segments.size()])
 		else:
+#			cout += 1
+		#	print( "reset" )
 			segments.clear()
 			map.clear()
 			map.resize(width * height)
 			start = Vector2(randi() % width, randi() % height)
 			empty_spots = [{"pos": start}]
+
+#	print( "G: Generation takes : ", OS.get_ticks_msec() - rest, " ", cout  )
+#	rest = OS.get_ticks_msec()
+
 
 	for x in range(width):
 		for y in range(height):
@@ -84,19 +97,27 @@ func generate(level_name,w, h, aStar, current_floor1):
 			if segment and segment.piece_x + segment.piece_y == 0:
 				create_segment(segment.segment.name, Vector2(x, y))
 
+#	print( "G: Creating segments: ", OS.get_ticks_msec() - rest," ", segments.size() )
+#	rest = OS.get_ticks_msec()
+	
 	for i in range(len(aStar_points)):
 		aStar.add_point(i,Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
-		
+	
+#	print( "G: Adding Astar takes : ", OS.get_ticks_msec() - rest )
+#	rest = OS.get_ticks_msec()
+			
+	var corresponations = [ Vector2( 80,   0), Vector2( -80,   0), Vector2(   0, 80), Vector2(   0, -80),
+					   Vector2( 80,  80), Vector2(  80, -80), Vector2( -80, 80), Vector2( -80, -80) ]
+
 	for i in range(len(aStar_points)):
-		for j in range(len(aStar_points)):
-			if aStar_points[i] + Vector2( 80,  0) == aStar_points[j]: aStar.connect_points(i,j,false)
-			if aStar_points[i] + Vector2(-80,  0) == aStar_points[j]: aStar.connect_points(i,j,false)
-			if aStar_points[i] + Vector2(  0, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
-			if aStar_points[i] + Vector2(  0,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
-			if aStar_points[i] + Vector2( 80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
-			if aStar_points[i] + Vector2(-80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
-			if aStar_points[i] + Vector2(-80, 80) == aStar_points[j]: aStar.connect_points(i,j,false)
-			if aStar_points[i] + Vector2( 80,-80) == aStar_points[j]: aStar.connect_points(i,j,false)
+		var id_1 = aStar.get_closest_point( Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
+		for direction in corresponations:
+			var id_2 = aStar.get_closest_point( Vector3(aStar_points[i].x + direction.x, aStar_points[i].y + direction.y, 0 ))
+			if id_1 == id_2: continue
+			aStar.connect_points(id_1, id_2, true)
+
+
+#	print( "G: Connect Astar takes : ", OS.get_ticks_msec() - rest )
 
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
 
@@ -155,6 +176,7 @@ func generate(level_name,w, h, aStar, current_floor1):
 						bottom.set_cellv(cell + Vector2(t, 0 ), tileset_dict["Wall" + str(new_tile+t) + "Up"  ])
 						bottom.set_cellv(cell + Vector2(t, 1 ), tileset_dict["Wall" + str(new_tile+t) + "Down"])
 
+#	print( "G: Whole takes : ", OS.get_ticks_msec() - rest1 )
 	queue_free()
 
 func create_stairs():
@@ -287,9 +309,16 @@ func remove_segment(segment):
 	segments.erase(segment)
 
 func create_segment(segment, pos):
+	
+#	var rest1 = OS.get_ticks_msec() 
+#	var rest  = OS.get_ticks_msec() 
+	
 	var seg    = Res.segment_nodes[segment].instance()
 	var bottom = seg.get_node("BottomTiles")
 	var top    = seg.get_node("TopTiles")
+	
+#	print( "SG: Initiation segment takes : ", OS.get_ticks_msec() - rest )
+#	rest  = OS.get_ticks_msec() 
 	
 	bottom.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 	top.tile_set    = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
@@ -298,29 +327,39 @@ func create_segment(segment, pos):
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
 	
 	var no_objects = get_segment_data(pos).segment.has("no_objects")
-	
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
 	var floorTileID = bottom.tile_set.find_tile_by_name("FloorMarker")
 
+#	print( "SG: Tilesets takes : ", OS.get_ticks_msec() - rest )
+#	rest  = OS.get_ticks_msec() 
 	get_parent().segments_holder.append(seg)
-#	dungeon.add_child(seg)
+#	print( "ApendTOHolder takes : ", OS.get_ticks_msec() - rest )
 	
+#	rest  = OS.get_ticks_msec() 
 	if splitted_obj == null:
 		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, current_floor, Res.enemies)
 		splitted_obj = seg.get_splitted_elements()
 	else:
 		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, current_floor, Res.enemies)
-
+		
+#	print( "SG: Call Generation takes : ", OS.get_ticks_msec() - rest )
+#	rest  = OS.get_ticks_msec()
+	
 	var segment_astar_points = seg.get_Astar_positions()
-
 	for point in segment_astar_points:
 		aStar_points.append(point+seg.position)
-
+		
+#	print( "SG: AstarSegment takes : ", OS.get_ticks_msec() - rest )
+	
+#	rest  = OS.get_ticks_msec() 
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):
 			var node = seg.get_node("Objects").get_child(0)
 			seg.get_node("Objects").remove_child(node) ##może nie działać dla kilku
 			get_parent().objects_holder.append([ node , node.position + seg.position ])
+	
+#	print( "SG: AppendingObjects takes : ", OS.get_ticks_msec() - rest )
+#	print( "SG: Creating one segment takes : ", OS.get_ticks_msec() - rest1 )
 			
 	return seg
 
