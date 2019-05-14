@@ -53,6 +53,7 @@ func disable_collisions():
 	if is_instance_valid($\"DamageShape\")    : $\"DamageShape\".set_disabled(true) 
 
 func _process(delta):
+	$DamageShape.disabled = ($Sprite.frame != 2)
 	if $Sprite.frame != last_frame:
 		$DamageShape.disabled = ($Sprite.frame != 2)
 		last_frame = $Sprite.frame

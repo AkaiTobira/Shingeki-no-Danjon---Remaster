@@ -81,7 +81,7 @@ extents = Vector2( 10.4152, 10 )
 [node name="Node2D" type="StaticBody2D" groups=[
 "wall",
 ]]
-position = Vector2( 0, -41 )
+position = Vector2( 0, -20 )
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -112,6 +112,6 @@ collision_mask = 513
 position = Vector2( -0.720622, -14.4037 )
 scale = Vector2( 0.715379, 0.565741 )
 shape = SubResource( 3 )
-
+disabled = true
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

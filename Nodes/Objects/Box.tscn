@@ -31,7 +31,6 @@ var item = -1
 var destroy_time = 0.0
 var destroyed = false
 
-
 func spawn_item():
 	if item > -1:
 		var it      = Res.create_instance(\"Item\")
@@ -71,8 +70,7 @@ func fill(breakable_contains,dungeon_level):
 	if j < (dungeon_level+1)*1.25*breakable_contains[i][1]:
 		item = breakable_contains[i][0]
 	else:
-		item = -1	
-	
+		item = -1
 
 func damage(amount, source = \"\", nothing = \"\"):
 	Res.play_sample(self, \"WoodBreak\")
@@ -137,10 +135,10 @@ tracks/3/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 24.9147, 34.5188 )
+extents = Vector2( 21.3022, 29.5939 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 24, 20 )
+extents = Vector2( 19.5058, 10.8451 )
 
 [node name="Barrel" type="StaticBody2D" groups=[
 "enemies",
@@ -152,17 +150,20 @@ collision_layer = 13
 collision_mask = 13
 script = SubResource( 1 )
 placement = 5
+offset_position = Vector2( 10, 0 )
 state = 1
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( -2.75148, 6.84495 )
-scale = Vector2( 0.16908, 0.135635 )
+position = Vector2( 1.808, 14.447 )
+scale = Vector2( 0.131411, 0.093431 )
 texture = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -82.6637, -56.327 )
+position = Vector2( -77.064, -46.018 )
+scale = Vector2( 0.908641, 0.908641 )
 texture = ExtResource( 2 )
 centered = false
+offset = Vector2( 5, 0 )
 vframes = 2
 hframes = 4
 
@@ -177,11 +178,12 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="Shape" type="CollisionShape2D" parent="DamageCollider"]
-position = Vector2( -0.689755, 17.42 )
+visible = false
+position = Vector2( 3.729, 19.684 )
 scale = Vector2( 1.03642, 0.807734 )
 shape = SubResource( 3 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( -2.35185, -9.34551 )
+position = Vector2( 1.048, 3.254 )
 scale = Vector2( 1.32088, 1.43794 )
 shape = SubResource( 4 )

@@ -29,15 +29,20 @@ func reset() :
 				$"Sprite".offset     += Vector2(6,0)
 				$"Sprite10".position += Vector2(50,0)
 				$"Sprite10".flip_h    = $"Sprite".flip_h
-				
-				if $"Sprite10".visible == false:
-					return
-	
+				if $"Sprite10".visible == false: return
 
 func disable_collisions(): pass
 
+func _ready():
+	if has_node("Sprite10"):
+		if $"Sprite10".flip_h    !=  $"Sprite".flip_h:	
+			$"Sprite".offset     += Vector2(6,0)
+			$"Sprite10".position += Vector2(50,0)
+			$"Sprite10".flip_h    = $"Sprite".flip_h
+			$"Shape".position     = Vector2(21.534, 11.652)
+			if $"Sprite10".visible == false: return
+
 func _init():
-	
 	if has_node("Animation") and const_object and not block_animation:
 		var anim = $Animation.get_animation_list()
 		if len(anim) > 0 :
@@ -45,8 +50,7 @@ func _init():
 			$Animation.advance(randi()% ( int($Animation.current_animation_length )) )
 			if randomize_speed_of_animation:
 				$Animation.playback_speed = (randi()%9 + 12)
-	pass
-	
+
 func _build_wall( tab = [] ):
 	if has_node("Node2D/Sprite") and has_node("CollisionR"):
 		get_node("CollisionR").disabled = false
@@ -62,12 +66,11 @@ func _build_wall( tab = [] ):
 			get_node("CollisionR").disabled = true
 		if randi()%2 and tab[3]:
 			$Node2D/Back/Sprite.visible = false
-	
+
 	if $Node2D/Back/Sprite.visible == false:
 		$CollisionShape2D.scale = Vector2(1.781887,2.901224)
 		$CollisionShape2D.position = Vector2(3.621228,-16.660124)
 
-	
 func _change_sprite( tileset_name = "Default" ):
 	if tileset_name == "Dungeon":
 		pass

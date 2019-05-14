@@ -93,6 +93,9 @@ func get_tile_ids_from_TileSet():
 func initialize():
 	used_rect = $BottomTiles.get_used_rect()
 
+	$BottomTiles.cell_y_sort = true
+	$TopTiles.cell_y_sort = true	
+
 	get_tile_ids_from_TileSet()
 	create_Objects_node()
 	covert_tiles_to_structure()
@@ -292,6 +295,7 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 	
 #	var time_start = OS.get_ticks_msec()
 #	var time_start1 = OS.get_ticks_msec()
+
 	initialize()
 #	print( "ISG: initialization takes : ", (OS.get_ticks_msec() - time_start)) 
 #	time_start = OS.get_ticks_msec()
@@ -368,6 +372,7 @@ func translate_const_obj():
 		for i in $ConstObjects.get_children():
 			var node = i
 			get_node("ConstObjects").remove_child(node)
+			if i.has_method( "_change_sprite" ): i._change_sprite(tilesetName)
 			get_node("Objects").add_child(i)
 
 func reset():
@@ -375,9 +380,7 @@ func reset():
 	numration_counter +=1;
 	Obj_to_Append.clear()
 	AccesNeed.clear()
-	
-#	print( name , " : Reset Called : ", numration_counter )
-	
+
 	tab.clear()
 	for i in structure:
 		var cell = []

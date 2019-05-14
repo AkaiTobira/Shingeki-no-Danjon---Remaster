@@ -110,4 +110,3 @@ frame = 55
 position = Vector2( -58.5981, -50.7091 )
 scale = Vector2( 1.16748, 1.02028 )
 rect = Rect2( 0, 0, 100, 100 )
-

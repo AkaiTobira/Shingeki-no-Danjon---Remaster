@@ -4,66 +4,30 @@
 [ext_resource path="res://Sprites/Environment/Placeholder1x2.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
 extents = Vector2( 74.6386, 65.2316 )
 
 [node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
 "enviroment",
 ]]
-
 z_index = 1
-input_pickable = false
-collision_layer = 1
-collision_mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
 script = ExtResource( 1 )
-_sections_unfolded = [ "Animation" ]
 placement = 2
-offset_position = Vector2( 0, 0 )
 size = Vector2( 1, 2 )
-variants = ""
 can_flip_h = true
-const_object = true
-randomize_speed_of_animation = null
-state = 0
 
-[node name="Animation" type="AnimationPlayer" parent="." index="0"]
-
-root_node = NodePath("..")
+[node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "1"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
 playback_speed = 8.0
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Shape" type="CollisionShape2D" parent="." index="1"]
-
+[node name="Shape" type="CollisionShape2D" parent="."]
 position = Vector2( -9.21935, 1.72901 )
 scale = Vector2( 0.232943, 1.1543 )
 shape = SubResource( 1 )
-_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Sprite" type="Sprite" parent="." index="2"]
-
+[node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="3"]
-
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( -38.5386, -76.5907 )
 scale = Vector2( 0.779024, 1.54263 )
 rect = Rect2( 0, 0, 100, 100 )
-pause_animations = true
-freeze_bodies = true
-pause_particles = true
-pause_animated_sprites = true
-process_parent = false
-physics_process_parent = false
-_sections_unfolded = [ "Transform" ]
-
-
