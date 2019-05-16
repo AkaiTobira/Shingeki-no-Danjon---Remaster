@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Sprites/UI/Menu/PlayerMenu.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/Menu/TabInactive.png" type="Texture" id=2]
@@ -37,9 +37,11 @@
 [ext_resource path="res://Sprites/UI/Menu/Skills/AnimationPanel.png" type="Texture" id=35]
 [ext_resource path="res://Sprites/UI/Menu/Crafting/IngredientFrame.png" type="Texture" id=36]
 [ext_resource path="res://Sprites/UI/Menu/Crafting/Scrollbar.png" type="Texture" id=37]
-[ext_resource path="res://Sprites/UI/Menu/Map/map_placeholder.png" type="Texture" id=38]
-[ext_resource path="res://Sprites/UI/ItemHighligh.png" type="Texture" id=39]
-[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=40]
+[ext_resource path="res://Sprites/UI/Menu/Map/map1.png" type="Texture" id=38]
+[ext_resource path="res://Sprites/UI/Menu/Map/ItemHighligh.png" type="Texture" id=39]
+[ext_resource path="res://Sprites/UI/Menu/Map/map_placeholder.png" type="Texture" id=40]
+[ext_resource path="res://Sprites/UI/ItemHighligh.png" type="Texture" id=41]
+[ext_resource path="res://Sprites/UI/Menu/Journal/UI_jornual.png" type="Texture" id=42]
 
 [sub_resource type="GDScript" id=1]
 resource_name = "PlayerMenu"
@@ -2774,7 +2776,6 @@ text = "Some Info"
 autowrap = true
 
 [node name="Map_graphics" type="Control" parent="Tabs/Map"]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -2787,10 +2788,10 @@ rect_scale = Vector2( 0.465, 0.465 )
 texture = ExtResource( 38 )
 
 [node name="Place1" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
-margin_left = 207.0
-margin_top = 132.0
-margin_right = 247.0
-margin_bottom = 172.0
+margin_left = 865.065
+margin_top = 26.6237
+margin_right = 905.065
+margin_bottom = 66.6237
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2800,10 +2801,10 @@ margin_bottom = 40.0
 
 [node name="Place2" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 329.0
-margin_top = 204.0
-margin_right = 369.0
-margin_bottom = 244.0
+margin_left = 1283.84
+margin_top = 247.011
+margin_right = 1323.84
+margin_bottom = 287.011
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2813,10 +2814,10 @@ margin_bottom = 40.0
 
 [node name="Place3" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 185.0
-margin_top = 318.0
-margin_right = 225.0
-margin_bottom = 358.0
+margin_left = 400.054
+margin_top = 887.893
+margin_right = 440.054
+margin_bottom = 927.893
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2826,10 +2827,10 @@ margin_bottom = 40.0
 
 [node name="Place4" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 467.0
-margin_top = 162.0
-margin_right = 507.0
-margin_bottom = 202.0
+margin_left = 1400.33
+margin_top = 181.355
+margin_right = 1440.33
+margin_bottom = 221.355
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2839,10 +2840,10 @@ margin_bottom = 40.0
 
 [node name="Place5" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 325.0
-margin_top = 390.0
-margin_right = 365.0
-margin_bottom = 430.0
+margin_left = 1004.57
+margin_top = 35.1613
+margin_right = 1044.57
+margin_bottom = 75.1613
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2852,10 +2853,10 @@ margin_bottom = 40.0
 
 [node name="Place6" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 59.1828
-margin_top = 204.946
-margin_right = 99.1828
-margin_bottom = 244.946
+margin_left = 1099.56
+margin_top = 142.634
+margin_right = 1139.56
+margin_bottom = 182.634
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2865,10 +2866,10 @@ margin_bottom = 40.0
 
 [node name="Place7" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 181.0
-margin_top = 462.0
-margin_right = 221.0
-margin_bottom = 502.0
+margin_left = 740.14
+margin_top = 62.0
+margin_right = 780.14
+margin_bottom = 102.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2878,10 +2879,10 @@ margin_bottom = 40.0
 
 [node name="Place8" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 569.0
-margin_top = 288.0
-margin_right = 609.0
-margin_bottom = 328.0
+margin_left = 661.473
+margin_top = 354.667
+margin_right = 701.473
+margin_bottom = 394.667
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2891,9 +2892,9 @@ margin_bottom = 40.0
 
 [node name="Place9" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 667.0
+margin_left = 662.699
 margin_top = 198.0
-margin_right = 707.0
+margin_right = 702.699
 margin_bottom = 238.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
@@ -2904,10 +2905,10 @@ margin_bottom = 40.0
 
 [node name="Place10" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 383.0
-margin_top = 524.0
-margin_right = 423.0
-margin_bottom = 564.0
+margin_left = 563.645
+margin_top = 975.613
+margin_right = 603.645
+margin_bottom = 1015.61
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2917,10 +2918,10 @@ margin_bottom = 40.0
 
 [node name="Place11" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 249.0
-margin_top = 582.0
-margin_right = 289.0
-margin_bottom = 622.0
+margin_left = 261.903
+margin_top = 947.592
+margin_right = 301.903
+margin_bottom = 987.592
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2930,10 +2931,10 @@ margin_bottom = 40.0
 
 [node name="Place12" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 452.0
-margin_top = 645.0
-margin_right = 492.0
-margin_bottom = 685.0
+margin_left = 374.581
+margin_top = 647.151
+margin_right = 414.581
+margin_bottom = 687.151
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2943,10 +2944,10 @@ margin_bottom = 40.0
 
 [node name="Place13" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 773.0
-margin_top = 244.0
-margin_right = 813.0
-margin_bottom = 284.0
+margin_left = 809.559
+margin_top = 241.849
+margin_right = 849.559
+margin_bottom = 281.849
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2956,10 +2957,10 @@ margin_bottom = 40.0
 
 [node name="Place15" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 932.0
-margin_top = 204.0
-margin_right = 972.0
-margin_bottom = 244.0
+margin_left = 854.581
+margin_top = 137.333
+margin_right = 894.581
+margin_bottom = 177.333
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -2969,9 +2970,9 @@ margin_bottom = 40.0
 
 [node name="Place16" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 890.0
+margin_left = 853.441
 margin_top = 348.0
-margin_right = 930.0
+margin_right = 893.441
 margin_bottom = 388.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
@@ -2995,10 +2996,10 @@ margin_bottom = 40.0
 
 [node name="Place28" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1110.0
-margin_top = 564.0
-margin_right = 1150.0
-margin_bottom = 604.0
+margin_left = 1114.3
+margin_top = 572.602
+margin_right = 1154.3
+margin_bottom = 612.602
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3022,9 +3023,9 @@ margin_bottom = 40.0
 [node name="Place31" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
 margin_left = 1148.0
-margin_top = 704.0
+margin_top = 712.602
 margin_right = 1188.0
-margin_bottom = 744.0
+margin_bottom = 752.602
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3034,10 +3035,10 @@ margin_bottom = 40.0
 
 [node name="Place32" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1258.0
-margin_top = 596.0
-margin_right = 1298.0
-margin_bottom = 636.0
+margin_left = 1298.86
+margin_top = 658.365
+margin_right = 1338.86
+margin_bottom = 698.365
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3047,10 +3048,10 @@ margin_bottom = 40.0
 
 [node name="Place33" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1286.0
-margin_top = 782.0
-margin_right = 1326.0
-margin_bottom = 822.0
+margin_left = 1320.41
+margin_top = 820.709
+margin_right = 1360.41
+margin_bottom = 860.709
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3060,10 +3061,10 @@ margin_bottom = 40.0
 
 [node name="Place34" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1452.0
-margin_top = 782.0
-margin_right = 1492.0
-margin_bottom = 822.0
+margin_left = 1464.9
+margin_top = 764.796
+margin_right = 1504.9
+margin_bottom = 804.796
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3073,10 +3074,10 @@ margin_bottom = 40.0
 
 [node name="Place35" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1600.0
-margin_top = 782.0
-margin_right = 1640.0
-margin_bottom = 822.0
+margin_left = 1507.53
+margin_top = 635.763
+margin_right = 1547.53
+margin_bottom = 675.763
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3086,10 +3087,10 @@ margin_bottom = 40.0
 
 [node name="Place36" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1550.0
-margin_top = 668.0
-margin_right = 1590.0
-margin_bottom = 708.0
+margin_left = 760.752
+margin_top = 934.667
+margin_right = 800.752
+margin_bottom = 974.667
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3099,10 +3100,10 @@ margin_bottom = 40.0
 
 [node name="Place37" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1442.0
-margin_top = 542.0
-margin_right = 1482.0
-margin_bottom = 582.0
+margin_left = 1411.89
+margin_top = 565.656
+margin_right = 1451.89
+margin_bottom = 605.656
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3112,10 +3113,10 @@ margin_bottom = 40.0
 
 [node name="Place38" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1362.0
-margin_top = 446.0
-margin_right = 1402.0
-margin_bottom = 486.0
+margin_left = 1413.61
+margin_top = 439.548
+margin_right = 1453.61
+margin_bottom = 479.548
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3125,10 +3126,10 @@ margin_bottom = 40.0
 
 [node name="Place39" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1362.0
-margin_top = 302.0
-margin_right = 1402.0
-margin_bottom = 342.0
+margin_left = 1342.65
+margin_top = 334.258
+margin_right = 1382.65
+margin_bottom = 374.258
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3138,10 +3139,10 @@ margin_bottom = 40.0
 
 [node name="Place40" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1496.0
-margin_top = 344.0
-margin_right = 1536.0
-margin_bottom = 384.0
+margin_left = 1470.19
+margin_top = 333.247
+margin_right = 1510.19
+margin_bottom = 373.247
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3151,10 +3152,10 @@ margin_bottom = 40.0
 
 [node name="Place41" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1592.0
-margin_top = 476.0
-margin_right = 1632.0
-margin_bottom = 516.0
+margin_left = 1598.45
+margin_top = 383.527
+margin_right = 1638.45
+margin_bottom = 423.527
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3164,10 +3165,10 @@ margin_bottom = 40.0
 
 [node name="Place42" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1592.0
-margin_top = 216.0
-margin_right = 1632.0
-margin_bottom = 256.0
+margin_left = 1252.22
+margin_top = 151.484
+margin_right = 1292.22
+margin_bottom = 191.484
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3177,9 +3178,9 @@ margin_bottom = 40.0
 
 [node name="Place24" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1006.0
+margin_left = 1079.12
 margin_top = 442.0
-margin_right = 1046.0
+margin_right = 1119.12
 margin_bottom = 482.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
@@ -3190,10 +3191,10 @@ margin_bottom = 40.0
 
 [node name="Place25" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 1006.0
-margin_top = 778.0
-margin_right = 1046.0
-margin_bottom = 818.0
+margin_left = 939.333
+margin_top = 857.57
+margin_right = 979.333
+margin_bottom = 897.57
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3204,9 +3205,9 @@ margin_bottom = 40.0
 [node name="Place29" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
 margin_left = 1154.0
-margin_top = 890.0
+margin_top = 831.935
 margin_right = 1194.0
-margin_bottom = 930.0
+margin_bottom = 871.935
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3216,10 +3217,10 @@ margin_bottom = 40.0
 
 [node name="Place26" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 846.0
-margin_top = 730.0
-margin_right = 886.0
-margin_bottom = 770.0
+margin_left = 811.591
+margin_top = 751.505
+margin_right = 851.591
+margin_bottom = 791.505
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3242,10 +3243,10 @@ margin_bottom = 40.0
 
 [node name="Place17" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 471.0
-margin_top = 376.0
-margin_right = 511.0
-margin_bottom = 416.0
+margin_left = 481.753
+margin_top = 455.57
+margin_right = 521.753
+margin_bottom = 495.57
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3255,10 +3256,10 @@ margin_bottom = 40.0
 
 [node name="Place18" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 621.0
-margin_top = 462.0
-margin_right = 661.0
-margin_bottom = 502.0
+margin_left = 603.796
+margin_top = 500.709
+margin_right = 643.796
+margin_bottom = 540.709
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3268,10 +3269,10 @@ margin_bottom = 40.0
 
 [node name="Place19" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 773.0
-margin_top = 434.0
-margin_right = 813.0
-margin_bottom = 474.0
+margin_left = 837.516
+margin_top = 451.204
+margin_right = 877.516
+margin_bottom = 491.204
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3281,10 +3282,10 @@ margin_bottom = 40.0
 
 [node name="Place20" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 857.0
-margin_top = 564.0
-margin_right = 897.0
-margin_bottom = 604.0
+margin_left = 872.054
+margin_top = 561.849
+margin_right = 912.054
+margin_bottom = 601.849
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3294,10 +3295,10 @@ margin_bottom = 40.0
 
 [node name="Place21" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 683.0
-margin_top = 618.0
-margin_right = 723.0
-margin_bottom = 658.0
+margin_left = 639.989
+margin_top = 613.699
+margin_right = 679.989
+margin_bottom = 653.699
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3307,10 +3308,10 @@ margin_bottom = 40.0
 
 [node name="Place22" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 579.0
-margin_top = 728.0
-margin_right = 619.0
-margin_bottom = 768.0
+margin_left = 574.699
+margin_top = 766.71
+margin_right = 614.699
+margin_bottom = 806.71
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3320,10 +3321,10 @@ margin_bottom = 40.0
 
 [node name="Place14" type="TextureRect" parent="Tabs/Map/Map_graphics/Map1"]
 editor/display_folded = true
-margin_left = 327.0
-margin_top = 756.0
-margin_right = 367.0
-margin_bottom = 796.0
+margin_left = 288.29
+margin_top = 790.409
+margin_right = 328.29
+margin_bottom = 830.409
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 34 )
 
@@ -3341,13 +3342,14 @@ texture = ExtResource( 39 )
 expand = true
 
 [node name="Map2" type="TextureRect" parent="Tabs/Map/Map_graphics"]
+editor/display_folded = true
 visible = false
 margin_left = 440.0
 margin_top = 185.0
 margin_right = 2360.0
 margin_bottom = 1265.0
 rect_scale = Vector2( 0.465, 0.465 )
-texture = ExtResource( 38 )
+texture = ExtResource( 40 )
 
 [node name="Place1" type="TextureRect" parent="Tabs/Map/Map_graphics/Map2"]
 editor/display_folded = true
@@ -3901,7 +3903,7 @@ margin_top = 122.0
 margin_right = 278.0
 margin_bottom = 202.0
 rect_scale = Vector2( 1.25, 1.25 )
-texture = ExtResource( 39 )
+texture = ExtResource( 41 )
 expand = true
 
 [node name="Notes" type="Control" parent="Tabs"]
@@ -3917,5 +3919,4 @@ __meta__ = {
 margin_left = -13.0
 margin_right = 1353.0
 margin_bottom = 768.0
-texture = ExtResource( 40 )
-
+texture = ExtResource( 42 )
