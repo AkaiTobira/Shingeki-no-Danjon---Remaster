@@ -66,7 +66,7 @@ func _physics_process(delta):
 	
 	static_time += delta
 	motion_time += delta
-	if static_time >= MEDITATION_TIME: SkillBase.inc_stat("Meditation")
+#	if static_time >= MEDITATION_TIME: SkillBase.inc_stat("Meditation")
 	
 	var elements_on = (!is_ghost and $Elements.visible)
 	var not_move = (ghost_mode or elements_on or knockback.length_squared() > 0)

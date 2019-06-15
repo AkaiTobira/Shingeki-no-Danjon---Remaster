@@ -35,6 +35,10 @@ var splitted_obj
 
 var size_of_segments = [Vector2(999999999,999999999), Vector2(0,0)]
 
+var l_generator = preload("res://Scripts/Lab_Generator.gd").new()
+
+var graph = {}
+
 func generate(level_name,w, h, aStar, current_floor1):
 	width = w
 	height = h
@@ -44,70 +48,24 @@ func generate(level_name,w, h, aStar, current_floor1):
 
 	current_floor = current_floor1
 
-	var start = Vector2(randi() % width, randi() % height)
-	empty_spots.append({"pos": start})
+	for i in range( 100 ):
+		l_generator.generate()
+		print( i )
+		while( not l_generator.is_correct()):
+			print( "GET FAILED : RESUME" )
+			l_generator.generate()
+		
+	graph = l_generator.graph
 
-#	var rest1 = OS.get_ticks_msec()
-#	var rest = OS.get_ticks_msec()
-#	var cout = 0
+	for segment in graph:
+		create_segment(segment, graph[segment]["name"], graph[segment]["position"])
 
-	while !end:
-		while !empty_spots.empty():
-		#	print( "generation" )
-			var spot = empty_spots[randi() % empty_spots.size()]
-		#	print( empty_spots )
-			empty_spots.erase(spot)
-			
-			var segments = get_possible_segments(spot)
-			
-			if !segments.empty():
-			#	print( "segment_size: ", len(segments) )
-				var segment = segments[randi() % segments.size()]
-				var offset = segment.offset
-				segment = segment.segment
-				
-				set_segment(spot.pos + offset, segment)
-				
-				for dir in range(4):
-					var dim = ["width", "height"][dir%2]
-					for i in range(segment[dim]):
-						var ds = DIRECTIONS[dir] + DOFFSET[dir%2] * i
-						if segment["ways" + str(dir)][i]: empty_spots.append({"pos": spot.pos + offset + ds, "dir": dir})
-		#	else: print( "No vaild segment" )
-		if segments.size() >= MIN_MAP_SIZE:
-			end = true
-#		elif !segments.empty():
-#			remove_segment(segments[randi() % segments.size()])
-		else:
-#			cout += 1
-		#	print( "reset" )
-			segments.clear()
-			map.clear()
-			map.resize(width * height)
-			start = Vector2(randi() % width, randi() % height)
-			empty_spots = [{"pos": start}]
-
-#	print( "G: Generation takes : ", OS.get_ticks_msec() - rest, " ", cout  )
-#	rest = OS.get_ticks_msec()
-
-
-	for x in range(width):
-		for y in range(height):
-			var segment = map[x + y * width]
-			if segment and segment.piece_x + segment.piece_y == 0:
-				create_segment(segment.segment.name, Vector2(x, y))
-
-#	print( "G: Creating segments: ", OS.get_ticks_msec() - rest," ", segments.size() )
-#	rest = OS.get_ticks_msec()
 	
 	for i in range(len(aStar_points)):
 		aStar.add_point(i,Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
-	
-#	print( "G: Adding Astar takes : ", OS.get_ticks_msec() - rest )
-#	rest = OS.get_ticks_msec()
-			
+
 	var corresponations = [ Vector2( 80,   0), Vector2( -80,   0), Vector2(   0, 80), Vector2(   0, -80),
-					   Vector2( 80,  80), Vector2(  80, -80), Vector2( -80, 80), Vector2( -80, -80) ]
+					  	    Vector2( 80,  80), Vector2(  80, -80), Vector2( -80, 80), Vector2( -80, -80) ]
 
 	for i in range(len(aStar_points)):
 		var id_1 = aStar.get_closest_point( Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
@@ -115,9 +73,6 @@ func generate(level_name,w, h, aStar, current_floor1):
 			var id_2 = aStar.get_closest_point( Vector3(aStar_points[i].x + direction.x, aStar_points[i].y + direction.y, 0 ))
 			if id_1 == id_2: continue
 			aStar.connect_points(id_1, id_2, true)
-
-
-#	print( "G: Connect Astar takes : ", OS.get_ticks_msec() - rest )
 
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
 
@@ -130,8 +85,9 @@ func generate(level_name,w, h, aStar, current_floor1):
 	for i in ts.get_tiles_ids():
 		tileset_dict[ts.tile_get_name(i)] = i
 
-	for segment in get_parent().segments_holder:
-		var bottom = segment.find_node("BottomTiles", true, false)
+	for index_g in graph:
+
+		var bottom = graph[index_g]["segment"].find_node("BottomTiles", true, false)
 		
 		if bottom != null :
 			for cell in bottom.get_used_cells():
@@ -177,16 +133,20 @@ func generate(level_name,w, h, aStar, current_floor1):
 						bottom.set_cellv(cell + Vector2(t, 1 ), tileset_dict["Wall" + str(new_tile+t) + "Down"])
 
 #	print( "G: Whole takes : ", OS.get_ticks_msec() - rest1 )
+
+	get_parent().segments_holder = graph
+
 	queue_free()
 
 func create_stairs():
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
 	#var segments = se#dungeon.get_children()
 	
-	var segment_enter  = get_parent().segments_holder[randi()%len(segments)]	
+	var segment_enter  = graph[ randi()%len(graph) ]["segment"]
+#	get_parent().segments_holder[randi()%len(segments)]	
 	var stairs_pos     = segment_enter.get_stairs_position() 
 	while(!segment_enter.can_have_stairs or !len(stairs_pos) ):
-		segment_enter  = get_parent().segments_holder[randi()%len(segments)]	
+		segment_enter  = graph[ randi()%len(graph) ]["segment"]
 		stairs_pos = segment_enter.get_stairs_position() 
 
 
@@ -201,14 +161,14 @@ func create_stairs():
 	
 	get_parent().stairs_holder.append(stairs)
 
-	var segment_exit  = get_parent().segments_holder[randi()%len(segments)]	
+	var segment_exit  = graph[ randi()%len(graph) ]["segment"]
 	stairs_pos = segment_exit.get_stairs_position() 
 	while(!segment_exit.can_have_stairs 
 	   or !len(stairs_pos) 
 	   or segment_exit == segment_enter 
 	   or segment_enter.position.distance_to(segment_exit.position) < 4000
 	):
-		segment_exit  = get_parent().segments_holder[randi()%len(segments)]	
+		segment_exit  = graph[ randi()%len(graph) ]["segment"]
 		stairs_pos    = segment_exit.get_stairs_position() 
 
 	stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
@@ -300,15 +260,10 @@ func set_segment(pos, segment):
 func find_floor_spot(spot):
 	if floor_space.has(spot): return true
 
-func remove_segment(segment):
-	for x in range(segment.segment.width):
-		for y in range(segment.segment.height):
-			map[segment.pos_x + x + (segment.pos_y + y)  * width] = null
-	
-	empty_spots.append({"pos": Vector2(segment.pos_x, segment.pos_y)})
-	segments.erase(segment)
 
-func create_segment(segment, pos):
+func create_segment(index, segment, position):
+	
+	var pos = Vector2( position[0], position[1] )
 	
 #	var rest1 = OS.get_ticks_msec() 
 #	var rest  = OS.get_ticks_msec() 
@@ -326,13 +281,14 @@ func create_segment(segment, pos):
 
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
 	
-	var no_objects = get_segment_data(pos).segment.has("no_objects")
+	#var no_objects = get_segment_data(pos).segment.has("no_objects")
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
 	var floorTileID = bottom.tile_set.find_tile_by_name("FloorMarker")
 
 #	print( "SG: Tilesets takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec() 
-	get_parent().segments_holder.append(seg)
+	graph[index]["segment"] = seg
+#	get_parent().segments_holder.append(seg)
 #	print( "ApendTOHolder takes : ", OS.get_ticks_msec() - rest )
 	
 #	rest  = OS.get_ticks_msec() 

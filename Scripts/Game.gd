@@ -21,7 +21,6 @@ func set_map_manager(location_manager):
 	map_manager    = location_manager
 	current_map_id = -1
 
-
 func _ready():
 	VisualServer.set_default_clear_color(Color(0.05, 0.05, 0.07))
 	ProjectSettings.set_setting("rendering/environment/default_clear_color", "1a1918") ##usunąć, gdy naprawią powyższe :/

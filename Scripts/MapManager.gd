@@ -91,13 +91,12 @@ func get_new_floor(change):
 	if is_next_map_ready : print( "OK : Map ready ", len( preloaded_map_list ) )
 
 	if not is_next_map_ready or current_floor + change ==  new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] : 
-		print( "Reach the top ... or cheated" )
+#		print( "Reach the top ... or cheated" )
 		return new_maps[current_world]["ST" + str(current_location)]["top"]
 
 	current_floor += change	
 	mutex.lock()
 	return new_maps[current_world]["ST" + str(current_location)]["begin"] if current_floor-1 < 0 else preloaded_map_list[current_floor-1]
-
 
 
 func get_new_map(location_id, selected_world):

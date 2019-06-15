@@ -8,9 +8,9 @@ script/source = "extends Node2D
 
 onready var dungeon = $\"Segments\"
 var from            = \"UP\"
-var my_seed
+var my_seed         = null
 
-var segments_holder = []
+var segments_holder = {}
 var objects_holder  = []
 var stairs_holder   = []
 var current_floor   = -1
@@ -27,15 +27,15 @@ func initialize():
 	Res.play_music(\"LowerWorkshop\")
 	initialized = true
 	
-	if !my_seed:
+	if my_seed == null:
 		randomize()
 		my_seed = randi()
 #		print(\"Seed: \", my_seed)
 	seed(my_seed)
 	
-	for segment in segments_holder:
-		dungeon.add_child(segment)
-
+	for seg_id in segments_holder:
+		dungeon.add_child( segments_holder[seg_id][\"segment\"] )
+	
 func fill():
 	for stairs in stairs_holder:
 		dungeon.add_child(stairs)
