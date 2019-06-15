@@ -1,0 +1,111 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/TitleScreen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Intro.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/LoadingScreen.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+var loader = Thread.new()
+var mutex  = Mutex.new()
+
+var m_manager = null
+var can_start_game = false
+
+var current_state = \"Title_screen\"
+
+func unclock_processes():
+	Res.disable_cheats = false
+	SkillBase.process_block = false
+	
+
+
+func _ready():
+	$LoadingScreen/Background.visible = false
+	$LoadingScreen/Label.visible = false
+	
+	
+#	var game = load(\"res://Scenes/Game.tscn\").instance()
+	m_manager = load(\"res://Scripts/MapManager.gd\").new()
+
+
+
+	
+	#m_manager.load_basic_maps()
+	
+	#game.set_map_manager(m_manager)
+	
+	#$\"/root\".add_child(game)
+	#get_tree().current_scene = game
+	#queue_free()
+	
+	
+	pass # Replace with function body.
+
+var block_proces = 1
+var passed_time  = 10
+ 
+
+func _process(delta):
+	passed_time += delta
+	if passed_time < block_proces : return
+	if passed_time > 200000 : passed_time = block_proces
+
+	if current_state == \"Loading\":
+		if not can_start_game: return
+		var game = load(\"res://Scenes/Game.tscn\").instance()
+		game.set_map_manager(m_manager)
+		$\"/root\".add_child(game)
+		unclock_processes()
+		current_state == \"Game\"
+		can_start_game = false
+		$LoadingScreen.go_foward()
+		queue_free()
+		return
+
+	if Input.is_action_just_pressed(\"ui_accept\") and current_state == \"Title_screen\":
+		passed_time = 0
+		Res.ui_sample(\"MenuEnter\")
+		$TitleScreen.go_foward()
+		loader.start(self,\"start_loading_maps\", [])
+		$Intro.intro_start()
+		current_state = \"Intro\"
+		return
+
+	if Input.is_action_pressed(\"ui_accept\") and current_state == \"Intro\":
+		passed_time = 0
+		Res.ui_sample(\"MenuEnter\")
+		to_loading()
+		return
+		
+
+
+func to_loading():
+		$Intro.go_foward()
+		$LoadingScreen/Background.visible = true
+		$LoadingScreen/Label.visible      = true
+		current_state = \"Loading\"
+
+func start_loading_maps( unused_var ):
+	m_manager.load_basic_maps()
+	call_deferred(\"basic_map_making_ended\")
+
+func basic_map_making_ended():
+	loader.wait_to_finish()
+	can_start_game = true
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[node name="Preloader" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="TitleScreen" parent="." instance=ExtResource( 1 )]
+
+[node name="Intro" parent="." instance=ExtResource( 2 )]
+
+[node name="LoadingScreen" parent="." instance=ExtResource( 3 )]

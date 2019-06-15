@@ -54,7 +54,7 @@ func generate():
 		_lock_segment(   segments[0][0], next_spot, segments[0][1] )
 		_add_new_points( segments[0][0], next_spot, segments[0][1] )
 
-	print_locked()
+#	print_locked()
 	#	for i in graph: print( graph[i] )
 
 func _get_all_segments():

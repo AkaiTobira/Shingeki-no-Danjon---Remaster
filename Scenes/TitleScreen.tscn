@@ -7,19 +7,16 @@
 resource_name = "TitleScreen"
 script/source = "extends Node2D
 
+
+var state = \"new game\"
+
 func _ready():
 	Res.play_music(\"Title\")
 
 func go_foward():
-	var loading = load(\"res://Scenes/LoadingScreen.tscn\").instance()
-	$\"/root\".add_child(loading)
-	get_tree().current_scene = loading
 	queue_free()
 
-func _process(delta):
-	if Input.is_action_just_pressed(\"ui_accept\"):
-		Res.ui_sample(\"MenuEnter\")
-		go_foward()
+
 "
 
 [sub_resource type="Animation" id=2]
@@ -61,4 +58,3 @@ text = "Press Enter to start"
 autoplay = "Nowa animacja"
 playback_speed = 2.0
 "anims/Nowa animacja" = SubResource( 2 )
-

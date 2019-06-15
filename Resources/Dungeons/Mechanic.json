@@ -67,6 +67,6 @@
 			 "traps"    : 100, 
 			 "breakable": 60,
 			 "const"    : 275,
-			 "container": 15
+			 "container": 7
 		}	
 }

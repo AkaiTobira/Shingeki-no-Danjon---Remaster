@@ -85,29 +85,6 @@ func change_floor(change, location_change = false):
 		return
 	
 	acquire_new_map( change, "Floor" )
-	
-	#TO BE CHECKED (_)
-	
-	#if map.get("my_seed"):
-	#	DungeonState.visited_floors[DungeonState.current_floor] = {"seed": map.my_seed, "obj_properties": obj_properties}
-	#DungeonState.current_floor += change
-	
-	#object_id = 0
-	#var new_map = load("res://Maps/RandomMap.tscn").instance()
-	#if DungeonState.current_floor == 0: #ULTRAMEGAOSTATECZNYHACK
-	#	new_map = load("res://Maps/JigsawRoom.tscn").instance()
-	#elif DungeonState.current_floor == 4: #ULTRAMEGAOSTATECZNYHACK
-	#	new_map = load("res://Maps/BossRoom.tscn").instance()
-	#else:
-#		if DungeonState.visited_floors.has(DungeonState.current_floor):
-#			var state = DungeonState.visited_floors[DungeonState.current_floor]
-#			new_map.my_seed = state.seed
-#			obj_properties = state.obj_properties
-#		else:
-#			obj_properties = []
-#		new_map.from = ("UP" if change > 0 else "DOWN")
-	
-#	set_map(new_map)
 	player.change_dir(2)
 	
 	DungeonState.emit_signal("floor_changed", DungeonState.current_floor)

@@ -19,7 +19,7 @@ func set_stairs(updown, tileset):
 func _process(delta):
 	if player_in and Input.is_action_pressed(\"Up\") and released:
 		Res.ui_sample(\"Stairs\")
-		get_tree().current_scene.change_floor(change,location_change)
+		$\"/root/Game\".change_floor(change,location_change)
 	
 	if !Input.is_action_pressed(\"Up\"): released = true
 
@@ -41,6 +41,5 @@ editor/display_folded = true
 [node name="Shape" type="CollisionShape2D" parent="Enter"]
 position = Vector2( 0, 80 )
 shape = SubResource( 2 )
-
 [connection signal="body_entered" from="Enter" to="." method="_on_enter"]
 [connection signal="body_exited" from="Enter" to="." method="_on_exit"]

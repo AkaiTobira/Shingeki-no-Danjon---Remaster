@@ -15,6 +15,8 @@ var enemies
 var game
 var music
 
+var disable_cheats = true
+
 func _ready():
 	for segment in get_resource_list("Segments"):
 		segments[segment.name] = segment.data
@@ -92,6 +94,7 @@ func _ready():
 #	SkillBase.acquired_skills.append("Tornado")
 
 func _process(delta):
+	if disable_cheats: return
 	delta += 1
 	##wszystko to debug D:
 	if Input.is_key_pressed(KEY_F2) and Input.is_action_just_pressed("Interact"):

@@ -57,7 +57,9 @@ var seal_fx
 var appear_dungeons
 var move_humans
 
-func _ready():
+var procces_bloc = true
+
+func intro_start():
 	seed(2)
 	for human in $Phase2/Mover/Civilization.get_children():
 		human.frame = randi()%4
@@ -74,11 +76,28 @@ func _ready():
 	$Phase7.visible = false
 	$Phase8.visible = false
 	$Phase8/City.visible = false
-	
+	$Animator.play(\"Phase1\")
 	recursive_invisible($Phase3/Buildings)
+	procces_bloc = false
+	
+
+
+func _ready():
+	$Phase1.visible = false
+	$Phase2.visible = false
+	$Phase3.visible = false
+	$Phase3a.visible = false
+	$Phase5.visible = false
+	$Phase7.visible       = false
+	$Phase8.visible      = false
+	$Phase8/City.visible = false
+	$Animator.stop()
+	
+func go_foward():
+	queue_free()
 
 func _process(delta):
-	if Input.is_action_pressed(\"ui_accept\"): get_tree().change_scene(\"res://Scenes/TitleScreen.tscn\")
+	if procces_bloc: return
 	
 	if appear_humans:
 		$Phase2/Mover/Civilization.get_child(randi() % $Phase2/Mover/Civilization.get_child_count()).modulate.a += delta*10
@@ -159,6 +178,7 @@ func _on_phase_finished(phase):
 			seal_fx()
 		
 		\"Phase5\":
+			$Phase6.visible = true
 			$Animator.play(\"Phase6\")
 		
 		\"Phase6\":
@@ -170,7 +190,8 @@ func _on_phase_finished(phase):
 			$Phase8.visible = true
 		
 		\"Phase8\":
-			get_tree().change_scene(\"res://Scenes/TitleScreen.tscn\")
+			get_parent().to_loading()
+#			get_tree().change_scene(\"res://Scenes/TitleScreen.tscn\")
 
 func animate_text(text):
 	texts.get_node(\"TextAnimator\").get_animation(\"AnimateText\").track_set_path(0, text + \":percent_visible\")
@@ -2089,7 +2110,7 @@ scale = Vector2( 1e-005, 1e-005 )
 texture = ExtResource( 20 )
 
 [node name="Phase4" type="Node2D" parent="."]
-editor/display_folded = true
+visible = false
 
 [node name="SealLayer" type="CanvasLayer" parent="Phase4"]
 editor/display_folded = true
@@ -2180,6 +2201,7 @@ texture = ExtResource( 22 )
 
 [node name="Phase5" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 z_index = 1
 
 [node name="LabyrinthLocation" type="Sprite" parent="Phase5"]
@@ -2214,6 +2236,7 @@ texture = ExtResource( 27 )
 
 [node name="Phase6" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 z_index = 1
 
 [node name="Adventurer" type="Sprite" parent="Phase6"]
@@ -2256,6 +2279,7 @@ texture = ExtResource( 35 )
 
 [node name="Phase7" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 z_index = 2
 
 [node name="Castle" type="Sprite" parent="Phase7"]
@@ -2281,6 +2305,7 @@ texture = ExtResource( 37 )
 
 [node name="Phase8" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 z_index = 2
 
 [node name="City" type="Sprite" parent="Phase8"]

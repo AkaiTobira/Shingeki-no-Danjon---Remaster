@@ -48,12 +48,11 @@ func generate(level_name,w, h, aStar, current_floor1):
 
 	current_floor = current_floor1
 
-	for i in range( 100 ):
+
+	l_generator.generate()
+
+	while( not l_generator.is_correct()):
 		l_generator.generate()
-		print( i )
-		while( not l_generator.is_correct()):
-			print( "GET FAILED : RESUME" )
-			l_generator.generate()
 		
 	graph = l_generator.graph
 
@@ -186,80 +185,6 @@ func place_for_test(what):
 	ug_inst.position = Res.game.player.position + Vector2(200,200)
 	dungeon.get_parent().add_child(ug_inst)
 
-func get_possible_segments(spot):
-	var pos = spot.pos
-	var dir = -1
-	if spot.has("dir"): dir = spot.dir
-	
-	var segments = []
-	
-	for segment in Res.segments.values():
-		var offset = Vector2()
-		if dir > -1:
-			var ways = segment["ways" + str(OPPOSITE[dir])]
-			
-			for i in range(ways.size()):
-				if !ways[i]: continue
-				offset = [Vector2(-i, -segment.height + 1), Vector2(0, -i), Vector2(-i, 0), Vector2(-segment.width + 1, -i)][dir]
-				
-				if can_fit(segment, pos + offset):
-					segments.append({"offset": offset, "segment": segment})
-		else:
-			if can_fit(segment, pos):
-				segments.append({"offset": offset, "segment": segment})
-	
-	return segments
-
-func can_fit(segment, pos):
-	var can_be = true
-	
-	for i in range(4):
-		var dim = ["width", "height"][i%2]
-		var dim2 = ["width", "height"][1-i%2]
-		var piece = ["piece_x", "piece_y"][i%2]
-		
-		for k in range(segment[dim]):
-			var way = segment["ways" + str(i)][k]
-			var p = pos + DIRECTIONS[i] * [1, segment[dim2], segment[dim2], 1][i] + DOFFSET[i%2] * k
-			var seg = get_segment_data(p)
-			
-			if way and (p.x < 0 or p.y < 0 or p.x >= width or p.y >= width): can_be = false
-			if seg and seg.segment["ways" + str(OPPOSITE[i])][seg[piece]] != way: can_be = false
-			
-			if !can_be: break
-		if !can_be: break
-	if !can_be: return false
-	
-	for x in range(segment.width):
-		for y in range(segment.height):
-			var p = pos + Vector2(x, y)
-			if p.x < 0 or p.y < 0 or p.x >= width or p.y >= width or get_segment(p):
-				can_be = false
-	
-	return can_be
-
-func get_segment(pos):
-	if pos.x < 0 or pos.y < 0 or pos.x >= width or pos.y >= height: return
-	if !map[pos.x + pos.y * width]: return null
-	
-	return map[pos.x + pos.y * width].segment
-
-func get_segment_data(pos):
-	if pos.x < 0 or pos.y < 0 or pos.x >= width or pos.y >= height: return
-	if !map[pos.x + pos.y * width]: return null
-	
-	return map[pos.x + pos.y * width]
-
-func set_segment(pos, segment):
-	for x in range(segment.width):
-		for y in range(segment.height):
-			map[pos.x + x + (pos.y + y)  * width] = {"segment": segment, "piece_x": x, "piece_y": y, "pos_x": pos.x, "pos_y": pos.y}
-	
-	segments.append({"segment": segment, "pos_x": pos.x, "pos_y": pos.y})
-
-func find_floor_spot(spot):
-	if floor_space.has(spot): return true
-
 
 func create_segment(index, segment, position):
 	
@@ -280,8 +205,7 @@ func create_segment(index, segment, position):
 	top.set_collision_layer_bit(3, true)
 
 	seg.position = Vector2(pos.x * SEG_W, pos.y * SEG_H)
-	
-	#var no_objects = get_segment_data(pos).segment.has("no_objects")
+
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
 	var floorTileID = bottom.tile_set.find_tile_by_name("FloorMarker")
 

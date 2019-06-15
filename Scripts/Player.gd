@@ -283,7 +283,8 @@ func damage(attacker, amount, _knockback, type = "NoDamage"):
 		change_animation("Body", "Death")
 		Res.play_sample(self, "Dead")
 		yield(get_tree().create_timer(3), "timeout")
-		get_tree().change_scene("res://Scenes/TitleScreen.tscn")
+		get_tree().change_scene("res://Scenes/Preloader.tscn")
+		$"/root/Game".queue_free()
 	else:
 		change_animation("Body", "Damage")
 

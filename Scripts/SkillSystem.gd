@@ -14,6 +14,8 @@ const COMBO_TIMEOUT = 2000
 const LONG_ACTION = 150
 var current_combo = []
 
+var process_block = true
+
 func _init():
 	var file = File.new()
 	file.open("res://Resources/Skill List.json", file.READ)
@@ -100,6 +102,7 @@ func check_combo(combo):
 
 
 func _process(delta):
+	if process_block: return
 	delta += 1
 	for action in ["Attack", "Magic", "Special", "Shield", "Up", "Right", "Down", "Left"]:
 		if Input.is_action_just_pressed(action):

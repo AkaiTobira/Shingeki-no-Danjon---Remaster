@@ -60,8 +60,7 @@ func generate(dungeon_name, current_floor, _seed = randi()):
 	
 	nav = AStar.new()
 	self.current_floor = current_floor
-	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)
-	print( len(segments_holder), \" \", len(objects_holder), \" \", len(objects_holder)/len(segments_holder)  )"
+	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)"
 
 [node name="RandomMap" type="YSort"]
 script = SubResource( 1 )

@@ -11,19 +11,8 @@ func _ready():
 	Res.play_music(\"Title\")
 
 func go_foward():
-	var game = load(\"res://Scenes/Game.tscn\").instance()
-	var m_manager = load(\"res://Scripts/MapManager.gd\").new()
-	
-	m_manager.load_basic_maps()
-	
-	game.set_map_manager(m_manager)
-	
-	$\"/root\".add_child(game)
-	get_tree().current_scene = game
 	queue_free()
 
-func _process(delta):
-	go_foward()
 "
 
 [node name="LoadingScreen" type="Node2D"]
