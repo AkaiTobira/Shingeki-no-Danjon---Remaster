@@ -65,8 +65,8 @@
 		"probs" : {
 			 "enemies"  : 20,
 			 "traps"    : 100, 
-			 "breakable": 60,
-			 "const"    : 275,
+			 "breakable": 55,
+			 "const"    : 230,
 			 "container": 7
 		}	
 }

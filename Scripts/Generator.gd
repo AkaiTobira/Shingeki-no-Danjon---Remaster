@@ -57,6 +57,9 @@ func generate(level_name,w, h, aStar, current_floor1):
 	graph = l_generator.graph
 
 	for segment in graph:
+		if Res.background_generation_lock: 
+			print( "Prestop" )
+			return
 		create_segment(segment, graph[segment]["name"], graph[segment]["position"])
 
 	

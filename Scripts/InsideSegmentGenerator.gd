@@ -116,7 +116,8 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	var object_name = obj_splitted_by_wall_dependency[orientation][style][randi()%len(obj_splitted_by_wall_dependency[orientation][style])]
 	var flip        = false
 
-	var instance = load(get_path_toObj(style) + object_name +".tscn")
+#	if Res.map_manager.force_thread_stop : return
+	var instance = Res.get_scene(get_path_toObj(style) + object_name +".tscn")
 	if instance == null:
 		print( name + ":: not Found " + get_path_toObj(style) + object_name +".tscn" )
 		return false
@@ -208,6 +209,7 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 func put_free_standing_objects(prob, style): 
 	for i in range(used_rect.end.x):
 		for j in range(used_rect.end.y):
+#			if Res.map_manager.force_thread_stop : return
 			if( randi()%1000 > prob) : continue
 			if( len(obj_splitted_by_wall_dependency[Wall_Orientations.Free][style]) ):
 				put_wall_enviroment(i,j, prob, Wall_Orientations.Free, style )
@@ -216,6 +218,7 @@ func put_wall_related_objects(prob, style):
 	for i in range(used_rect.end.x):
 		for j in range(used_rect.end.y):
 			if( randi()%1000 > prob) : continue
+#			if Res.map_manager.force_thread_stop : return
 			match(tab[i][j]):
 				TileState.wallLeft:
 					if len(obj_splitted_by_wall_dependency[Wall_Orientations.Left][style]):
@@ -284,8 +287,9 @@ func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
 		for j in range(used_rect.end.y+1):
 			if tab[i][j] >= TileState.free and tab[i][j] < TileState.destroyableObject:
 				if randi()%1000 < prob:
+#					if Res.map_manager.force_thread_stop : return
 					var object_name = enemies[randi()%len(enemies)]
-					var instance = load(get_path_toObj(Objects.ENEMIES) + object_name + ".tscn").instance()
+					var instance = Res.get_scene(get_path_toObj(Objects.ENEMIES) + object_name + ".tscn").instance()
 					instance.position = Vector2((i*80)+40,(j*80)+40) 
 					instance._load_stats(enemy[dung_name][object_name],object_name)
 					Obj_to_Append.append(instance)
@@ -321,13 +325,16 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 #	print( "ISG: spliting takes : ", (OS.get_ticks_msec() - time_start)) 
 #	time_start = OS.get_ticks_msec()
 #	var cout = 0
+#	if Res.map_manager.force_thread_stop : return
 	put_elements_on_scene( file_json["probs"] )
 		
 	while !check_correctnes():
+#		if Res.map_manager.force_thread_stop : return
 #		cout += 1
 		reset()
 		put_elements_on_scene( file_json["probs"] )
 
+#	if Res.map_manager.force_thread_stop : return
 	put_wall_related_objects ( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 	put_free_standing_objects( file_json["probs"]["breakable"], Objects.DESTROYABLE )
 
@@ -353,6 +360,7 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 #	print( "ISG: end takes : ", (OS.get_ticks_msec() - time_start1)) 
 
 func put_elements_on_scene( probs ):
+#	if Res.map_manager.force_thread_stop : return
 	put_wall_related_objects ( probs["traps"], Objects.TRAPS)
 	put_wall_related_objects ( probs["const"], Objects.CONST)
 	put_wall_related_objects ( probs["container"], Objects.CONTAINERS)
@@ -404,7 +412,7 @@ func get_path_toObj(objType):
 func split_enviroments_by_wallDependency(enviroments, objType):
 
 	for i in enviroments:
-		var instance = load(get_path_toObj(objType) + i +".tscn")
+		var instance = Res.get_scene(get_path_toObj(objType) + i +".tscn")
 		if instance == null  : 
 			print( i, " not insaid " + get_path_toObj(objType) ) 
 			continue

@@ -53,6 +53,11 @@ func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	new_map.fill()
 	new_map.set_player_position(change)
 
+func on_queue_free():
+	map_manager.force_thread_stop = true
+	map_manager = null
+	queue_free()
+
 func change_map(map_id, selected_world):
 	player.UI.disable_map_change()
 	if current_map_id == map_id : 

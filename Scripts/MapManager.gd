@@ -2,8 +2,6 @@ extends Node2D
 
 var maps = {}
 
-
- 
 const ENABLE_SMALLTOWER = true
 const ENABLE_TOWN       = false
 
@@ -108,7 +106,7 @@ func get_new_map(location_id, selected_world):
 	if not thread.is_active():
 		thread.start( self, "generate_maps", [] )
 	else: 
-		force_thread_stop = true
+		Res.background_generation_lock = true
 	
 	is_next_map_ready = false
 	return new_maps[current_world]["ST" + str(current_location)]["begin"]
@@ -118,16 +116,14 @@ func _bg_load_done():
 	print( preloaded_map_list )
 	print( "THREAD : I End" )
 	thread.wait_to_finish()
-	if force_thread_stop : 
+	if Res.background_generation_lock : 
 		is_next_map_ready = false
 		print( "THREAD : I am restarting " )
 		thread.start( self, "generate_maps", [] )
 
-var force_thread_stop = false
-
 func generate_maps( non_used ):
 	
-	force_thread_stop = false
+	Res.background_generation_lock = false
 	
 	print( "I try to generate : ", new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] , " floors " )
 	
@@ -138,16 +134,31 @@ func generate_maps( non_used ):
 	preloaded_map_list = []
 	mutex.unlock()
 	
+	
+	
 	for i in range( new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] ):
-		if force_thread_stop : 
+		if Res.background_generation_lock : 
 			print( "I AM FORCED TO END" )
 			is_next_map_ready = false
 			call_deferred( "_bg_load_done" )
 			return
 		
 		var new_floor = load("res://Maps/RandomMap.tscn").instance()
+		
+		print (Res.location[current_world]["asset_info"], " ", i + 1, " ", new_maps[current_world]["ST" + str(current_location)]["seeds"] )
+		
+		
+		if len( new_maps[current_world]["ST" + str(current_location)]["seeds"] ) < i : 
+			call_deferred( "_bg_load_done" )
+			return
+		
 		new_floor.generate( Res.location[current_world]["asset_info"], i + 1, new_maps[current_world]["ST" + str(current_location)]["seeds"][i] )
 		mutex.lock()
+		if Res.background_generation_lock : 
+			is_next_map_ready = false
+			call_deferred("_bg_load_done")
+			mutex.unlock()
+			return
 		preloaded_map_list.append( new_floor )
 		is_next_map_ready = true
 		mutex.unlock()
@@ -156,6 +167,10 @@ func generate_maps( non_used ):
 #	print( preloaded_map_list )
 
 func new_init():
+	
+	maps.clear()
+	numbers_of_locations = []
+	
 	for location in Res.location:
 		if location == "Locked" : 
 			numbers_of_locations.append( [1, 1, 0, 0] )
@@ -187,12 +202,12 @@ func new_init():
 			new_maps[location][tower_name]["seeds"] = []
 			for sed in range( new_maps[location][tower_name]["number_of_floors"] ): new_maps[location][tower_name]["seeds"].append( randi() )
 		
-
+		Res.background_generation_lock = false
 		numbers_of_locations.append( [ 1, 1, len( new_maps[location] ) -2, 0 ] ) # 0 reserved for non_existing_town
 #		print( new_maps )
 #		print( maps ) 
 #		print( [ 1, 1, len( new_maps[location] ) - 2, 0 ] )
-#		print( numbers_of_locations[index] )
+		print( numbers_of_locations )
 
 func _init(): #TO complete when time strikes
 	current_world = "Mechania"

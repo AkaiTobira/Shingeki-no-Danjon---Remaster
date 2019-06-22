@@ -12,6 +12,9 @@ var crafting = []
 var location = {}
 var enemies
 
+var map_manager = null
+var background_generation_lock = false
+
 var game
 var music
 
@@ -187,7 +190,10 @@ func create_instance(node):
 
 func get_node(node):
 	return cache_resource("res://Nodes/" + node + ".tscn")
-	
+
+func get_scene(scene_path):
+	return cache_resource(scene_path)
+
 func get_item_texture(id):
 	return cache_resource("res://Sprites/Items/" + str(id) + ".png")
 	

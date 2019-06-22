@@ -11,7 +11,6 @@ script/source = "extends Node2D
 var loader = Thread.new()
 var mutex  = Mutex.new()
 
-var m_manager = null
 var can_start_game = false
 
 var current_state = \"Title_screen\"
@@ -21,6 +20,17 @@ func unclock_processes():
 	SkillBase.process_block = false
 	
 
+func re_init():
+	var t = load(\"res://Scenes/TitleScreen.tscn\").instance()
+	add_child(t)
+	t = load(\"res://Scenes/Intro.tscn\").instance()
+	add_child(t)
+	t = load(\"res://Scenes/LoadingScreen.tscn\").instance()
+	add_child(t)
+	$LoadingScreen/Background.visible = false
+	$LoadingScreen/Label.visible = false
+	current_state = \"Title_screen\"
+
 
 func _ready():
 	$LoadingScreen/Background.visible = false
@@ -28,7 +38,8 @@ func _ready():
 	
 	
 #	var game = load(\"res://Scenes/Game.tscn\").instance()
-	m_manager = load(\"res://Scripts/MapManager.gd\").new()
+	if Res.map_manager == null:
+		Res.map_manager = load(\"res://Scripts/MapManager.gd\").new()
 
 
 
@@ -44,7 +55,7 @@ func _ready():
 	
 	pass # Replace with function body.
 
-var block_proces = 1
+var block_proces = 0.1
 var passed_time  = 10
  
 
@@ -56,13 +67,17 @@ func _process(delta):
 	if current_state == \"Loading\":
 		if not can_start_game: return
 		var game = load(\"res://Scenes/Game.tscn\").instance()
-		game.set_map_manager(m_manager)
+		game.set_map_manager(Res.map_manager)
 		$\"/root\".add_child(game)
 		unclock_processes()
 		current_state == \"Game\"
 		can_start_game = false
 		$LoadingScreen.go_foward()
-		queue_free()
+#		queue_free()
+		return
+
+	if not is_instance_valid(Input) : 
+		print( \"GET INVALID\" )
 		return
 
 	if Input.is_action_just_pressed(\"ui_accept\") and current_state == \"Title_screen\":
@@ -89,7 +104,7 @@ func to_loading():
 		current_state = \"Loading\"
 
 func start_loading_maps( unused_var ):
-	m_manager.load_basic_maps()
+	Res.map_manager.load_basic_maps()
 	call_deferred(\"basic_map_making_ended\")
 
 func basic_map_making_ended():
