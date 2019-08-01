@@ -214,11 +214,20 @@ func create_segment(index, segment, position):
 
 #	print( "SG: Tilesets takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec() 
+
+
+
+	#print( Res.segment_structure )
+
 	graph[index]["segment"] = seg
+	seg.set_shape( Res.cache_segment_structure(segment) )
+
 #	get_parent().segments_holder.append(seg)
 #	print( "ApendTOHolder takes : ", OS.get_ticks_msec() - rest )
 	
 #	rest  = OS.get_ticks_msec() 
+
+
 	if splitted_obj == null:
 		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, current_floor, Res.enemies)
 		splitted_obj = seg.get_splitted_elements()

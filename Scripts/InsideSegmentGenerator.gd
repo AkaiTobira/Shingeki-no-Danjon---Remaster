@@ -26,7 +26,7 @@ enum Objects{
 	ENEMIES
 	}
 
-var tab       = []
+var shape       = []
 var structure = []
 var Obj_to_Append = []
 var enemies   = []
@@ -98,7 +98,7 @@ func initialize():
 
 	get_tile_ids_from_TileSet()
 	create_Objects_node()
-	covert_tiles_to_structure()
+	#covert_tiles_to_structure()
 
 func put_object_enviroment(i,j,instance, flip = false ):
 	instance.position = Vector2(i*80,j*80) + (instance.size*(40-1))
@@ -110,8 +110,13 @@ func put_object_enviroment(i,j,instance, flip = false ):
 	Obj_to_Append.append(instance)
 	debugCounter += 1
 
+func set_shape(shape):
+    structure = shape[0]
+    Enters    = shape[1]
+    #pass
+
 func put_wall_enviroment(i,j, prob, orientation, style ):
-	#print("Called for [", i, ",", j,"] with ", tab[i][j] )
+	#print("Called for [", i, ",", j,"] with ", shape[i][j] )
 
 	var object_name = obj_splitted_by_wall_dependency[orientation][style][randi()%len(obj_splitted_by_wall_dependency[orientation][style])]
 	var flip        = false
@@ -134,17 +139,17 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	match(SIDES[orientation][0]):
 		TileState.wallDown:
 			for x in range(obj_size.x):
-				if not tab[i+x][j] in SIDES[orientation]: 
+				if not shape[i+x][j] in SIDES[orientation]: 
 					return false
 					
 			if style == Objects.TRAPS:
 				if instance.need_two_side_wall:
-					if not tab[i][j+obj_size.y - 1] in SIDES[2]:
+					if not shape[i][j+obj_size.y - 1] in SIDES[2]:
 						return false
 
 		TileState.wallRight:
 			for y in range(obj_size.y):
-				if not tab[i][j+y] in SIDES[orientation]: 
+				if not shape[i][j+y] in SIDES[orientation]: 
 					return false
 			i = i + 1 - obj_size.x
 			if instance.placement == instance.PLACEMENT.LEFT_OR_RIGHT_WALL or instance.can_flip_h:
@@ -152,39 +157,39 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 				
 			if style == Objects.TRAPS:
 				if instance.need_two_side_wall:
-					if not tab[i+obj_size.x-1][j] in SIDES[0]:
+					if not shape[i+obj_size.x-1][j] in SIDES[0]:
 						return false
 						
 		TileState.wallUp:
 			for x in range(obj_size.x):
-				if not tab[i+x][j] in SIDES[orientation]: 
+				if not shape[i+x][j] in SIDES[orientation]: 
 					return false
 					
 			if style == Objects.TRAPS:
 				if instance.need_two_side_wall:
-					if not tab[i][j+obj_size.y - 1] in SIDES[3]:
+					if not shape[i][j+obj_size.y - 1] in SIDES[3]:
 						return false
 					
 			j = j + 1 - obj_size.y
 		TileState.wallLeft:
 			for y in range(obj_size.y):
-				if not tab[i][j+y] in SIDES[orientation]:
+				if not shape[i][j+y] in SIDES[orientation]:
 					return false
 					
 			if style == Objects.TRAPS:
 				if instance.need_two_side_wall:
-					if not tab[i+obj_size.x-1][j] in SIDES[1]:
+					if not shape[i+obj_size.x-1][j] in SIDES[1]:
 						return false
 					
 		TileState.free:
-			if tab[i][j] < TileState.free or tab[i][j] >= TileState.blockedTile:
+			if shape[i][j] < TileState.free or shape[i][j] >= TileState.blockedTile:
 				return false
 			pass
 
 	for x in range(obj_size.x):
 		for y in range(obj_size.y):
-			if tab[i+x][j+y] < TileState.free or tab[i+x][j+y] >= TileState.blockedTile:
-			#	print( "NO ENOUGHT ROOOM ",i," ",j, " in [", i+x , ",", j+y, "] is ",  tab[i+x][j+y] ) 
+			if shape[i+x][j+y] < TileState.free or shape[i+x][j+y] >= TileState.blockedTile:
+			#	print( "NO ENOUGHT ROOOM ",i," ",j, " in [", i+x , ",", j+y, "] is ",  shape[i+x][j+y] ) 
 				return false
 	
 	reserve_tile_under_obj( obj_size, i, j , style)
@@ -193,10 +198,10 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 		instance.fill_enemies_list(enemies)
 	if instance.need_enable_directions:
 		var enabler = []
-		enabler.append(true) if ( tab[i-1][j] >= TileState.free and tab[i-1][j] <= TileState.exitTile )   else enabler.append(false)
-		enabler.append(true) if ( tab[i+1][j] >= TileState.free and tab[i+1][j] <= TileState.exitTile )   else enabler.append(false)
-		enabler.append(true) if ( tab[i][j-1] >= TileState.free and tab[i][j-1] <= TileState.exitTile )   else enabler.append(false)
-		enabler.append(true) if ( tab[i][j+1] >= TileState.free and tab[i][j+1] <= TileState.exitTile )   else enabler.append(false)
+		enabler.append(true) if ( shape[i-1][j] >= TileState.free and shape[i-1][j] <= TileState.exitTile )   else enabler.append(false)
+		enabler.append(true) if ( shape[i+1][j] >= TileState.free and shape[i+1][j] <= TileState.exitTile )   else enabler.append(false)
+		enabler.append(true) if ( shape[i][j-1] >= TileState.free and shape[i][j-1] <= TileState.exitTile )   else enabler.append(false)
+		enabler.append(true) if ( shape[i][j+1] >= TileState.free and shape[i][j+1] <= TileState.exitTile )   else enabler.append(false)
 		instance._build_wall(enabler)
 	
 	if style == Objects.CONTAINERS: AccesNeed.append([i,j])
@@ -219,7 +224,7 @@ func put_wall_related_objects(prob, style):
 		for j in range(used_rect.end.y):
 			if( randi()%1000 > prob) : continue
 #			if Res.map_manager.force_thread_stop : return
-			match(tab[i][j]):
+			match(shape[i][j]):
 				TileState.wallLeft:
 					if len(obj_splitted_by_wall_dependency[Wall_Orientations.Left][style]):
 						if put_wall_enviroment (i,j,prob, Wall_Orientations.Left, style) : continue
@@ -285,7 +290,7 @@ func put_enemies( enemies ,prob, current_lvl, enemy, dung_name):
 
 	for i in range(used_rect.end.x+1):
 		for j in range(used_rect.end.y+1):
-			if tab[i][j] >= TileState.free and tab[i][j] < TileState.destroyableObject:
+			if shape[i][j] >= TileState.free and shape[i][j] < TileState.destroyableObject:
 				if randi()%1000 < prob:
 #					if Res.map_manager.force_thread_stop : return
 					var object_name = enemies[randi()%len(enemies)]
@@ -301,6 +306,7 @@ func generate( file_json, dungeon, splitted_obj = null, current_level = 0, e = [
 #	var time_start1 = OS.get_ticks_msec()
 
 	initialize()
+	reset()
 #	print( "ISG: initialization takes : ", (OS.get_ticks_msec() - time_start)) 
 #	time_start = OS.get_ticks_msec()
 	
@@ -389,12 +395,12 @@ func reset():
 	Obj_to_Append.clear()
 	AccesNeed.clear()
 
-	tab.clear()
+	shape.clear()
 	for i in structure:
 		var cell = []
 		for j in i:
 			cell.append(j)
-		tab.append(cell)	
+		shape.append(cell)	
 
 func get_path_toObj(objType):
 	match(objType):
@@ -435,103 +441,6 @@ func split_enviroments_by_wallDependency(enviroments, objType):
 		elif instance.placement == instance.PLACEMENT.WALL_FREE:
 				obj_splitted_by_wall_dependency[Wall_Orientations.Free  ][objType].append(i)
 
-func covert_tiles_to_structure():
-
-	
-#	var time_start = OS.get_unix_time()
-	
-	for i in range(used_rect.end.x+2):
-		var cell = []
-		for j in range(used_rect.end.y+2):
-			if  $BottomTiles.get_cell(i,j) == tile_free_id :
-				cell.append(TileState.free)
-			elif $BottomTiles.get_cell(i,j) == tile_exit_id :
-				cell.append(TileState.exitTile)
-				Enters.append([i,j])
-			elif $BottomTiles.get_cell(i,j) == tile_const_id :
-				cell.append(TileState.constObject)
-			elif $BottomTiles.get_cell(i,j) == tile_blocked_id :
-				cell.append(TileState.blockedTile)
-			else:
-				cell.append(TileState.noTile)
-		tab.append(cell)
-		
-	mark_walls()
-	
-	for i in tab:
-		var cell = []
-		for j in i:
-			cell.append(j)
-		structure.append(cell)	
-		
-#	var time_now = OS.get_unix_time()
-#	print( "mark_functions : ", (time_now - time_start)) 
-		
-
-func mark_walls():
-	for i in range(used_rect.end.x+2):
-		for j in range(used_rect.end.y+2):
-			mark_wall_left (i,j)
-			mark_wall_right(i,j)
-			mark_wall_up   (i,j)
-			mark_wall_down (i,j)
-	correct_enter_wall()
-
-func mark_wall_left(i,j):
-	if i > 0:
-		if tab[i][j] == TileState.free and tab[i-1][j] == TileState.noTile:
-			tab[i][j] = TileState.wallLeft
-		elif tab[i][j] == TileState.wallDown and tab[i-1][j] == TileState.noTile:
-			tab[i][j] = TileState.wallLeftDown
-		elif tab[i][j] == TileState.wallUp and tab[i-1][j] == TileState.noTile:
-			tab[i][j] = TileState.wallLeftUp
-
-func mark_wall_right(i,j):
-	if i < used_rect.end.x:
-		if tab[i][j] == TileState.free and tab[i+1][j] == TileState.noTile:
-			tab[i][j] = TileState.wallRight
-		elif tab[i][j] == TileState.wallDown and tab[i+1][j] == TileState.noTile:
-			tab[i][j] = TileState.wallRightDown
-		elif tab[i][j] == TileState.wallUp and tab[i+1][j] == TileState.noTile:
-			tab[i][j] = TileState.wallRightUp
-	
-func mark_wall_up(i,j):
-	if j < used_rect.end.y:
-		if tab[i][j] == TileState.free and tab[i][j+1] == TileState.noTile:
-			tab[i][j] = TileState.wallUp
-		elif tab[i][j] == TileState.wallLeft and tab[i][j+1] == TileState.noTile:
-			tab[i][j] = TileState.wallLeftUp
-		elif tab[i][j] == TileState.wallRight and tab[i][j+1] == TileState.noTile:
-			tab[i][j] = TileState.wallRightUp
-		
-func mark_wall_down(i,j):
-	if j > 0:
-		if tab[i][j] == TileState.free and tab[i][j-1] == TileState.noTile:
-			tab[i][j] = TileState.wallDown
-		elif tab[i][j] == TileState.wallLeft and tab[i][j-1] == TileState.noTile:
-			tab[i][j] = TileState.wallLeftDown
-		elif tab[i][j] == TileState.wallRight and tab[i][j-1] == TileState.noTile:
-			tab[i][j] = TileState.wallRightDown
-
-func correct_enter_wall():
-
-	for x in range(used_rect.end.x+2):
-		for y in range(used_rect.end.y+2):
-			
-			if y < used_rect.end.y:
-				if tab[x][y] == TileState.noTile and (tab[x][y+1] >= TileState.free and tab[x][y+1] < TileState.blockedTile) and tab[x][y+2] == TileState.exitTile:
-					tab[x][y+1] = TileState.wallDown
-	
-				if tab[x][y] == TileState.exitTile and (tab[x][y+1] >= TileState.free and tab[x][y+1] < TileState.blockedTile) and tab[x][y+2] == TileState.noTile:
-					tab[x][y+1] = TileState.wallUp
-					
-			if x < used_rect.end.x:
-				if tab[x][y] == TileState.noTile and (tab[x+1][y] >= TileState.free and tab[x+1][y] < TileState.blockedTile) and tab[x+2][y] == TileState.exitTile:
-					tab[x+1][y] = TileState.wallLeft
-	
-				if tab[x][y] == TileState.exitTile and (tab[x+1][y] >= TileState.free and tab[x+1][y] < TileState.blockedTile) and tab[x+2][y] == TileState.noTile:
-					tab[x+1][y] = TileState.wallRight
-
 func get_splitted_elements():
 	return obj_splitted_by_wall_dependency
 
@@ -543,7 +452,7 @@ func create_Objects_node():
 
 func print_segment_structure():
 	for i in range(used_rect.end.x+2):
-		print(tab[i])
+		print(shape[i])
 	print("\n")
 
 func get_Astar_positions():
@@ -552,7 +461,7 @@ func get_Astar_positions():
 		
 	for i in range(used_rect.end.x+2):
 		for j in range(used_rect.end.y+2):
-			if tab[i][j] >= TileState.free and tab[i][j] <= TileState.containerObject:
+			if shape[i][j] >= TileState.free and shape[i][j] <= TileState.containerObject:
 				special_points.append(Vector2(40 + 80*i, 40 +80*j))
 
 	return special_points
@@ -560,37 +469,29 @@ func get_Astar_positions():
 
 func check_fields_around(i, j):
 	if i > 0 and j > 0:
-		if tab[i][j-1] >= TileState.free or tab[i-1][j]     <= TileState.containerObject:
+		if shape[i][j-1] >= TileState.free or shape[i-1][j]     <= TileState.containerObject:
 			return false
-		if tab[i-1][j] >= TileState.free or tab[i-1][j]     <= TileState.containerObject:
+		if shape[i-1][j] >= TileState.free or shape[i-1][j]     <= TileState.containerObject:
 			return false
-		if tab[i-1][j-1] >= TileState.free or tab[i-1][j-1] <= TileState.containerObject:
+		if shape[i-1][j-1] >= TileState.free or shape[i-1][j-1] <= TileState.containerObject:
 			return false
 			
 	if i < used_rect.end.x+1 and j < used_rect.end.y+1:
-		if tab[i+1][j+1] >= TileState.free or tab[i+1][j+1] <= TileState.containerObject:
+		if shape[i+1][j+1] >= TileState.free or shape[i+1][j+1] <= TileState.containerObject:
 			return false
-		if tab[i+1][j] >= TileState.free or tab[i+1][j]     <= TileState.containerObject:
+		if shape[i+1][j] >= TileState.free or shape[i+1][j]     <= TileState.containerObject:
 			return false
-		if tab[i][j+1] >= TileState.free or tab[i][j+1]     <= TileState.containerObject:
+		if shape[i][j+1] >= TileState.free or shape[i][j+1]     <= TileState.containerObject:
 			return false
 
 	if i < used_rect.end.x+1 and j > 0:
-		if tab[i+1][j-1] >= TileState.free or tab[i+1][j-1] <= TileState.containerObject:
+		if shape[i+1][j-1] >= TileState.free or shape[i+1][j-1] <= TileState.containerObject:
 			return false
 	if j < used_rect.end.y+1 and i > 0:
-		if tab[i-1][j+1] >= TileState.free or tab[i-1][j+1] <= TileState.containerObject:
+		if shape[i-1][j+1] >= TileState.free or shape[i-1][j+1] <= TileState.containerObject:
 			return false
 	
 	return true
-
-func block_unreacheable():
-	var t = 0
-	for i in range(used_rect.end.x+1):
-		for j in range(used_rect.end.y+1):
-			if check_fields_around(i,j):
-				tab[i][j] = TileState.noTile
-				t +=1
 
 func find_every_stair_possible_wall():
 	
@@ -601,7 +502,7 @@ func find_every_stair_possible_wall():
 	for i in range(used_rect.end.x+1):
 		for j in range(used_rect.end.y+1):
 			if $BottomTiles.get_cell(i,j) == id and $BottomTiles.get_cell(i+1,j) == id:
-				if tab[i][j+2] >= TileState.free and tab[i][j+2] < TileState.destroyableObject and tab[i+1][j+2] >= TileState.free and tab[i+1][j+2] < TileState.destroyableObject:
+				if shape[i][j+2] >= TileState.free and shape[i][j+2] < TileState.destroyableObject and shape[i+1][j+2] >= TileState.free and shape[i+1][j+2] < TileState.destroyableObject:
 					temp.append(Vector2(i,j))
 	
 	return temp
@@ -613,7 +514,7 @@ func get_stairs_position():
 	var rico = []
 
 	for i in range(used_rect.end.y):
-		if $BottomTiles.get_cell(0,i) == id and tab[0][i+2] >= TileState.free and tab[0][i+2] < TileState.destroyableObject  :
+		if $BottomTiles.get_cell(0,i) == id and shape[0][i+2] >= TileState.free and shape[0][i+2] < TileState.destroyableObject  :
 			rico.append(Vector2(-1,i))
 
 	return rico + find_every_stair_possible_wall()
@@ -655,13 +556,13 @@ func reserve_tile_under_obj( obj_size, i, j, style = Objects.CONST ):
 	for x in range(obj_size.x):
 		for y in range(obj_size.y):
 			if style == Objects.CONST:
-				tab[i+x][j+y] = TileState.constObject
+				shape[i+x][j+y] = TileState.constObject
 			elif style == Objects.CONTAINERS:
-				tab[i+x][j+y] = TileState.containerObject
+				shape[i+x][j+y] = TileState.containerObject
 			elif style == Objects.DESTROYABLE:
-				tab[i+x][j+y] = TileState.destroyableObject
+				shape[i+x][j+y] = TileState.destroyableObject
 			elif style == Objects.TRAPS:
-				tab[i+x][j+y] = TileState.destroyableObject
+				shape[i+x][j+y] = TileState.destroyableObject
 
 func check_correctnes():
 	var set   = [ Enters[0] ]
@@ -669,22 +570,22 @@ func check_correctnes():
 	
 	while( i != len(set) ):
 		if set[i][0] - 1 >= 0:
-			if tab[set[i][0]-1][set[i][1]] >= TileState.free and  tab[set[i][0]-1][set[i][1]] < TileState.constObject :
+			if shape[set[i][0]-1][set[i][1]] >= TileState.free and  shape[set[i][0]-1][set[i][1]] < TileState.constObject :
 				if not [set[i][0] - 1, set[i][1]  ] in set:
 					set.append([ set[i][0] - 1, set[i][1]  ])
 
 		if set[i][1] - 1 >= 0:
-			if tab[set[i][0]][set[i][1]-1] >= TileState.free and  tab[set[i][0]][set[i][1]-1] < TileState.constObject :
+			if shape[set[i][0]][set[i][1]-1] >= TileState.free and  shape[set[i][0]][set[i][1]-1] < TileState.constObject :
 				if not [ set[i][0] , set[i][1] -1 ] in set:
 					set.append([ set[i][0] , set[i][1] -1  ])
 
 		if set[i][0] +1 < used_rect.end.x + 2:
-			if tab[set[i][0]+1][set[i][1]] >= TileState.free and  tab[set[i][0]+1][set[i][1]] < TileState.constObject :
+			if shape[set[i][0]+1][set[i][1]] >= TileState.free and  shape[set[i][0]+1][set[i][1]] < TileState.constObject :
 				if not [ set[i][0] , set[i][1] +1 ] in set:
 						set.append([ set[i][0] , set[i][1] +1  ])
 					
 		if set[i][1] +1 < used_rect.end.y + 2:
-			if tab[set[i][0]][set[i][1]+1] >= TileState.free and  tab[set[i][0]][set[i][1]+1] < TileState.constObject :
+			if shape[set[i][0]][set[i][1]+1] >= TileState.free and  shape[set[i][0]][set[i][1]+1] < TileState.constObject :
 				if not [ set[i][0] + 1, set[i][1]  ] in set:
 						set.append([ set[i][0] + 1,set[i][1]  ])
 		i+=1

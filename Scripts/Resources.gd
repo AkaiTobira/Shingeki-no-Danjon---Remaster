@@ -2,8 +2,9 @@ extends Node
 
 var cache = {}
 
-var segments = {}
-var segment_nodes = {}
+var segments          = {}
+var segment_nodes     = {}
+var segment_structure = {}
 var tilesets = {}
 var items    = []
 var skills   = {}
@@ -215,6 +216,13 @@ func get_skill_hd_texture(skill):
 func cache_resource(res):
 	if !cache.has(res): cache[res] = load(res)
 	return cache[res]
+
+
+func cache_segment_structure(segment):
+	if segment_structure.has(segment) : return segment_structure[segment]
+	var segment_shape_parser    = load( "res://Scripts/SegmentStructureParser.gd" ).new()
+	segment_structure[segment] = segment_shape_parser.parse(Res.segment_nodes[segment])
+	return segment_structure[segment]
 
 func weighted_random(chances):
 	var sum = 0
