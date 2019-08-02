@@ -8,7 +8,7 @@ func _ready(): pass
 
 func parse(segment):
 	s = segment.instance()
-	print(s.get_node("BottomTiles").get_used_rect() )
+	#print(s.get_node("BottomTiles").get_used_rect() )
 	initialize()
 	return [shape, Enters]
 
@@ -39,48 +39,36 @@ const SIDES = [
     [ TileState.free ]
     ]
 
-var tile_exit_id  = 0
-var tile_free_id  = 0
-var tile_const_id = 0
-var tile_blocked_id =0
+var importantTileId = {}
 var used_rect     = null
 var shape         = []
 var Enters        = []
 var structure     = []
 
 
-func get_tile_ids_from_TileSet():
-    tile_exit_id    = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorE")
-    tile_free_id    = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorF")
-    tile_const_id   = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorC")
-    tile_blocked_id = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorS")
+func get_important_tile_ids():
+	importantTileId["E"] = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorE")
+	importantTileId["F"] = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorF")
+	importantTileId["C"] = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorC")
+	importantTileId["B"] = s.get_node("BottomTiles").tile_set.find_tile_by_name("FloorS")
     
 func initialize():
     used_rect = s.get_node("BottomTiles").get_used_rect()
-    get_tile_ids_from_TileSet()
+    get_important_tile_ids()
     covert_tiles_to_structure()
-
-
 
 func covert_tiles_to_structure():
 
-	
-#	var time_start = OS.get_unix_time()
-    
     for i in range(used_rect.end.x+2):
         var cell = []
         for j in range(used_rect.end.y+2):
-            if  s.get_node("BottomTiles").get_cell(i,j) == tile_free_id :
-                cell.append(TileState.free)
-            elif s.get_node("BottomTiles").get_cell(i,j) == tile_exit_id :
+            if  s.get_node("BottomTiles").get_cell(i,j) == importantTileId["F"] : cell.append(TileState.free)
+            elif s.get_node("BottomTiles").get_cell(i,j) == importantTileId["E"] :
                 cell.append(TileState.exitTile)
                 Enters.append([i,j])
-            elif s.get_node("BottomTiles").get_cell(i,j) == tile_const_id :
-                cell.append(TileState.constObject)
-            elif s.get_node("BottomTiles").get_cell(i,j) == tile_blocked_id :
-                cell.append(TileState.blockedTile)
-            else:
-                cell.append(TileState.noTile)
+            elif s.get_node("BottomTiles").get_cell(i,j) == importantTileId["C"] : cell.append(TileState.constObject)
+            elif s.get_node("BottomTiles").get_cell(i,j) == importantTileId["B"] : cell.append(TileState.blockedTile)
+            else: cell.append(TileState.noTile)
         shape.append(cell)
         
     mark_walls()

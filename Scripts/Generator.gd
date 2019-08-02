@@ -40,6 +40,10 @@ var l_generator = preload("res://Scripts/Lab_Generator.gd").new()
 var graph = {}
 
 func generate(level_name,w, h, aStar, current_floor1):
+	#print( "Start")
+	print( "G: start generate " ) 
+	var time_start = OS.get_ticks_msec()
+
 	width = w
 	height = h
 	map.resize(width * height)
@@ -56,11 +60,17 @@ func generate(level_name,w, h, aStar, current_floor1):
 		
 	graph = l_generator.graph
 
+
+
+
 	for segment in graph:
 		if Res.background_generation_lock: 
 			print( "Prestop" )
 			return
 		create_segment(segment, graph[segment]["name"], graph[segment]["position"])
+
+
+	#time_start = OS.get_ticks_msec()
 
 	
 	for i in range(len(aStar_points)):
@@ -76,16 +86,23 @@ func generate(level_name,w, h, aStar, current_floor1):
 			if id_1 == id_2: continue
 			aStar.connect_points(id_1, id_2, true)
 
+
+
+
+
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
+
 
 	create_stairs()
 
 	var tileset_dict = {}
 
-	var ts = load("res://Resources/Tilesets/" +Res.dungeons[dungeon_name]["tileset"] + ".tres")
+	var ts = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
 
 	for i in ts.get_tiles_ids():
 		tileset_dict[ts.tile_get_name(i)] = i
+
+
 
 	for index_g in graph:
 
@@ -94,8 +111,8 @@ func generate(level_name,w, h, aStar, current_floor1):
 		if bottom != null :
 			for cell in bottom.get_used_cells():
 				if bottom.get_cellv(cell) == tileset_dict["FloorMarker"]:
-					var new_tile = Res.weighted_random(tileset.floor_ids_with_weights)
-					var tile = tileset.tile_to_floor[new_tile]
+					var new_tile    = Res.weighted_random(tileset.floor_ids_with_weights)
+					var tile        = tileset.tile_to_floor[new_tile]
 					var tile_size   = tileset.tile_size[new_tile]
 
 					var space = true
@@ -134,9 +151,8 @@ func generate(level_name,w, h, aStar, current_floor1):
 						bottom.set_cellv(cell + Vector2(t, 0 ), tileset_dict["Wall" + str(new_tile+t) + "Up"  ])
 						bottom.set_cellv(cell + Vector2(t, 1 ), tileset_dict["Wall" + str(new_tile+t) + "Down"])
 
-#	print( "G: Whole takes : ", OS.get_ticks_msec() - rest1 )
-
 	get_parent().segments_holder = graph
+	print( "G: generation takes : ", (OS.get_ticks_msec() - time_start)  ) 
 
 	queue_free()
 
@@ -147,9 +163,14 @@ func create_stairs():
 	var segment_enter  = graph[ randi()%len(graph) ]["segment"]
 #	get_parent().segments_holder[randi()%len(segments)]	
 	var stairs_pos     = segment_enter.get_stairs_position() 
+
+
 	while(!segment_enter.can_have_stairs or !len(stairs_pos) ):
+		#print( segment_enter.can_have_stairs, len(stairs_pos)  )
+
 		segment_enter  = graph[ randi()%len(graph) ]["segment"]
-		stairs_pos = segment_enter.get_stairs_position() 
+		stairs_pos     = segment_enter.get_stairs_position() 
+
 
 
 	var stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
@@ -226,13 +247,8 @@ func create_segment(index, segment, position):
 #	print( "ApendTOHolder takes : ", OS.get_ticks_msec() - rest )
 	
 #	rest  = OS.get_ticks_msec() 
+	seg.generate( dungeon_name,  current_floor)
 
-
-	if splitted_obj == null:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, current_floor, Res.enemies)
-		splitted_obj = seg.get_splitted_elements()
-	else:
-		seg.generate(Res.dungeons["Mechanic"], "Mechanic", splitted_obj, current_floor, Res.enemies)
 		
 #	print( "SG: Call Generation takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec()

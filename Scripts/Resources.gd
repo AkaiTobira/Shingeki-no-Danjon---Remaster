@@ -76,6 +76,7 @@ func _ready():
 	
 	for dungeon in get_resource_list("Dungeons"):
 		dungeons[dungeon.name] = dungeon.data
+		dungeons[dungeon.name]["floor_Objects"] = []
 	
 	for enemie in get_resource_list("Enemies"):
 		enemies = enemie.data
@@ -216,7 +217,6 @@ func get_skill_hd_texture(skill):
 func cache_resource(res):
 	if !cache.has(res): cache[res] = load(res)
 	return cache[res]
-
 
 func cache_segment_structure(segment):
 	if segment_structure.has(segment) : return segment_structure[segment]

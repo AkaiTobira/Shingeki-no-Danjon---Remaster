@@ -34,24 +34,24 @@ var MAT
 
 var direction       = "Down"
 
-func _load_stats(file, kind):
+func _load_stats(dung_name, kind):
 	enemy_name = kind
 
-	max_health     = file["HP"     ]
-	health         = file["HP"     ]
-	movespeed      = file["Speed"  ]
-	experience     = file["Exp"    ]
-	personal_space = file["Range"  ]
-	music          = file["Music"  ]
-	resists        = file["Resists"]
-	drops          = file["Drops"  ]
+	max_health     = Res.enemies[dung_name][kind]["HP"     ]
+	health         = Res.enemies[dung_name][kind]["HP"     ]
+	movespeed      = Res.enemies[dung_name][kind]["Speed"  ]
+	experience     = Res.enemies[dung_name][kind]["Exp"    ]
+	personal_space = Res.enemies[dung_name][kind]["Range"  ]
+	music          = Res.enemies[dung_name][kind]["Music"  ]
+	resists        = Res.enemies[dung_name][kind]["Resists"]
+	drops          = Res.enemies[dung_name][kind]["Drops"  ]
 	
 	for abillity in ABILITY_TYPE.keys():
-		can_use_ability.append(bool(file[abillity][0]))
-		damages[ABILITY_TYPE[str(abillity)] ]       = file[str(abillity)][1]
-		knockbacks[ABILITY_TYPE[str(abillity)] ]    = file[str(abillity)][2]
-		ability_probs[ABILITY_TYPE[str(abillity)] ] = int(file[str(abillity)][3])
-		damage_type[ABILITY_TYPE[str(abillity)] ]   = DAMAGE_TYPE[file[str(abillity)][4]]
+		can_use_ability.append(bool(Res.enemies[dung_name][kind][abillity][0]))
+		damages[ABILITY_TYPE[str(abillity)] ]       = Res.enemies[dung_name][kind][str(abillity)][1]
+		knockbacks[ABILITY_TYPE[str(abillity)] ]    = Res.enemies[dung_name][kind][str(abillity)][2]
+		ability_probs[ABILITY_TYPE[str(abillity)] ] = int(Res.enemies[dung_name][kind][str(abillity)][3])
+		damage_type[ABILITY_TYPE[str(abillity)] ]   = DAMAGE_TYPE[Res.enemies[dung_name][kind][str(abillity)][4]]
 
 
 
