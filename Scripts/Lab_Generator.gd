@@ -1,8 +1,8 @@
 extends Node
 
-var DIRECTIONS	   = [ "L", "R", "U", "D" ]
-var O_DIRECTION	  = { "L":"R", "R":"L", "U":"D", "D":"U" }
-var POS_CHANGE	   = { "L": [-1, 0], "R": [1,0], "U": [0,-1], "D":[0,1]}
+var DIRECTIONS    = [ "L", "R", "U", "D" ]
+var O_DIRECTION   = { "L":"R", "R":"L", "U":"D", "D":"U" }
+var POS_CHANGE    = { "L": [-1, 0], "R": [1,0], "U": [0,-1], "D":[0,1]}
 
 
 var locked_positions = {}
@@ -11,7 +11,6 @@ var empty_spots	  = []
 	
 var require_size	 = 35
 var min_size	 = 20
-#var dump		 = open("dump1", "w")
 
 func _ready():
 	_reset()
@@ -23,7 +22,6 @@ func _reset():
 	locked_positions = {}
 	empty_spots	  = []
 	graph		= {}
-
 
 func shuffleList(list):
     var shuffledList = []
@@ -38,33 +36,29 @@ func shuffleList(list):
 	
 func generate():
 	_reset()
-	
-	
+		
 	var start = [ randi() % 15, randi() % 15 ]
 	empty_spots.append({"pos": start, "is_start": true})
 
 	while len(empty_spots) > 0:
 #		print( len(graph) )
-		empty_spots = shuffleList(empty_spots)
+		empty_spots   = shuffleList(empty_spots)
 		var next_spot = empty_spots[0]
 
 		var segments = _get_posible_segments(next_spot)
-		segments = shuffleList(segments)
+		segments     = shuffleList(segments)
 
 		_lock_segment(   segments[0][0], next_spot, segments[0][1] )
 		_add_new_points( segments[0][0], next_spot, segments[0][1] )
 
-#	print_locked()
-	#	for i in graph: print( graph[i] )
-
-func _get_all_segments():
+func _get_not_deadend_segments():
 	var segments = []
 	for segment in segment_list:
 		if not segment["is_deadend"]: segments.append( [ segment, [0,0] ])
 	return segments
 
 func _get_posible_segments( spot):
-	if spot["is_start"]: return _get_all_segments()
+	if spot["is_start"]: return _get_not_deadend_segments()
 
 	var segments = []
 	for segment in segment_list:
@@ -75,36 +69,36 @@ func _get_posible_segments( spot):
 			if can_fit_by_size(segment["shape"], spot, position) and can_fit_by_neighbours(segment, spot, position):
 				segments.append( [segment, position] )
 
-	if len( segments ) == 0: 
-		var found_one = false
-		for segment in segment_list:
-			if not found_one: 
-				var positions = _get_matching_pos( segment, spot["dir"] )
-				for position in positions:
-					if can_fit_by_neighbours(segment, spot, position) and can_fit_by_size(segment["shape"], spot, position):
-						segments.append( [segment, position] )
-						found_one = true
-
+	if len( segments ) == 0: return _get_matching_segment(spot)
 	return segments
 
+func _get_matching_segment( spot ):
+	for segment in segment_list:
+		var positions = _get_matching_pos( segment, spot["dir"] )
+		for position in positions:
+			if can_fit_by_neighbours(segment, spot, position) and can_fit_by_size(segment["shape"], spot, position):
+				return [ [segment, position] ]
+
+
 func can_fit_by_neighbours(segment, spot, position): 
-	var scale = [ spot["pos"][0] - int(position[0]), spot["pos"][1] - int(position[1]) ]
+	var translation = [ spot["pos"][0] - int(position[0]), spot["pos"][1] - int(position[1]) ]
 
 	for entry in segment["shape"]:
 		var t = entry.split(",")
-		var pos = [ scale[0] + int(t[0]),  scale[1] + int(t[1]) ]
+		var pos = [ translation[0] + int(t[0]),  translation[1] + int(t[1]) ]
 
+		# for no enter_exit cell in segment
 		if len(segment["shape"][entry]) == 0:
-			for d in DIRECTIONS:
-				var str_pos = [ pos[0] + POS_CHANGE[d][0], pos[1] + POS_CHANGE[d][1]]
+			for direction in DIRECTIONS:
+				var str_pos = [ pos[0] + POS_CHANGE[direction][0], pos[1] + POS_CHANGE[direction][1]]
 				for enter in empty_spots:
 					if str_pos == enter["pos"] : return false
 
-		for d in segment["shape"][entry]:
-			var str_pos = str( pos[0] + POS_CHANGE[d][0]) + "," + str( pos[1] + POS_CHANGE[d][1])
+		for direction in segment["shape"][entry]:
+			var str_pos = str( pos[0] + POS_CHANGE[direction][0]) + "," + str( pos[1] + POS_CHANGE[direction][1])
 
 			if str_pos in locked_positions.keys():
-				if not O_DIRECTION[d] in locked_positions[str_pos] : return false
+				if not O_DIRECTION[direction] in locked_positions[str_pos] : return false
 				if len(locked_positions[str_pos]) == 0 : return false
 
 	return true
@@ -114,15 +108,13 @@ func _get_matching_pos(segment, directions):
 
 	for place in segment["shape"].keys():
 		var matches = true
-		for d in directions:
-			if not d in segment["shape"][place]: matches = false
+		for direction in directions:
+			if not direction in segment["shape"][place]: matches = false
 		if matches:
 			var p = place.split(",")
 			positions.append( [int(p[0]), int(p[1])] )
 
 	return positions
-
-func create_segment(): return null
 
 func _add_points_by_directions( directions, spot):
 	for direction in directions:

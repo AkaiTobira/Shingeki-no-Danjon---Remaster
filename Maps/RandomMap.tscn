@@ -35,23 +35,41 @@ func initialize():
 	
 	for seg_id in segments_holder:
 		dungeon.add_child( segments_holder[seg_id][\"segment\"] )
+		
+	for stairs in stairs_holder:
+		if \"stair\" in stairs.name : 
+			print(\"Get_repeat\") 
+			continue
+		dungeon.add_child(stairs)
 	
 func fill():
-	for stairs in stairs_holder:
-		dungeon.add_child(stairs)
+#	for stairs in stairs_holder:
+#		if \"stair\" in stairs.name :
+#			print(\"Get_repeat\") 
+#			continue
+#		dungeon.add_child(stairs)
 	
 	for object in objects_holder:
 		var node = object[0]
 		if not is_instance_valid(node) : continue
-		add_child(node)
+		if check_if_is_active( node.name ): add_child(node)
 		if node.has_method(\"enable_collisions\"): node.enable_collisions()
 		node.global_position = object[1]
 
+func check_if_is_active( name ):
+	for child in get_children():
+		if name == child.name:
+			print( name, \" already in tree : skip \" )
+			return false
+	return true
+		
+
 func clear(): 
+
 	for child in get_children(): 
-		if child.name == \"Segments\" : continue
+		if \"Segment\" in child.name : continue
 		if child.has_method(\"disable_collisions\"): child.disable_collisions()
-		call_deferred(\"remove_child\", child)
+#		call_deferred(\"remove_child\", child)
 		call_deferred(\"queue_free\"  , child)
 
 func generate(dungeon_name, current_floor, _seed = randi()):

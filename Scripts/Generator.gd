@@ -51,16 +51,12 @@ func generate(level_name,w, h, aStar, current_floor1):
 	var end = false
 
 	current_floor = current_floor1
-
-
 	l_generator.generate()
 
 	while( not l_generator.is_correct()):
 		l_generator.generate()
 		
 	graph = l_generator.graph
-
-
 
 
 	for segment in graph:

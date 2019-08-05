@@ -22,7 +22,7 @@ func set_enemies(enemies):
 func spawn():
 	var name = EnemiesList.keys()[randi()%len(EnemiesList)]
 	var ug_inst = EnemiesList[ name  ].instance()
-	ug_inst._load_stats(Res.enemies[\"Mechanic\"][name], name)
+	ug_inst._load_stats(\"Mechanic\", name)
 	ug_inst.position = position
 	get_parent().add_child(ug_inst)
 
@@ -85,5 +85,4 @@ position = Vector2( 0.519829, 2.32485 )
 scale = Vector2( 4.99711, 4.99711 )
 shape = SubResource( 3 )
 disabled = true
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
