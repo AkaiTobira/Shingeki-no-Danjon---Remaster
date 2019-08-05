@@ -30,6 +30,10 @@ var Obj_to_Append = []
 var enemies       = []
 var Astar_points  = []
 
+
+var list_of_obj = []
+var object_list1 = []
+
 var obj_splitted_by_wall_dependency = [ 
 	[ [],[],[],[] ], 
 	[ [],[],[],[] ], 
@@ -85,6 +89,12 @@ func get_important_tile_ids():
 	importantTileId["F"] = $BottomTiles.tile_set.find_tile_by_name("FloorF")
 	importantTileId["C"] = $BottomTiles.tile_set.find_tile_by_name("FloorC")
 	importantTileId["B"] = $BottomTiles.tile_set.find_tile_by_name("FloorS")
+
+var instances = {}
+func cache_local_instance(instance_name, instance_type):
+	if  not instance_name in instances.keys() : 
+		instances[instance_name] =  load(get_path_toObj(instance_type) + instance_name +".tscn").instance()
+	return instances[instance_name]
 
 func initialize_tileset_info():
 	used_rect = $BottomTiles.get_used_rect()
@@ -156,7 +166,7 @@ func object_to_prob(style):
 		Objects.ENEMIES:     return Res.dungeons[dungeon_name]["probs"]["enemies"]
 
 func generate_objects():
-	var styles = [ Objects.TRAPS, Objects.CONST, Objects.DESTROYABLE, Objects.CONTAINERS ]
+	var styles = [ Objects.DESTROYABLE, Objects.CONST, Objects.CONTAINERS ]#Objects.TRAPS, Objects.CONST, Objects.DESTROYABLE,  ]
 	for style in styles:
 		for position in emptySpace.keys():
 			if( randi()%1000 > object_to_prob(style) ) : continue
@@ -171,29 +181,21 @@ func generate_enemies( ):
 		if( randi()%1000 > object_to_prob(Objects.ENEMIES) ) : continue
 		var coord = position.replace('(', '').replace(')','').split(",")
 		var enemy = enemies[randi()%len(enemies)]
-		var instance = Res.get_scene(get_path_toObj(Objects.ENEMIES) + enemy + ".tscn").instance()
-		instance.position = Vector2((int(coord[0])*80)+40,(int(coord[1])*80)+40) 
-		instance._load_stats(dungeon_name ,enemy)
-		Obj_to_Append.append(instance)
+		var obj_position = Vector2((int(coord[0])*80)+40,(int(coord[1])*80)+40)
+		list_of_obj.append({ "type": "Enemy", "name":enemy, "pos":obj_position, "state":"Alive" })
 
 func put_wall_enviroment(i,j, prob, orientation, style ):
 	var object_list = Res.dungeons[dungeon_name]["floor_Objects"][orientation][style]
 	if len(object_list) == 0: return false
 
 	var object_name = object_list[randi()%len(object_list)]
+	
+
 	var flip        = false
 
-	var instance = Res.get_scene(get_path_toObj(style) + object_name +".tscn")
-	if instance == null:
-		print( name + ":: not Found " + get_path_toObj(style) + object_name +".tscn" )
-		return false
-	instance = instance.instance()
-	
-	if style == Objects.DESTROYABLE:
-		instance.fill(Res.dungeons[dungeon_name]["breakable_contents"], int(floor_number))
-	elif style == Objects.CONTAINERS:
-		instance.fill(Res.dungeons[dungeon_name]["containers_contents"],int(floor_number))
-	
+
+	var instance = cache_local_instance(object_name, style )
+
 	var obj_size = instance.size
 	
 	match(SIDES[orientation][0]):
@@ -242,15 +244,15 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 						return false
 					
 		TileState.free:
-			if shape[i][j] < TileState.free or shape[i][j] >= TileState.blockedTile:
-				return false
-			pass
+			if not str(Vector2(i,j)) in emptySpace.keys() :  return false
 
+	#print( emptySpace )
 	for x in range(obj_size.x):
 		for y in range(obj_size.y):
-			if shape[i+x][j+y] < TileState.free or shape[i+x][j+y] >= TileState.blockedTile:
-			#	print( "NO ENOUGHT ROOOM ",i," ",j, " in [", i+x , ",", j+y, "] is ",  shape[i+x][j+y] ) 
-				return false
+			if not str(Vector2(i+x,j + y)) in emptySpace.keys() :  return false
+	#		if shape[i+x][j+y] < TileState.free or shape[i+x][j+y] >= TileState.blockedTile:
+	##			print( "NO ENOUGHT ROOOM ",i," ",j, " in [", i+x , ",", j+y, "] is ",  shape[i+x][j+y] ) 
+	#			return false
 	
 	reserve_tile_under_obj( obj_size, i, j , style)
 	
@@ -268,7 +270,16 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	if style == Objects.TRAPS: 
 		instance._change_sprite(Res.dungeons[dungeon_name]["tileset"])
 
-	put_object_enviroment(i,j,instance,flip)
+	#put_object_enviroment(i,j,instance,flip)
+	
+	var obj_position = Vector2((i*80)+40,(j*80)+40)
+	
+	if style == Objects.DESTROYABLE:
+		object_list1.append({ "type": "Box", "name": object_name, "pos":obj_position, "state":"Alive" })
+	if style == Objects.CONTAINERS:
+		object_list1.append({ "type": "Chest", "name": object_name, "pos":obj_position, "state":"Alive" })	
+	if style == Objects.CONST:
+		object_list1.append({ "type": "Decoration", "name": object_name, "pos":obj_position, "flip":flip })
 	return true
 
 
@@ -289,9 +300,13 @@ func generate(dungeon, current_level = 0):
 		reset()
 		generate_objects()
 
+	#print( "ISG: generate correct takes : ", (OS.get_ticks_msec() - time_start) , " " , cout ) 
+	var time_start = OS.get_ticks_msec()
+
+	list_of_obj += object_list1
 	generate_enemies()
 
-	#print( "ISG: generate correct takes : ", (OS.get_ticks_msec() - time_start) , " " , cout ) 
+	print( "ISG: generate enemies takes : ", (OS.get_ticks_msec() - time_start)) 
 	#time_start = OS.get_ticks_msec()
 	#cout = 0
 
@@ -325,7 +340,11 @@ func reset():
 		var cell = []
 		for j in i:
 			cell.append(j)
-		shape.append(cell)	
+		shape.append(cell)
+	
+	
+	object_list1.clear()
+	convert_struct_to_set()
 
 func get_path_toObj(objType):
 	match(objType):

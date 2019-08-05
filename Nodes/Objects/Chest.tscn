@@ -27,14 +27,16 @@ export(STATE) var state = 0
 
 var destroy_time = 0.0
 var destroyed = false
-
+var my_id
 export var item = -1
 
 func _ready():
 	Res.game.perma_state(self, \"open\")
 
-func fill(breakable_contains,dungeon_level):
-	
+func initialize(id, dungeon_name, my_name, dungeon_level = 0):
+	my_id = id
+	var breakable_contains = Res.dungeons[dungeon_name][\"containers_contents\"]
+		
 	var sum = 0
 	
 	for k in range(len(breakable_contains)):
@@ -64,6 +66,8 @@ func interact():
 	Res.play_sample(self, \"Chest\")
 	Res.game.save_state(self)
 	open()
+	
+	get_parent().call_deferred(\"mark_as_destroyed\", my_id)
 	
 	if item > -1:
 		var it = Res.create_instance(\"Item\")

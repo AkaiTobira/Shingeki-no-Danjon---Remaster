@@ -32,10 +32,12 @@ var music
 var drops 
 var MAT
 
+var my_id           = -1
 var direction       = "Down"
 
-func _load_stats(dung_name, kind):
+func initialize(id, dung_name, kind):
 	enemy_name = kind
+	my_id      = id
 
 	max_health     = Res.enemies[dung_name][kind]["HP"     ]
 	health         = Res.enemies[dung_name][kind]["HP"     ]
@@ -339,7 +341,7 @@ func damage(amount, source = "", type = ""):
 		PlayerStats.add_experience(experience)
 		z_index -=1
 		_on_dead()
-
+		Map.call_deferred("mark_as_destroyed", my_id)
 	else:
 		_on_damage()
 

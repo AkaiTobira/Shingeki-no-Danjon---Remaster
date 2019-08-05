@@ -33,6 +33,16 @@ func reset() :
 
 func disable_collisions(): pass
 
+var my_id = -1
+
+func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip = false):
+	my_id = id
+	if flip:
+		if has_node("Sprite"):
+			get_node("Sprite").flip_h = get_node("Sprite").flip_h
+		if has_node("Sprite2"):
+			get_node("Sprite2").flip_h = get_node("Sprite2").flip_h
+
 func _ready():
 	if has_node("Sprite10"):
 		if $"Sprite10".flip_h    !=  $"Sprite".flip_h:	

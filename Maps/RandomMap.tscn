@@ -18,6 +18,12 @@ var nav             = null
 
 var initialized     = false
 
+var dungeon_type    = \"\"
+var temp    = []
+
+
+
+
 func set_player_position(change):
 	Res.game.player.position = ( stairs_holder[0].position  if change >= 0 else stairs_holder[1].position ) + Vector2(0,160)
 
@@ -49,12 +55,43 @@ func fill():
 #			continue
 #		dungeon.add_child(stairs)
 	
-	for object in objects_holder:
-		var node = object[0]
-		if not is_instance_valid(node) : continue
-		if check_if_is_active( node.name ): add_child(node)
-		if node.has_method(\"enable_collisions\"): node.enable_collisions()
-		node.global_position = object[1]
+	for i in range( len(temp) ):
+		var obj = temp[i]
+		match(obj.type):
+			\"Enemy\":
+				if obj.state == \"Destroyed\": continue
+				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
+				instance.position = obj.pos
+				instance.initialize(i, dungeon_type, obj.name)
+				add_child(instance)
+			\"Box\" :
+				if obj.state == \"Destroyed\": continue
+				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
+				instance.position = obj.pos
+				instance.initialize(i, dungeon_type, obj.name, current_floor)
+				add_child(instance)
+			\"Decoration\":
+				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
+				instance.position = obj.pos
+				instance.initialize(i, dungeon_type, obj.name, current_floor, obj.flip)
+				add_child(instance)
+			\"Chest\":
+				if obj.state == \"Destroyed\": continue
+				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
+				instance.position = obj.pos
+				instance.initialize(i, dungeon_type, obj.name, current_floor)
+				add_child(instance)
+				
+			#print(obj)
+		#Res.get_scene(get_path_toObj(Objects.ENEMIES) + enemy + \".tscn\").instance()
+	
+	
+	#for object in objects_holder:
+	#	var node = object[0]
+	#	if not is_instance_valid(node) : continue
+	#	if check_if_is_active( node.name ): add_child(node)
+	#	if node.has_method(\"enable_collisions\"): node.enable_collisions()
+	#	node.global_position = object[1]
 
 func check_if_is_active( name ):
 	for child in get_children():
@@ -64,21 +101,28 @@ func check_if_is_active( name ):
 	return true
 		
 
-func clear(): 
+func mark_as_destroyed(id):
+	temp[id].state = \"Destroyed\"
 
+func clear(): 
 	for child in get_children(): 
 		if \"Segment\" in child.name : continue
-		if child.has_method(\"disable_collisions\"): child.disable_collisions()
-#		call_deferred(\"remove_child\", child)
+		call_deferred(\"remove_child\", child)
 		call_deferred(\"queue_free\"  , child)
 
 func generate(dungeon_name, current_floor, _seed = randi()):
 	my_seed = _seed
 	seed(my_seed)
 	
+	print( dungeon_name )
+	dungeon_type = dungeon_name
+	
 	nav = AStar.new()
 	self.current_floor = current_floor
-	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)"
+	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)
+	
+	print( temp )
+	"
 
 [node name="RandomMap" type="YSort"]
 script = SubResource( 1 )

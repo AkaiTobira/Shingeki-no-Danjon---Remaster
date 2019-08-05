@@ -262,6 +262,13 @@ func create_segment(index, segment, position):
 			seg.get_node("Objects").remove_child(node) ##może nie działać dla kilku
 			get_parent().objects_holder.append([ node , node.position + seg.position ])
 	
+	
+	for obj in seg.list_of_obj:
+		obj["pos"] +=  seg.position
+		get_parent().temp.append(obj)
+	
+	
+	
 #	print( "SG: AppendingObjects takes : ", OS.get_ticks_msec() - rest )
 #	print( "SG: Creating one segment takes : ", OS.get_ticks_msec() - rest1 )
 			

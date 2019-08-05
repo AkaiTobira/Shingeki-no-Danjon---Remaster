@@ -21,6 +21,7 @@ var music
 
 var disable_cheats = true
 
+
 func _ready():
 	for segment in get_resource_list("Segments"):
 		segments[segment.name] = segment.data
@@ -217,6 +218,15 @@ func get_skill_hd_texture(skill):
 func cache_resource(res):
 	if !cache.has(res): cache[res] = load(res)
 	return cache[res]
+
+func get_node_path( type_name ):
+	match(type_name):
+		"Enemy"     : return "res://Nodes/Enemies/"
+		"Box"       : return "res://Nodes/Objects/"
+		"Decoration": return "res://Nodes/Environment/"
+		"Chest"     : return "res://Nodes/Objects/"
+		_: return ""
+
 
 func cache_segment_structure(segment):
 	if segment_structure.has(segment) : return segment_structure[segment]

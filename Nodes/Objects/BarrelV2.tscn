@@ -26,6 +26,7 @@ enum STATE{ CONST, DESTROYABLE, CHESTS }
 export(STATE) var state = 0
 
 var item = -1
+var my_id = -1
 
 var destroy_time = 0.0
 var destroyed = false
@@ -56,7 +57,10 @@ func _ready():
 			item = randi()%21 + 17 
 
 
-func fill(breakable_contains,dungeon_level):
+func initialize(id, dungeon_name, my_name, dungeon_level = 0):
+	my_id = id
+	var breakable_contains = Res.dungeons[dungeon_name][\"breakable_contents\"]
+	
 	var i = randi()%len(breakable_contains)
 	var j = randi()%1000
 	if j < (dungeon_level+1)*1.25*breakable_contains[i][1]:
@@ -83,6 +87,7 @@ func disable():
 
 func damage(amount, source = \"\", nothing = \"\"):
 	destroyed = true
+	get_parent().call_deferred(\"mark_as_destroyed\", my_id)
 	disable()"
 
 [sub_resource type="Animation" id=2]

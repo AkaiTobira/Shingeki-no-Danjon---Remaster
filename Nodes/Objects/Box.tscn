@@ -27,6 +27,7 @@ enum STATE{ CONST, DESTROYABLE, CHESTS }
 export(STATE) var state = 0
 
 var item = -1
+var my_id = -1
 
 var destroy_time = 0.0
 var destroyed = false
@@ -64,13 +65,16 @@ func disable_collisions():
 	if is_instance_valid($\"DamageCollider/Shape\"): $\"DamageCollider/Shape\".set_disabled(true) 
 	if is_instance_valid($\"Shape\"): $\"Shape\".set_disabled(true) 
 
-func fill(breakable_contains,dungeon_level):
+func initialize(id, dungeon_name, my_name, dungeon_level = 0):
+	my_id = id
+	var breakable_contains = Res.dungeons[dungeon_name][\"breakable_contents\"]
+	
 	var i = randi()%len(breakable_contains)
 	var j = randi()%1000
 	if j < (dungeon_level+1)*1.25*breakable_contains[i][1]:
 		item = breakable_contains[i][0]
 	else:
-		item = -1
+		item = -1	
 
 func damage(amount, source = \"\", nothing = \"\"):
 	Res.play_sample(self, \"WoodBreak\")
@@ -80,6 +84,7 @@ func damage(amount, source = \"\", nothing = \"\"):
 	z_index = -1
 	$\"/root/Game\".save_state(self)
 	
+	get_parent().call_deferred(\"mark_as_destroyed\", my_id)
 	destroyed = true"
 
 [sub_resource type="Animation" id=2]

@@ -37,6 +37,7 @@ func initialize():
 
 func fill(): 
 	for chest in chests:
+		chest.initialize(0,\"Mechanic\", \"Chest\", 8)
 		add_child( chest )
 
 func clear(): 
@@ -89,4 +90,3 @@ margin_bottom = 280.0
 custom_fonts/font = ExtResource( 3 )
 text = "THE END"
 align = 1
-
