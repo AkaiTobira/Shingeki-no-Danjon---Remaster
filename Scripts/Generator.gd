@@ -265,7 +265,7 @@ func create_segment(index, segment, position):
 	
 	for obj in seg.list_of_obj:
 		obj["pos"] +=  seg.position
-		get_parent().temp.append(obj)
+		get_parent().enviroment_object_list.append(obj)
 	
 	
 	

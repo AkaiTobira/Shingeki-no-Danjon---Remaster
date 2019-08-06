@@ -19,7 +19,7 @@ var nav             = null
 var initialized     = false
 
 var dungeon_type    = \"\"
-var temp    = []
+var enviroment_object_list    = []
 
 
 
@@ -55,8 +55,8 @@ func fill():
 #			continue
 #		dungeon.add_child(stairs)
 	
-	for i in range( len(temp) ):
-		var obj = temp[i]
+	for i in range( len(enviroment_object_list) ):
+		var obj = enviroment_object_list[i]
 		match(obj.type):
 			\"Enemy\":
 				if obj.state == \"Destroyed\": continue
@@ -81,6 +81,12 @@ func fill():
 				instance.position = obj.pos
 				instance.initialize(i, dungeon_type, obj.name, current_floor)
 				add_child(instance)
+			\"Trap\":
+				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
+				instance.position = obj.pos
+				instance.initialize(i, dungeon_type, obj.name, current_floor, obj.flip)
+				if instance.need_more_space: instance.build_trap_arms(obj.closest_empty_space)
+				add_child(instance)
 				
 			#print(obj)
 		#Res.get_scene(get_path_toObj(Objects.ENEMIES) + enemy + \".tscn\").instance()
@@ -102,7 +108,7 @@ func check_if_is_active( name ):
 		
 
 func mark_as_destroyed(id):
-	temp[id].state = \"Destroyed\"
+	enviroment_object_list[id].state = \"Destroyed\"
 
 func clear(): 
 	for child in get_children(): 
@@ -121,7 +127,7 @@ func generate(dungeon_name, current_floor, _seed = randi()):
 	self.current_floor = current_floor
 	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)
 	
-	print( temp )
+	#print( enviroment_object_list )
 	"
 
 [node name="RandomMap" type="YSort"]

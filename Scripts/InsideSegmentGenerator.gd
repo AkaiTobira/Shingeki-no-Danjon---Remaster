@@ -106,16 +106,6 @@ func initialize_tileset_info():
 	get_important_tile_ids()
 	reset()
 
-func put_object_enviroment(i,j,instance, flip = false ):
-	instance.position = Vector2(i*80,j*80) + (instance.size*(40-1))
-	if flip:
-		if instance.has_node("Sprite"):
-			instance.get_node("Sprite").flip_h = !instance.get_node("Sprite").flip_h
-		if instance.has_node("Sprite2"):
-			instance.get_node("Sprite2").flip_h = !instance.get_node("Sprite2").flip_h
-	Obj_to_Append.append(instance)
-	debugCounter += 1
-
 func set_shape(shape):
     structure = shape[0]
     Enters    = shape[1]
@@ -166,7 +156,7 @@ func object_to_prob(style):
 		Objects.ENEMIES:     return Res.dungeons[dungeon_name]["probs"]["enemies"]
 
 func generate_objects():
-	var styles = [ Objects.DESTROYABLE, Objects.CONST, Objects.CONTAINERS ]#Objects.TRAPS, Objects.CONST, Objects.DESTROYABLE,  ]
+	var styles = [ Objects.DESTROYABLE, Objects.CONST, Objects.CONTAINERS, Objects.TRAPS ]#Objects.TRAPS, Objects.CONST, Objects.DESTROYABLE,  ]
 	for style in styles:
 		for position in emptySpace.keys():
 			if( randi()%1000 > object_to_prob(style) ) : continue
@@ -189,133 +179,99 @@ func put_wall_enviroment(i,j, prob, orientation, style ):
 	if len(object_list) == 0: return false
 
 	var object_name = object_list[randi()%len(object_list)]
-	
-
-	var flip        = false
-
-
 	var instance = cache_local_instance(object_name, style )
-
 	var obj_size = instance.size
 	
-	match(SIDES[orientation][0]):
-		TileState.wallDown:
-			for x in range(obj_size.x):
-				if not shape[i+x][j] in SIDES[orientation]: 
-					return false
-					
-			if style == Objects.TRAPS:
-				if instance.need_two_side_wall:
-					if not shape[i][j+obj_size.y - 1] in SIDES[2]:
-						return false
-
-		TileState.wallRight:
-			for y in range(obj_size.y):
-				if not shape[i][j+y] in SIDES[orientation]: 
-					return false
-			i = i + 1 - obj_size.x
-			if instance.placement == instance.PLACEMENT.LEFT_OR_RIGHT_WALL or instance.can_flip_h:
-				flip = true
-				
-			if style == Objects.TRAPS:
-				if instance.need_two_side_wall:
-					if not shape[i+obj_size.x-1][j] in SIDES[0]:
-						return false
-						
-		TileState.wallUp:
-			for x in range(obj_size.x):
-				if not shape[i+x][j] in SIDES[orientation]: 
-					return false
-					
-			if style == Objects.TRAPS:
-				if instance.need_two_side_wall:
-					if not shape[i][j+obj_size.y - 1] in SIDES[3]:
-						return false
-					
-			j = j + 1 - obj_size.y
-		TileState.wallLeft:
-			for y in range(obj_size.y):
-				if not shape[i][j+y] in SIDES[orientation]:
-					return false
-					
-			if style == Objects.TRAPS:
-				if instance.need_two_side_wall:
-					if not shape[i+obj_size.x-1][j] in SIDES[1]:
-						return false
-					
-		TileState.free:
-			if not str(Vector2(i,j)) in emptySpace.keys() :  return false
-
-	#print( emptySpace )
-	for x in range(obj_size.x):
-		for y in range(obj_size.y):
-			if not str(Vector2(i+x,j + y)) in emptySpace.keys() :  return false
-	#		if shape[i+x][j+y] < TileState.free or shape[i+x][j+y] >= TileState.blockedTile:
-	##			print( "NO ENOUGHT ROOOM ",i," ",j, " in [", i+x , ",", j+y, "] is ",  shape[i+x][j+y] ) 
-	#			return false
+	if orientation == Wall_Orientations.Right: i = i + 1 - obj_size.x
+	if orientation == Wall_Orientations.Up   : j = j + 1 - obj_size.y
 	
+	for x in range( obj_size.x ):
+		for y in range( obj_size.y ):
+			var pos = str(Vector2( i + x, j + y ))
+			if not emptySpace.has( pos ): return false
+			match( orientation ):
+				Wall_Orientations.Right:
+					if x == obj_size.x-1 and not orientation in emptySpace[pos]: return 
+					if instance.need_second_wall:
+						if x == 0 and not Wall_Orientations.Left in emptySpace[pos]: return 
+				Wall_Orientations.Left:
+					if x == 0 and not orientation in emptySpace[pos]: return 
+					if instance.need_second_wall:
+						if x == obj_size.x-1 and not Wall_Orientations.Right in emptySpace[pos]: return 
+				Wall_Orientations.Up:
+					if y == obj_size.y-1 and not orientation in emptySpace[pos]: return 
+					if instance.need_second_wall:
+						if y == 0 and not Wall_Orientations.Down in emptySpace[pos]: return 
+				Wall_Orientations.Down:
+					if y == 0 and not orientation in emptySpace[pos]: return 
+					if instance.need_second_wall:
+						if y == obj_size.y-1 and not Wall_Orientations.Up in emptySpace[pos]: return 	
+
 	reserve_tile_under_obj( obj_size, i, j , style)
 	
-	if instance.need_enemies_list :
-		instance.fill_enemies_list(enemies)
-	if instance.need_enable_directions:
-		var enabler = []
-		enabler.append(true) if ( shape[i-1][j] >= TileState.free and shape[i-1][j] <= TileState.exitTile ) else enabler.append(false)
-		enabler.append(true) if ( shape[i+1][j] >= TileState.free and shape[i+1][j] <= TileState.exitTile ) else enabler.append(false)
-		enabler.append(true) if ( shape[i][j-1] >= TileState.free and shape[i][j-1] <= TileState.exitTile ) else enabler.append(false)
-		enabler.append(true) if ( shape[i][j+1] >= TileState.free and shape[i][j+1] <= TileState.exitTile ) else enabler.append(false)
-		instance._build_wall(enabler)
+	var obj_position = Vector2(i*80,j*80) + (instance.size*(40-1))
 	
-	if style == Objects.CONTAINERS: AccesNeed.append([i,j])
-	if style == Objects.TRAPS: 
-		instance._change_sprite(Res.dungeons[dungeon_name]["tileset"])
-
-	#put_object_enviroment(i,j,instance,flip)
-	
-	var obj_position = Vector2((i*80)+40,(j*80)+40)
-	
-	if style == Objects.DESTROYABLE:
-		object_list1.append({ "type": "Box", "name": object_name, "pos":obj_position, "state":"Alive" })
-	if style == Objects.CONTAINERS:
-		object_list1.append({ "type": "Chest", "name": object_name, "pos":obj_position, "state":"Alive" })	
-	if style == Objects.CONST:
-		object_list1.append({ "type": "Decoration", "name": object_name, "pos":obj_position, "flip":flip })
-	return true
+	match(style):
+		Objects.TRAPS: 
+			object_list1.append({ "type": "Trap", "name": object_name, "pos":obj_position, "flip":Wall_Orientations.Right != orientation, "local_pos":Vector2(i,j), "closest_empty_space":[0,0,0,0] })
+			instance._change_sprite(Res.dungeons[dungeon_name]["tileset"])
+		Objects.DESTROYABLE:
+			object_list1.append({ "type": "Box", "name": object_name, "pos":obj_position, "state":"Alive" })
+		Objects.CONTAINERS:
+			AccesNeed.append([i,j])
+			object_list1.append({ "type": "Chest", "name": object_name, "pos":obj_position, "state":"Alive" })	
+		Objects.CONST:
+			object_list1.append({ "type": "Decoration", "name": object_name, "pos":obj_position, "flip":Wall_Orientations.Right != orientation })
 
 
 func generate(dungeon, current_level = 0):
 
 	#var cout  = 0
 	initialize_generation(dungeon, current_level)
-
 	#var time_start = OS.get_ticks_msec()
-
 	generate_objects()
-
 	#print( "ISG: generating takes : ", (OS.get_ticks_msec() - time_start) , " " , cout ) 
 	#time_start = OS.get_ticks_msec()
-
 	while !is_correct():
 #		cout += 1
 		reset()
 		generate_objects()
-
 	#print( "ISG: generate correct takes : ", (OS.get_ticks_msec() - time_start) , " " , cout ) 
-	var time_start = OS.get_ticks_msec()
-
-	list_of_obj += object_list1
+	#var time_start = OS.get_ticks_msec()
 	generate_enemies()
-
-	print( "ISG: generate enemies takes : ", (OS.get_ticks_msec() - time_start)) 
+	finish_trap_generation()
+	list_of_obj += object_list1
+	#print( "ISG: generate enemies takes : ", (OS.get_ticks_msec() - time_start)) 
 	#time_start = OS.get_ticks_msec()
 	#cout = 0
-
 	change_tileset()
 	#print( "ISG: loading tileset takes : ", (OS.get_ticks_msec() - time_start)) 
 	#time_start = OS.get_ticks_msec()
-
 	translate_const_obj()
 	#print( "ISG: translate consts takes : ", (OS.get_ticks_msec() - time_start)) 
+
+
+func finish_trap_generation():
+	for obj in object_list1:
+		var instance = cache_local_instance(obj.name, obj.type)
+		if not instance.need_more_space: continue
+		var pos = obj.local_pos
+		for i in range( 1, 6 ): 
+			if is_empty(pos.x + i,pos.y)  : obj.closest_empty_space[0]+=1
+			else: break
+		for i in range( 1, 6 ): 
+			if is_empty(pos.x - i,pos.y)  : obj.closest_empty_space[1]+=1
+			else: break
+		for i in range( 1, 6 ): 
+			if is_empty(pos.x, pos.y + i) : obj.closest_empty_space[2]+=1
+			else: break
+		for i in range( 1, 6 ): 
+			if is_empty(pos.x, pos.y - i) : obj.closest_empty_space[3]+=1
+			else: break
+		obj.erase("local_pos")
+
+func is_empty(i,j):
+	return 	shape[i][j] >= TileState.free and shape[i][j] <= TileState.exitTile
 
 func translate_const_obj():
 	
@@ -341,7 +297,6 @@ func reset():
 		for j in i:
 			cell.append(j)
 		shape.append(cell)
-	
 	
 	object_list1.clear()
 	convert_struct_to_set()

@@ -6,7 +6,6 @@
 [ext_resource path="res://Sprites/Projectiles/FireBreath.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
-
 script/source = "extends Node2D
 
 var timeout = 100.0
@@ -65,15 +64,11 @@ func _on_attack(body):
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-
-custom_solver_bias = 0.0
 extents = Vector2( 16.2716, 53.99 )
 
 [sub_resource type="Animation" id=3]
-
 resource_name = "FIRE"
 length = 32.0
-loop = false
 step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite2:scale")
@@ -97,7 +92,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 16, 24, 32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -4.37111e-08, -1 ), Vector2( -5.33279e-06, -122 ), Vector2( -4e-06, -122 ), Vector2( 0.903994, -232.995 ) ]
+"values": [ Vector2( -4.37111e-008, -1 ), Vector2( -5.33279e-006, -122 ), Vector2( -4e-006, -122 ), Vector2( 0.903994, -232.995 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Sprite2:frame")
@@ -161,10 +156,8 @@ tracks/6/keys = {
 }
 
 [sub_resource type="Animation" id=4]
-
 resource_name = "FIRE"
 length = 32.0
-loop = false
 step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite2:scale")
@@ -252,10 +245,8 @@ tracks/6/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-
 resource_name = "FIRE"
 length = 32.0
-loop = false
 step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite2:scale")
@@ -343,10 +334,8 @@ tracks/6/keys = {
 }
 
 [sub_resource type="Animation" id=6]
-
 resource_name = "FIRE"
 length = 32.0
-loop = false
 step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite2:scale")
@@ -435,152 +424,80 @@ tracks/6/keys = {
 
 [sub_resource type="RectangleShape2D" id=7]
 
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
-
 [node name="StaticBody2D" type="StaticBody2D" groups=[
 "enviroment",
 ]]
-
 z_index = 1
-input_pickable = false
-collision_layer = 1
-collision_mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform", "Z Index" ]
 placement = 5
-offset_position = Vector2( 0, 0 )
-size = Vector2( 1, 1 )
-variants = ""
-can_flip_h = null
-const_object = true
-randomize_speed_of_animation = null
-need_enemies_list = false
-need_enable_directions = true
-state = 0
+need_more_space = true
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
-
+[node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 5.10983, 3.8575 )
 scale = Vector2( 0.238054, 0.0395662 )
 z_index = -1
 texture = ExtResource( 2 )
-_sections_unfolded = [ "Z Index" ]
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="1"]
-
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( 8.17345, -31.6327 )
 scale = Vector2( 29.346, 23.1262 )
-rect = Rect2( -10, -10, 20, 20 )
-pause_animations = true
-freeze_bodies = true
-pause_particles = true
-pause_animated_sprites = true
-process_parent = false
-physics_process_parent = false
 
-[node name="Node2D" type="Node2D" parent="." index="2"]
-
+[node name="Node2D" type="Node2D" parent="."]
 position = Vector2( 0, -60 )
 script = SubResource( 1 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Back" type="Node2D" parent="Node2D" index="0"]
+[node name="Back" type="Node2D" parent="Node2D"]
 
-_sections_unfolded = [ "Z Index" ]
-
-[node name="Sprite" type="Sprite" parent="Node2D/Back" index="0"]
-
+[node name="Sprite" type="Sprite" parent="Node2D/Back"]
 position = Vector2( 2, -12 )
 texture = ExtResource( 3 )
 vframes = 2
 hframes = 3
 frame = 1
-_sections_unfolded = [ "Animation", "Z Index" ]
 
-[node name="Area2D" type="Area2D" parent="Node2D/Back" index="1"]
+[node name="Area2D" type="Area2D" parent="Node2D/Back"]
 
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="HitBox" type="CollisionShape2D" parent="Node2D/Back/Area2D" index="0"]
-
+[node name="HitBox" type="CollisionShape2D" parent="Node2D/Back/Area2D"]
 position = Vector2( 1.97195, -236.643 )
 scale = Vector2( 1.31912, 0.034923 )
 shape = SubResource( 2 )
 disabled = true
-_sections_unfolded = [ "Transform" ]
 
-[node name="Sprite2" type="Sprite" parent="Node2D/Back" index="2"]
-
+[node name="Sprite2" type="Sprite" parent="Node2D/Back"]
 visible = false
 position = Vector2( 0.903994, -232.995 )
 rotation = -1.5708
 scale = Vector2( 0.0863149, 0.855231 )
 texture = ExtResource( 4 )
 vframes = 2
-_sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Back" index="3"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Back"]
 playback_speed = 24.0
 anims/FIRE = SubResource( 3 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Sprite" type="Sprite" parent="Node2D" index="1"]
-
+[node name="Sprite" type="Sprite" parent="Node2D"]
 texture = ExtResource( 3 )
 hframes = 3
-_sections_unfolded = [ "Animation" ]
 
-[node name="Left" type="Node2D" parent="Node2D" index="2"]
-
+[node name="Left" type="Node2D" parent="Node2D"]
 editor/display_folded = true
-_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Sprite" type="Sprite" parent="Node2D/Left" index="0"]
-
+[node name="Sprite" type="Sprite" parent="Node2D/Left"]
 position = Vector2( -44, 20 )
 texture = ExtResource( 3 )
 vframes = 2
 hframes = 3
 frame = 4
-_sections_unfolded = [ "Animation" ]
 
-[node name="Area2D" type="Area2D" parent="Node2D/Left" index="1"]
+[node name="Area2D" type="Area2D" parent="Node2D/Left"]
 
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="HitBox" type="CollisionShape2D" parent="Node2D/Left/Area2D" index="0"]
-
+[node name="HitBox" type="CollisionShape2D" parent="Node2D/Left/Area2D"]
 position = Vector2( -285.669, 21.2915 )
 scale = Vector2( 0.201729, 0.420981 )
 shape = SubResource( 2 )
 disabled = true
-_sections_unfolded = [ "Transform" ]
 
-[node name="Sprite2" type="Sprite" parent="Node2D/Left" index="2"]
-
+[node name="Sprite2" type="Sprite" parent="Node2D/Left"]
 visible = false
 position = Vector2( -282.066, 19.0183 )
 rotation = -3.14159
@@ -588,105 +505,61 @@ scale = Vector2( 0.0753997, 0.712833 )
 z_index = 2
 texture = ExtResource( 4 )
 vframes = 2
-_sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Left" index="3"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Left"]
 playback_speed = 24.0
 anims/FIRE = SubResource( 4 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Right" type="Node2D" parent="Node2D" index="3"]
-
+[node name="Right" type="Node2D" parent="Node2D"]
 editor/display_folded = true
 
-[node name="Sprite" type="Sprite" parent="Node2D/Right" index="0"]
-
+[node name="Sprite" type="Sprite" parent="Node2D/Right"]
 position = Vector2( 53, 20 )
 texture = ExtResource( 3 )
 vframes = 2
 hframes = 3
 frame = 5
-_sections_unfolded = [ "Animation" ]
 
-[node name="Area2D" type="Area2D" parent="Node2D/Right" index="1"]
-
+[node name="Area2D" type="Area2D" parent="Node2D/Right"]
 editor/display_folded = true
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 
-[node name="HitBox" type="CollisionShape2D" parent="Node2D/Right/Area2D" index="0"]
-
+[node name="HitBox" type="CollisionShape2D" parent="Node2D/Right/Area2D"]
 position = Vector2( 285.926, 19.6119 )
 scale = Vector2( 0.119142, 0.343613 )
 shape = SubResource( 2 )
 disabled = true
-_sections_unfolded = [ "Transform" ]
 
-[node name="Sprite2" type="Sprite" parent="Node2D/Right" index="2"]
-
+[node name="Sprite2" type="Sprite" parent="Node2D/Right"]
 visible = false
 position = Vector2( 285.901, 18.4562 )
 scale = Vector2( 0.0373315, 0.814505 )
 z_index = 1
 texture = ExtResource( 4 )
 vframes = 2
-_sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Right" index="3"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Right"]
 playback_speed = 24.0
 anims/FIRE = SubResource( 5 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Up" type="Node2D" parent="Node2D" index="4"]
-
+[node name="Up" type="Node2D" parent="Node2D"]
 editor/display_folded = true
 
-[node name="Sprite" type="Sprite" parent="Node2D/Up" index="0"]
-
+[node name="Sprite" type="Sprite" parent="Node2D/Up"]
 position = Vector2( 2, 19 )
 texture = ExtResource( 3 )
 vframes = 2
 hframes = 3
 frame = 2
-_sections_unfolded = [ "Animation" ]
 
-[node name="Area2D" type="Area2D" parent="Node2D/Up" index="1"]
+[node name="Area2D" type="Area2D" parent="Node2D/Up"]
 
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="HitBox" type="CollisionShape2D" parent="Node2D/Up/Area2D" index="0"]
-
+[node name="HitBox" type="CollisionShape2D" parent="Node2D/Up/Area2D"]
 position = Vector2( -2.35773, 261.399 )
 scale = Vector2( 0.804937, 0.169111 )
 shape = SubResource( 2 )
 disabled = true
-_sections_unfolded = [ "Transform" ]
 
-[node name="Sprite2" type="Sprite" parent="Node2D/Up" index="2"]
-
+[node name="Sprite2" type="Sprite" parent="Node2D/Up"]
 visible = false
 position = Vector2( -0.923418, 262.259 )
 rotation = 1.5708
@@ -695,53 +568,28 @@ z_index = 1
 texture = ExtResource( 4 )
 vframes = 2
 frame = 1
-_sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Up" index="3"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Up"]
 playback_speed = 24.0
 anims/FIRE = SubResource( 6 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 3.62123, -16.6601 )
 scale = Vector2( 1.78189, 2.90122 )
 shape = SubResource( 7 )
-_sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="CollisionL" type="CollisionShape2D" parent="." index="4"]
-
+[node name="CollisionL" type="CollisionShape2D" parent="."]
 position = Vector2( -33.3788, -26.8852 )
 scale = Vector2( 1.78189, 3.54214 )
 shape = SubResource( 7 )
 
-[node name="CollisionR" type="CollisionShape2D" parent="." index="5"]
-
+[node name="CollisionR" type="CollisionShape2D" parent="."]
 position = Vector2( 40.6212, -26.9513 )
 scale = Vector2( 1.78189, 3.54723 )
 shape = SubResource( 7 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="6"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
-blend_times = [  ]
-
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 [connection signal="area_entered" from="Node2D/Back/Area2D" to="Node2D" method="_on_attack"]
-
 [connection signal="area_entered" from="Node2D/Left/Area2D" to="Node2D" method="_on_attack"]
-
 [connection signal="area_entered" from="Node2D/Right/Area2D" to="Node2D" method="_on_attack"]
-
 [connection signal="area_entered" from="Node2D/Up/Area2D" to="Node2D" method="_on_attack"]
-
-

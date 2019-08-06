@@ -17,8 +17,8 @@ export(Vector2) var size
 export var variants = \"\"
 export var can_flip_h = false
 export var const_object = false 
-export(bool) var need_two_side_wall
-export(bool) var need_enable_directions
+export(bool) var need_second_wall
+export(bool) var need_more_space
 export var need_enemies_list =  false
 
 var last_frame = 0
@@ -31,7 +31,7 @@ func _change_sprite( tileset_name = \"Default\" ):
 		$\"Sprite\".texture = load(\"res://Sprites/Tilesets/SteamPunk.png\")
 		$\"Sprite\".frame = 67
 
-func _ready():
+func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip= 0):
 	if randi()%7 == 0 :
 		disabled = true
 	pass

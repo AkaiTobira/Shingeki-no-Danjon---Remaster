@@ -225,6 +225,7 @@ func get_node_path( type_name ):
 		"Box"       : return "res://Nodes/Objects/"
 		"Decoration": return "res://Nodes/Environment/"
 		"Chest"     : return "res://Nodes/Objects/"
+		"Trap"      : return "res://Nodes/Objects/"
 		_: return ""
 
 

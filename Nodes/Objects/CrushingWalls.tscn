@@ -16,8 +16,8 @@ export(Vector2) var size
 export var variants = \"\"
 export var can_flip_h = false
 export var const_object = false 
-export(bool) var need_two_side_wall
-export(bool) var need_enable_directions
+export(bool) var need_second_wall
+export(bool) var need_more_space
 
 export var need_enemies_list = false
 
@@ -30,7 +30,7 @@ func _change_sprite( tileset_name = \"Default\" ):
 		$\"Sprite\".texture = load(\"res://Sprites/Objects/CrushingWallsSteel.png\")
 		$\"Sprite2\".frame = 1
 
-func _ready():
+func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip= 0):
 	
 	if randi()%5 == 0 :
 		$AnimationPlayer.stop()
@@ -98,7 +98,7 @@ input_pickable = false
 script = SubResource( 1 )
 placement = 1
 size = Vector2( 4, 1 )
-need_two_side_wall = true
+need_second_wall = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -156, -163 )

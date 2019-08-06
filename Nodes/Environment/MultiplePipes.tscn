@@ -33,7 +33,6 @@ texture = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, 1 )
 texture = ExtResource( 3 )
-flip_h = true
 vframes = 2
 hframes = 10
 frame = 10

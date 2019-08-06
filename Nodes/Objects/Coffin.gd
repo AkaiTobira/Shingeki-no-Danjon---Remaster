@@ -11,7 +11,8 @@ export var can_flip_h = false
 export var const_object = false 
 export(bool)var need_enemies_list 
 
-export(bool) var need_enable_directions
+export(bool) var need_second_wall
+export(bool) var need_more_space
 
 const HOW_MANT_ITMES = 23
 
@@ -73,8 +74,8 @@ func spawn():
 	
 	pass
 	
-func fill_enemies_list(tab):
-	for i in tab:
+func fill_enemies_list():
+	for i in Res.enemies["Mechanic"]["0"]:
 		enemies_list.append(load("res://Nodes/Enemies/"+ i  +".tscn"))
 
 func _process(delta):

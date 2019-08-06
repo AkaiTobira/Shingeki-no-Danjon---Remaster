@@ -11,7 +11,9 @@ export var const_object = true
 export(bool) var randomize_speed_of_animation 
 export var need_enemies_list = false
 
-export(bool) var need_enable_directions
+
+export(bool) var need_second_wall
+export(bool) var need_more_space
 
 enum STATE{ CONST, DESTROYABLE, CHESTS }
 
@@ -37,22 +39,7 @@ var my_id = -1
 
 func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip = false):
 	my_id = id
-	if flip:
-		if has_node("Sprite"):
-			get_node("Sprite").flip_h = get_node("Sprite").flip_h
-		if has_node("Sprite2"):
-			get_node("Sprite2").flip_h = get_node("Sprite2").flip_h
-
-func _ready():
-	if has_node("Sprite10"):
-		if $"Sprite10".flip_h    !=  $"Sprite".flip_h:	
-			$"Sprite".offset     += Vector2(6,0)
-			$"Sprite10".position += Vector2(50,0)
-			$"Sprite10".flip_h    = $"Sprite".flip_h
-			$"Shape".position     = Vector2(21.534, 11.652)
-			if $"Sprite10".visible == false: return
-
-func _init():
+	
 	if has_node("Animation") and const_object and not block_animation:
 		var anim = $Animation.get_animation_list()
 		if len(anim) > 0 :
@@ -60,6 +47,19 @@ func _init():
 			$Animation.advance(randi()% ( int($Animation.current_animation_length )) )
 			if randomize_speed_of_animation:
 				$Animation.playback_speed = (randi()%9 + 12)
+
+	if has_node("Sprite"):
+		get_node("Sprite").flip_h  = flip
+	if has_node("Sprite2"):
+		get_node("Sprite2").flip_h = flip
+
+	if has_node("Sprite10"):
+		if $"Sprite10".flip_h    !=  $"Sprite".flip_h:	
+			$"Sprite".offset     += Vector2(6,0)
+			$"Sprite10".position += Vector2(50,0)
+			$"Sprite10".flip_h    = $"Sprite".flip_h
+			$"Shape".position     = Vector2(21.534, 11.652)
+			if $"Sprite10".visible == false: return
 
 func _build_wall( tab = [] ):
 	if has_node("Node2D/Sprite") and has_node("CollisionR"):
@@ -81,7 +81,11 @@ func _build_wall( tab = [] ):
 		$CollisionShape2D.scale = Vector2(1.781887,2.901224)
 		$CollisionShape2D.position = Vector2(3.621228,-16.660124)
 
+func build_trap_arms( enabled_tiles_size ): #TODO
+	pass
+
 func _change_sprite( tileset_name = "Default" ):
+	#Res.dungeons[dungeon_name]["tileset"]
 	if tileset_name == "Dungeon":
 		pass
 	elif tileset_name == "SteamPunk":
