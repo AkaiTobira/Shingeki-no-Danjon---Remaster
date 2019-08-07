@@ -184,6 +184,8 @@ func generate_single_object(i,j, prob, orientation, style ):
 					if instance.need_second_wall:
 						if y == obj_size.y-1 and not Wall_Orientations.Up in emptySpace[pos]: return 	
 
+#	add_enviroment_object_to_dungeon( object_name, i, j, style, orientation, 
+
 	reserve_tile_under_obj( obj_size, i, j , style)
 	
 	var obj_position = Vector2(i*80,j*80) + (instance.size*(40-1))	

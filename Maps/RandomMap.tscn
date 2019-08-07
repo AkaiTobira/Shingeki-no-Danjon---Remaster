@@ -58,30 +58,30 @@ func fill():
 	for i in range( len(enviroment_object_list) ):
 		var obj = enviroment_object_list[i]
 		match(obj.type):
-			\"Enemy\":
+			Res.EnvironmentType.Enemy:
 				if obj.state == \"Destroyed\": continue
 				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
 				instance.position = obj.pos
 				instance.initialize(i, dungeon_type, obj.name)
 				add_child(instance)
-			\"Box\" :
+			Res.EnvironmentType.Box:
 				if obj.state == \"Destroyed\": continue
 				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
 				instance.position = obj.pos
 				instance.initialize(i, dungeon_type, obj.name, current_floor)
 				add_child(instance)
-			\"Decoration\":
+			Res.EnvironmentType.Decoration:
 				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
 				instance.position = obj.pos
 				instance.initialize(i, dungeon_type, obj.name, current_floor, obj.flip)
 				add_child(instance)
-			\"Chest\":
+			Res.EnvironmentType.Chest:
 				if obj.state == \"Destroyed\": continue
 				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
 				instance.position = obj.pos
 				instance.initialize(i, dungeon_type, obj.name, current_floor)
 				add_child(instance)
-			\"Trap\":
+			Res.EnvironmentType.Trap:
 				var instance = Res.get_scene(Res.get_node_path( obj.type ) + obj.name + \".tscn\").instance()
 				instance.position = obj.pos
 				instance.initialize(i, dungeon_type, obj.name, current_floor, obj.flip)

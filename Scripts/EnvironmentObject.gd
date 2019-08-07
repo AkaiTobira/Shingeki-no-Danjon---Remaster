@@ -61,28 +61,49 @@ func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip = false):
 			$"Shape".position     = Vector2(21.534, 11.652)
 			if $"Sprite10".visible == false: return
 
-func _build_wall( tab = [] ):
-	if has_node("Node2D/Sprite") and has_node("CollisionR"):
-		get_node("CollisionR").disabled = false
-		get_node("CollisionL").disabled = false
+func _build_wall( tab = [] ): pass
+	#if has_node("Node2D/Sprite") and has_node("CollisionR"):
+	#	get_node("CollisionR").disabled = false
+	#	get_node("CollisionL").disabled = false
+#
+	#	if randi()%2 and tab[2]:
+	#		$Node2D/Up/Sprite.visible = false
+	#	if randi()%2 and tab[0]:
+	#		$Node2D/Left/Sprite.visible = false
+	#		get_node("CollisionL").disabled = true
+	#	if randi()%2 and tab[1]:
+	#		$Node2D/Right/Sprite.visible = false
+	#		get_node("CollisionR").disabled = true
+	#	if randi()%2 and tab[3]:
+	#		$Node2D/Back/Sprite.visible = false
 
-		if randi()%2 and tab[2]:
-			$Node2D/Up/Sprite.visible = false
-		if randi()%2 and tab[0]:
-			$Node2D/Left/Sprite.visible = false
-			get_node("CollisionL").disabled = true
-		if randi()%2 and tab[1]:
-			$Node2D/Right/Sprite.visible = false
-			get_node("CollisionR").disabled = true
-		if randi()%2 and tab[3]:
-			$Node2D/Back/Sprite.visible = false
+	#if $Node2D/Back/Sprite.visible == false:
+	#	$CollisionShape2D.scale = Vector2(1.781887,2.901224)
+#	$CollisionShape2D.position = Vector2(3.621228,-16.660124)
+
+func build_trap_arms( enabled_tiles_size ): #TODO
+
+
+#	if has_node("Node2D/Sprite") and has_node("CollisionR"):
+	get_node("CollisionR").disabled = false
+	get_node("CollisionL").disabled = false
+		
+	print(enabled_tiles_size)
+		
+	#if enabled_tiles_size[2] < 3:
+	$Node2D/Up/Sprite.visible = enabled_tiles_size[2] < 3
+	if enabled_tiles_size[1] < 3:
+		$Node2D/Left/Sprite.visible = enabled_tiles_size[1] >= 3
+		get_node("CollisionL").disabled = true
+	if enabled_tiles_size[0] < 3:
+		$Node2D/Right/Sprite.visible = enabled_tiles_size[0] >= 3
+		get_node("CollisionR").disabled = true
+	#if enabled_tiles_size[3] < 3:
+	$Node2D/Back/Sprite.visible = enabled_tiles_size[3] > 3
 
 	if $Node2D/Back/Sprite.visible == false:
 		$CollisionShape2D.scale = Vector2(1.781887,2.901224)
 		$CollisionShape2D.position = Vector2(3.621228,-16.660124)
-
-func build_trap_arms( enabled_tiles_size ): #TODO
-	pass
 
 func _change_sprite( tileset_name = "Default" ):
 	#Res.dungeons[dungeon_name]["tileset"]

@@ -16,16 +16,12 @@ func _ready():
 
 	frequency = randi()%20 + 32
 
-	if randi()%2:
-		$Back/Sprite.visible = false
-	if randi()%2:
-		$Left/Sprite.visible = false
-		get_parent().get_node(\"CollisionL\").disabled = true
-	if randi()%2:
-		$Right/Sprite.visible = false
-		get_parent().get_node(\"CollisionR\").disabled = true
-	if randi()%2:
-		$Up/Sprite.visible = false
+#	$Back/Sprite.visible  = true
+#	$Left/Sprite.visible  = true
+#	get_parent().get_node(\"CollisionL\").disabled = false
+#	$Right/Sprite.visible = true
+#	get_parent().get_node(\"CollisionR\").disabled = false
+#	$Up/Sprite.visible    = true
 
 	pass
 
