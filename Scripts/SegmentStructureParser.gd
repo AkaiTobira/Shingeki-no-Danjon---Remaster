@@ -2,7 +2,7 @@ extends Node
 
 
 var s = null
-var Astar_points = []
+var navigation_points = []
 
 func _ready(): pass
 
@@ -10,7 +10,7 @@ func parse(segment):
 	s = segment.instance()
 	#print(s.get_node("BottomTiles").get_used_rect() )
 	initialize()
-	return [shape, Enters]
+	return [shape, enters]
 
 
 enum TileState{
@@ -31,18 +31,10 @@ enum TileState{
     constObject
 }
 
-const SIDES = [
-    [ TileState.wallLeft , TileState.wallLeftUp  , TileState.wallLeftDown  ],
-    [ TileState.wallRight, TileState.wallRightUp , TileState.wallRightDown ],
-    [ TileState.wallUp   , TileState.wallLeftUp  , TileState.wallRightUp   ],
-    [ TileState.wallDown , TileState.wallLeftDown, TileState.wallRightDown ],
-    [ TileState.free ]
-    ]
-
 var importantTileId = {}
 var used_rect     = null
 var shape         = []
-var Enters        = []
+var enters        = []
 var structure     = []
 
 
@@ -65,7 +57,7 @@ func covert_tiles_to_structure():
             if  s.get_node("BottomTiles").get_cell(i,j) == importantTileId["F"] : cell.append(TileState.free)
             elif s.get_node("BottomTiles").get_cell(i,j) == importantTileId["E"] :
                 cell.append(TileState.exitTile)
-                Enters.append([i,j])
+                enters.append([i,j])
             elif s.get_node("BottomTiles").get_cell(i,j) == importantTileId["C"] : cell.append(TileState.constObject)
             elif s.get_node("BottomTiles").get_cell(i,j) == importantTileId["B"] : cell.append(TileState.blockedTile)
             else: cell.append(TileState.noTile)

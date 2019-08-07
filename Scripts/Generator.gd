@@ -27,7 +27,7 @@ var current_floor = -1
 
 var navigation = AStar.new()
 
-var aStar_points = []
+var navigation_points = []
 #var aStar = AStar.new()
 
 var file_json
@@ -69,16 +69,16 @@ func generate(level_name,w, h, aStar, current_floor1):
 	#time_start = OS.get_ticks_msec()
 
 	
-	for i in range(len(aStar_points)):
-		aStar.add_point(i,Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
+	for i in range(len(navigation_points)):
+		aStar.add_point(i,Vector3(navigation_points[i].x, navigation_points[i].y, 0 ))
 
 	var corresponations = [ Vector2( 80,   0), Vector2( -80,   0), Vector2(   0, 80), Vector2(   0, -80),
 					  	    Vector2( 80,  80), Vector2(  80, -80), Vector2( -80, 80), Vector2( -80, -80) ]
 
-	for i in range(len(aStar_points)):
-		var id_1 = aStar.get_closest_point( Vector3(aStar_points[i].x, aStar_points[i].y, 0 ))
+	for i in range(len(navigation_points)):
+		var id_1 = aStar.get_closest_point( Vector3(navigation_points[i].x, navigation_points[i].y, 0 ))
 		for direction in corresponations:
-			var id_2 = aStar.get_closest_point( Vector3(aStar_points[i].x + direction.x, aStar_points[i].y + direction.y, 0 ))
+			var id_2 = aStar.get_closest_point( Vector3(navigation_points[i].x + direction.x, navigation_points[i].y + direction.y, 0 ))
 			if id_1 == id_2: continue
 			aStar.connect_points(id_1, id_2, true)
 
@@ -249,9 +249,9 @@ func create_segment(index, segment, position):
 #	print( "SG: Call Generation takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec()
 	
-	var segment_astar_points = seg.get_Astar_positions()
-	for point in segment_astar_points:
-		aStar_points.append(point+seg.position)
+	var segment_navigation_points = seg.get_navigation_points()
+	for point in segment_navigation_points:
+		navigation_points.append(point+seg.position)
 		
 #	print( "SG: AstarSegment takes : ", OS.get_ticks_msec() - rest )
 	
@@ -263,7 +263,7 @@ func create_segment(index, segment, position):
 			get_parent().objects_holder.append([ node , node.position + seg.position ])
 	
 	
-	for obj in seg.list_of_obj:
+	for obj in seg.enviroment_list:
 		obj["pos"] +=  seg.position
 		get_parent().enviroment_object_list.append(obj)
 	
