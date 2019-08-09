@@ -13,22 +13,18 @@ const MIN_MAP_SIZE = 25
 
 var disabled = []#["Puncher"] ##DEBUG
 
-var width = 100
 var height = 100
 var dungeon_name 
 
 var empty_spots   = []
 
 var segments      = []
-var map           = []
 var floor_space   = {}
 var wall_space    = []
 var current_floor = -1
 
-var navigation = AStar.new()
-
 var navigation_points = []
-#var aStar = AStar.new()
+
 
 var file_json
 var splitted_obj
@@ -39,14 +35,11 @@ var l_generator = preload("res://Scripts/Lab_Generator.gd").new()
 
 var graph = {}
 
-func generate(level_name,w, h, aStar, current_floor1):
+func generate(level_name, navigation, current_floor1):
 	#print( "Start")
 	print( "G: start generate " ) 
 	var time_start = OS.get_ticks_msec()
 
-	width = w
-	height = h
-	map.resize(width * height)
 	dungeon_name = level_name
 	var end = false
 
@@ -57,97 +50,29 @@ func generate(level_name,w, h, aStar, current_floor1):
 		l_generator.generate()
 		
 	graph = l_generator.graph
-
-
 	for segment in graph:
 		if Res.background_generation_lock: 
 			print( "Prestop" )
 			return
 		create_segment(segment, graph[segment]["name"], graph[segment]["position"])
 
-
 	#time_start = OS.get_ticks_msec()
-
-	
 	for i in range(len(navigation_points)):
-		aStar.add_point(i,Vector3(navigation_points[i].x, navigation_points[i].y, 0 ))
+		navigation.add_point(i,Vector3(navigation_points[i].x, navigation_points[i].y, 0 ))
 
 	var corresponations = [ Vector2( 80,   0), Vector2( -80,   0), Vector2(   0, 80), Vector2(   0, -80),
 					  	    Vector2( 80,  80), Vector2(  80, -80), Vector2( -80, 80), Vector2( -80, -80) ]
 
 	for i in range(len(navigation_points)):
-		var id_1 = aStar.get_closest_point( Vector3(navigation_points[i].x, navigation_points[i].y, 0 ))
+		var id_1 = navigation.get_closest_point( Vector3(navigation_points[i].x, navigation_points[i].y, 0 ))
 		for direction in corresponations:
-			var id_2 = aStar.get_closest_point( Vector3(navigation_points[i].x + direction.x, navigation_points[i].y + direction.y, 0 ))
+			var id_2 = navigation.get_closest_point( Vector3(navigation_points[i].x + direction.x, navigation_points[i].y + direction.y, 0 ))
 			if id_1 == id_2: continue
-			aStar.connect_points(id_1, id_2, true)
-
-
-
-
-
-	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
-
+			navigation.connect_points(id_1, id_2, true)
 
 	create_stairs()
-
-	var tileset_dict = {}
-
-	var ts = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
-
-	for i in ts.get_tiles_ids():
-		tileset_dict[ts.tile_get_name(i)] = i
-
-
-
-	for index_g in graph:
-
-		var bottom = graph[index_g]["segment"].find_node("BottomTiles", true, false)
-		
-		if bottom != null :
-			for cell in bottom.get_used_cells():
-				if bottom.get_cellv(cell) == tileset_dict["FloorMarker"]:
-					var new_tile    = Res.weighted_random(tileset.floor_ids_with_weights)
-					var tile        = tileset.tile_to_floor[new_tile]
-					var tile_size   = tileset.tile_size[new_tile]
-
-					var space = true
-					for x in range( tile_size[0] ):
-						for y in range( tile_size[1] ):
-							if bottom.get_cellv(cell + Vector2( x, y )) != tileset_dict["FloorMarker"]:
-								space = false
-								break
-
-					if !space: 
-						bottom.set_cellv(cell, tileset_dict["Floor1"])
-						continue
-
-					var couter = 0
-					for x in range( tile_size[0] ):
-						for y in range( tile_size[1] ):
-							var flip = [false, false, false]
-							if tile.has("can_flip"): flip = [randi()%2 == 0, randi()%2 == 0, randi()%2 == 0]
-							bottom.set_cellv(cell + Vector2(y, x), tileset_dict["Floor" + str(new_tile+couter) ], flip[0], flip[1], flip[2])
-							couter+=1
-
-				if bottom.get_cellv(cell) == tileset_dict["WallMarkerUp"]:
-					var new_tile = Res.weighted_random(tileset.wall_ids_with_weights)
-					var tile_colums = tileset.tile_colums[new_tile]
-					var space = true
-					for t in range(tile_colums):
-						if bottom.get_cellv(cell + Vector2(t , 0)) != tileset_dict["WallMarkerUp"] or bottom.get_cellv(cell + Vector2(t , 1)) != tileset_dict["WallMarkerDown"]:
-							space = false
-							break
-
-					if !space: 
-						bottom.set_cellv(cell + Vector2(0, 0 ), tileset_dict["Wall1Up"  ])
-						bottom.set_cellv(cell + Vector2(0, 1 ), tileset_dict["Wall1Down"])
-						continue
-					for t in range(tile_colums):
-						bottom.set_cellv(cell + Vector2(t, 0 ), tileset_dict["Wall" + str(new_tile+t) + "Up"  ])
-						bottom.set_cellv(cell + Vector2(t, 1 ), tileset_dict["Wall" + str(new_tile+t) + "Down"])
-
-	get_parent().segments_holder = graph
+	var wallAndFloorReplacer = load( "res://Scripts/SegmentWallAndFloorReplacer.gd" ).new()
+	get_parent().segments_holder = wallAndFloorReplacer.replace_wall_and_floors(graph, dungeon_name)
 	print( "G: generation takes : ", (OS.get_ticks_msec() - time_start)  ) 
 
 	queue_free()
@@ -160,14 +85,10 @@ func create_stairs():
 #	get_parent().segments_holder[randi()%len(segments)]	
 	var stairs_pos     = segment_enter.get_stairs_position() 
 
-
 	while(!segment_enter.can_have_stairs or !len(stairs_pos) ):
 		#print( segment_enter.can_have_stairs, len(stairs_pos)  )
-
 		segment_enter  = graph[ randi()%len(graph) ]["segment"]
 		stairs_pos     = segment_enter.get_stairs_position() 
-
-
 
 	var stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
 
@@ -232,20 +153,13 @@ func create_segment(index, segment, position):
 #	print( "SG: Tilesets takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec() 
 
-
-
-	#print( Res.segment_structure )
-
 	graph[index]["segment"] = seg
 	seg.set_shape( Res.cache_segment_structure(segment) )
-
 #	get_parent().segments_holder.append(seg)
 #	print( "ApendTOHolder takes : ", OS.get_ticks_msec() - rest )
 	
 #	rest  = OS.get_ticks_msec() 
 	seg.generate( dungeon_name,  current_floor)
-
-		
 #	print( "SG: Call Generation takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec()
 	
@@ -254,7 +168,6 @@ func create_segment(index, segment, position):
 		navigation_points.append(point+seg.position)
 		
 #	print( "SG: AstarSegment takes : ", OS.get_ticks_msec() - rest )
-	
 #	rest  = OS.get_ticks_msec() 
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):
@@ -262,21 +175,11 @@ func create_segment(index, segment, position):
 			seg.get_node("Objects").remove_child(node) ##może nie działać dla kilku
 			get_parent().objects_holder.append([ node , node.position + seg.position ])
 	
-	
 	for obj in seg.enviroment_list:
 		obj["pos"] +=  seg.position
 		get_parent().enviroment_object_list.append(obj)
-	
-	
-	
+
 #	print( "SG: AppendingObjects takes : ", OS.get_ticks_msec() - rest )
 #	print( "SG: Creating one segment takes : ", OS.get_ticks_msec() - rest1 )
 			
 	return seg
-
-func reset():
-	empty_spots.clear()
-	segments.clear()
-	map.clear()
-	floor_space.clear()
-	wall_space.clear()

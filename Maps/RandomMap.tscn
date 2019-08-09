@@ -120,12 +120,11 @@ func generate(dungeon_name, current_floor, _seed = randi()):
 	my_seed = _seed
 	seed(my_seed)
 	
-	print( dungeon_name )
 	dungeon_type = dungeon_name
 	
 	nav = AStar.new()
 	self.current_floor = current_floor
-	$Generator.generate(dungeon_name, 10, 10, nav, current_floor)
+	$Generator.generate(dungeon_name, nav, current_floor)
 	
 	#print( enviroment_object_list )
 	"

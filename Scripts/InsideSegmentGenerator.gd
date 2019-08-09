@@ -6,7 +6,6 @@ var used_rect
 var floor_number    = "-1"
 var dungeon_name    = ""
 
-var importantTileId = {}
 var emptySpace      = {}
 
 var shape                     = []
@@ -43,9 +42,6 @@ enum TileState{
 	constObject
 }
 
-func get_size():
-	return used_rect.end
-
 func set_shape(shape):
 	structure = shape[0]
 	enters    = shape[1]
@@ -58,12 +54,10 @@ func get_navigation_points():
 
 	return navigation_points
 
+#TOREFACTOR_AND_UPDATE
 func find_every_stair_possible_wall():
-	
 	var id = $BottomTiles.tile_set.find_tile_by_name("WallMarkerUp")
-
 	var temp = []
-	
 	for i in range(used_rect.end.x+1):
 		for j in range(used_rect.end.y+1):
 			if $BottomTiles.get_cell(i,j) == id and $BottomTiles.get_cell(i+1,j) == id:
@@ -71,7 +65,7 @@ func find_every_stair_possible_wall():
 					temp.append(Vector2(i,j))
 	
 	return temp
-					
+#TOREFACTOR_AND_UPDATE				
 func get_stairs_position():
 	var id = $BottomTiles.tile_set.find_tile_by_name("WallMarkerUp")
 
@@ -82,12 +76,6 @@ func get_stairs_position():
 			rico.append(Vector2(-1,i))
 	return rico + find_every_stair_possible_wall()
 
-func get_important_tile_ids():
-	importantTileId["E"] = $BottomTiles.tile_set.find_tile_by_name("FloorE")
-	importantTileId["F"] = $BottomTiles.tile_set.find_tile_by_name("FloorF")
-	importantTileId["C"] = $BottomTiles.tile_set.find_tile_by_name("FloorC")
-	importantTileId["B"] = $BottomTiles.tile_set.find_tile_by_name("FloorS")
-
 func initialize_generation(dungeon, current_floor):
 	floor_number = current_floor
 	dungeon_name = dungeon
@@ -97,7 +85,6 @@ func initialize_generation(dungeon, current_floor):
 	$TopTiles.cell_y_sort    = true	
 	
 	create_Objects_node()
-	get_important_tile_ids()
 	reset()
 	convert_struct_to_set()
 
@@ -184,8 +171,6 @@ func generate_single_object(i,j, prob, orientation, style ):
 					if instance.need_second_wall:
 						if y == obj_size.y-1 and not Wall_Orientations.Up in emptySpace[pos]: return 	
 
-#	add_enviroment_object_to_dungeon( object_name, i, j, style, orientation, 
-
 	reserve_tile_under_obj( obj_size, i, j , style)
 	
 	var obj_position = Vector2(i*80,j*80) + (instance.size*(40-1))	
@@ -236,10 +221,10 @@ func generate(dungeon, current_level = 0):
 	#print( "ISG: generate enemies takes : ", (OS.get_ticks_msec() - time_start)) 
 	#time_start = OS.get_ticks_msec()
 	#cout = 0
-	change_tileset()
+#	change_tileset()
 	#print( "ISG: loading tileset takes : ", (OS.get_ticks_msec() - time_start)) 
 	#time_start = OS.get_ticks_msec()
-	translate_const_obj()
+#	translate_const_obj()
 	#print( "ISG: translate consts takes : ", (OS.get_ticks_msec() - time_start)) 
 
 func finish_trap_generation():
@@ -264,13 +249,13 @@ func finish_trap_generation():
 func is_empty(i,j):
 	return 	shape[i][j] >= TileState.free and shape[i][j] <= TileState.exitTile
 
-func translate_const_obj():
-	if has_node("ConstObjects"):
-		for i in $ConstObjects.get_children():
-			var node = i
-			get_node("ConstObjects").remove_child(node)
-			if i.has_method( "_change_sprite" ): i._change_sprite(dungeon_name)
-			get_node("Objects").add_child(i)
+#func translate_const_obj():
+#	if has_node("ConstObjects"):
+#		for i in $ConstObjects.get_children():
+#			var node = i
+#			get_node("ConstObjects").remove_child(node)
+#			if i.has_method( "_change_sprite" ): i._change_sprite(dungeon_name)
+#			get_node("Objects").add_child(i)
 
 func reset():
 	accesNeed.clear()
@@ -296,42 +281,6 @@ func print_segment_structure():
 		print(shape[i])
 	print("\n")
 
-func convert_wall_pattern_to_new_tileset(wallMarkersIDs):
-	for i in range(used_rect.end.x+2):
-		for j in range( used_rect.end.y+1):
-			if $BottomTiles.get_cell(i,j+1) == wallMarkersIDs["OldLowerPartOfWall"] and $BottomTiles.get_cell(i,j) == wallMarkersIDs["OldUpperPartOfWall"]:
-				$BottomTiles.set_cell(i,j  ,wallMarkersIDs["NewUpperPartOfWall"]) 
-				$BottomTiles.set_cell(i,j+1,wallMarkersIDs["NewUpperPartOfWall"]) 
-
-func convert_floor_pattern_to_new_tileset(floorId):
-	for i in range(used_rect.end.x+2):
-		for j in range(used_rect.end.y+1):
-			if $BottomTiles.get_cell(i,j) in importantTileId.values():
-				$BottomTiles.set_cell(i,j, floorId)
-
-func change_tileset():
-	var newTileset = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
-	var floorId    = newTileset.find_tile_by_name("FloorMarker")
-
-	var wallMarkersIDs = {}
-	wallMarkersIDs["OldUpperPartOfWall"] = $BottomTiles.tile_set.find_tile_by_name("WallMarkerUp")
-	wallMarkersIDs["NewUpperPartOfWall"] = newTileset.find_tile_by_name("WallMarkerUp")
-	wallMarkersIDs["OldLowerPartOfWall"] = $BottomTiles.tile_set.find_tile_by_name("WallMarkerDown")
-	wallMarkersIDs["NewLowerPartOfWall"] = newTileset.find_tile_by_name("WallMarkerDown")
-
-	$BottomTiles.tile_set = newTileset
-	$TopTiles.tile_set    = newTileset
-	if has_node("SecretTiles"):
-		$SecretTiles.tile_set    =  newTileset
-		
-	convert_wall_pattern_to_new_tileset(wallMarkersIDs)
-	convert_floor_pattern_to_new_tileset(floorId)
-    
-	if has_node("Walls"):
-		for i in $Walls.get_children():
-			i.get_node("Sprite").texture =  load("res://Sprites/Tilesets/" +  Res.dungeons[dungeon_name]["tileset"] + ".png")
-			i.get_node("Sprite2").texture = load("res://Sprites/Tilesets/" +  Res.dungeons[dungeon_name]["tileset"] + ".png")
-	
 func is_correct():
 	var enters_number = 0
 	var acces_need    = 0

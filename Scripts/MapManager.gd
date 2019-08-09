@@ -207,7 +207,7 @@ func new_init():
 #		print( new_maps )
 #		print( maps ) 
 #		print( [ 1, 1, len( new_maps[location] ) - 2, 0 ] )
-		print( numbers_of_locations )
+#		print( numbers_of_locations )
 
 func _init(): #TO complete when time strikes
 	current_world = "Mechania"
