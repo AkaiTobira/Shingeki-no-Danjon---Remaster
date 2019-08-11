@@ -30,8 +30,13 @@ func _change_sprite( tileset_name = \"Default\" ):
 		$\"Sprite\".texture = load(\"res://Sprites/Objects/CrushingWallsSteel.png\")
 		$\"Sprite2\".frame = 1
 
+
+func get_placement_info():
+	return { \"name\" : \"CrushingWalls\", \"type\": Res.EnvironmentType.Trap, \"flip\":false }
+
 func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip= 0):
-	
+	_change_sprite(Res.dungeons[dungeon_name][\"tileset\"])
+
 	if randi()%5 == 0 :
 		$AnimationPlayer.stop()
 		return 

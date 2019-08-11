@@ -43,7 +43,7 @@ func spawn():
 	var breaker = 0
 	while !directions[re]:
 		if breaker > 100:
-		#	print("FORCE BREAKER")
+		#	#print("FORCE BREAKER")
 			return
 		breaker += 1
 		re = randi()%4
@@ -118,7 +118,7 @@ func fill(breakable_contains,dungeon_level):
 
 func _build_wall( tab = [] ):
 	directions = tab
-#	print(directions)
+#	#print(directions)
 	pass
 
 func damage(amount, source):

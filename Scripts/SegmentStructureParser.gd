@@ -72,7 +72,7 @@ func covert_tiles_to_structure():
         structure.append(cell)	
         
 #	var time_now = OS.get_unix_time()
-#	print( "mark_functions : ", (time_now - time_start)) 
+#	#print( "mark_functions : ", (time_now - time_start)) 
         
 
 func mark_walls():

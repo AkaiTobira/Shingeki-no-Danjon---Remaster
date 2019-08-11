@@ -24,12 +24,12 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12 ]
 }
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=2]
+radius = 3.11171
 
 [node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
 "enviroment",
 ]]
-z_index = 1
 script = ExtResource( 1 )
 placement = 5
 size = Vector2( 2, 2 )
@@ -41,14 +41,21 @@ playback_speed = 40.0
 anims/1 = SubResource( 1 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 0.411536, 0 )
+position = Vector2( 43.9396, 49.4032 )
 scale = Vector2( 5.8971, 5.98472 )
 shape = SubResource( 2 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( -7.22396, 5.03918 )
-scale = Vector2( 0.232407, 0.23336 )
+position = Vector2( 400, -90 )
+scale = Vector2( 0.253362, 0.254315 )
 texture = ExtResource( 2 )
+offset = Vector2( -1574.56, 352.613 )
+
+[node name="Sprite5" type="Sprite" parent="."]
+position = Vector2( 213.515, 11.5614 )
+scale = Vector2( 0.10763, 0.102868 )
+texture = ExtResource( 2 )
+offset = Vector2( -1574.56, 352.613 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )

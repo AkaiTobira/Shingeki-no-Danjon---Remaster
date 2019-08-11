@@ -5,6 +5,7 @@
 [ext_resource path="res://Sprites/Objects/Box3.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.82648, 8.36074 )
 
 [node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
 "enviroment",
@@ -21,24 +22,24 @@ autoplay = "1"
 playback_speed = 16.0
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 18.3358, -21.615 )
+position = Vector2( 18.7908, -21.615 )
 scale = Vector2( 6.66099, 5.55851 )
 shape = SubResource( 1 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 15.9534, -8.17755 )
+position = Vector2( 14.8085, -8.17755 )
 scale = Vector2( 0.284892, 0.390449 )
 texture = ExtResource( 2 )
 
 [node name="Sprite3" type="Sprite" parent="."]
-position = Vector2( -47.7858, -188.079 )
+position = Vector2( -50.1858, -188.079 )
 texture = ExtResource( 3 )
 centered = false
 hframes = 2
 frame = 1
 
 [node name="Sprite4" type="Sprite" parent="."]
-position = Vector2( -48.1256, -186.868 )
+position = Vector2( -49.7256, -186.868 )
 texture = ExtResource( 3 )
 centered = false
 hframes = 2

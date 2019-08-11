@@ -85,5 +85,4 @@ collision_mask = 2
 [node name="Shape" type="CollisionShape2D" parent="AttackCollider"]
 position = Vector2( -3, 0 )
 shape = SubResource( 3 )
-
 [connection signal="area_entered" from="AttackCollider" to="." method="_on_attack_hit"]

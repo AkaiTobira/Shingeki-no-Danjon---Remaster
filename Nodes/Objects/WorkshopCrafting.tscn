@@ -5,7 +5,7 @@
 [ext_resource path="res://Scripts/Interact.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 98.5629, 29.2857 )
+extents = Vector2( 70.2421, 58.8229 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 70.2207, 10.5386 )
@@ -42,7 +42,7 @@ vframes = 4
 frame = 3
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 29 )
+position = Vector2( 0, 13 )
 z_index = 10
 shape = SubResource( 1 )
 

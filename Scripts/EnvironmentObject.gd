@@ -88,18 +88,16 @@ func build_trap_arms( enabled_tiles_size ): #TODO
 	get_node("CollisionR").disabled = false
 	get_node("CollisionL").disabled = false
 		
-	print(enabled_tiles_size)
-		
-	#if enabled_tiles_size[2] < 3:
-	$Node2D/Up/Sprite.visible = enabled_tiles_size[2] < 3
+	if enabled_tiles_size[2] < 3:
+		$Node2D/Up/Sprite.visible      = false
 	if enabled_tiles_size[1] < 3:
-		$Node2D/Left/Sprite.visible = enabled_tiles_size[1] >= 3
+		$Node2D/Left/Sprite.visible     = false
 		get_node("CollisionL").disabled = true
 	if enabled_tiles_size[0] < 3:
-		$Node2D/Right/Sprite.visible = enabled_tiles_size[0] >= 3
+		$Node2D/Right/Sprite.visible    = false
 		get_node("CollisionR").disabled = true
-	#if enabled_tiles_size[3] < 3:
-	$Node2D/Back/Sprite.visible = enabled_tiles_size[3] > 3
+	if enabled_tiles_size[3] < 3:
+		$Node2D/Back/Sprite.visible     = false
 
 	if $Node2D/Back/Sprite.visible == false:
 		$CollisionShape2D.scale = Vector2(1.781887,2.901224)

@@ -7,7 +7,6 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-
 var loader = Thread.new()
 var mutex  = Mutex.new()
 
@@ -31,34 +30,16 @@ func re_init():
 	$LoadingScreen/Label.visible = false
 	current_state = \"Title_screen\"
 
-
 func _ready():
-	$LoadingScreen/Background.visible = false
-	$LoadingScreen/Label.visible = false
-	
-	
-#	var game = load(\"res://Scenes/Game.tscn\").instance()
 	if Res.map_manager == null:
 		Res.map_manager = load(\"res://Scripts/MapManager.gd\").new()
-
-
-
 	
-	#m_manager.load_basic_maps()
-	
-	#game.set_map_manager(m_manager)
-	
-	#$\"/root\".add_child(game)
-	#get_tree().current_scene = game
-	#queue_free()
-	
-	
-	pass # Replace with function body.
+	$LoadingScreen/Background.visible = false
+	$LoadingScreen/Label.visible      = false
 
 var block_proces = 0.1
 var passed_time  = 10
  
-
 func _process(delta):
 	passed_time += delta
 	if passed_time < block_proces : return
@@ -95,7 +76,6 @@ func _process(delta):
 		to_loading()
 		return
 		
-
 
 func to_loading():
 		$Intro.go_foward()

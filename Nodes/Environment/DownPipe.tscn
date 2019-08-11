@@ -43,7 +43,7 @@ func _ready():
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 29.0572, 65.2316 )
+extents = Vector2( 20.8542, 60.8732 )
 
 [node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
 "enviroment",

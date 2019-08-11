@@ -22,9 +22,10 @@ func set_enemies(enemies):
 func spawn():
 	var name = EnemiesList.keys()[randi()%len(EnemiesList)]
 	var ug_inst = EnemiesList[ name  ].instance()
-	ug_inst._load_stats(\"Mechanic\", name)
+	
+	ug_inst.initialize(0,\"Mechanic\", name)
 	ug_inst.position = position
-	get_parent().add_child(ug_inst)
+	get_parent().call_deferred(\"add_child\",ug_inst)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if \"Shine\" in anim_name:

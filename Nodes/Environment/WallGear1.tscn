@@ -40,7 +40,7 @@ playback_speed = 8.0
 anims/Idle = SubResource( 1 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 0.38098, 39.4068 )
+position = Vector2( -4.61902, 39.4068 )
 scale = Vector2( 0.5462, 0.589421 )
 shape = SubResource( 2 )
 

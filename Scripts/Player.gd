@@ -131,7 +131,7 @@ func _physics_process(delta):
 
 	if !elements_on:
 		if Input.is_action_just_pressed("Magic"):#SkillBase.check_combo(["Magic", "Magic_"]):
-#			print(SkillBase.current_combo)
+#			#print(SkillBase.current_combo)
 			$Elements.visible = true
 			SkillBase.current_combo.clear()
 	else:
@@ -326,8 +326,8 @@ func alt_animation(anim):
 
 var textures = {}
 func get_texture_hack(texture):
+	if dead : return load( "res://Sprites/Player/Front/Death.png" )
 	if !textures.has(texture): textures[texture] = load(texture)
-	
 	return textures[texture]
 
 func change_texture(sprite, texture, on_back = [], move_child = {}):
@@ -436,11 +436,11 @@ func cancel_ghost():
 func use_magic(): ##nie tylko magia :|
 	for skill in SkillBase.get_active_skills():
 		skill = Res.skills[skill]
-#		print(SkillBase.check_combo(["Special_"]))
+#		#print(SkillBase.check_combo(["Special_"]))
 		
 		if (!skill.has("magic") or current_element == skill.magic) and SkillBase.check_combo(skill.combo) and (!triggered_skill or skill != triggered_skill[0]
 		and (skill.combo.size() > triggered_skill[0].combo.size() or skill.combo.back().length() > triggered_skill[0].combo.back().length())):
-#			print(skill)
+#			#print(skill)
 			triggered_skill = [skill, 0.2]
 
 func trigger_skill(skill = triggered_skill[0]):
@@ -500,8 +500,8 @@ func addQuest(ques):
 				Quests[ques]["Items"][item.id]["Amount"] = PlayerStats.count_item(item.id)
 				if Quests[ques]["Items"][item.id]["Amount"] >= Quests[ques]["Items"][item.id]["Required"]:
 					Quests[ques]["Items"][item.id]["Finished"] = true
-					print("Checkpoint ", item.id )
-		print(ques, " in progress")
+					#print("Checkpoint ", item.id )
+		#print(ques, " in progress")
 		
 		
 func is_quest_done(ques):
@@ -529,20 +529,20 @@ func updateQuest( mob = null, item = null, place = null ):
 				Quests[ques]["Mob"][mob]["AlreadyKilled"] += 1
 				if Quests[ques]["Mob"][mob]["AlreadyKilled"] >= Quests[ques]["Mob"][mob]["NeedToBeKilled"]:
 					Quests[ques]["Mob"][mob]["Finished"] = true
-					print("Checkpoint ", mob )
+					#print("Checkpoint ", mob )
 					
 			if item in Quests[ques]["Items"].keys():
 				Quests[ques]["Items"][item]["Amount"] = PlayerStats.count_item(item)
 				if Quests[ques]["Items"][item]["Amount"] >= Quests[ques]["Items"][item]["Required"]:
 					Quests[ques]["Items"][item]["Finished"] = true
-					print("Checkpoint ", item )
+					#print("Checkpoint ", item )
 				else:
 					Quests[ques]["Items"][item]["Finished"] = false
 					
 			if !checkQuest(ques) : continue
 					
 			Quests[ques]["Status"]["Done"] = true
-			print(ques," Requierments Complete")
+			#print(ques," Requierments Complete")
 			
 func add_quest_rewards(ques):
 	PlayerStats.add_experience(Quests[ques]["Reward"]["Exp"])
@@ -552,13 +552,13 @@ func add_quest_rewards(ques):
 		for i in range(Quests[ques]["Reward"]["Items"][item]):
 			PlayerStats.add_item(item)
 	
-	print(ques," Rewards Recived")
+	#print(ques," Rewards Recived")
 			
 func _input(event):
 	if event is InputEventMouseButton:
 		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
-		print("Mouse Click/Unclick at: ", get_global_mouse_position())
-#		print(get_tree().get_root().find_node("Player", true, false).position)
+		#print("Mouse Click/Unclick at: ", get_global_mouse_position())
+#		#print(get_tree().get_root().find_node("Player", true, false).position)
 			
 			
 var Quests = {

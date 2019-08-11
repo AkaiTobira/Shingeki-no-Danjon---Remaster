@@ -81,6 +81,7 @@ extents = Vector2( 10.4152, 10 )
 [node name="Node2D" type="StaticBody2D" groups=[
 "wall",
 ]]
+visible = false
 position = Vector2( 0, -20 )
 script = SubResource( 1 )
 

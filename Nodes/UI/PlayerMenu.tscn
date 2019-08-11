@@ -331,7 +331,7 @@ func _physics_process(delta):
 				var item = inventory_list[inventory_select]
 				
 				var eq = get_eq_slot(Res.items[item.id])
-				print( eq )
+				#print( eq )
 				
 				if eq > -1 and Input.is_action_just_pressed(\"Interact\"):
 					Res.ui_sample(\"MenuAccept\")

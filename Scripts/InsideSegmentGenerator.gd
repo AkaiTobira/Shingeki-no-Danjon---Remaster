@@ -177,7 +177,6 @@ func generate_single_object(i,j, prob, orientation, style ):
 	match(style):
 		Res.EnvironmentType.Trap: 
 			temporary_enviroment_list.append({ "type": Res.EnvironmentType.Trap, "name": object_name, "pos":obj_position, "flip":Wall_Orientations.Right != orientation, "local_pos":Vector2(i,j), "closest_empty_space":[0,0,0,0] })
-			instance._change_sprite(Res.dungeons[dungeon_name]["tileset"])
 		Res.EnvironmentType.Box:
 			temporary_enviroment_list.append({ "type": Res.EnvironmentType.Box, "name": object_name, "pos":obj_position, "state":"Alive" })
 		Res.EnvironmentType.Chest:
@@ -218,13 +217,14 @@ func generate(dungeon, current_level = 0):
 	generate_enemies()
 	finish_trap_generation()
 	enviroment_list += temporary_enviroment_list
+	
+	translate_const_obj()	
+	
+	
 	#print( "ISG: generate enemies takes : ", (OS.get_ticks_msec() - time_start)) 
 	#time_start = OS.get_ticks_msec()
-	#cout = 0
-#	change_tileset()
-	#print( "ISG: loading tileset takes : ", (OS.get_ticks_msec() - time_start)) 
-	#time_start = OS.get_ticks_msec()
-#	translate_const_obj()
+
+
 	#print( "ISG: translate consts takes : ", (OS.get_ticks_msec() - time_start)) 
 
 func finish_trap_generation():
@@ -249,13 +249,22 @@ func finish_trap_generation():
 func is_empty(i,j):
 	return 	shape[i][j] >= TileState.free and shape[i][j] <= TileState.exitTile
 
-#func translate_const_obj():
-#	if has_node("ConstObjects"):
-#		for i in $ConstObjects.get_children():
-#			var node = i
-#			get_node("ConstObjects").remove_child(node)
-#			if i.has_method( "_change_sprite" ): i._change_sprite(dungeon_name)
-#			get_node("Objects").add_child(i)
+func translate_const_obj():
+	if has_node("ConstObjects"):
+		for obj in $ConstObjects.get_children():
+			var node = obj
+			if node.has_method( "get_placement_info" ):
+				var placement_info = node.get_placement_info()
+				match( placement_info.type ):
+					Res.EnvironmentType.Trap: 
+						enviroment_list.append({ "type": Res.EnvironmentType.Trap, "name": placement_info.name, "pos":node.position, "flip":placement_info.flip, "closest_empty_space":[4,4,4,4] })
+					Res.EnvironmentType.Box:
+						enviroment_list.append({ "type": Res.EnvironmentType.Box, "name": placement_info.name, "pos":node.position,  "state":"Alive" })
+					Res.EnvironmentType.Chest:
+						enviroment_list.append({ "type": Res.EnvironmentType.Chest, "name": placement_info.name, "pos":node.position,  "state":"Alive" })
+					Res.EnvironmentType.Decoration:
+						enviroment_list.append({ "type": Res.EnvironmentType.Decoration, "name": placement_info.name, "pos":node.position, "flip":placement_info.flip })
+			$ConstObjects.remove_child(node)
 
 func reset():
 	accesNeed.clear()

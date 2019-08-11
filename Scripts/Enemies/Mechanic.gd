@@ -22,7 +22,7 @@ var block_payback_prob = 100
 var summon_prob        = 1000
 var fire_bomb_prob     = 250
 
-var max_hp = 500
+var max_hp = 1500
 
 
  
@@ -290,9 +290,10 @@ func turn_shields( play ):
 func _on_dead():
 	dead = true
 	play_animation_if_not_playing("Dead")
-	$"Shape".disabled = true
-	$"DamageCollider/Shape".disabled = true
-	$"AttackCollider/Shape".disabled = true
+	
+	$"Shape".queue_free()
+	$"DamageCollider/Shape".queue_free()
+	$"AttackCollider/Shape".queue_free()
 	$"EfectsAnimator".visible = false
 	if RShieldON:
 		$"RightShield".kill_shield() 

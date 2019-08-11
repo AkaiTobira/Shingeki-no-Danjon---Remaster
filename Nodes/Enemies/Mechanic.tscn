@@ -27,8 +27,8 @@ resource_name = "RightShield"
 script/source = "extends KinematicBody2D
 
 var destroyed = false
-var hp        = 150
-var max_hp    = 150
+var hp        = 1000
+var max_hp    = 1000
 var armour    = 0.8
 
 var time = 0.0
@@ -85,8 +85,8 @@ func _on_dead():
 	Res.play_sample(get_parent(), \"MetalHit3\")
 	play_animation_if_not_playing(\"Dead\")
 	destroyed = true
-	$\"Shape\".disabled = true
-	$\"DamageCollider/Shape\".disabled = true
+	$\"Shape\".queue_free()
+	$\"DamageCollider/Shape\".queue_free()
 	
 
 func _process(delta):
@@ -190,8 +190,8 @@ resource_name = "LeftShield"
 script/source = "extends KinematicBody2D
 
 var destroyed = false
-var hp        = 150
-var max_hp    = 150
+var hp        = 1000
+var max_hp    = 1000
 var armour    = 0.8
 
 var time = 0.0
@@ -248,8 +248,8 @@ func _on_dead():
 	Res.play_sample(get_parent(), \"MetalHit3\")
 	play_animation_if_not_playing(\"Dead\")
 	destroyed = true
-	$\"Shape\".disabled = true
-	$\"DamageCollider/Shape\".disabled = true
+	$\"Shape\".queue_free()
+	$\"DamageCollider/Shape\".queue_free()
 	
 
 func _process(delta):

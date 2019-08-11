@@ -32,8 +32,9 @@ func _ready():
 	PlayerStats.health = PlayerStats.statistic["mx_hpp"][0]
 	PlayerStats.mana   = PlayerStats.statistic["mx_man"][0]
 	
-	player.UI.init_map_menu(map_manager.get_location_numbers(), map_manager.get_location_types(), map_manager.get_locations_names(), map_manager.get_loations_descriptions())
 	change_map(0, "Mechania")
+	player.UI.init_map_menu(map_manager.get_location_numbers(), map_manager.get_location_types(), map_manager.get_locations_names(), map_manager.get_loations_descriptions())
+	
 
 func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	get_tree().paused = true

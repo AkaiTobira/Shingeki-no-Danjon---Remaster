@@ -78,10 +78,10 @@ func refresh_skill():
 	statistic["sh_res"][1] = increments[2][0]*statistic["smart" ][1]
 	statistic["mg_dmg"][1] = increments[2][1]*statistic["smart" ][1]
 	statistic["mx_man"][1] = increments[2][2]*statistic["smart" ][1] + 100
-	mana                   = increments[2][2]*statistic["smart" ][1] + 100
+	mana                   = (increments[2][2]*statistic["smart" ][1] + 100) * mana/statistic["mx_man"][0]
 	statistic["gh_dur"][1] = increments[2][3]*statistic["smart" ][1]
 	statistic["mx_hpp"][1] = increments[3][0]*statistic["vital" ][1] + 100
-	health                 = increments[3][0]*statistic["vital" ][1] + 100
+	health                 = (increments[3][0]*statistic["vital" ][1] + 100) * health/statistic["mx_hpp"][0]
 	statistic["mn_reg"][1] = increments[3][1]*statistic["vital" ][1] 
 	statistic["ex_res"][1] = increments[3][2]*statistic["vital" ][1] 
 	statistic["mv_spd"][1] = increments[3][3]*statistic["vital" ][1] 

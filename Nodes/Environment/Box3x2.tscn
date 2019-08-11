@@ -5,6 +5,7 @@
 [ext_resource path="res://Sprites/Objects/Box2.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 9.53535, 8.03481 )
 
 [node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
 "enviroment",
@@ -25,8 +26,8 @@ scale = Vector2( 10.0641, 5.85601 )
 shape = SubResource( 1 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 1.31042, 36.1732 )
-scale = Vector2( 0.424358, 0.372234 )
+position = Vector2( 3.81315, 36.1732 )
+scale = Vector2( 0.414582, 0.372234 )
 texture = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

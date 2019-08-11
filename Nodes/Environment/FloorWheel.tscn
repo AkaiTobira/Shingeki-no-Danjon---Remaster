@@ -30,7 +30,7 @@ tracks/0/keys = {
 z_index = 1
 texture = ExtResource( 1 )
 hframes = 9
-frame = 4
+frame = 6
 script = ExtResource( 2 )
 placement = 2
 

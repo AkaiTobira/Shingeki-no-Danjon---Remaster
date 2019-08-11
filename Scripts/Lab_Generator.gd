@@ -41,7 +41,7 @@ func generate():
 	empty_spots.append({"pos": start, "is_start": true})
 
 	while len(empty_spots) > 0:
-#		print( len(graph) )
+#		#print( len(graph) )
 		empty_spots   = shuffleList(empty_spots)
 		var next_spot = empty_spots[0]
 
@@ -223,7 +223,7 @@ func print_locked():
 				continue
 			s += (locked_positions[str(y) + "," + str(x)] + "      ").substr(0,5)
 		s+="\n"
-	print( s )
+	#print( s )
 #	dump.write(s)
 
 var segment_list = [

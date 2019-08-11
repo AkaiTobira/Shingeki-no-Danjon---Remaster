@@ -21,9 +21,6 @@ var initialized     = false
 var dungeon_type    = \"\"
 var enviroment_object_list    = []
 
-
-
-
 func set_player_position(change):
 	Res.game.player.position = ( stairs_holder[0].position  if change >= 0 else stairs_holder[1].position ) + Vector2(0,160)
 
@@ -120,6 +117,7 @@ func generate(dungeon_name, current_floor, _seed = randi()):
 	my_seed = _seed
 	seed(my_seed)
 	
+	print( dungeon_name )
 	dungeon_type = dungeon_name
 	
 	nav = AStar.new()
