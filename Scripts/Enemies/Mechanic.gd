@@ -76,7 +76,7 @@ func _physics_process(delta):
 	if dead:
 		time_of_being_dead += delta
 		if time_of_being_dead > 10.0:
-			queue_free()
+			call_deferred("queue_free")
 		return
 	
 	if RShieldON:
@@ -291,9 +291,9 @@ func _on_dead():
 	dead = true
 	play_animation_if_not_playing("Dead")
 	
-	$"Shape".queue_free()
-	$"DamageCollider/Shape".queue_free()
-	$"AttackCollider/Shape".queue_free()
+	$"Shape".call_deferred("queue_free")
+	$"DamageCollider/Shape".call_deferred("queue_free")
+	$"AttackCollider/Shape".call_deferred("queue_free")
 	$"EfectsAnimator".visible = false
 	if RShieldON:
 		$"RightShield".kill_shield() 

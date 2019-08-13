@@ -132,4 +132,3 @@ anims/Idle = SubResource( 4 )
 
 [node name="Hack" type="Node" parent="NPC2"]
 script = SubResource( 5 )
-

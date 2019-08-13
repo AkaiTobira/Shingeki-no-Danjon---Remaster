@@ -67,7 +67,7 @@ func acquire_new_map( change, type_of_flor, selected_world = "" ):
 func on_queue_free():
 	map_manager.force_thread_stop = true
 	map_manager = null
-	queue_free()
+	call_deferred("queue_free")
 
 func change_map(map_id, selected_world):
 	player.UI.disable_map_change()

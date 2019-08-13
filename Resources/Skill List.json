@@ -6,10 +6,34 @@
 		}
 	],
 	
-	"FireAffinity": [
+	"FireAffinityI": [
 		{
 			"stat": "FireMagic",
-			"value": 30
+			"value": 150
+		}
+	],
+	"FireAffinityII": [
+		{
+			"stat": "FireMagic",
+			"value": 300
+		}
+	],
+	"FireAffinityIII": [
+		{
+			"stat": "FireMagic",
+			"value": 600
+		}
+	],
+	"FireAffinityIV": [
+		{
+			"stat": "FireMagic",
+			"value": 1200
+		}
+	],
+	"FireAffinityV": [
+		{
+			"stat": "FireMagic",
+			"value": 2400
 		}
 	],
 	
@@ -26,7 +50,8 @@
 			"value": 20
 		}
 	],
-	
+
+
 	"Tornado": [
 		{
 			"stat": "AirMagic",
@@ -45,13 +70,42 @@
 		}
 	],
 	
-	"WaterAffinity": [
+	"WaterAffinityI": [
 		{
 			"stat": "WaterMagic",
-			"value": 30
+			"value": 150
 		}
 	],
 	
+	"WaterAffinityII": [
+		{
+			"stat": "WaterMagic",
+			"value": 300
+		}
+	],
+
+	"WaterAffinityIII": [
+		{
+			"stat": "WaterMagic",
+			"value": 600
+		}
+	],
+
+	"WaterAffinityIV": [
+		{
+			"stat": "WaterMagic",
+			"value": 1200
+		}
+	],
+
+
+	"WaterAffinityV": [
+		{
+			"stat": "WaterMagic",
+			"value": 2400
+		}
+	],
+
 	"SuperStrength": [
 		{
 			"stat": "Strength",

@@ -419,10 +419,12 @@ tracks/6/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 6.88208, 7.80743 )
 
 [node name="StaticBody2D" type="StaticBody2D" groups=[
 "enviroment",
 ]]
+position = Vector2( 0, -0.323532 )
 z_index = 1
 script = ExtResource( 1 )
 placement = 5
@@ -570,17 +572,17 @@ playback_speed = 24.0
 anims/FIRE = SubResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 3.62123, -16.6601 )
+position = Vector2( 3.94478, -21.8366 )
 scale = Vector2( 1.78189, 2.90122 )
 shape = SubResource( 7 )
 
 [node name="CollisionL" type="CollisionShape2D" parent="."]
-position = Vector2( -33.3788, -26.8852 )
+position = Vector2( -21.0845, -33.6794 )
 scale = Vector2( 1.78189, 3.54214 )
 shape = SubResource( 7 )
 
 [node name="CollisionR" type="CollisionShape2D" parent="."]
-position = Vector2( 40.6212, -26.9513 )
+position = Vector2( 28.974, -36.3338 )
 scale = Vector2( 1.78189, 3.54723 )
 shape = SubResource( 7 )
 

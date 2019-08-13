@@ -296,7 +296,7 @@ extents = Vector2( 3.17211, 2.35094 )
 extents = Vector2( 39.8092, 47.0572 )
 
 [sub_resource type="RectangleShape2D" id=15]
-extents = Vector2( 100.382, 85.7356 )
+extents = Vector2( 100.382, 90.7931 )
 
 [node name="Puncher" type="KinematicBody2D" groups=[
 "enemies",
@@ -309,6 +309,7 @@ script = ExtResource( 1 )
 position = Vector2( 0, -49 )
 
 [node name="1" type="Sprite" parent="Sprites"]
+visible = false
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 8
@@ -321,7 +322,6 @@ vframes = 2
 hframes = 4
 
 [node name="3" type="Sprite" parent="Sprites"]
-visible = false
 position = Vector2( 1, -34 )
 texture = ExtResource( 4 )
 vframes = 4
@@ -369,10 +369,9 @@ scale = Vector2( 1, 1.1662 )
 shape = SubResource( 14 )
 
 [node name="AttackCollider" type="Area2D" parent="."]
-visible = false
 
 [node name="Shape" type="CollisionShape2D" parent="AttackCollider"]
-position = Vector2( -0.598755, -44.9053 )
+position = Vector2( -0.976105, -52.8297 )
 shape = SubResource( 15 )
 disabled = true
 

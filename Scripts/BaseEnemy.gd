@@ -95,7 +95,7 @@ func prepeare_ability():
 func meansure_dead_timeout(delta):
 	if timeout_dead == 0 : create_drop()
 	timeout_dead += delta
-	if timeout_dead > TIME_TO_DISAPEARD: queue_free()
+	if timeout_dead > TIME_TO_DISAPEARD: call_deferred("queue_free")
 
 func play_animation_if_not_playing(anim, fb = false):
 	if $AnimationPlayer.current_animation != anim:
@@ -276,9 +276,9 @@ func _on_dead():
 	block_logic   =  true
 	
 	$"AnimationPlayer".play("Dead")
-	$"Shape".queue_free()
-	$"DamageCollider/Shape".queue_free() 
-	$"AttackCollider/Shape".queue_free() 
+	$"Shape".call_deferred("queue_free")
+	$"DamageCollider/Shape".call_deferred("queue_free") 
+	$"AttackCollider/Shape".call_deferred("queue_free") 
 	
 	for i in range(sprites.size()):
 		sprites[i].modulate = Color(1,1,1,1)

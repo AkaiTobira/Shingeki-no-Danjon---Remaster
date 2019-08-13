@@ -5,7 +5,7 @@
 [ext_resource path="res://Sprites/Environment/Pipee.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 53.1713, 65.2316 )
+extents = Vector2( 42.6992, 65.2316 )
 
 [node name="ParaffinGreenPipe" type="StaticBody2D" groups=[
 "enviroment",
@@ -20,7 +20,7 @@ autoplay = "1"
 playback_speed = 8.0
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 13.8882 )
+position = Vector2( 7, 13.8882 )
 scale = Vector2( 0.736544, 0.213319 )
 shape = SubResource( 1 )
 

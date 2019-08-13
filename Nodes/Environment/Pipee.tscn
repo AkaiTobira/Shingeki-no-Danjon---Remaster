@@ -30,7 +30,7 @@ func _ready():
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 48, 16.0734 )
+extents = Vector2( 39.1005, 10.8912 )
 
 [node name="ParaffinBluePipe" type="StaticBody2D" groups=[
 "enviroment",
@@ -84,6 +84,6 @@ frame = 1
 script = SubResource( 1 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 1.5, 18 )
+position = Vector2( 1.5, 14 )
 scale = Vector2( 1.65695, 1.23849 )
 shape = SubResource( 2 )

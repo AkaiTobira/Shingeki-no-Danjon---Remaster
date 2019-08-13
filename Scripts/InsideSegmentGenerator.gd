@@ -49,7 +49,7 @@ func set_shape(shape):
 func get_navigation_points():
 	for i in range(used_rect.end.x+2):
 		for j in range(used_rect.end.y+2):
-			if shape[i][j] >= TileState.free and shape[i][j] <= TileState.containerObject:
+			if shape[i][j] >= TileState.free and shape[i][j] <= TileState.exitTile:
 				navigation_points.append(Vector2(40 + 80*i, 40 +80*j))
 
 	return navigation_points
@@ -82,7 +82,9 @@ func initialize_generation(dungeon, current_floor):
 	used_rect    = $BottomTiles.get_used_rect()
 	
 	$BottomTiles.cell_y_sort = true
-	$TopTiles.cell_y_sort    = true	
+	$BottomTiles.z_index       = -1
+	$BottomTiles.z_as_relative = false
+	$TopTiles.cell_y_sort    = true
 	
 	create_Objects_node()
 	reset()

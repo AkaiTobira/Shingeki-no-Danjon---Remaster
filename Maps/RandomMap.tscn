@@ -106,6 +106,29 @@ func check_if_is_active( name ):
 
 func mark_as_destroyed(id):
 	enviroment_object_list[id].state = \"Destroyed\"
+	
+	if enviroment_object_list[id].type == Res.EnvironmentType.Enemy : return
+
+
+	var closest_point = nav.get_point_position (nav.get_closest_point( Vector3(enviroment_object_list[id].pos.x, enviroment_object_list[id].pos.y, 0) ))
+	print( closest_point )
+	
+	closest_point = Vector2(closest_point.x, closest_point.y)
+ 
+	if closest_point != enviroment_object_list[id].pos + Vector2(1,1):
+		print( closest_point, enviroment_object_list[id].pos )
+		var corresponations = [ Vector2( 80,   0), Vector2( -80,   0), Vector2(   0, 80), Vector2(   0, -80),
+						  	    Vector2( 80,  80), Vector2(  80, -80), Vector2( -80, 80), Vector2( -80, -80) ]
+
+		var id_1 = nav.get_available_point_id( )
+		nav.add_point(id_1, Vector3(enviroment_object_list[id].pos.x + 1, 
+									enviroment_object_list[id].pos.y + 1, 0 ))
+		for direction in corresponations:
+			var id_2 = nav.get_closest_point( Vector3(enviroment_object_list[id].pos.x + 1 + direction.x, 
+													  enviroment_object_list[id].pos.y + 1 + direction.y, 0 ))
+			if id_1 == id_2: continue
+			print( \"Connected\" )
+			nav.connect_points(id_1, id_2, true)
 
 func clear(): 
 	for child in get_children(): 

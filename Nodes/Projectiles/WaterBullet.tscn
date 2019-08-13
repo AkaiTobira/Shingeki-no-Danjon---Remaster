@@ -19,7 +19,7 @@ func intiated():
 
 func _physics_process(delta):
 	if $Animation.current_animation == \"Fly\" and move_and_collide(MOVEMENT[direction].rotated(offset) * SPEED):
-		queue_free()
+		call_deferred(\"queue_free\")
 
 func new_dir(dir):
 	direction = dir
@@ -30,16 +30,18 @@ func _on_attack_hit(collider):
 		SkillBase.inc_stat(\"WaterMagic\")
 		SkillBase.inc_stat(\"Ranged\")
 		collider.get_parent().damage(damage)
-		queue_free()
+		call_deferred(\"queue_free\")
 		
 		if !no_dup:
 			for i in range(3):
-				var bullet = duplicate(DUPLICATE_USE_INSTANCING)
-				get_parent().add_child(bullet)
+				var bullet = load(\"res://Nodes/Projectiles/WaterBullet.tscn\").instance()
 				bullet.direction = direction
-				bullet.offset = (i-1) * PI/8
-				bullet.no_dup = true
+				bullet.offset   = (i-1) * PI/8
+				bullet.no_dup   = true
 				bullet.position = position + MOVEMENT[direction] * 160
+				bullet.damage   = damage
+				get_parent().add_child(bullet)
+
 
 func _on_Animation_animation_finished(anim_name):
 	if anim_name == \"Start\": $Animation.play(\"Fly\")"
@@ -79,7 +81,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 17, 36 )
+extents = Vector2( 4.55658, 20.2099 )
 
 [node name="WaterBullet" type="KinematicBody2D" groups=[
 "playerSkills",
@@ -105,7 +107,6 @@ position = Vector2( 0, -2 )
 shape = SubResource( 4 )
 
 [node name="AttackCollider" type="Area2D" parent="."]
-editor/display_folded = true
 collision_layer = 2
 collision_mask = 2
 

@@ -4,7 +4,6 @@
 [ext_resource path="res://Sprites/Enemies/Mechanic/FireExplosion.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=1]
-
 script/source = "extends KinematicBody2D
 
 
@@ -24,7 +23,7 @@ func explosion():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	
 	if \"Boom\" in anim_name:
-		queue_free()
+		call_deferred(\"queue_free\")
 
 func _on_AtackCollider_area_entered(collider):
 	if collider.get_parent().is_in_group(\"players\"):
@@ -32,19 +31,13 @@ func _on_AtackCollider_area_entered(collider):
 "
 
 [sub_resource type="CircleShape2D" id=2]
-
-custom_solver_bias = 0.0
 radius = 146.357
 
 [sub_resource type="CircleShape2D" id=3]
-
-custom_solver_bias = 0.0
 radius = 48.7723
 
 [sub_resource type="Animation" id=4]
-
 length = 25.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -122,69 +115,36 @@ tracks/5/keys = {
 }
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
-
-input_pickable = false
-collision_layer = 1
-collision_mask = 1
-collision/safe_margin = 0.08
 script = SubResource( 1 )
-_sections_unfolded = [ "Collision" ]
 
-[node name="AtackCollider" type="Area2D" parent="." index="0"]
-
+[node name="AtackCollider" type="Area2D" parent="."]
 visible = false
 scale = Vector2( 0.5, 0.5 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Collision" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AtackCollider" index="0"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AtackCollider"]
 shape = SubResource( 2 )
 disabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource( 3 )
-_sections_unfolded = [ "Visibility" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 8.0
 anims/Boom = SubResource( 4 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
 
-[node name="Sprite" type="Sprite" parent="." index="3"]
-
+[node name="Sprite" type="Sprite" parent="."]
 visible = false
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 hframes = 10
 frame = 9
-_sections_unfolded = [ "Animation", "Transform", "Visibility" ]
 
-[node name="Sprite2" type="Sprite" parent="." index="4"]
-
+[node name="Sprite2" type="Sprite" parent="."]
 visible = false
 scale = Vector2( 0.9, 0.9 )
 z_index = 2
 texture = ExtResource( 2 )
 hframes = 10
-_sections_unfolded = [ "Animation", "Transform", "Visibility", "Z Index" ]
-
 [connection signal="area_entered" from="AtackCollider" to="." method="_on_AtackCollider_area_entered"]
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-
-

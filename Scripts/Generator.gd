@@ -75,7 +75,7 @@ func generate(level_name, navigation, current_floor1):
 	get_parent().segments_holder = wallAndFloorReplacer.replace_wall_and_floors(graph, dungeon_name)
 	#print( "G: generation takes : ", (OS.get_ticks_msec() - time_start)  ) 
 
-	queue_free()
+	call_deferred("queue_free")
 
 func create_stairs():
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]

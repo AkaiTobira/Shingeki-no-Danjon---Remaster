@@ -43,7 +43,8 @@ func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip = false):
 	if has_node("Animation") and const_object and not block_animation:
 		var anim = $Animation.get_animation_list()
 		if len(anim) > 0 :
-			$Animation.play(anim[randi()%(len(anim))])
+			#if randi()%2 == 0:
+			$Animation.play(anim[randi()%(len(anim))],-1,1, randi()%2==0)
 			$Animation.advance(randi()% ( int($Animation.current_animation_length )) )
 			if randomize_speed_of_animation:
 				$Animation.playback_speed = (randi()%9 + 12)

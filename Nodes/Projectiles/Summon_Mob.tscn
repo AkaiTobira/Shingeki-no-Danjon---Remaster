@@ -29,7 +29,7 @@ func spawn():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if \"Shine\" in anim_name:
-		queue_free()
+		call_deferred(\"queue_free\")
 "
 
 [sub_resource type="Animation" id=2]

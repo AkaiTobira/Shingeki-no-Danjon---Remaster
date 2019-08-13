@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Fire Affinity III",
+	"description": "Increases fire damage.",
+	"infos": ["Fire damage is increased by 72%"]
+}

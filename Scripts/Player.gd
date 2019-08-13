@@ -285,7 +285,7 @@ func damage(attacker, amount, _knockback, type = "NoDamage"):
 		yield(get_tree().create_timer(3), "timeout")
 		#get_tree().change_scene("res://Scenes/Preloader.tscn")
 		$"/root/Preloader".re_init()
-		$"/root/Game".queue_free()
+		$"/root/Game".call_deferred("queue_free")
 	else:
 		change_animation("Body", "Damage")
 
@@ -429,7 +429,7 @@ func update_shield():
 
 func cancel_ghost():
 	Res.play_sample(self, "GhostExit")
-	ghost_mode.queue_free()
+	ghost_mode.call_deferred("queue_free")
 	ghost_mode = null
 	GHOST_EFFECT.visible = false
 
@@ -477,16 +477,30 @@ func trigger_skill(skill = triggered_skill[0]):
 		#	projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
 
 		
-		if skill.has("magic") and skill.magic == 1 and SkillBase.has_skill("FireAffinity"): projectile.damage *= 3 ##hack
-		elif skill.has("magic") and skill.magic == 2 and SkillBase.has_skill("WaterAffinity"): projectile.damage *= 3 ##hack
-		
+		if skill.has("magic"):
+			match( str(skill.magic) ):
+				"1":
+					if SkillBase.has_skill("FireAffinityI"):   projectile.damage *= 1.10
+					if SkillBase.has_skill("FireAffinityII"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("FireAffinityIII"): projectile.damage *= 1.5151
+					if SkillBase.has_skill("FireAffinityIV"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("FireAffinityV"):   projectile.damage *= 1.25
+					
+				"2":
+					if SkillBase.has_skill("WaterAffinityI"):   projectile.damage *= 1.10
+					if SkillBase.has_skill("WaterAffinityII"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("WaterAffinityIII"): projectile.damage *= 1.5151
+					if SkillBase.has_skill("WaterAffinityIV"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("WaterAffinityV"):   projectile.damage *= 1.25
+					print( projectile.damage )
+				_: pass
+
 		if skill.name == "Water Bubbles": water_stream_hack = 0.1
 		if skill.name == "Razor Banana": wind_spam_hack = 0.5
 
 func _on_other_attack_hit(body):
 	if body.is_in_group("secrets"):
 		body.hit(self)
-		
 		
 func addQuest(ques):
 	if ques in Quests.keys():

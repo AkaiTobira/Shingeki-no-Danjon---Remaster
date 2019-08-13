@@ -1220,7 +1220,6 @@ margin_bottom = 40.0
 
 [node name="Character" type="Control" parent="Tabs"]
 editor/display_folded = true
-visible = false
 margin_right = 1366.0
 margin_bottom = 768.0
 mouse_filter = 1
@@ -2335,8 +2334,6 @@ align = 1
 valign = 1
 
 [node name="Skills" type="Control" parent="Tabs"]
-editor/display_folded = true
-visible = false
 self_modulate = Color( 1, 0.501961, 0.501961, 0.501961 )
 margin_right = 1366.0
 margin_bottom = 768.0
@@ -2394,9 +2391,9 @@ align = 1
 valign = 1
 
 [node name="ActivePanel" type="TextureRect" parent="Tabs/Skills"]
-margin_left = 441.0
+margin_left = 439.947
 margin_top = 220.0
-margin_right = 1338.0
+margin_right = 1336.95
 margin_bottom = 743.0
 rect_scale = Vector2( 1.02, 0.9 )
 texture = ExtResource( 33 )
@@ -2417,8 +2414,6 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="LeftHeader" type="TextureRect" parent="Tabs/Skills"]
-editor/display_folded = true
-visible = false
 margin_left = 23.0
 margin_top = 156.0
 margin_right = 408.0
@@ -2456,17 +2451,16 @@ texture = ExtResource( 16 )
 expand = true
 
 [node name="Infos" type="Control" parent="Tabs/Skills/LeftHeader/Info"]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="Info1" type="Label" parent="Tabs/Skills/LeftHeader/Info/Infos"]
-margin_left = 94.0
+margin_left = 68.0
 margin_top = 310.0
-margin_right = 337.0
-margin_bottom = 338.0
+margin_right = 408.0
+margin_bottom = 532.0
 custom_fonts/font = ExtResource( 10 )
-text = "+50 cośtam"
+autowrap = true
 
 [node name="VideoPanel" type="TextureRect" parent="Tabs/Skills/LeftHeader/Info"]
 visible = false
@@ -2647,6 +2641,8 @@ margin_bottom = 100.0
 texture = ExtResource( 25 )
 
 [node name="Map" type="Control" parent="Tabs"]
+editor/display_folded = true
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
