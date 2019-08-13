@@ -17,6 +17,7 @@ func intiated():
 
 func _physics_process(delta):
 	if move_and_collide(MOVEMENT[direction] * SPEED):
+		call_deferred(\"queue_free\")
 
 func new_dir(dir):
 	direction = dir
