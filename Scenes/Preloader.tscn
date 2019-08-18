@@ -15,9 +15,8 @@ var can_start_game = false
 var current_state = \"Title_screen\"
 
 func unclock_processes():
-	Res.disable_cheats = false
+	Res.disable_cheats      = false
 	SkillBase.process_block = false
-	
 
 func re_init():
 	var t = load(\"res://Scenes/TitleScreen.tscn\").instance()

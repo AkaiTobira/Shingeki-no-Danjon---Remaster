@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/Projectiles/EarthWall.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+resource_name = "StoneNeedles"
+script/source = "extends KinematicBody2D
+
+const MOVEMENT = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
+const SPEED = 10
+
+var direction = 0
+var damage = 0
+
+func intiated():
+	Res.play_sample(self, \"StoneNeedles\")
+	if direction != 2: position += MOVEMENT[direction] * 80
+
+func _on_attack_hit(collider):
+	if collider.get_parent().is_in_group(\"enemies\"):
+		SkillBase.inc_stat(\"EarthMagic\")
+	#	collider.get_parent().damage(damage)
+
+func _on_Animation_animation_finished(anim_name):
+	queue_free()"
+
+[sub_resource type="Animation" id=2]
+length = 65.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 19, 59, 60, 61, 62, 63, 64 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 3, 2, 1, 0 ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 22.2536, 70.4211 )
+
+[node name="StoneNeedles" type="KinematicBody2D" groups=[
+"playerSkills",
+]]
+collision_layer = 8
+collision_mask = 12
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 6
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+playback_speed = 20.0
+anims/Idle = SubResource( 2 )
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2( 0.880249, 29.1071 )
+shape = SubResource( 3 )
+
+[node name="AttackCollider" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Shape1" type="CollisionShape2D" parent="AttackCollider"]
+position = Vector2( 0.440125, 63.2942 )
+scale = Vector2( 0.5, 0.5 )
+shape = SubResource( 3 )
+[connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]
+[connection signal="area_entered" from="AttackCollider" to="." method="_on_attack_hit"]

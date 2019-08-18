@@ -61,6 +61,8 @@ func process_atacks():
 			Res.play_sample(self, music["Normal"])
 			return
 			
+var path_length = 100
+
 func runaway_move_behaviour(delta):
 	if path_length * 0.3 >= len(path) or len(path) == 1:
 		path_length =  len(path)

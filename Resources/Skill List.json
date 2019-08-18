@@ -43,22 +43,18 @@
 			"value": 15
 		}
 	],
-	
 	"WaterBullet": [
 		{
 			"stat": "WaterMagic",
 			"value": 20
 		}
 	],
-
-
 	"Tornado": [
 		{
 			"stat": "AirMagic",
 			"value": 50
 		}
 	],
-	
 	"FireShield": [
 		{
 			"stat": "FireMagic",
@@ -69,14 +65,12 @@
 			"value": 5
 		}
 	],
-	
 	"WaterAffinityI": [
 		{
 			"stat": "WaterMagic",
 			"value": 150
 		}
 	],
-	
 	"WaterAffinityII": [
 		{
 			"stat": "WaterMagic",
@@ -103,6 +97,22 @@
 		{
 			"stat": "WaterMagic",
 			"value": 2400
+		}
+	],
+
+
+	
+	"RockFist": [
+		{
+			"stat": "EarthMagic",
+			"value": 2
+		}
+	],
+
+	"EarthWall": [
+		{
+			"stat": "EarthMagic",
+			"value": 2
 		}
 	],
 

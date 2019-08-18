@@ -1,0 +1,14 @@
+{
+	"type": "active",
+	"name": "Earth Wall",
+	"description": "Making wall from pure ... stone.",
+	"infos": ["Earth elemental", "X Ctr to use"],
+	"combo": ["Special", "Shield"],
+	"projectile": "EarthWall",
+	"stats": ["DeffenseMagic"],
+	"cost": 24,
+	"damage": 0,
+	"magic": 4,
+	"elements": {"earth": 1},
+	"scalling": {"intelligence": 1}
+}

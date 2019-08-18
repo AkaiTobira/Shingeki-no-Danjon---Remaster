@@ -12,11 +12,17 @@ const SPEED = 10
 var direction = 0
 var damage = 0
 
+
+var time_beeing_active = 30
+var time               = 0
+
 func intiated():
 	Res.play_sample(self, \"FireShield\")
 
 func _physics_process(delta):
+	time += delta
 	position = Res.game.player.position
+	if time > time_beeing_active : call_deferred(\"queue_free\")
 
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group(\"enemies\"):

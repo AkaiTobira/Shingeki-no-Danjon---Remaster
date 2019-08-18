@@ -107,9 +107,10 @@ func _physics_process(delta):
 			change_animation("LeftArm", "SpinAttack")
 		charge_spin = null
 	
-	if !attacking and !shielding and PlayerStats.get_equipment("shield") and Input.is_action_pressed("Shield"):
-		change_animation("LeftArm", "ShieldOn")
-		shielding = true
+	if !attacking and !shielding : 
+		if PlayerStats.get_equipment("shield") and Input.is_action_pressed("Shield"):
+			change_animation("LeftArm", "ShieldOn")
+			shielding = true
 	elif shielding and Input.is_action_just_released("Shield"):
 		change_animation("LeftArm", "ShieldOff")
 		shielding = false
@@ -461,6 +462,7 @@ func trigger_skill(skill = triggered_skill[0]):
 	
 	if skill.has("projectile"):
 		var projectile = Res.create_instance("Projectiles/" + skill.projectile)
+		projectile.z_index = 2 
 		get_parent().add_child(projectile)
 		projectile.position = position - Vector2(0,45)
 		if( direction == 2 ):
