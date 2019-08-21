@@ -54,27 +54,24 @@ func get_navigation_points():
 
 	return navigation_points
 
-#TOREFACTOR_AND_UPDATE
-func find_every_stair_possible_wall():
-	var id = $BottomTiles.tile_set.find_tile_by_name("WallMarkerUp")
-	var temp = []
-	for i in range(used_rect.end.x+1):
-		for j in range(used_rect.end.y+1):
-			if $BottomTiles.get_cell(i,j) == id and $BottomTiles.get_cell(i+1,j) == id:
-				if shape[i][j+2] >= TileState.free and shape[i][j+2] < TileState.destroyableObject and shape[i+1][j+2] >= TileState.free and shape[i+1][j+2] < TileState.destroyableObject:
-					temp.append(Vector2(i,j))
-	
-	return temp
-#TOREFACTOR_AND_UPDATE				
 func get_stairs_position():
 	var id = $BottomTiles.tile_set.find_tile_by_name("WallMarkerUp")
+	var possible_stair_positions = []
+	for i in range(used_rect.end.x+1):
+		for j in range(used_rect.end.y+1):
+			if is_wall_free_over_left_exit(id, 0, j): possible_stair_positions.append(Vector2(-1,j))
+			if is_wall_free(id, i, j): possible_stair_positions.append(Vector2(i,j))
+	return possible_stair_positions
 
-	var rico = []
+func is_wall_free_over_left_exit(id, x, y): 
+	if $BottomTiles.get_cell(x,y) == id:
+		if emptySpace.has_all([str(Vector2(x,y+2))]): return true
+	return false
 
-	for i in range(used_rect.end.y):
-		if $BottomTiles.get_cell(0,i) == id and shape[0][i+2] >= TileState.free and shape[0][i+2] < TileState.destroyableObject  :
-			rico.append(Vector2(-1,i))
-	return rico + find_every_stair_possible_wall()
+func is_wall_free(id, x, y): 
+	if $BottomTiles.get_cell(x,y) == id and $BottomTiles.get_cell(x+1,y) == id:
+		if emptySpace.has_all([str(Vector2(x,y+2)), str(Vector2(x+1,y+2))]): return true
+	return false
 
 func initialize_generation(dungeon, current_floor):
 	floor_number = current_floor
@@ -112,7 +109,19 @@ func convert_struct_to_set():
 			if structure[i][j] == TileState.wallLeftDown:  emptySpace[str(pos)] = [Wall_Orientations.Free] + multiplication[0] + multiplication[3]
 			if structure[i][j] == TileState.wallRightUp:   emptySpace[str(pos)] = [Wall_Orientations.Free] + multiplication[1] + multiplication[2]
 			if structure[i][j] == TileState.wallRightDown: emptySpace[str(pos)] = [Wall_Orientations.Free] + multiplication[1] + multiplication[3]
-					
+	
+	block_tile_near_exit_for_stairs_placement()
+	
+func block_tile_near_exit_for_stairs_placement():
+	var most_right_tile_over_exit = Vector2(0,0)
+	for enter in enters:
+		if enter[0] > most_right_tile_over_exit.x:
+			if enter[1] > most_right_tile_over_exit.y:
+				most_right_tile_over_exit = Vector2(enter[0],enter[1])
+
+	if not emptySpace.has(str(most_right_tile_over_exit + Vector2(1,-1))): 
+		emptySpace.erase(str(most_right_tile_over_exit + Vector2(0,-1))) 
+
 func object_to_prob(style):
 	match(style):
 		Res.EnvironmentType.Decoration: return Res.dungeons[dungeon_name]["probs"]["const"]
