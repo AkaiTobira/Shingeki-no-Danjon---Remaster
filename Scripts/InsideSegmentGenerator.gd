@@ -78,10 +78,10 @@ func initialize_generation(dungeon, current_floor):
 	dungeon_name = dungeon
 	used_rect    = $BottomTiles.get_used_rect()
 	
-	$BottomTiles.cell_y_sort = true
+	$BottomTiles.cell_y_sort   = true
 	$BottomTiles.z_index       = -1
 	$BottomTiles.z_as_relative = false
-	$TopTiles.cell_y_sort    = true
+	$TopTiles.cell_y_sort      = true
 	
 	create_Objects_node()
 	reset()

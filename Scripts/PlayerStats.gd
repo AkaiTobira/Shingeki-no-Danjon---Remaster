@@ -6,7 +6,9 @@ const EQUIPMENT_SLOTS = ["amulet", "helmet", "shield", "weapon", "armor", "ring"
 const SLOTS           = {}
 
 var level = 1
-var experience = 0
+var experience  = 0
+var next_level_exp    = total_exp(1)
+var current_level_exp = 0
 var stat_points = 0
 
 var mana = 100
@@ -42,6 +44,8 @@ var money = 0
 var inventory = []
 var equipment = []
 var events = {}
+
+
 
 signal level_up
 signal got_item
@@ -159,19 +163,21 @@ func recalc_stats():
 	refresh_skill()
 	for stat in statistic.keys():
 		statistic[stat][0] =  statistic[stat][1] + statistic[stat][2] + statistic[stat][3] + statistic[stat][4] 
-
-func exp_to_level(level):
-	return level * level * 4 #+ int(pow(0.99,level)) * level
-	
+			
 func total_exp(level):
-	return level * level * 4#+ int(pow(0.9,level)) * level
+	return 3 * pow(level, 3) / 3 + level * (level+1) * 3 + 10 * level
 
 func add_experience(amount):
+	#print( experience, " ", experience + amount, " ", next_level_exp)
 	experience += amount
 	
-	while experience >= total_exp(level-1) + exp_to_level(level):
+	while experience >= next_level_exp:
 		level += 1
 		stat_points += 1
+
+		current_level_exp = next_level_exp
+		next_level_exp    += total_exp(level+1)
+	#	print( experience, " ", next_level_exp)
 		emit_signal("level_up")
 
 func simple_randomizer():
