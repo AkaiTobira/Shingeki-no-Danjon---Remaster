@@ -6,7 +6,9 @@ const EQUIPMENT_SLOTS = ["amulet", "helmet", "shield", "weapon", "armor", "ring"
 const SLOTS           = {}
 
 var level = 1
-var experience = 0
+var experience  = 0
+var next_level_exp    = total_exp(1)
+var current_level_exp = 0
 var stat_points = 0
 
 var mana = 100
@@ -43,6 +45,8 @@ var inventory = []
 var equipment = []
 var events = {}
 
+
+
 signal level_up
 signal got_item
 signal equipment_changed
@@ -78,10 +82,10 @@ func refresh_skill():
 	statistic["sh_res"][1] = increments[2][0]*statistic["smart" ][1]
 	statistic["mg_dmg"][1] = increments[2][1]*statistic["smart" ][1]
 	statistic["mx_man"][1] = increments[2][2]*statistic["smart" ][1] + 100
-	mana                   = increments[2][2]*statistic["smart" ][1] + 100
+	mana                   = (increments[2][2]*statistic["smart" ][1] + 100) * mana/statistic["mx_man"][0]
 	statistic["gh_dur"][1] = increments[2][3]*statistic["smart" ][1]
 	statistic["mx_hpp"][1] = increments[3][0]*statistic["vital" ][1] + 100
-	health                 = increments[3][0]*statistic["vital" ][1] + 100
+	health                 = (increments[3][0]*statistic["vital" ][1] + 100) * health/statistic["mx_hpp"][0]
 	statistic["mn_reg"][1] = increments[3][1]*statistic["vital" ][1] 
 	statistic["ex_res"][1] = increments[3][2]*statistic["vital" ][1] 
 	statistic["mv_spd"][1] = increments[3][3]*statistic["vital" ][1] 
@@ -159,19 +163,21 @@ func recalc_stats():
 	refresh_skill()
 	for stat in statistic.keys():
 		statistic[stat][0] =  statistic[stat][1] + statistic[stat][2] + statistic[stat][3] + statistic[stat][4] 
-
-func exp_to_level(level):
-	return level * level * 4 #+ int(pow(0.99,level)) * level
-	
+			
 func total_exp(level):
-	return level * level * 4#+ int(pow(0.9,level)) * level
+	return 3 * pow(level, 3) / 3 + level * (level+1) * 3 + 10 * level
 
 func add_experience(amount):
+	#print( experience, " ", experience + amount, " ", next_level_exp)
 	experience += amount
 	
-	while experience >= total_exp(level-1) + exp_to_level(level):
+	while experience >= next_level_exp:
 		level += 1
 		stat_points += 1
+
+		current_level_exp = next_level_exp
+		next_level_exp    += total_exp(level+1)
+	#	print( experience, " ", next_level_exp)
 		emit_signal("level_up")
 
 func simple_randomizer():
@@ -193,7 +199,7 @@ func get_if_have_one(id):
 		if inventory[item_id].id == id: return item_id
 	return -1
 
-func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
+func add_item(id, amount = 1, notify = true, crafted = false): ##dorobić obsługę amount
 	var item = Res.items[id]
 
 	var slot = -1
@@ -225,9 +231,13 @@ func add_item(id, amount = 1, notify = true): ##dorobić obsługę amount
 					inventory[_tr].stack += amount
 					stacked = true
 			_:
-				_item.material = simple_randomizer()
-				_item.blessing =  bless_randomizer()
-				
+				if crafted:
+					_item.material = 0
+					_item.blessing = "none"
+				else:
+					_item.material = simple_randomizer()
+					_item.blessing =  bless_randomizer()
+
 				if item.has("durability"):
 					_item.durability     = int( item.durability *  ( 1.0 + (_item.material/5.0)) )
 					_item.max_durability = int( item.durability *  ( 1.0 + (_item.material/5.0)) )
