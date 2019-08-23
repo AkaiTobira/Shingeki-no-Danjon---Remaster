@@ -6,7 +6,7 @@ var SKILLS = {}
 
 var current_stats = {}
 var acquired_skills = []
-var acquired_active_skills  = {last_size = 0, skills = []}
+var acquired_active_skills = {last_size = 0, skills = []}
 var acquired_passive_skills = {last_size = 0, skills = []}
 
 const MAX_COMBO = 5
@@ -30,8 +30,6 @@ func inc_stat(stat, amount = 1):
 	else:
 		current_stats[stat] = amount
 	
-	#print( current_stats )
-	
 	for skill in SKILLS.keys():
 		if acquired_skills.has(skill): continue
 		
@@ -44,7 +42,6 @@ func inc_stat(stat, amount = 1):
 				break
 		
 		if can_has:
-			print( "Aquirred new skill :", skill )
 			acquired_skills.append(skill)
 			emit_signal("new_skill", skill)
 
@@ -63,8 +60,7 @@ func get_active_skills():
 		acquired_active_skills.last_size = acquired_skills.size()
 		
 		for skill in acquired_skills:
-			print( skill, acquired_active_skills )
-			if Res.skills[skill].type == "active": acquired_active_skills.skills.append(skill)
+  			if Res.skills[skill].type == "active": acquired_active_skills.skills.append(skill)
 	
 	return acquired_active_skills.skills
 

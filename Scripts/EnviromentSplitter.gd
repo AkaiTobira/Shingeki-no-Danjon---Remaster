@@ -34,7 +34,7 @@ func load_enviroments_by_type(enviroments, objType):
 	for obj in enviroments:
 		var instance = Res.cache_instance(obj, objType)
 		if instance == null  : 
-			#print( obj, " Error in name in json : Check  =  " + objType) 
+			print( obj, " Error in name in json : Check  =  " + objType) 
 			continue
 		if instance.placement   == instance.PLACEMENT.LEFT_OR_RIGHT_WALL:
 			emviroment[ Res.EnviromentPlacement.LeftWall ][objType].append(obj)

@@ -105,11 +105,11 @@ func _ready():
 	
 	##meh meh (DEBUG)
 	SkillBase.acquired_skills.append("Fireball")
-#	SkillBase.acquired_skills.append("FireSpear")
+	SkillBase.acquired_skills.append("FireSpear")
 #	SkillBase.acquired_skills.append("FireBolt")
-#	SkillBase.acquired_skills.append("FireShield")
+	SkillBase.acquired_skills.append("FireShield")
 	SkillBase.acquired_skills.append("WaterBubble")
-#	SkillBase.acquired_skills.append("RockPunch")
+	SkillBase.acquired_skills.append("RockPunch")
 	SkillBase.acquired_skills.append("WindBanana")
 	SkillBase.acquired_skills.append("DualSpark")
 	SkillBase.acquired_skills.append("EarthNeedles")
@@ -201,7 +201,7 @@ func play_music(music):
 	set_music(player)
 
 func set_music(player):
-	if music: music.call_deferred("queue_free")
+	if music: music.queue_free()
 	music = player
 	add_child(music)
 

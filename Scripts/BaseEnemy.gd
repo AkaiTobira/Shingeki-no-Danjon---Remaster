@@ -95,7 +95,7 @@ func prepeare_ability():
 func meansure_dead_timeout(delta):
 	if timeout_dead == 0 : create_drop()
 	timeout_dead += delta
-	if timeout_dead > TIME_TO_DISAPEARD: call_deferred("queue_free")
+	if timeout_dead > TIME_TO_DISAPEARD: queue_free()
 
 func play_animation_if_not_playing(anim, fb = false):
 	if $AnimationPlayer.current_animation != anim:
@@ -166,7 +166,6 @@ func _on_attack_hit(collider):
 			damage_type[last_atack_type] )
 
 func move_along_path(distance):
-	#print( distance )
 	var last_point = position
 	for index in range(path.size()):
 		var distance_between_points = last_point.distance_to(Vector2(path[0].x,path[0].y))
@@ -174,44 +173,27 @@ func move_along_path(distance):
 		if distance <= distance_between_points and distance >= 0.0:
 			var info = last_point.linear_interpolate(Vector2(path[0].x,path[0].y), distance / distance_between_points)
 			var move_vector = (info-position)*movespeed
-		#	print( move_vector )
 			move_and_slide(move_vector)
 			break
 		# the character reached the end of the path
 		elif distance < 0.0:
 			position = Vector2(path[0].x,path[0].y)
-			path.remove(0)
 #			set_process(false)
 			break
 		distance -= distance_between_points
 		last_point = Vector2(path[0].x,path[0].y)
+		path.remove(0)
 
+var path_length = 100
 
-
-func find_path():
-	
-	var player_position  = Vector2(int(player.position.x/80),int(player.position.y/80))
-	var current_posiiton = Vector2(int(position.x/80),int(position.y/80)) 
-	
-	var distance = abs(player_position.x - current_posiiton.x ) + abs(player_position.y - current_posiiton.y) 
-
-	#print( distance )
-	if distance >= len(path) - 1:
-		
-	#if path_length * 0.6 >= len(path) or len(path) == 1:
-#		path_length =  len(path)
+func  _move5(delta):
+	if path_length * 0.6 >= len(path) or len(path) == 1:
+		path_length =  len(path)
 		path = Map.nav.get_point_path(
 			Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
 			Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
 			)
-		path.remove(0)
-	#	print( position, path )
-	#if len(path) != 0 : path.remove(0)
-
-
-
-func  _move5(delta):
-	find_path()
+	if len(path) != 0 : path.remove(0)
 
 	move_along_path(movespeed*delta)
 
@@ -260,12 +242,10 @@ func _player_run_away():
 func _on_Radar_body_entered(body):
 	if body.name == "Player":
 		current_state = "Follow"
-		find_path()
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		current_state = "Follow"
-		find_path()
 
 func _on_animation_started(anim_name):
 	var anim = $AnimationPlayer.get_animation(anim_name)
@@ -296,9 +276,9 @@ func _on_dead():
 	block_logic   =  true
 	
 	$"AnimationPlayer".play("Dead")
-	$"Shape".call_deferred("queue_free")
-	$"DamageCollider/Shape".call_deferred("queue_free") 
-	$"AttackCollider/Shape".call_deferred("queue_free") 
+	$"Shape".queue_free()
+	$"DamageCollider/Shape".queue_free() 
+	$"AttackCollider/Shape".queue_free() 
 	
 	for i in range(sprites.size()):
 		sprites[i].modulate = Color(1,1,1,1)

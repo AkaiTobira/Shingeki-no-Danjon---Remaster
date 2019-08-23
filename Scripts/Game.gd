@@ -32,9 +32,8 @@ func _ready():
 	PlayerStats.health = PlayerStats.statistic["mx_hpp"][0]
 	PlayerStats.mana   = PlayerStats.statistic["mx_man"][0]
 	
-	change_map(0, "Mechania")
 	player.UI.init_map_menu(map_manager.get_location_numbers(), map_manager.get_location_types(), map_manager.get_locations_names(), map_manager.get_loations_descriptions())
-	
+	change_map(0, "Mechania")
 
 func acquire_new_map( change, type_of_flor, selected_world = "" ):
 	get_tree().paused = true
@@ -67,7 +66,7 @@ func acquire_new_map( change, type_of_flor, selected_world = "" ):
 func on_queue_free():
 	map_manager.force_thread_stop = true
 	map_manager = null
-	call_deferred("queue_free")
+	queue_free()
 
 func change_map(map_id, selected_world):
 	player.UI.disable_map_change()

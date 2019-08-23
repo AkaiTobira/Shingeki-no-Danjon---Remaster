@@ -43,8 +43,7 @@ func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip = false):
 	if has_node("Animation") and const_object and not block_animation:
 		var anim = $Animation.get_animation_list()
 		if len(anim) > 0 :
-			#if randi()%2 == 0:
-			$Animation.play(anim[randi()%(len(anim))],-1,1, randi()%2==0)
+			$Animation.play(anim[randi()%(len(anim))])
 			$Animation.advance(randi()% ( int($Animation.current_animation_length )) )
 			if randomize_speed_of_animation:
 				$Animation.playback_speed = (randi()%9 + 12)
@@ -89,16 +88,18 @@ func build_trap_arms( enabled_tiles_size ): #TODO
 	get_node("CollisionR").disabled = false
 	get_node("CollisionL").disabled = false
 		
-	if enabled_tiles_size[2] < 3:
-		$Node2D/Up/Sprite.visible      = false
+	print(enabled_tiles_size)
+		
+	#if enabled_tiles_size[2] < 3:
+	$Node2D/Up/Sprite.visible = enabled_tiles_size[2] < 3
 	if enabled_tiles_size[1] < 3:
-		$Node2D/Left/Sprite.visible     = false
+		$Node2D/Left/Sprite.visible = enabled_tiles_size[1] >= 3
 		get_node("CollisionL").disabled = true
 	if enabled_tiles_size[0] < 3:
-		$Node2D/Right/Sprite.visible    = false
+		$Node2D/Right/Sprite.visible = enabled_tiles_size[0] >= 3
 		get_node("CollisionR").disabled = true
-	if enabled_tiles_size[3] < 3:
-		$Node2D/Back/Sprite.visible     = false
+	#if enabled_tiles_size[3] < 3:
+	$Node2D/Back/Sprite.visible = enabled_tiles_size[3] > 3
 
 	if $Node2D/Back/Sprite.visible == false:
 		$CollisionShape2D.scale = Vector2(1.781887,2.901224)

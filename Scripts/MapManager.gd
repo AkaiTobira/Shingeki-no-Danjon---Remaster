@@ -31,6 +31,45 @@ func get_loations_descriptions():
 func load_basic_maps(): new_init()
 
 
+func old_init():
+	var index = -1
+
+	for location in Res.location:
+		index += 1
+		if location == "Locked" : 
+			numbers_of_locations.append( [1, 1, 0, 0] )
+			continue
+		maps[location] = []
+		numbers_of_locations.append( [1, 1, randi() % int( Res.location[location]["nmbSmallTowers"] ) + 1 if ENABLE_SMALLTOWER else 0, 1 if ENABLE_TOWN else 0] )
+
+		maps[location].append( [  load("res://Maps/" + Res.location[location]["start_point"] + ".tscn").instance() ] )
+		
+		var main_tower_floors = []
+		for i in range( Res.location[location]["nmbBossFloors"] ):
+			var new_floor = load("res://Maps/RandomMap.tscn").instance()
+			new_floor.generate(Res.location[location]["asset_info"], i)
+			if i == 0 : new_floor.stairs_holder[0].location_change = true
+			main_tower_floors.append( new_floor )
+		main_tower_floors.append( load("res://Maps/" + Res.location[location]["boss_tower_top"] + ".tscn").instance() )
+		maps[location].append( main_tower_floors )
+	
+		if ENABLE_SMALLTOWER:
+			for i in numbers_of_locations[index][2]:
+				var small_tower_floors = []
+				for i in range( randi() % int(Res.location[location]["nmbSmallFloors"]) + 1 ):
+					var new_floor = load("res://Maps/RandomMap.tscn").instance()
+					new_floor.generate( Res.location[location]["asset_info"], i)
+					if i == 0 : new_floor.stairs_holder[0].location_change = true
+					small_tower_floors.append( new_floor )
+				small_tower_floors.append( load("res://Maps/" + Res.location[location]["small_tower_top"][randi() % len(Res.location[location]["small_tower_top"])] + ".tscn").instance()  ) ##predefined top
+				maps[location].append( small_tower_floors )
+				
+		if ENABLE_TOWN :
+			##GENERATE TOWN
+			pass
+	print(maps)	
+
+
 var new_maps = {}
 var thread = Thread.new()
 var mutex  = Mutex.new()
@@ -45,15 +84,12 @@ var active_map         = null
 
 func get_new_floor(change):
 
-	#print( " NUMBER OF FLOORS FOR THIS TOWER IS : ",  new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] )
+	print( " NUMBER OF FLOORS FOR THIS TOWER IS : ",  new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] )
 
 	if is_next_map_ready : print( "OK : Map ready ", len( preloaded_map_list ) )
 
-#	if change < 0: current_floor += change	
-
-	if not is_next_map_ready and current_floor + change > len(preloaded_map_list) or current_floor + change ==  new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] : 
-		#print( current_floor, change, new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] )
-		print( "Reach the top ... or cheated" )
+	if not is_next_map_ready or current_floor + change ==  new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] : 
+#		print( "Reach the top ... or cheated" )
 		return new_maps[current_world]["ST" + str(current_location)]["top"]
 
 	current_floor += change	
@@ -77,19 +113,19 @@ func get_new_map(location_id, selected_world):
 
 
 func _bg_load_done():
-	#print( preloaded_map_list )
-	#print( "THREAD : I End" )
+	print( preloaded_map_list )
+	print( "THREAD : I End" )
 	thread.wait_to_finish()
 	if Res.background_generation_lock : 
 		is_next_map_ready = false
-		#print( "THREAD : I am restarting " )
+		print( "THREAD : I am restarting " )
 		thread.start( self, "generate_maps", [] )
 
 func generate_maps( non_used ):
 	
 	Res.background_generation_lock = false
 	
-	#print( "I generate : ", new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] , " floors " )
+	print( "I try to generate : ", new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] , " floors " )
 	
 	if new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] == 0: 
 		call_deferred( "_bg_load_done" )
@@ -102,14 +138,14 @@ func generate_maps( non_used ):
 	
 	for i in range( new_maps[current_world]["ST" + str(current_location)]["number_of_floors"] ):
 		if Res.background_generation_lock : 
-			#print( "I AM FORCED TO END" )
+			print( "I AM FORCED TO END" )
 			is_next_map_ready = false
 			call_deferred( "_bg_load_done" )
 			return
 		
 		var new_floor = load("res://Maps/RandomMap.tscn").instance()
 		
-		#print (Res.location[current_world]["asset_info"], " ", i + 1, " ", new_maps[current_world]["ST" + str(current_location)]["seeds"] )
+		print (Res.location[current_world]["asset_info"], " ", i + 1, " ", new_maps[current_world]["ST" + str(current_location)]["seeds"] )
 		
 		
 		if len( new_maps[current_world]["ST" + str(current_location)]["seeds"] ) < i : 
@@ -128,7 +164,7 @@ func generate_maps( non_used ):
 		mutex.unlock()
 		
 	call_deferred( "_bg_load_done" )
-#	#print( preloaded_map_list )
+#	print( preloaded_map_list )
 
 func new_init():
 	
@@ -152,7 +188,6 @@ func new_init():
 			"top" : load("res://Maps/" + Res.location[location]["boss_tower_top"] + ".tscn").instance()
 			}
 		new_maps[location]["ST1"]["begin"].generate(Res.location[location]["asset_info"], 0)
-		new_maps[location]["ST1"]["begin"].stairs_holder[0].location_change = true
 		for sed in range( new_maps[location]["ST1"]["number_of_floors"] ): new_maps[location]["ST1"]["seeds"].append( randi() )
 
 		for i in range( randi() % int( Res.location[location]["nmbSmallTowers"] ) + 1 ):
@@ -169,10 +204,11 @@ func new_init():
 		
 		Res.background_generation_lock = false
 		numbers_of_locations.append( [ 1, 1, len( new_maps[location] ) -2, 0 ] ) # 0 reserved for non_existing_town
-#		#print( new_maps )
-#		#print( maps ) 
-#		#print( [ 1, 1, len( new_maps[location] ) - 2, 0 ] )
-#		#print( numbers_of_locations )
+#		print( new_maps )
+#		print( maps ) 
+#		print( [ 1, 1, len( new_maps[location] ) - 2, 0 ] )
+#		print( numbers_of_locations )
 
 func _init(): #TO complete when time strikes
 	current_world = "Mechania"
+#	old_init()
