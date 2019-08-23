@@ -12,7 +12,7 @@
         "location_names"     : { 
             "0" : ["Jigsaw Room"], 
             "1" : ["Mechanic Tower"], 
-            "2" : ["Test Name1","Test Name2","Test Name3"],
+            "2" : ["Sandland","RockLand","MineLand","Red Stone Castle", "Gold Stone Castle", "Marble Castle","Flying Sand Castle","Windron", "Rock Palace", "Gold Palace", "Gold Castle", "Iron Fortress", "Broken Iron", "Broken Castle", "Forgoten Castle","Sand Palace", "Forgotten Mine", "Secret Fortress", "Yellow Home", "Standing Rock", "Last Rock", "Water Free Castle", "Last Home"],
             "3" : ["Forgoten Mine Town"]
             },
         "types_names"        : { 
@@ -22,9 +22,24 @@
             "3" : "Settlement" 
         },
         "types_descriptions" : { 
-            "0" : ["A small room occupied by mysterious masked man and his toy-selling robo-friend. Who knows why there is this"], 
-            "1" : ["A huge tower built from steel and copper, on the highest floor powerful Engineer called Mechanic is processing his awful experiments. This ancient place is called"], 
-            "2" : [ "Test:Tower"], 
+            "0" : ["A small room occupied by mysterious masked man and his toy-selling robo-friend."], 
+            "1" : ["A huge tower built from steel and copper, on the highest floor powerful Engineer called Mechanic is processing his awful experiments."], 
+            "2" : ["Many years ago here was some human settlement, now here is only supply tower for Mechanic madness",
+                   "Some supply towers are built on magic flows deep under rock, here was that place",
+                   "For Engeeners there is no place what could be wastland, like here they build supply tower",
+                   "In ancient times here was a observation point, now it is converted to supply tower",
+                   "One day tower shot from this place and stands herre to this day",
+                   "Noone knows when Engeeners built this tower but from previous buildings remained only dust",
+                   "Some days machines bring a lot of materials and build here supply tower",
+                   "Many people went inside this tower to bring supplies, noone them returned.",
+                   "No Data",
+                   "This tower was build few years ago, waste of good place",
+                   "Every building placed here was bured to ground, now here is only supply tower",
+                   "This place is rich in minerals, this supply tower is supplying alost whole area",
+                   "This place is rich in iron, for years it is mined by supply tower",
+                    "After many years of after exploatation all of minerals here, supply tower is still standing",
+                   "Ehh ... Developer was to lazy to think out more :)"
+                ], 
             "3" : [ "Test:Settlement" ] 
         }
     },
