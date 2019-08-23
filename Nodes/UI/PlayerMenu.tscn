@@ -565,7 +565,7 @@ func set_maps_with_locations(numbers, types, names, descriptions):
 												\"place_id\" :random_indexes[i], 
 												\"type_name\" : types[location_category][str(location_type)], 
 												\"location_name\": location_name,
-												\"description\"  : random_from(descriptions[location_category][str(location_type)]) + \" \" + location_name
+												\"description\"  : random_from(descriptions[location_category][str(location_type)])
 												 })
 		map_index += 1
 		
