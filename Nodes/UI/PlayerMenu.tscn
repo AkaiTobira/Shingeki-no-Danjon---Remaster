@@ -456,7 +456,7 @@ func _physics_process(delta):
 				
 				if can_craft:
 					Res.ui_sample(\"Item\")
-					PlayerStats.add_item(crafting_list[crafting_select].item)
+					PlayerStats.add_item(crafting_list[crafting_select].item, 1, true, true)
 					for i in range(materials.keys().size()):
 						PlayerStats.subtract_items(int(materials.keys()[i]), materials.values()[i])
 					select_crafting()
