@@ -127,7 +127,7 @@ func mark_as_destroyed(id):
 			var id_2 = nav.get_closest_point( Vector3(enviroment_object_list[id].pos.x + 1 + direction.x, 
 													  enviroment_object_list[id].pos.y + 1 + direction.y, 0 ))
 			if id_1 == id_2: continue
-			print( \"Connected\" )
+		#	print( \"Connected\" )
 			nav.connect_points(id_1, id_2, true)
 
 func clear(): 

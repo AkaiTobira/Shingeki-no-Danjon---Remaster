@@ -95,7 +95,8 @@ func _ready():
 	for dungeon in get_resource_list("Dungeons"):
 		dungeons[dungeon.name]                  = dungeon.data
 		dungeons[dungeon.name]["floor_Objects"] = enviroment_splitter.load_enviroment_objects(dungeon.name)
-		
+	enviroment_splitter.free()
+
 	for enemie in get_resource_list("Enemies"):
 		enemies = enemie.data
 
@@ -105,13 +106,13 @@ func _ready():
 	
 	##meh meh (DEBUG)
 	SkillBase.acquired_skills.append("Fireball")
-	SkillBase.acquired_skills.append("FireSpear")
+#	SkillBase.acquired_skills.append("FireSpear")
 #	SkillBase.acquired_skills.append("FireBolt")
-	SkillBase.acquired_skills.append("FireShield")
+#	SkillBase.acquired_skills.append("FireShield")
 	SkillBase.acquired_skills.append("WaterBubble")
-	SkillBase.acquired_skills.append("RockPunch")
+#	SkillBase.acquired_skills.append("RockPunch")
 	SkillBase.acquired_skills.append("WindBanana")
-	SkillBase.acquired_skills.append("DualSpark")
+#	SkillBase.acquired_skills.append("DualSpark")
 	SkillBase.acquired_skills.append("EarthNeedles")
 #	SkillBase.acquired_skills.append("WaterBullet")
 #	SkillBase.acquired_skills.append("Tornado")
@@ -201,7 +202,7 @@ func play_music(music):
 	set_music(player)
 
 func set_music(player):
-	if music: music.queue_free()
+	if music: music.call_deferred("queue_free")
 	music = player
 	add_child(music)
 
@@ -254,6 +255,7 @@ func cache_segment_structure(segment):
 	if segment_structure.has(segment) : return segment_structure[segment]
 	var segment_shape_parser   = load( "res://Scripts/SegmentStructureParser.gd" ).new()
 	segment_structure[segment] = segment_shape_parser.parse(Res.segment_nodes[segment])
+#	segment_shape_parser.free()
 	return segment_structure[segment]
 
 func weighted_random(chances):
@@ -271,3 +273,7 @@ func weighted_random(chances):
 	for chance in chances2.keys():
 		if chances2[chance] >= value:
 			return chance
+
+func _exit_tree():
+	for enviroment_instance in enviroment_instances:
+		enviroment_instances[enviroment_instance].free()

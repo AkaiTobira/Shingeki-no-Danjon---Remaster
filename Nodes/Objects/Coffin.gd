@@ -78,6 +78,10 @@ func fill_enemies_list():
 	for i in Res.enemies["Mechanic"]["0"]:
 		enemies_list.append(load("res://Nodes/Enemies/"+ i  +".tscn"))
 
+func _exit_tree():
+	for enemy in enemies_list:
+		enemy.free()
+
 func _process(delta):
 	if destroyed :
 	#	destroy_time += delta

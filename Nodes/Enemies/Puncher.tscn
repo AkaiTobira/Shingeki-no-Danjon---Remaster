@@ -1,12 +1,11 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Enemies/Puncher.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/Puncher/Puncher.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Enemies/Puncher/Puncher_LeftAtack.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Enemies/Puncher/Puncher_Special_Up_Down_Atack.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Nodes/UI/EnemyHealthBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Dead"
@@ -375,20 +374,13 @@ position = Vector2( -0.976105, -52.8297 )
 shape = SubResource( 15 )
 disabled = true
 
-[node name="HealthBar" type="TextureProgress" parent="."]
-visible = false
-margin_left = -20.0
-margin_top = -116.0
-margin_right = 20.0
-margin_bottom = -76.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+[node name="HealthBar" parent="." instance=ExtResource( 5 )]
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -0.5, 5.93476 )
 scale = Vector2( 0.106118, 0.0503249 )
 z_index = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 

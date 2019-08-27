@@ -1,16 +1,15 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scripts/Enemies/Mechanic.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/Mechanic/Mechanik.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Enemies/Mechanic/Mechanic_NoWeapon.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Enemies/Mechanic/Left_Side_Mechanic.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Enemies/Mechanic/Shield.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Enemies/Mechanic/Symbol of block.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/Enemies/Mechanic/Summon.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/Enemies/Mechanic/Fire_proof.png" type="Texture" id=11]
+[ext_resource path="res://Nodes/UI/EnemyHealthBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Enemies/Shadow.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Enemies/Mechanic/Shield.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Enemies/Mechanic/Symbol of block.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Enemies/Mechanic/Summon.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Enemies/Mechanic/Fire_proof.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 73.2012, 50.56 )
@@ -43,8 +42,8 @@ func kill_shield():
 	_on_dead()
 
 func _ready():
-	health_bar.max_value = max_hp
-	health_bar.value = hp
+	health_bar.get_node(\"Health\").max_value = max_hp
+	health_bar.get_node(\"Health\").value = hp
 	$AnimationPlayer.play(\"Idle\")
 	
 	$\"/root/Game\".perma_state(self, \"queue_free\")
@@ -60,7 +59,7 @@ func damage(amount, nothing = null, nothin2 = null):
 	hp -= damage
 	
 	health_bar.visible = true
-	health_bar.value = hp
+	health_bar.get_node(\"Health\").value = hp
 	bar_timeout = 180
 	
 	if hp <= 0:
@@ -206,8 +205,8 @@ func kill_shield():
 	_on_dead()
 
 func _ready():
-	health_bar.max_value = max_hp
-	health_bar.value = hp
+	health_bar.get_node(\"Health\").max_value = max_hp
+	health_bar.get_node(\"Health\").value = hp
 	$AnimationPlayer.play(\"Idle\")
 	
 	$\"/root/Game\".perma_state(self, \"queue_free\")
@@ -215,7 +214,7 @@ func _ready():
 	
 	pass
 
-func damage(amount, nothing = null, nothing2 = null):
+func damage(amount, nothing = null, nothin2 = null):
 	if _dead: return
 	
 	var damage = max(1, int(amount * (1-armour)))
@@ -223,7 +222,7 @@ func damage(amount, nothing = null, nothing2 = null):
 	hp -= damage
 	
 	health_bar.visible = true
-	health_bar.value = hp
+	health_bar.get_node(\"Health\").value = hp
 	bar_timeout = 180
 	
 	if hp <= 0:
@@ -642,15 +641,8 @@ position = Vector2( -3.27242, 16.156 )
 scale = Vector2( 0.943428, 1.35436 )
 shape = SubResource( 1 )
 
-[node name="HealthBar" type="TextureProgress" parent="."]
-visible = false
-margin_left = -95.0
-margin_top = -109.0
-margin_right = -55.0
-margin_bottom = -101.0
-rect_scale = Vector2( 5, 1 )
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+[node name="HealthBar" parent="." instance=ExtResource( 5 )]
+position = Vector2( -3.6237, -116.279 )
 
 [node name="Radar" type="Area2D" parent="."]
 editor/display_folded = true
@@ -690,12 +682,11 @@ disabled = true
 position = Vector2( 0.773505, 75.4428 )
 scale = Vector2( 3.02088, 3.00986 )
 z_index = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="RightShield" type="KinematicBody2D" parent="." groups=[
 "enemies",
 ]]
-editor/display_folded = true
 position = Vector2( 108, -12 )
 script = SubResource( 5 )
 
@@ -704,15 +695,8 @@ position = Vector2( -51.9742, 24.964 )
 scale = Vector2( 3.21101, 1.277 )
 shape = SubResource( 6 )
 
-[node name="HealthBar2" type="TextureProgress" parent="RightShield"]
-visible = false
-margin_left = -90.0
-margin_top = -44.0
-margin_right = -50.0
-margin_bottom = -36.0
-rect_scale = Vector2( 2, 1 )
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+[node name="HealthBar2" parent="RightShield" instance=ExtResource( 5 )]
+position = Vector2( -40.9758, -79.4842 )
 
 [node name="DamageCollider" type="Area2D" parent="RightShield"]
 position = Vector2( -2.01085, 38.399 )
@@ -727,7 +711,7 @@ shape = SubResource( 6 )
 [node name="Sprite" type="Sprite" parent="RightShield"]
 use_parent_material = true
 position = Vector2( -51.3334, 14.6666 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 flip_h = true
 hframes = 5
 
@@ -740,7 +724,6 @@ anims/Idle = SubResource( 8 )
 [node name="LeftShield" type="KinematicBody2D" parent="." groups=[
 "enemies",
 ]]
-editor/display_folded = true
 position = Vector2( -8.00083, -11.3334 )
 script = SubResource( 9 )
 
@@ -749,15 +732,8 @@ position = Vector2( -51.9742, 24.964 )
 scale = Vector2( 3.21101, 1.277 )
 shape = SubResource( 6 )
 
-[node name="HealthBar2" type="TextureProgress" parent="LeftShield"]
-visible = false
-margin_left = -90.0
-margin_top = -44.0
-margin_right = -50.0
-margin_bottom = -36.0
-rect_scale = Vector2( 2, 1 )
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+[node name="HealthBar2" parent="LeftShield" instance=ExtResource( 5 )]
+position = Vector2( -62.8595, -79.7629 )
 
 [node name="DamageCollider" type="Area2D" parent="LeftShield"]
 position = Vector2( -80.2203, 38.399 )
@@ -772,7 +748,7 @@ shape = SubResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="LeftShield"]
 position = Vector2( -51.3334, 14.6666 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 hframes = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="LeftShield"]
@@ -799,7 +775,7 @@ anims/Tired = SubResource( 20 )
 [node name="Payback" type="Sprite" parent="EfectsAnimator"]
 visible = false
 position = Vector2( -1.80503, -119.437 )
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 hframes = 4
 
 [node name="EfectPlayer" type="AnimationPlayer" parent="EfectsAnimator"]
@@ -811,7 +787,7 @@ anims/Summon = SubResource( 22 )
 visible = false
 position = Vector2( 25.3333, -105.333 )
 scale = Vector2( 1, 0.5 )
-texture = ExtResource( 10 )
+texture = ExtResource( 9 )
 vframes = 2
 hframes = 10
 frame = 8
@@ -820,7 +796,7 @@ frame = 8
 visible = false
 position = Vector2( 0, -109.333 )
 scale = Vector2( 1, 0.5 )
-texture = ExtResource( 11 )
+texture = ExtResource( 10 )
 hframes = 10
 frame = 9
 [connection signal="body_entered" from="Radar" to="." method="_on_Radar_body_entered"]

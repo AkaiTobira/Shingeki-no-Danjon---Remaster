@@ -101,15 +101,16 @@ func _physics_process(delta):
 	
 	if charge_spin: charge_spin += delta
 	
-	if Input.is_action_just_released("Attack"):
-		if charge_spin and charge_spin > 2:
-			change_animation("Body", "SpinAttack")
-			change_animation("LeftArm", "SpinAttack")
-		charge_spin = null
+#	if Input.is_action_just_released("Attack"):
+#		if charge_spin and charge_spin > 2:
+#			change_animation("Body", "SpinAttack")
+#			change_animation("LeftArm", "SpinAttack")
+#		charge_spin = null
 	
-	if !attacking and !shielding and PlayerStats.get_equipment("shield") and Input.is_action_pressed("Shield"):
-		change_animation("LeftArm", "ShieldOn")
-		shielding = true
+	if !attacking and !shielding : 
+		if PlayerStats.get_equipment("shield") and Input.is_action_pressed("Shield"):
+			change_animation("LeftArm", "ShieldOn")
+			shielding = true
 	elif shielding and Input.is_action_just_released("Shield"):
 		change_animation("LeftArm", "ShieldOff")
 		shielding = false
@@ -131,7 +132,7 @@ func _physics_process(delta):
 
 	if !elements_on:
 		if Input.is_action_just_pressed("Magic"):#SkillBase.check_combo(["Magic", "Magic_"]):
-#			print(SkillBase.current_combo)
+#			#print(SkillBase.current_combo)
 			$Elements.visible = true
 			SkillBase.current_combo.clear()
 	else:
@@ -283,9 +284,8 @@ func damage(attacker, amount, _knockback, type = "NoDamage"):
 		change_animation("Body", "Death")
 		Res.play_sample(self, "Dead")
 		yield(get_tree().create_timer(3), "timeout")
-		#get_tree().change_scene("res://Scenes/Preloader.tscn")
 		$"/root/Preloader".re_init()
-		$"/root/Game".queue_free()
+		$"/root/Game".call_deferred("queue_free")
 	else:
 		change_animation("Body", "Damage")
 
@@ -326,8 +326,8 @@ func alt_animation(anim):
 
 var textures = {}
 func get_texture_hack(texture):
+	if dead : return load( "res://Sprites/Player/Front/Death.png" )
 	if !textures.has(texture): textures[texture] = load(texture)
-	
 	return textures[texture]
 
 func change_texture(sprite, texture, on_back = [], move_child = {}):
@@ -429,18 +429,18 @@ func update_shield():
 
 func cancel_ghost():
 	Res.play_sample(self, "GhostExit")
-	ghost_mode.queue_free()
+	ghost_mode.call_deferred("queue_free")
 	ghost_mode = null
 	GHOST_EFFECT.visible = false
 
 func use_magic(): ##nie tylko magia :|
 	for skill in SkillBase.get_active_skills():
 		skill = Res.skills[skill]
-#		print(SkillBase.check_combo(["Special_"]))
+#		#print(SkillBase.check_combo(["Special_"]))
 		
 		if (!skill.has("magic") or current_element == skill.magic) and SkillBase.check_combo(skill.combo) and (!triggered_skill or skill != triggered_skill[0]
 		and (skill.combo.size() > triggered_skill[0].combo.size() or skill.combo.back().length() > triggered_skill[0].combo.back().length())):
-#			print(skill)
+#			#print(skill)
 			triggered_skill = [skill, 0.2]
 
 func trigger_skill(skill = triggered_skill[0]):
@@ -461,6 +461,7 @@ func trigger_skill(skill = triggered_skill[0]):
 	
 	if skill.has("projectile"):
 		var projectile = Res.create_instance("Projectiles/" + skill.projectile)
+		projectile.z_index = 2 
 		get_parent().add_child(projectile)
 		projectile.position = position - Vector2(0,45)
 		if( direction == 2 ):
@@ -477,16 +478,30 @@ func trigger_skill(skill = triggered_skill[0]):
 		#	projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
 
 		
-		if skill.has("magic") and skill.magic == 1 and SkillBase.has_skill("FireAffinity"): projectile.damage *= 3 ##hack
-		elif skill.has("magic") and skill.magic == 2 and SkillBase.has_skill("WaterAffinity"): projectile.damage *= 3 ##hack
-		
+		if skill.has("magic"):
+			match( str(skill.magic) ):
+				"1":
+					if SkillBase.has_skill("FireAffinityI"):   projectile.damage *= 1.10
+					if SkillBase.has_skill("FireAffinityII"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("FireAffinityIII"): projectile.damage *= 1.5151
+					if SkillBase.has_skill("FireAffinityIV"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("FireAffinityV"):   projectile.damage *= 1.25
+					
+				"2":
+					if SkillBase.has_skill("WaterAffinityI"):   projectile.damage *= 1.10
+					if SkillBase.has_skill("WaterAffinityII"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("WaterAffinityIII"): projectile.damage *= 1.5151
+					if SkillBase.has_skill("WaterAffinityIV"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("WaterAffinityV"):   projectile.damage *= 1.25
+					print( projectile.damage )
+				_: pass
+
 		if skill.name == "Water Bubbles": water_stream_hack = 0.1
 		if skill.name == "Razor Banana": wind_spam_hack = 0.5
 
 func _on_other_attack_hit(body):
 	if body.is_in_group("secrets"):
 		body.hit(self)
-		
 		
 func addQuest(ques):
 	if ques in Quests.keys():
@@ -500,9 +515,8 @@ func addQuest(ques):
 				Quests[ques]["Items"][item.id]["Amount"] = PlayerStats.count_item(item.id)
 				if Quests[ques]["Items"][item.id]["Amount"] >= Quests[ques]["Items"][item.id]["Required"]:
 					Quests[ques]["Items"][item.id]["Finished"] = true
-					print("Checkpoint ", item.id )
-		print(ques, " in progress")
-		
+					#print("Checkpoint ", item.id )
+		#print(ques, " in progress")
 		
 func is_quest_done(ques):
 	return Quests[ques]["Status"]["Done"]
@@ -529,20 +543,20 @@ func updateQuest( mob = null, item = null, place = null ):
 				Quests[ques]["Mob"][mob]["AlreadyKilled"] += 1
 				if Quests[ques]["Mob"][mob]["AlreadyKilled"] >= Quests[ques]["Mob"][mob]["NeedToBeKilled"]:
 					Quests[ques]["Mob"][mob]["Finished"] = true
-					print("Checkpoint ", mob )
+					#print("Checkpoint ", mob )
 					
 			if item in Quests[ques]["Items"].keys():
 				Quests[ques]["Items"][item]["Amount"] = PlayerStats.count_item(item)
 				if Quests[ques]["Items"][item]["Amount"] >= Quests[ques]["Items"][item]["Required"]:
 					Quests[ques]["Items"][item]["Finished"] = true
-					print("Checkpoint ", item )
+					#print("Checkpoint ", item )
 				else:
 					Quests[ques]["Items"][item]["Finished"] = false
 					
 			if !checkQuest(ques) : continue
 					
 			Quests[ques]["Status"]["Done"] = true
-			print(ques," Requierments Complete")
+			#print(ques," Requierments Complete")
 			
 func add_quest_rewards(ques):
 	PlayerStats.add_experience(Quests[ques]["Reward"]["Exp"])
@@ -552,13 +566,13 @@ func add_quest_rewards(ques):
 		for i in range(Quests[ques]["Reward"]["Items"][item]):
 			PlayerStats.add_item(item)
 	
-	print(ques," Rewards Recived")
+	#print(ques," Rewards Recived")
 			
 func _input(event):
 	if event is InputEventMouseButton:
 		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
-		print("Mouse Click/Unclick at: ", get_global_mouse_position())
-#		print(get_tree().get_root().find_node("Player", true, false).position)
+		#print("Mouse Click/Unclick at: ", get_global_mouse_position())
+#		#print(get_tree().get_root().find_node("Player", true, false).position)
 			
 			
 var Quests = {

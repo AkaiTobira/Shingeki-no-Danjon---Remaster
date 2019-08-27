@@ -1,12 +1,11 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scripts/Enemies/FLA-G.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/FLA-G/FLA-G.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Enemies/FLA-G/FLA-G_NormalAtacks.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Enemies/FLA-G/FLAG-SPecials.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Nodes/UI/EnemyHealthBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Dead"
@@ -483,6 +482,9 @@ position = Vector2( 0.137932, -10.344 )
 scale = Vector2( 0.543869, 2.47508 )
 shape = SubResource( 16 )
 
+[node name="HealthBar" parent="." instance=ExtResource( 5 )]
+position = Vector2( -1.33333, -150.667 )
+
 [node name="Radar" type="Area2D" parent="."]
 position = Vector2( 24.0148, 21.9682 )
 scale = Vector2( 6.90081, 3.90967 )
@@ -517,20 +519,11 @@ scale = Vector2( 10.0623, 10.3125 )
 shape = SubResource( 19 )
 disabled = true
 
-[node name="HealthBar" type="TextureProgress" parent="."]
-visible = false
-margin_left = -6.0
-margin_top = -165.0
-margin_right = 119.0
-margin_bottom = -124.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
-
 [node name="Shadow" type="Sprite" parent="."]
 position = Vector2( 1.41471, -8.29798 )
 scale = Vector2( 0.133349, 0.0584196 )
 z_index = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( -0.0997314, -70.9816 )

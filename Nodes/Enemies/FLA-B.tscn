@@ -1,12 +1,11 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/Enemies/FLA-B.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/FLA-B/FLA-B.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Enemies/FLA-B/FLA-B_atacks.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Enemies/FLA-B/FLA-B_Special.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Nodes/UI/EnemyHealthBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Dead"
@@ -422,14 +421,8 @@ position = Vector2( 2.61285, -13.1162 )
 scale = Vector2( 2.62816, 1.82712 )
 shape = SubResource( 15 )
 
-[node name="HealthBar" type="TextureProgress" parent="."]
-visible = false
-margin_left = -20.0
-margin_top = -170.0
-margin_right = 20.0
-margin_bottom = -77.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+[node name="HealthBar" parent="." instance=ExtResource( 5 )]
+position = Vector2( 0, -160 )
 
 [node name="Radar" type="Area2D" parent="."]
 editor/display_folded = true
@@ -466,7 +459,7 @@ disabled = true
 position = Vector2( 3.59486, -5.33422 )
 scale = Vector2( 0.129715, 0.0688869 )
 z_index = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( 1.1036, -63.7616 )

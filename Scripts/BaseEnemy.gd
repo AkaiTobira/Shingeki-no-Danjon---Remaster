@@ -4,7 +4,7 @@ const DEBBUG_RUN = false
 const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
 const ABILITY_TYPE = { "Atack" : 0,"Skill" : 1, "Magic" : 2 }
 
-onready var sprites = $Sprites.get_children()
+onready var sprites    = $Sprites.get_children()
 onready var health_bar = $HealthBar
 onready var player = get_tree().get_root().find_node("Player", true, false)
 onready var Map    = get_tree().get_root().find_node("RandomMap",true,false)
@@ -26,6 +26,7 @@ var experience = 5
 var movespeed  = 0
 var personal_space = 40
 var enemy_name = ""
+var level      = 0
 var last_atack_type = 0
 
 var music 
@@ -38,11 +39,12 @@ var direction       = "Down"
 func initialize(id, dung_name, kind):
 	enemy_name = kind
 	my_id      = id
+	level      = max(PlayerStats.level + randi()%6 - 3, 0)
 
 	max_health     = Res.enemies[dung_name][kind]["HP"     ]
-	health         = Res.enemies[dung_name][kind]["HP"     ]
+	health         = Res.enemies[dung_name][kind]["HP"     ] 
 	movespeed      = Res.enemies[dung_name][kind]["Speed"  ]
-	experience     = Res.enemies[dung_name][kind]["Exp"    ]
+	experience     = Res.enemies[dung_name][kind]["Exp"    ] 
 	personal_space = Res.enemies[dung_name][kind]["Range"  ]
 	music          = Res.enemies[dung_name][kind]["Music"  ]
 	resists        = Res.enemies[dung_name][kind]["Resists"]
@@ -55,6 +57,45 @@ func initialize(id, dung_name, kind):
 		ability_probs[ABILITY_TYPE[str(abillity)] ] = int(Res.enemies[dung_name][kind][str(abillity)][3])
 		damage_type[ABILITY_TYPE[str(abillity)] ]   = DAMAGE_TYPE[Res.enemies[dung_name][kind][str(abillity)][4]]
 
+	scale_enemy_level()
+
+func scale_enemy_level():
+	var level_scale = 1 + level/10
+
+	max_health     *=  level_scale
+	health         *=  level_scale
+	experience     *=  level_scale
+
+	for index in range(len(resists)): resists[index] *= level_scale
+	for index in range(len(damages)): damages[index] *= level_scale
+
+func set_resists_to_bar():
+	health_bar.get_node("Health").max_value = max_health
+	health_bar.get_node("Health").value     = health
+	health_bar.get_node("Level").text       = str(level + 1)
+
+	var resist_sum = 0 
+	var sorted = [ ]
+	for resist in range(len(resists)):
+		resist_sum += resists[resist] + resists_modif[resist]
+		sorted.append([ resists[resist] + resists_modif[resist], resist + 1 ])
+
+	if resist_sum <= 0 : return
+	for i in range(len(sorted)):
+		for element in range(len(sorted)-1):
+			if sorted[element][0] < sorted[element+1][0]:
+				var temp = sorted[element]
+				sorted[element] = sorted[element+1]
+				sorted[element+1] = temp
+
+	var max_value = 100
+	for value_index in range(len(sorted)):
+		var values    = sorted[value_index]
+		var node      = health_bar.get_node("Resist" + str(values[1]) )
+		node.value    = max_value
+		max_value    -= int(values[0] * 100 /resist_sum)
+		node.visible  = true
+		health_bar.move_child(node, 7)
 
 
 var timeout_bar   = 0.0
@@ -95,7 +136,7 @@ func prepeare_ability():
 func meansure_dead_timeout(delta):
 	if timeout_dead == 0 : create_drop()
 	timeout_dead += delta
-	if timeout_dead > TIME_TO_DISAPEARD: queue_free()
+	if timeout_dead > TIME_TO_DISAPEARD: call_deferred("queue_free")
 
 func play_animation_if_not_playing(anim, fb = false):
 	if $AnimationPlayer.current_animation != anim:
@@ -105,7 +146,7 @@ func play_animation_if_not_playing(anim, fb = false):
 
 func _physics_process(delta):
 	timeout_bar -= 1
-	if timeout_bar == 0: health_bar.visible = false
+#	if timeout_bar == 0: health_bar.visible = false
 	
 func _atack():
 	current_atack = "Atack"
@@ -152,7 +193,7 @@ func ameansure_preparation_timeout(delta ):
 		return true
 	return false
 	
-func is_close_enought():
+func is_close_enough():
 	if (player.position - position).length() >  personal_space :
 		return false
 	return true
@@ -166,6 +207,7 @@ func _on_attack_hit(collider):
 			damage_type[last_atack_type] )
 
 func move_along_path(distance):
+	#print( distance )
 	var last_point = position
 	for index in range(path.size()):
 		var distance_between_points = last_point.distance_to(Vector2(path[0].x,path[0].y))
@@ -173,27 +215,44 @@ func move_along_path(distance):
 		if distance <= distance_between_points and distance >= 0.0:
 			var info = last_point.linear_interpolate(Vector2(path[0].x,path[0].y), distance / distance_between_points)
 			var move_vector = (info-position)*movespeed
+		#	print( move_vector )
 			move_and_slide(move_vector)
 			break
 		# the character reached the end of the path
 		elif distance < 0.0:
 			position = Vector2(path[0].x,path[0].y)
+			path.remove(0)
 #			set_process(false)
 			break
 		distance -= distance_between_points
 		last_point = Vector2(path[0].x,path[0].y)
-		path.remove(0)
 
-var path_length = 100
 
-func  _move5(delta):
-	if path_length * 0.6 >= len(path) or len(path) == 1:
-		path_length =  len(path)
+
+func find_path():
+	
+	var player_position  = Vector2(int(player.position.x/80),int(player.position.y/80))
+	var current_posiiton = Vector2(int(position.x/80),int(position.y/80)) 
+	
+	var distance = abs(player_position.x - current_posiiton.x ) + abs(player_position.y - current_posiiton.y) 
+
+	#print( distance )
+	if distance >= len(path) - 1:
+		
+	#if path_length * 0.6 >= len(path) or len(path) == 1:
+#		path_length =  len(path)
 		path = Map.nav.get_point_path(
 			Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
 			Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
 			)
-	if len(path) != 0 : path.remove(0)
+		path.remove(0)
+	#	print( position, path )
+	#if len(path) != 0 : path.remove(0)
+
+
+
+func  _move5(delta):
+	find_path()
 
 	move_along_path(movespeed*delta)
 
@@ -242,10 +301,12 @@ func _player_run_away():
 func _on_Radar_body_entered(body):
 	if body.name == "Player":
 		current_state = "Follow"
+		find_path()
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		current_state = "Follow"
+		find_path()
 
 func _on_animation_started(anim_name):
 	var anim = $AnimationPlayer.get_animation(anim_name)
@@ -276,9 +337,9 @@ func _on_dead():
 	block_logic   =  true
 	
 	$"AnimationPlayer".play("Dead")
-	$"Shape".queue_free()
-	$"DamageCollider/Shape".queue_free() 
-	$"AttackCollider/Shape".queue_free() 
+	$"Shape".call_deferred("queue_free")
+	$"DamageCollider/Shape".call_deferred("queue_free") 
+	$"AttackCollider/Shape".call_deferred("queue_free") 
 	
 	for i in range(sprites.size()):
 		sprites[i].modulate = Color(1,1,1,1)
@@ -286,25 +347,23 @@ func _on_dead():
 func _ready():
 	Map    = get_parent()
 	health = max_health
-	health_bar.max_value = max_health
-	health_bar.value = health
+	set_resists_to_bar()
 	$"/root/Game".perma_state(self, "queue_free")
 	$"AnimationPlayer".play("Idle")
 	enable_collisions()
 
+
 func scale_stats_to( max_hp, ar ):
 	var t = float(health)/float(max_health)
 	health = t*max_hp
-	health_bar.max_value = max_hp
-	health_bar.value = health
+	set_resists_to_bar()
 	max_health = max_hp
 
 
 func set_statistics(max_hp, given_exp, ar):
 	max_health = max_hp
 	health = max_hp
-	health_bar.max_value = max_hp
-	health_bar.value = health
+	set_resists_to_bar()
 	experience = given_exp 
 	
 func damage(amount, source = "", type = ""):
@@ -331,7 +390,7 @@ func damage(amount, source = "", type = ""):
 	health -= damage
 	
 	health_bar.visible = true
-	health_bar.value = health
+	health_bar.get_node("Health").value = health
 	timeout_bar = 180
 	
 	if health <= 0:

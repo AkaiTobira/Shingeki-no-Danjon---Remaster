@@ -1,12 +1,11 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Enemies/PuncherMKII.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/PuncherMKII/PuncherMKII.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Enemies/PuncherMKII/PuncherMKII_LeftAtack.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Enemies/PuncherMKII/PuncherMKII_Special_Up_Down_Atack.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Nodes/UI/EnemyHealthBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Dead"
@@ -339,14 +338,8 @@ position = Vector2( -2.90001, -5.55091 )
 scale = Vector2( 5.41221, 1.41971 )
 shape = SubResource( 12 )
 
-[node name="HealthBar" type="TextureProgress" parent="."]
-visible = false
-margin_left = -21.0
-margin_top = -120.0
-margin_right = 39.0
-margin_bottom = -82.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+[node name="HealthBar" parent="." instance=ExtResource( 5 )]
+position = Vector2( -4, -123 )
 
 [node name="Radar" type="Area2D" parent="."]
 position = Vector2( 127.796, -44.6476 )
@@ -386,7 +379,7 @@ disabled = true
 position = Vector2( -3.04945, -13.0096 )
 scale = Vector2( 0.204728, 0.0605986 )
 z_index = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( -5.03858, -49.7299 )

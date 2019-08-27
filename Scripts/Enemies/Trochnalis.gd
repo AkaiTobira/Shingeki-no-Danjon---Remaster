@@ -20,7 +20,7 @@ func _physics_process(delta):
 		_move5(delta)
 
 		if current_atack == "Wait":
-			if is_close_enought():
+			if is_close_enough():
 				if   ability_ready[ABILITY_TYPE["Magic"]] and can_use_ability[ABILITY_TYPE["Magic"]]:
 					_magic()
 				elif ability_ready[ABILITY_TYPE["Skill"]] and can_use_ability[ABILITY_TYPE["Skill"]] and health < max_health*0.25 :

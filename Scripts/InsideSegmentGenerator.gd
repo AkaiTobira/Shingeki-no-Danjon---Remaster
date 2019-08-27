@@ -5,7 +5,7 @@ export(bool) var can_have_stairs
 var used_rect
 var floor_number    = "-1"
 var dungeon_name    = ""
-
+ 
 var emptySpace      = {}
 
 var shape                     = []
@@ -49,40 +49,39 @@ func set_shape(shape):
 func get_navigation_points():
 	for i in range(used_rect.end.x+2):
 		for j in range(used_rect.end.y+2):
-			if shape[i][j] >= TileState.free and shape[i][j] <= TileState.containerObject:
+			if shape[i][j] >= TileState.free and shape[i][j] <= TileState.exitTile:
 				navigation_points.append(Vector2(40 + 80*i, 40 +80*j))
 
 	return navigation_points
 
-#TOREFACTOR_AND_UPDATE
-func find_every_stair_possible_wall():
-	var id = $BottomTiles.tile_set.find_tile_by_name("WallMarkerUp")
-	var temp = []
-	for i in range(used_rect.end.x+1):
-		for j in range(used_rect.end.y+1):
-			if $BottomTiles.get_cell(i,j) == id and $BottomTiles.get_cell(i+1,j) == id:
-				if shape[i][j+2] >= TileState.free and shape[i][j+2] < TileState.destroyableObject and shape[i+1][j+2] >= TileState.free and shape[i+1][j+2] < TileState.destroyableObject:
-					temp.append(Vector2(i,j))
-	
-	return temp
-#TOREFACTOR_AND_UPDATE				
 func get_stairs_position():
 	var id = $BottomTiles.tile_set.find_tile_by_name("WallMarkerUp")
+	var possible_stair_positions = []
+	for i in range(used_rect.end.x+1):
+		for j in range(used_rect.end.y+1):
+			if is_wall_free_over_left_exit(id, 0, j): possible_stair_positions.append(Vector2(-1,j))
+			if is_wall_free(id, i, j): possible_stair_positions.append(Vector2(i,j))
+	return possible_stair_positions
 
-	var rico = []
+func is_wall_free_over_left_exit(id, x, y): 
+	if $BottomTiles.get_cell(x,y) == id:
+		if emptySpace.has_all([str(Vector2(x,y+2))]): return true
+	return false
 
-	for i in range(used_rect.end.y):
-		if $BottomTiles.get_cell(0,i) == id and shape[0][i+2] >= TileState.free and shape[0][i+2] < TileState.destroyableObject  :
-			rico.append(Vector2(-1,i))
-	return rico + find_every_stair_possible_wall()
+func is_wall_free(id, x, y): 
+	if $BottomTiles.get_cell(x,y) == id and $BottomTiles.get_cell(x+1,y) == id:
+		if emptySpace.has_all([str(Vector2(x,y+2)), str(Vector2(x+1,y+2))]): return true
+	return false
 
 func initialize_generation(dungeon, current_floor):
 	floor_number = current_floor
 	dungeon_name = dungeon
 	used_rect    = $BottomTiles.get_used_rect()
 	
-	$BottomTiles.cell_y_sort = true
-	$TopTiles.cell_y_sort    = true	
+	$BottomTiles.cell_y_sort   = true
+	$BottomTiles.z_index       = -1
+	$BottomTiles.z_as_relative = false
+	$TopTiles.cell_y_sort      = true
 	
 	create_Objects_node()
 	reset()
@@ -110,7 +109,19 @@ func convert_struct_to_set():
 			if structure[i][j] == TileState.wallLeftDown:  emptySpace[str(pos)] = [Wall_Orientations.Free] + multiplication[0] + multiplication[3]
 			if structure[i][j] == TileState.wallRightUp:   emptySpace[str(pos)] = [Wall_Orientations.Free] + multiplication[1] + multiplication[2]
 			if structure[i][j] == TileState.wallRightDown: emptySpace[str(pos)] = [Wall_Orientations.Free] + multiplication[1] + multiplication[3]
-					
+	
+	block_tile_near_exit_for_stairs_placement()
+	
+func block_tile_near_exit_for_stairs_placement():
+	var most_right_tile_over_exit = Vector2(0,0)
+	for enter in enters:
+		if enter[0] > most_right_tile_over_exit.x:
+			if enter[1] > most_right_tile_over_exit.y:
+				most_right_tile_over_exit = Vector2(enter[0],enter[1])
+
+	if not emptySpace.has(str(most_right_tile_over_exit + Vector2(1,-1))): 
+		emptySpace.erase(str(most_right_tile_over_exit + Vector2(0,-1))) 
+
 func object_to_prob(style):
 	match(style):
 		Res.EnvironmentType.Decoration: return Res.dungeons[dungeon_name]["probs"]["const"]
@@ -177,7 +188,6 @@ func generate_single_object(i,j, prob, orientation, style ):
 	match(style):
 		Res.EnvironmentType.Trap: 
 			temporary_enviroment_list.append({ "type": Res.EnvironmentType.Trap, "name": object_name, "pos":obj_position, "flip":Wall_Orientations.Right != orientation, "local_pos":Vector2(i,j), "closest_empty_space":[0,0,0,0] })
-			instance._change_sprite(Res.dungeons[dungeon_name]["tileset"])
 		Res.EnvironmentType.Box:
 			temporary_enviroment_list.append({ "type": Res.EnvironmentType.Box, "name": object_name, "pos":obj_position, "state":"Alive" })
 		Res.EnvironmentType.Chest:
@@ -202,30 +212,15 @@ func reserve_tile_under_obj( obj_size, i, j, style = Res.EnvironmentType.Decorat
 			if emptySpace.has(pos) : emptySpace.erase(pos)
 
 func generate(dungeon, current_level = 0):
-
-	#var cout  = 0
 	initialize_generation(dungeon, current_level)
-	#var time_start = OS.get_ticks_msec()
 	generate_objects()
-	#print( "ISG: generating takes : ", (OS.get_ticks_msec() - time_start) , " " , cout ) 
-	#time_start = OS.get_ticks_msec()
 	while !is_correct():
-#		cout += 1
 		reset()
 		generate_objects()
-	#print( "ISG: generate correct takes : ", (OS.get_ticks_msec() - time_start) , " " , cout ) 
-	#var time_start = OS.get_ticks_msec()
 	generate_enemies()
 	finish_trap_generation()
 	enviroment_list += temporary_enviroment_list
-	#print( "ISG: generate enemies takes : ", (OS.get_ticks_msec() - time_start)) 
-	#time_start = OS.get_ticks_msec()
-	#cout = 0
-#	change_tileset()
-	#print( "ISG: loading tileset takes : ", (OS.get_ticks_msec() - time_start)) 
-	#time_start = OS.get_ticks_msec()
-#	translate_const_obj()
-	#print( "ISG: translate consts takes : ", (OS.get_ticks_msec() - time_start)) 
+	translate_const_obj()	
 
 func finish_trap_generation():
 	for obj in temporary_enviroment_list:
@@ -249,13 +244,22 @@ func finish_trap_generation():
 func is_empty(i,j):
 	return 	shape[i][j] >= TileState.free and shape[i][j] <= TileState.exitTile
 
-#func translate_const_obj():
-#	if has_node("ConstObjects"):
-#		for i in $ConstObjects.get_children():
-#			var node = i
-#			get_node("ConstObjects").remove_child(node)
-#			if i.has_method( "_change_sprite" ): i._change_sprite(dungeon_name)
-#			get_node("Objects").add_child(i)
+func translate_const_obj():
+	if has_node("ConstObjects"):
+		for obj in $ConstObjects.get_children():
+			var node = obj
+			if node.has_method( "get_placement_info" ):
+				var placement_info = node.get_placement_info()
+				match( placement_info.type ):
+					Res.EnvironmentType.Trap: 
+						enviroment_list.append({ "type": Res.EnvironmentType.Trap, "name": placement_info.name, "pos":node.position, "flip":placement_info.flip, "closest_empty_space":[4,4,4,4] })
+					Res.EnvironmentType.Box:
+						enviroment_list.append({ "type": Res.EnvironmentType.Box, "name": placement_info.name, "pos":node.position,  "state":"Alive" })
+					Res.EnvironmentType.Chest:
+						enviroment_list.append({ "type": Res.EnvironmentType.Chest, "name": placement_info.name, "pos":node.position,  "state":"Alive" })
+					Res.EnvironmentType.Decoration:
+						enviroment_list.append({ "type": Res.EnvironmentType.Decoration, "name": placement_info.name, "pos":node.position, "flip":placement_info.flip })
+			$ConstObjects.remove_child(node)
 
 func reset():
 	accesNeed.clear()

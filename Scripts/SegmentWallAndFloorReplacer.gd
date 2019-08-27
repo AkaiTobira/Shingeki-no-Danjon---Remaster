@@ -10,7 +10,7 @@ func convert_wall_pattern_to_new_tileset(b_tiles, wallMarkersIDs):
 		for j in range( used_rect.end.y+1):
 			if b_tiles.get_cell(i,j+1) == wallMarkersIDs["OldLowerPartOfWall"] and b_tiles.get_cell(i,j) == wallMarkersIDs["OldUpperPartOfWall"]:
 				b_tiles.set_cell(i,j  ,wallMarkersIDs["NewUpperPartOfWall"]) 
-				b_tiles.set_cell(i,j+1,wallMarkersIDs["NewUpperPartOfWall"]) 
+				b_tiles.set_cell(i,j+1,wallMarkersIDs["NewLowerPartOfWall"]) 
 
 func convert_floor_pattern_to_new_tileset(b_tiles, floorId):
 	for i in range(used_rect.end.x+2):

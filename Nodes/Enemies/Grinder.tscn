@@ -1,12 +1,11 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/Enemies/Grinder.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Enemies/GearGrinder300/GearGrinder3000.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Enemies/GearGrinder300/GG300_leftAtack.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Enemies/GearGrinder300/GG3000_D_U.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/EnemyHealthUnder.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/EnemyHealth.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=7]
+[ext_resource path="res://Nodes/UI/EnemyHealthBar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Objects/Shadow.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Dead"
@@ -346,6 +345,9 @@ position = Vector2( 0.29096, -0.813354 )
 scale = Vector2( 3.70602, 2.42204 )
 shape = SubResource( 11 )
 
+[node name="HealthBar" parent="." instance=ExtResource( 5 )]
+position = Vector2( 0, -92 )
+
 [node name="DamageCollider" type="Area2D" parent="."]
 visible = false
 collision_layer = 3
@@ -365,15 +367,6 @@ scale = Vector2( 1, 1.03559 )
 shape = SubResource( 13 )
 disabled = true
 
-[node name="HealthBar" type="TextureProgress" parent="."]
-visible = false
-margin_left = -23.0
-margin_top = -101.0
-margin_right = 17.0
-margin_bottom = -61.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
-
 [node name="Radar" type="Area2D" parent="."]
 visible = false
 collision_layer = 512
@@ -388,7 +381,7 @@ shape = SubResource( 14 )
 position = Vector2( 2.37727, 2.19586 )
 scale = Vector2( 0.116501, 0.070165 )
 z_index = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 position = Vector2( 0.459501, -33.9882 )

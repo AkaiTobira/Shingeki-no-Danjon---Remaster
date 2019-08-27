@@ -37,7 +37,7 @@ var graph = {}
 
 func generate(level_name, navigation, current_floor1):
 	#print( "Start")
-	print( "G: start generate " ) 
+	#print( "G: start generate " ) 
 	var time_start = OS.get_ticks_msec()
 
 	dungeon_name = level_name
@@ -52,7 +52,7 @@ func generate(level_name, navigation, current_floor1):
 	graph = l_generator.graph
 	for segment in graph:
 		if Res.background_generation_lock: 
-			print( "Prestop" )
+			#print( "Prestop" )
 			return
 		create_segment(segment, graph[segment]["name"], graph[segment]["position"])
 
@@ -73,9 +73,9 @@ func generate(level_name, navigation, current_floor1):
 	create_stairs()
 	var wallAndFloorReplacer = load( "res://Scripts/SegmentWallAndFloorReplacer.gd" ).new()
 	get_parent().segments_holder = wallAndFloorReplacer.replace_wall_and_floors(graph, dungeon_name)
-	print( "G: generation takes : ", (OS.get_ticks_msec() - time_start)  ) 
+	#print( "G: generation takes : ", (OS.get_ticks_msec() - time_start)  ) 
 
-	queue_free()
+	call_deferred("queue_free")
 
 func create_stairs():
 	var tileset = Res.tilesets[Res.dungeons[dungeon_name]["tileset"]]
@@ -138,7 +138,7 @@ func create_segment(index, segment, position):
 	var bottom = seg.get_node("BottomTiles")
 	var top    = seg.get_node("TopTiles")
 	
-#	print( "SG: Initiation segment takes : ", OS.get_ticks_msec() - rest )
+#	#print( "SG: Initiation segment takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec() 
 	
 	bottom.tile_set = load("res://Resources/Tilesets/" + Res.dungeons[dungeon_name]["tileset"] + ".tres")
@@ -150,24 +150,24 @@ func create_segment(index, segment, position):
 	var wallTileId  = bottom.tile_set.find_tile_by_name("WallMarkerUp") 
 	var floorTileID = bottom.tile_set.find_tile_by_name("FloorMarker")
 
-#	print( "SG: Tilesets takes : ", OS.get_ticks_msec() - rest )
+#	#print( "SG: Tilesets takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec() 
 
 	graph[index]["segment"] = seg
 	seg.set_shape( Res.cache_segment_structure(segment) )
 #	get_parent().segments_holder.append(seg)
-#	print( "ApendTOHolder takes : ", OS.get_ticks_msec() - rest )
+#	#print( "ApendTOHolder takes : ", OS.get_ticks_msec() - rest )
 	
 #	rest  = OS.get_ticks_msec() 
 	seg.generate( dungeon_name,  current_floor)
-#	print( "SG: Call Generation takes : ", OS.get_ticks_msec() - rest )
+#	#print( "SG: Call Generation takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec()
 	
 	var segment_navigation_points = seg.get_navigation_points()
 	for point in segment_navigation_points:
 		navigation_points.append(point+seg.position)
 		
-#	print( "SG: AstarSegment takes : ", OS.get_ticks_msec() - rest )
+#	#print( "SG: AstarSegment takes : ", OS.get_ticks_msec() - rest )
 #	rest  = OS.get_ticks_msec() 
 	if seg.has_node("Objects"):
 		for i in range(seg.get_node("Objects").get_child_count()):
@@ -179,7 +179,7 @@ func create_segment(index, segment, position):
 		obj["pos"] +=  seg.position
 		get_parent().enviroment_object_list.append(obj)
 
-#	print( "SG: AppendingObjects takes : ", OS.get_ticks_msec() - rest )
-#	print( "SG: Creating one segment takes : ", OS.get_ticks_msec() - rest1 )
+#	#print( "SG: AppendingObjects takes : ", OS.get_ticks_msec() - rest )
+#	#print( "SG: Creating one segment takes : ", OS.get_ticks_msec() - rest1 )
 			
 	return seg

@@ -29,6 +29,8 @@ Res="*res://Scripts/Resources.gd"
 
 [debug]
 
+settings/stdout/print_fps=true
+settings/stdout/verbose_stdout=true
 gdscript/warnings/enable=false
 gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_class_variable=false
@@ -37,7 +39,9 @@ gdscript/warnings/standalone_expression=false
 gdscript/warnings/variable_conflicts_function=false
 gdscript/warnings/function_conflicts_variable=false
 gdscript/warnings/function_conflicts_constant=false
+gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
+gdscript/warnings/unsafe_property_access=true
 
 [display]
 
