@@ -19,7 +19,7 @@ func intiated():
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group(\"enemies\"):
 		SkillBase.inc_stat(\"EarthMagic\")
-		collider.get_parent().damage(damage)
+		collider.get_parent().damage(damage, \"\", \"Earth\")
 
 func _on_Animation_animation_finished(anim_name):
 	queue_free()"

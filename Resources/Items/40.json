@@ -6,10 +6,11 @@
 	"durability": 45,
 	"block"     : 7,
 	"stats" : {	 	
-		"ph_res"  : 9,
-		"cr_res"  : 9,
-		"sh_res"  : 9,
-		"ex_res"  : 9
+		"armour"    : 15,
+		"earth_resistance"  : 9,
+		"wind_resistance"  : 9,
+		"water_resistance"  : 9,
+		"fire_resistance"  : 9
 	 },
 	"material"  : [0,4]
 }

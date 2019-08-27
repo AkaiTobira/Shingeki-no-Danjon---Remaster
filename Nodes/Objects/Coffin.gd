@@ -13,6 +13,7 @@ export(bool)var need_enemies_list
 
 export(bool) var need_second_wall
 export(bool) var need_more_space
+export(bool) var walkable = false
 
 const HOW_MANT_ITMES = 23
 

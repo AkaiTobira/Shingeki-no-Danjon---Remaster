@@ -34,6 +34,7 @@ script = ExtResource( 1 )
 placement = 5
 size = Vector2( 2, 2 )
 can_flip_h = true
+walkable = true
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "1"
@@ -44,6 +45,7 @@ anims/1 = SubResource( 1 )
 position = Vector2( 43.9396, 49.4032 )
 scale = Vector2( 5.8971, 5.98472 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="Sprite2" type="Sprite" parent="."]
 position = Vector2( 400, -90 )

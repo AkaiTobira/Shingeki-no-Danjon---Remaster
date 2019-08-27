@@ -29,7 +29,6 @@ Res="*res://Scripts/Resources.gd"
 
 [debug]
 
-settings/stdout/print_fps=true
 settings/stdout/verbose_stdout=true
 gdscript/warnings/enable=false
 gdscript/warnings/unused_variable=false

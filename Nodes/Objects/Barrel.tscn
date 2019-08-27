@@ -16,6 +16,7 @@ export var variants = \"\"
 export var can_flip_h = false
 export var const_object = false 
 
+
 const HOW_MANT_ITMES = 23
 
 enum STATE{ CONST, DESTROYABLE, CHESTS }
@@ -29,6 +30,7 @@ var destroyed = false
 
 export(bool) var need_second_wall
 export(bool) var need_more_space
+export(bool) var walkable = false
 
 func _process(delta):
 	if destroyed :

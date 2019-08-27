@@ -242,6 +242,9 @@ func _physics_process(delta):
 				enter_tab()
 			else:
 				Res.ui_sample(\"MenuFailed\")
+				
+		#Hack : TODO autoupdate at changing menustates not only on enter
+		if self.current_tab == 0: update_statistics()
 	else: match current_tab:
 		0:
 			for i in range(SKILLPOINTS.size()):
@@ -882,9 +885,9 @@ func get_eq_slot(item):
 
 func update_strenght():
 	$Tabs/Character/Statistics/Strength/Control/Val.text  = str(PlayerStats.statistic[\"streng\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Strength/Control2/Val.text = str(PlayerStats.statistic[\"ph_dmg\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Strength/Control3/Val.text = str(PlayerStats.statistic[\"ct_dmg\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Strength/Control4/Val.text = str(PlayerStats.statistic[\"cr_res\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Strength/Control2/Val.text = str(PlayerStats.statistic[\"physical_damage\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Strength/Control3/Val.text = str(PlayerStats.statistic[\"critical_damage\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Strength/Control4/Val.text = str(PlayerStats.statistic[\"earth_resistance\"][0]).substr(0,5)
 	
 func clear_statistic_incremntation_propositions():
 		for stat in SKILLPOINTS:
@@ -928,32 +931,34 @@ func fill_selected(stat):
 			
 func update_dexternity():
 	$Tabs/Character/Statistics/Dexterity/Control/Val.text  = str(PlayerStats.statistic[\"dexter\"][0]        ).substr(0,5)
-	$Tabs/Character/Statistics/Dexterity/Control2/Val.text = str(PlayerStats.statistic[\"ct_chc\"][0]* 100).substr(0,5) + \"%\"
-	$Tabs/Character/Statistics/Dexterity/Control3/Val.text = str(PlayerStats.statistic[\"at_spd\"][0]      ).substr(0,5)
-	$Tabs/Character/Statistics/Dexterity/Control4/Val.text = str(PlayerStats.statistic[\"ph_res\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Dexterity/Control2/Val.text = str(PlayerStats.statistic[\"critical_chance\"][0]* 100).substr(0,5) + \"%\"
+	$Tabs/Character/Statistics/Dexterity/Control3/Val.text = str(PlayerStats.statistic[\"attack_speed\"][0]      ).substr(0,5)
+	$Tabs/Character/Statistics/Dexterity/Control4/Val.text = str(PlayerStats.statistic[\"fire_resistance\"][0]).substr(0,5)
 
 func update_intelligence():
 	$Tabs/Character/Statistics/Intelligence/Control/Val.text  = str(PlayerStats.statistic[\"smart\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Intelligence/Control2/Val.text = str(PlayerStats.statistic[\"mg_dmg\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Intelligence/Control3/Val.text = str(PlayerStats.statistic[\"sh_res\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Intelligence/Control4/Val.text = str(PlayerStats.statistic[\"gh_dur\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Intelligence/Control2/Val.text = str(PlayerStats.statistic[\"spell_power\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Intelligence/Control3/Val.text = str(PlayerStats.statistic[\"water_resistance\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Intelligence/Control4/Val.text = str(PlayerStats.statistic[\"ghost_duration\"][0]).substr(0,5)
 
 func update_vitality():
 	$Tabs/Character/Statistics/Vitality/Control/Val.text  = str(PlayerStats.statistic[\"vital\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Vitality/Control2/Val.text = str(PlayerStats.statistic[\"mn_reg\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Vitality/Control3/Val.text = str(PlayerStats.statistic[\"ex_res\"][0]).substr(0,5)
-	$Tabs/Character/Statistics/Vitality/Control4/Val.text = str(PlayerStats.statistic[\"mv_spd\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Vitality/Control2/Val.text = str(PlayerStats.statistic[\"mana_regeneration\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Vitality/Control3/Val.text = str(PlayerStats.statistic[\"wind_resistance\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Vitality/Control4/Val.text = str(PlayerStats.statistic[\"move_speed\"][0]).substr(0,5)
 
 func update_statistics():
 	update_strenght()
 	update_dexternity()
 	update_vitality()
 	update_intelligence()
-	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health).substr(0,6) + \" / \" + str(PlayerStats.statistic[\"mx_hpp\"][0]).substr(0,6)
-	$Tabs/Character/Statistics/Mana.text           = \"Mana: \"   + str(PlayerStats.mana).substr(0,6)     + \" / \" + str(PlayerStats.statistic[\"mx_man\"][0]).substr(0,6)
+	$Tabs/Character/Statistics/Armour/Val.text  = str(PlayerStats.statistic[\"armour\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Block/Val.text   = str(PlayerStats.statistic[\"block\"][0]).substr(0,5)
+	$Tabs/Character/Statistics/Health.text         = \"Health: \" + str(PlayerStats.health).substr(0,6) + \" / \" + str(PlayerStats.statistic[\"max_health\"][0]).substr(0,6)
+	$Tabs/Character/Statistics/Mana.text           = \"Mana: \"   + str(PlayerStats.mana).substr(0,6)     + \" / \" + str(PlayerStats.statistic[\"max_mana\"][0]).substr(0,6)
 
 func get_player_statistic(stat):
-	return PlayerStats.statistic[stat][1]
+	return PlayerStats.statistic[stat][2]
 
 func add_name_to_label(stat_label, stat):
 	match(stat):
@@ -969,48 +974,51 @@ func add_name_to_label(stat_label, stat):
 		\"vital\"  : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Vitality: \" )
-		\"ph_dmg\" : 
+		\"armour\"  : 
+			stat_label.push_color( Color(1,1,1) )
+			stat_label.append_bbcode( \"Armour: \" )
+		\"physical_damage\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Physical Damage: \" )
-		\"ct_dmg\" : 
+		\"critical_damage\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Critical Damage: \" )
-		\"cr_res\" : 
-			stat_label.push_color( Color(0.67,0.2,1)    )
-			stat_label.append_bbcode( \"Resistance Crush: \" )
-		\"ct_chc\" : 
+		\"wind_resistance\" : 
+			stat_label.push_color( Color(1,0.85,0)     )
+			stat_label.append_bbcode( \"Resistance Wind: \" )
+		\"critical_chance\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Critical Chanse: \" )
-		\"at_spd\" : 
+		\"attack_speed\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Attack Speed: \" )
-		\"mv_spd\" : 
+		\"move_speed\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Move Speed: \" )
-		\"ph_res\" : 
-			stat_label.push_color( Color(1, 0.2, 0.2) )
-			stat_label.append_bbcode( \"Resistance Physical: \" )
-		\"mg_dmg\" : 
+		\"earth_resistance\" : 
+			stat_label.push_color( Color(0,0.75,0.25) )
+			stat_label.append_bbcode( \"Resistance Earth: \" )
+		\"spell_power\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Magical Damage: \" )
-		\"mx_hpp\" : 
+		\"max_health\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Max Health: \" )
-		\"mx_man\" : 
+		\"max_mana\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Max Mana: \" )
-		\"sh_res\" : 
+		\"water_resistance\" : 
 			stat_label.push_color( Color(0, 1, 1)       )
-			stat_label.append_bbcode( \"Resistance Shock: \" )
-		\"gh_dur\" : 
+			stat_label.append_bbcode( \"Resistance Water: \" )
+		\"ghost_duration\" : 
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Ghost Time: \" )
-		\"mn_reg\" :
+		\"mana_regeneration\" :
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Mana Regeneration: \" )
-		\"ex_res\" : 
-			stat_label.push_color( Color(1,0.85,0)      )
-			stat_label.append_bbcode( \"Resistance Explosion: \" )
+		\"fire_resistance\" : 
+			stat_label.push_color( Color(0.5,0.05,0.05)     )
+			stat_label.append_bbcode( \"Resistance Fire: \" )
 		\"block\"  :
 			stat_label.push_color( Color(1,1,1) )
 			stat_label.append_bbcode( \"Block Rate: \" )
@@ -1020,13 +1028,13 @@ func new_stat_comparator(stat_label, stat, old_value, current_value):
 
 	if old_value > current_value: 
 		stat_label.push_color( Color(0.6,0.6,0.6) ) 
-		stat_label.add_text( str( current_value + get_player_statistic(stat) ).substr(0,4)+ \"(-\" +  str(abs(diff)).substr(0,4) + \")\")
+		stat_label.add_text( str( -diff  + get_player_statistic(stat) ).substr(0,4)+ \"(-\" +  str(abs(diff)).substr(0,4) + \")\")
 	elif old_value < current_value:
 		stat_label.push_color( Color(1,1,0) )
-		stat_label.add_text( str( current_value + get_player_statistic(stat) ).substr(0,4)+ \"(+\" +  str(abs(diff)).substr(0,4) + \")\")
+		stat_label.add_text( str( -diff  + get_player_statistic(stat) ).substr(0,4)+ \"(+\" +  str(abs(diff)).substr(0,4) + \")\")
 	else:
 		stat_label.push_color( Color(1,1,1) )
-		stat_label.add_text( str( current_value + get_player_statistic(stat) ).substr(0,4) + \"(0)\")
+		stat_label.add_text( str( get_player_statistic(stat) ).substr(0,4) + \"(0)\")
 	stat_label.pop()
 
 func update_stats(item, i_instance):
@@ -1080,8 +1088,8 @@ func update_stats(item, i_instance):
 				old_item_value = equiped_item_instance.add_to_stat[stats[i]]
 			var current_item_value = 0 if not i_instance.add_to_stat.has(stats[i]) else i_instance.add_to_stat[stats[i]]
 			
-			old_item_value     += PlayerStats.statistic[stats[i]][1]
-			current_item_value += PlayerStats.statistic[stats[i]][1]
+			old_item_value     += PlayerStats.statistic[stats[i]][2] 
+			current_item_value += PlayerStats.statistic[stats[i]][2]
 			
 			new_stat_comparator(stat_label, stats[i], old_item_value, current_item_value)
 #			
@@ -1333,9 +1341,67 @@ custom_fonts/font = ExtResource( 13 )
 text = "STATISTICS"
 
 [node name="Statistics" type="Control" parent="Tabs/Character"]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
+
+[node name="Armour" type="Control" parent="Tabs/Character/Statistics"]
+margin_left = -46.0
+margin_right = -6.0
+margin_bottom = 40.0
+
+[node name="name" type="Label" parent="Tabs/Character/Statistics/Armour"]
+margin_left = 1021.21
+margin_top = 206.316
+margin_right = 1203.21
+margin_bottom = 265.316
+custom_fonts/font = ExtResource( 10 )
+text = "Armour:
+"
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Armour"]
+margin_left = 1159.06
+margin_top = 206.263
+margin_right = 1201.06
+margin_bottom = 234.263
+custom_fonts/font = ExtResource( 10 )
+text = "Val"
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Armour"]
+margin_left = 1212.48
+margin_top = 206.052
+margin_right = 1254.48
+margin_bottom = 234.052
+custom_fonts/font = ExtResource( 10 )
+
+[node name="Block" type="Control" parent="Tabs/Character/Statistics"]
+margin_left = -46.0
+margin_top = 35.0
+margin_right = -6.0
+margin_bottom = 75.0
+
+[node name="name" type="Label" parent="Tabs/Character/Statistics/Block"]
+margin_left = 1021.21
+margin_top = 206.316
+margin_right = 1203.21
+margin_bottom = 265.316
+custom_fonts/font = ExtResource( 10 )
+text = "Block:
+"
+
+[node name="Val" type="Label" parent="Tabs/Character/Statistics/Block"]
+margin_left = 1159.06
+margin_top = 206.263
+margin_right = 1201.06
+margin_bottom = 234.263
+custom_fonts/font = ExtResource( 10 )
+text = "Val"
+
+[node name="Up" type="Label" parent="Tabs/Character/Statistics/Block"]
+margin_left = 1212.48
+margin_top = 206.052
+margin_right = 1254.48
+margin_bottom = 234.052
+custom_fonts/font = ExtResource( 10 )
 
 [node name="Strength" type="Control" parent="Tabs/Character/Statistics"]
 margin_left = -46.0
@@ -1450,8 +1516,8 @@ margin_top = 309.0
 margin_right = 853.0
 margin_bottom = 337.0
 custom_fonts/font = ExtResource( 10 )
-custom_colors/font_color = Color( 0.67, 0.2, 1, 1 )
-text = "Crush resist   : "
+custom_colors/font_color = Color( 0, 0.745098, 0.27451, 1 )
+text = "Earth resistance: "
 
 [node name="Val" type="Label" parent="Tabs/Character/Statistics/Strength/Control4"]
 margin_left = 759.0
@@ -1585,7 +1651,7 @@ margin_right = 1285.0
 margin_bottom = 367.0
 custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.78125, 0.10376, 0.10376, 1 )
-text = "Physical resist :"
+text = "Fire resistance :"
 
 [node name="Val" type="Label" parent="Tabs/Character/Statistics/Dexterity/Control4"]
 margin_left = 1210.0
@@ -1691,7 +1757,7 @@ margin_right = 854.0
 margin_bottom = 338.0
 custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0, 0.74902, 1, 1 )
-text = "Shock resist : "
+text = "Water resistance: "
 
 [node name="Val" type="Label" parent="Tabs/Character/Statistics/Intelligence/Control3"]
 margin_left = 758.0
@@ -1822,13 +1888,13 @@ margin_right = -65.0
 margin_bottom = 86.0
 
 [node name="ExplodRes" type="Label" parent="Tabs/Character/Statistics/Vitality/Control3"]
-margin_left = 514.0
+margin_left = 515.053
 margin_top = 310.0
-margin_right = 906.0
+margin_right = 907.053
 margin_bottom = 338.0
 custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 0.847059, 0, 1 )
-text = "Explosion resist :"
+text = "Wind resistance :"
 
 [node name="Val" type="Label" parent="Tabs/Character/Statistics/Vitality/Control3"]
 margin_left = 779.0
@@ -2332,6 +2398,7 @@ align = 1
 valign = 1
 
 [node name="Skills" type="Control" parent="Tabs"]
+visible = false
 self_modulate = Color( 1, 0.501961, 0.501961, 0.501961 )
 margin_right = 1366.0
 margin_bottom = 768.0

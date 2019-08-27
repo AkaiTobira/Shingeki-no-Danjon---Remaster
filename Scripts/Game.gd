@@ -29,8 +29,8 @@ func _ready():
 	DungeonState.current_floor = 0
 	DungeonState.emit_signal("floor_changed", DungeonState.current_floor)
 	
-	PlayerStats.health = PlayerStats.statistic["mx_hpp"][0]
-	PlayerStats.mana   = PlayerStats.statistic["mx_man"][0]
+	PlayerStats.health = PlayerStats.statistic["max_health"][0]
+	PlayerStats.mana   = PlayerStats.statistic["max_mana"][0]
 	
 	change_map(0, "Mechania")
 	player.UI.init_map_menu(map_manager.get_location_numbers(), map_manager.get_location_types(), map_manager.get_locations_names(), map_manager.get_loations_descriptions())

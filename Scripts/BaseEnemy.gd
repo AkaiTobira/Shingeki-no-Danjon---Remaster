@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 const DEBBUG_RUN = false
-const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
+const DAMAGE_TYPE  = ["NoDamage", "Earth", "Fire", "Water", "Wind", "Physical"]
 const ABILITY_TYPE = { "Atack" : 0,"Skill" : 1, "Magic" : 2 }
 
 onready var sprites    = $Sprites.get_children()
@@ -14,9 +14,9 @@ var ability_probs   = [0,0,0]
 var damages         = [0,0,0]
 var knockbacks      = [0,0,0]
 var damage_type     = [0,0,0]
-var resists         = [0,0,0,0]
+var resists         = [0,0,0,0,0]
 
-var resists_modif   = [0,0,0,0]
+var resists_modif   = [0,0,0,0,0]
 var ab_prob_modif   = [0,0,0]
 var damages_modif   = [0,0,0]
 
@@ -47,7 +47,7 @@ func initialize(id, dung_name, kind):
 	experience     = Res.enemies[dung_name][kind]["Exp"    ] 
 	personal_space = Res.enemies[dung_name][kind]["Range"  ]
 	music          = Res.enemies[dung_name][kind]["Music"  ]
-	resists        = Res.enemies[dung_name][kind]["Resists"]
+	resists        = [] +Res.enemies[dung_name][kind]["Resists"]
 	drops          = Res.enemies[dung_name][kind]["Drops"  ]
 	
 	for abillity in ABILITY_TYPE.keys():
@@ -60,7 +60,7 @@ func initialize(id, dung_name, kind):
 	scale_enemy_level()
 
 func scale_enemy_level():
-	var level_scale = 1 + level/10
+	var level_scale = 1.0 + level/10.0
 
 	max_health     *=  level_scale
 	health         *=  level_scale
@@ -81,19 +81,13 @@ func set_resists_to_bar():
 		sorted.append([ resists[resist] + resists_modif[resist], resist + 1 ])
 
 	if resist_sum <= 0 : return
-	for i in range(len(sorted)):
-		for element in range(len(sorted)-1):
-			if sorted[element][0] < sorted[element+1][0]:
-				var temp = sorted[element]
-				sorted[element] = sorted[element+1]
-				sorted[element+1] = temp
-
+	
 	var max_value = 100
-	for value_index in range(len(sorted)):
+	for value_index in range(len(resists)):
 		var values    = sorted[value_index]
-		var node      = health_bar.get_node("Resist" + str(values[1]) )
+		var node      = health_bar.get_node("Resist" + str(value_index + 1) )
 		node.value    = max_value
-		max_value    -= int(values[0] * 100 /resist_sum)
+		max_value    -= int( (resists[value_index] + resists_modif[value_index]) * 100 /resist_sum)
 		node.visible  = true
 		health_bar.move_child(node, 7)
 
@@ -226,7 +220,6 @@ func move_along_path(distance):
 			break
 		distance -= distance_between_points
 		last_point = Vector2(path[0].x,path[0].y)
-
 
 
 func find_path():
@@ -371,24 +364,22 @@ func damage(amount, source = "", type = ""):
 	
 	var damage = amount
 
-	match(type):
-		"Physical":
-			damage = max(1, int(amount  -( resists[0] + resists_modif[0])/2))
-		"Explosion":
-			damage = max(1, int(amount  -( resists[1] + resists_modif[1])/2))
-		"Shock":
-			damage = max(1, int(amount  -( resists[2] + resists_modif[2])/2))
-		"Crush":
-			damage = max(1, int(amount  -( resists[3] + resists_modif[3])/2))
+	var type_id = DAMAGE_TYPE.find(type) - 1
+	damage = max( 1, int(amount -( resists[type_id] + resists_modif[type_id])/2))
 
+	resists[DAMAGE_TYPE.find("Physical") - 1] = max( resists[DAMAGE_TYPE.find("Physical")-1] - damage, 0 )
+	set_resists_to_bar()
+	
+	if resists[DAMAGE_TYPE.find("Physical") - 1] == 0 and type == "Physical" : 
+		damage *= 1.5
 
-	if randi()%100 < PlayerStats.statistic["ct_chc"][0]*100 and source == "player": 
-		damage += PlayerStats.statistic["ct_dmg"][0]
+	if randi()%100 < PlayerStats.statistic["critical_chance"][0]*100 and source == "player": 
+		damage += PlayerStats.statistic["critical_damage"][0]
 		type = "crit"
 	Res.create_instance("DamageNumber").damage(self, damage, type)
-	
+
 	health -= damage
-	
+
 	health_bar.visible = true
 	health_bar.get_node("Health").value = health
 	timeout_bar = 180

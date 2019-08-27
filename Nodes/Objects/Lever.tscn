@@ -4,7 +4,6 @@
 [ext_resource path="res://Scripts/Interact.gd" type="Script" id=2]
 
 [sub_resource type="GDScript" id=1]
-
 resource_name = "Lever"
 script/source = "extends StaticBody2D
 
@@ -17,23 +16,16 @@ func interact():
 	get_node(target).trigger()
 	$Animation.play(\"Pull\")
 	$Interaction.queue_free()"
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="RectangleShape2D" id=2]
-
-custom_solver_bias = 0.0
 extents = Vector2( 22, 12 )
 
 [sub_resource type="RectangleShape2D" id=3]
-
-custom_solver_bias = 0.0
 extents = Vector2( 20.6901, 10 )
 
 [sub_resource type="Animation" id=4]
-
 resource_name = "Pull"
 length = 3.0
-loop = false
 step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -49,58 +41,24 @@ tracks/0/keys = {
 }
 
 [node name="Lever" type="StaticBody2D"]
-
-input_pickable = false
-collision_layer = 1
-collision_mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
 script = SubResource( 1 )
-target = null
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
-
+[node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 vframes = 3
-_sections_unfolded = [ "Animation", "Region" ]
 
-[node name="Shape" type="CollisionShape2D" parent="." index="1"]
-
+[node name="Shape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 28 )
 shape = SubResource( 2 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="Interaction" type="Area2D" parent="." index="2"]
-
+[node name="Interaction" type="Area2D" parent="."]
 editor/display_folded = true
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 script = ExtResource( 2 )
-type = 0
-mode = 0
-send_status = false
 
-[node name="Shape" type="CollisionShape2D" parent="Interaction" index="0"]
-
+[node name="Shape" type="CollisionShape2D" parent="Interaction"]
 position = Vector2( 0.28479, 51.8322 )
 shape = SubResource( 3 )
 
-[node name="Animation" type="AnimationPlayer" parent="." index="3"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
+[node name="Animation" type="AnimationPlayer" parent="."]
 playback_speed = 8.0
 anims/Pull = SubResource( 4 )
-blend_times = [  ]
-_sections_unfolded = [ "Playback Options" ]
-
-

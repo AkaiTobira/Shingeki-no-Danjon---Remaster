@@ -19,25 +19,26 @@ var shield_amout = 12
 
 var statistic = {
 				#sum, base, item, skill, mod
-	"streng" : [    1,   1,0,0,0],
-	"dexter" : [    1,   1,0,0,0],
-	"smart"  : [    1,   1,0,0,0],
-	"vital"  : [    1,   1,0,0,0],
-	"ph_dmg" : [    1,   1,0,0,0],
-	"ct_dmg" : [    2,   2,0,0,0],
-	"cr_res" : [  0.0,   0,0,0,0],
-	"ct_chc" : [ 0.05,0.05,0,0,0],
-	"at_spd" : [    1,   1,0,0,0],
-	"mv_spd" : [    1,   1,0,0,0],
-	"ph_res" : [  0.0,   0,0,0,0],
-	"mg_dmg" : [    1,   1,0,0,0],
-	"mx_hpp" : [  100, 100,0,0,0],
-	"mx_man" : [  100, 100,0,0,0],
-	"sh_res" : [  0.0,   0,0,0,0],
-	"gh_dur" : [    1,   1,0,0,0],
-	"mn_reg" : [    1,   1,0,0,0],
-	"ex_res" : [  0.0,   0,0,0,0],
-	"block"  : [  0.0,   0,0,0,0]
+	"streng"            : [    1,   1,0,0,0],
+	"dexter"            : [    1,   1,0,0,0],
+	"smart"             : [    1,   1,0,0,0],
+	"vital"             : [    1,   1,0,0,0],
+	"physical_damage"   : [    1,   1,0,0,0],
+	"critical_damage"   : [    2,   2,0,0,0],
+	"wind_resistance"   : [  0.0,   0,0,0,0],
+	"critical_chance"   : [ 0.05,0.05,0,0,0],
+	"attack_speed"      : [    1,   1,0,0,0],
+	"move_speed"        : [    1,   1,0,0,0],
+	"earth_resistance"  : [  0.0,   0,0,0,0],
+	"spell_power"       : [    1,   1,0,0,0],
+	"max_health"        : [  100, 100,0,0,0],
+	"max_mana"          : [  100, 100,0,0,0],
+	"water_resistance"  : [  0.0,   0,0,0,0],
+	"ghost_duration"    : [    1,   1,0,0,0],
+	"mana_regeneration" : [    1,   1,0,0,0],
+	"fire_resistance"   : [  0.0,   0,0,0,0],
+	"block"             : [  0.0,   0,0,0,0],
+	"armour"            : [  0.0,   0,0,0,0]
 	}
 
 var money = 0
@@ -72,23 +73,23 @@ func update_skills(skill):
 
 
 func refresh_skill():
-	statistic["ph_dmg"][1] = statistic["streng"][1] * increments[0][0]
-	statistic["ct_dmg"][1] = statistic["streng"][1] * increments[0][1]
-	statistic["cr_res"][1] = statistic["streng"][1] * increments[0][2]
-	statistic["ct_chc"][1] = statistic["dexter"][1] * increments[1][0]
-	statistic["at_spd"][1] = statistic["dexter"][1] * increments[1][1] + 0.5
-	statistic["ph_res"][1] = statistic["dexter"][1] * increments[1][2]
-	if statistic["at_spd"][1] > 5: statistic["at_spd"][1] = 5.0
-	statistic["sh_res"][1] = increments[2][0]*statistic["smart" ][1]
-	statistic["mg_dmg"][1] = increments[2][1]*statistic["smart" ][1]
-	statistic["mx_man"][1] = increments[2][2]*statistic["smart" ][1] + 100
-	mana                   = (increments[2][2]*statistic["smart" ][1] + 100) * mana/statistic["mx_man"][0]
-	statistic["gh_dur"][1] = increments[2][3]*statistic["smart" ][1]
-	statistic["mx_hpp"][1] = increments[3][0]*statistic["vital" ][1] + 100
-	health                 = (increments[3][0]*statistic["vital" ][1] + 100) * health/statistic["mx_hpp"][0]
-	statistic["mn_reg"][1] = increments[3][1]*statistic["vital" ][1] 
-	statistic["ex_res"][1] = increments[3][2]*statistic["vital" ][1] 
-	statistic["mv_spd"][1] = increments[3][3]*statistic["vital" ][1] 
+	statistic["physical_damage"][1]   = statistic["streng"][1] * increments[0][0]
+	statistic["critical_damage"][1]   = statistic["streng"][1] * increments[0][1]
+	statistic["wind_resistance"][1]   = statistic["streng"][1] * increments[0][2]
+	statistic["critical_chance"][1]   = statistic["dexter"][1] * increments[1][0]
+	statistic["attack_speed"][1]      = statistic["dexter"][1] * increments[1][1] + 0.5
+	statistic["earth_resistance"][1]  = statistic["dexter"][1] * increments[1][2]
+	if statistic["attack_speed"][1] > 5: statistic["attack_speed"][1] = 5.0
+	statistic["water_resistance"][1]  = increments[2][0]*statistic["smart" ][1]
+	statistic["spell_power"][1]       = increments[2][1]*statistic["smart" ][1]
+	statistic["max_mana"][1]          = increments[2][2]*statistic["smart" ][1] + 100
+	mana                              = (increments[2][2]*statistic["smart" ][1] + 100) * mana/statistic["max_mana"][0]
+	statistic["ghost_duration"][1]    = increments[2][3]*statistic["smart" ][1]
+	statistic["max_health"][1]        = increments[3][0]*statistic["vital" ][1] + 100
+	health                            = (increments[3][0]*statistic["vital" ][1] + 100) * health/statistic["max_health"][0]
+	statistic["mana_regeneration"][1] = increments[3][1]*statistic["vital" ][1] 
+	statistic["fire_resistance"][1]   = increments[3][2]*statistic["vital" ][1] 
+	statistic["move_speed"][1]        = increments[3][3]*statistic["vital" ][1] 
 
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())
@@ -106,7 +107,7 @@ func get_stats_from_items():
 	recalc_stats()
 	
 func get_damage():
-	return statistic["ph_dmg"][0]
+	return statistic["physical_damage"][0]
 
 func get_equipment(slot_name):
 	return equipment[SLOTS[slot_name]]
@@ -146,12 +147,12 @@ func subtract_items(id, amount):
 func consume(item):
 	var consumed
 	
-	if item.has("health") and PlayerStats.health < PlayerStats.statistic["mx_hpp"][0]:
+	if item.has("health") and PlayerStats.health < PlayerStats.statistic["max_health"][0]:
 		consumed = true
-		PlayerStats.health = min(PlayerStats.statistic["mx_hpp"][0], PlayerStats.health + item.health)
-	if item.has("mana") and PlayerStats.mana < PlayerStats.statistic["mx_man"][0]:
+		PlayerStats.health = min(PlayerStats.statistic["max_health"][0], PlayerStats.health + item.health)
+	if item.has("mana") and PlayerStats.mana < PlayerStats.statistic["max_mana"][0]:
 		consumed = true
-		PlayerStats.mana = min(PlayerStats.statistic["mx_man"][0], PlayerStats.mana + item.mana)
+		PlayerStats.mana = min(PlayerStats.statistic["max_mana"][0], PlayerStats.mana + item.mana)
 	
 	if consumed:
 		Res.play_sample(Res.game.player, "Consume", false)

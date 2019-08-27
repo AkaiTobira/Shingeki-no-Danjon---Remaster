@@ -34,17 +34,17 @@ func damage(node, amount, type = \"physical\"):
 		\"crit\":
 			$Label.add_color_override(\"font_color\", WHITE)
 			$Label.text += \"!\"
-		\"Shock\":
+		\"Water\":
 			$Label.add_color_override(\"font_color\", LBLUE)
-		\"Physical\":
+		\"Fire\":
 			$Label.add_color_override(\"font_color\", RED)
-		\"Explosion\":
+		\"Wind\":
 			$Label.add_color_override(\"font_color\", YELLOW)
-		\"heal\":
+		\"Earth\":
 			$Label.add_color_override(\"font_color\", GREEN)
-		\"Crush\":
+		\"Chaos\":
 			$Label.add_color_override(\"font_color\", VIOLET)
-		\"dead\":
+		\"Physical\":
 			$Label.add_color_override(\"font_color\", PURPLE)
 		\"ice\":
 			$Label.add_color_override(\"font_color\", DBLUE)

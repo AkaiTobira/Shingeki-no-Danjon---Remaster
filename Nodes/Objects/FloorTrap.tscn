@@ -19,6 +19,7 @@ export var can_flip_h = false
 export var const_object = false 
 export(bool) var need_second_wall
 export(bool) var need_more_space
+export(bool) var walkable = true
 export var need_enemies_list =  false
 
 var last_frame = 0

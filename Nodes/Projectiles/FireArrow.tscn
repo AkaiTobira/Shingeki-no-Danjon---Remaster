@@ -47,7 +47,7 @@ func new_dir(dir):
 func _on_attack_hit(collider):
 	
 	if collider.get_parent().is_in_group(\"players\"):
-		collider.get_parent().damage(self ,damage, 0, \"Explosion\")
+		collider.get_parent().damage(self ,damage, 0, \"Fire\")
 		queue_free()
 
 	#if !collider.get_parent().is_in_group(\"enemies\"):

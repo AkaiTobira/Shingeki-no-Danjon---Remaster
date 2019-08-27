@@ -31,10 +31,12 @@ var triggered_skill
 var water_stream_hack = false
 var wind_spam_hack = false
 
+var active_damage_type = "Physical"
+
 var damaged
 var dead = false
 
-const DAMAGE_TYPE  = ["NoDamage", "Physical", "Explosion","Shock", "Crush"]
+const DAMAGE_TYPE  = ["NoDamage", "Earth", "Fire", "Water", "Wind", "Physical"]
 
 
 func _ready():
@@ -62,7 +64,7 @@ func _physics_process(delta):
 	if is_ghost:
 		is_ghost -= delta
 		GHOST_EFFECT.material.set_shader_param("noise_power", 0.002 + max(2 - is_ghost, 0) * 0.02)
-		if is_ghost <= 0 - PlayerStats.statistic["gh_dur"][0]: get_parent().cancel_ghost()
+		if is_ghost <= 0 - PlayerStats.statistic["ghost_duration"][0]: get_parent().cancel_ghost()
 	
 	static_time += delta
 	motion_time += delta
@@ -118,7 +120,7 @@ func _physics_process(delta):
 #	if Input.is_action_just_pressed("Spell1") and PlayerStats.get_skill(0) and PlayerStats.mana > PlayerStats.get_skill(0).cost:
 #		cast_spell(0)
 	
-	if PlayerStats.mana < PlayerStats.statistic["mx_man"][0] and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mn_reg"][0], PlayerStats.statistic["mx_man"][0])
+	if PlayerStats.mana < PlayerStats.statistic["max_mana"][0] and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mana_regeneration"][0], PlayerStats.statistic["max_mana"][0])
 #	if PlayerStats.hp   < PlayerStats.max_hp   and frame_counter % 20 == 0: PlayerStats.hp   = min(PlayerStats.hp + 1, PlayerStats.max_hp)
 
 	UI.soft_refresh()
@@ -127,7 +129,7 @@ func _physics_process(delta):
 
 	if SkillBase.has_skill("FastWalk") and SkillBase.check_combo(["Dir", "Same"]): running = true
 	if !not_move:
-		move = move.normalized() * ( SPEED +  PlayerStats.statistic["mv_spd"][0] )
+		move = move.normalized() * ( SPEED +  PlayerStats.statistic["move_speed"][0] )
 		if running and !not_move: move *= 2
 
 	if !elements_on:
@@ -231,22 +233,21 @@ func damage(attacker, amount, _knockback, type = "NoDamage"):
 	var defence = 0.0
 	
 	match(type):
+		"Earth":
+			defence = PlayerStats.statistic["earth_resistance"][0]
+		"Fire":
+			defence = PlayerStats.statistic["fire_resistance"][0]
+		"Water":
+			defence = PlayerStats.statistic["water_resistance"][0]
+		"Wind":
+			defence = PlayerStats.statistic["wind_resistance"][0]
 		"Physical":
-			defence = PlayerStats.statistic["ph_res"][0]
-		"Explosion":
-			defence = PlayerStats.statistic["ex_res"][0]
-		"Shock":
-			defence = PlayerStats.statistic["sh_res"][0]
-		"Crush":
-			defence = PlayerStats.statistic["cr_res"][0]
-	
-	
+			defence = PlayerStats.statistic["armour"][0]
+
 	damaged = 16
 	Res.play_pitched_sample(self, "PlayerHurt")
-	
-	amount = max(1, amount - defence/2 )
-	
-	var damage = amount
+
+	var damage = max(1, amount - defence/2 )
 	
 	if shielding : 
 		damage = amount - PlayerStats.shield_amout
@@ -303,13 +304,13 @@ func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("enemies"):
 		SkillBase.inc_stat("OneHanded")
 		SkillBase.inc_stat("Melee")
-		collider.get_parent().damage(PlayerStats.get_damage(),"player", "Physical")
+		collider.get_parent().damage(PlayerStats.get_damage(),"player",  active_damage_type)
 
 func change_dir(dir, force = false):
 	if !force and (direction == dir or !dead and (Input.is_action_pressed("Attack") or Input.is_action_pressed("Shield"))): return
 #	running = false
 	
-	$ArmAnimator.playback_speed = 16 *  PlayerStats.statistic["at_spd"][0]
+	$ArmAnimator.playback_speed = 16 *  PlayerStats.statistic["attack_speed"][0]
 
 	direction = dir
 	sprite_direction = ["Back", "Right", "Front", "Left"][dir]
@@ -470,7 +471,7 @@ func trigger_skill(skill = triggered_skill[0]):
 		projectile.direction = direction
 		projectile.intiated()
 		
-		projectile.damage = skill.damage + int(PlayerStats.statistic["mg_dmg"][0])
+		projectile.damage = skill.damage + int(PlayerStats.statistic["spell_power"][0])
 
 		#for stat in skill.scalling.keys():
 		#	projectile.damage += int(PlayerStats[level] * skill.scalling[stat])
@@ -493,7 +494,6 @@ func trigger_skill(skill = triggered_skill[0]):
 					if SkillBase.has_skill("WaterAffinityIII"): projectile.damage *= 1.5151
 					if SkillBase.has_skill("WaterAffinityIV"):  projectile.damage *= 1.20
 					if SkillBase.has_skill("WaterAffinityV"):   projectile.damage *= 1.25
-					print( projectile.damage )
 				_: pass
 
 		if skill.name == "Water Bubbles": water_stream_hack = 0.1

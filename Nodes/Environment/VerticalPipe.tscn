@@ -50,6 +50,7 @@ z_index = 1
 script = ExtResource( 1 )
 placement = 1
 can_flip_h = true
+walkable = true
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 playback_speed = 8.0

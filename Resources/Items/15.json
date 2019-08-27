@@ -5,11 +5,12 @@
 	"price": 50,
 	"durability": 50000,
 	"stats" : {	 	
-		"ph_res"  : 5,
-		"cr_res"  : 5,
-		"sh_res"  : 5,
-		"ex_res"  : 5,
-		"mv_spd"  : 34
+		"armour"    : 5,
+		"earth_resistance"  : 5,
+		"wind_resistance"  : 5,
+		"water_resistance"  : 5,
+		"fire_resistance"  : 5,
+		"move_speed"  : 34
 	 },
 
 	"material"  : [0,4]

@@ -6,10 +6,11 @@
 	"max_stack": 1,
     "price": 200,
     "stats" : {	 	
-		"ph_res"  : 22,
-		"cr_res"  : 30,
-		"sh_res"  : 12,
-        "ex_res"  : 19,
+        "armour"    : 15,
+		"earth_resistance"  : 22,
+		"wind_resistance"  : 30,
+		"water_resistance"  : 12,
+        "fire_resistance"  : 19,
         "block"   : 22
 	 },
     "material"  : [0,4],

@@ -27,7 +27,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 
 func _on_AtackCollider_area_entered(collider):
 	if collider.get_parent().is_in_group(\"players\"):
-		collider.get_parent().damage(self, 12, 0)
+		collider.get_parent().damage(self, 12, \"\", \"Fire\")
 "
 
 [sub_resource type="CircleShape2D" id=2]

@@ -52,18 +52,19 @@
 	
 		"floor" : {
 			"A" : ["Puncher","Grinder","Trochnalis","FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
-			"0" : ["Puncher","Grinder","Trochnalis"],
-			"1" : ["FLA-S", "FLA-B", "FLA-G"],
-			"2" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
-			"3" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
-			"4" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
+			"0" : ["Puncher","Grinder"],
+			"1" : ["Puncher","Grinder","Trochnalis"],
+			"2" : ["Puncher","FLA-S","Trochnalis"],
+			"3" : ["FLA-S", "FLA-B", "Trochnalis"],
+			"4" : ["FLA-S", "FLA-B", "FLA-G"],
 			"5" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
 			"6" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
-			"7" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"]
+			"7" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
+			"8" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"]
 		},
 		
 		"probs" : {
-			 "enemies"  : 20,
+			 "enemies"  : 20, 
 			 "traps"    : 100, 
 			 "breakable": 55,
 			 "const"    : 230,

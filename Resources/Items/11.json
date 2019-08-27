@@ -6,10 +6,11 @@
 	"price": 50,
 	"stats" : {	 	
 		"block"     : 4,
-		"ph_res"  : 20,
-		"cr_res"  : 10,
-		"sh_res"  : 10,
-		"ex_res"  : 10
+		"armour"    : 9,
+		"earth_resistance"  : 20,
+		"wind_resistance"  : 10,
+		"water_resistance"  : 10,
+		"fire_resistance"  : 10
 	 },
 	"durability": 30
 }

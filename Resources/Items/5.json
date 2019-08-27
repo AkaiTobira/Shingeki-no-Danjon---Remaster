@@ -5,7 +5,7 @@
 	"name": "Flamethrower Sword",
 	"description": "Sword enchanced with fire-generating robot parts. Absolutely insane!",
 	"price": 80,
-	"stats" : {	"ph_dmg": 15 },
+	"stats" : {	"physical_damage": 15 },
 	"durability": 18,
 	"material"  : [0,4],
 	"scaling"   : {"streng": 1}

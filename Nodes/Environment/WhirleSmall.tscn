@@ -33,6 +33,7 @@ scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
 placement = 5
 can_flip_h = true
+walkable = true
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "1"

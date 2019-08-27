@@ -30,7 +30,7 @@ func _on_attack_hit(collider):
 		Res.play_sample(self, \"EarthPunch\")
 		SkillBase.inc_stat(\"EarthMagic\")
 		SkillBase.inc_stat(\"Ranged\")
-		collider.get_parent().damage(damage)
+		collider.get_parent().damage(damage, \"\", \"Earth\")
 		queue_free()"
 
 [sub_resource type="Animation" id=2]

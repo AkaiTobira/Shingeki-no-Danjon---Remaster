@@ -6,7 +6,7 @@
 	"description": "A well-polished sword made of steel.",
 	"price": 20,
 	"durability": 40,
-	"stats" : {	"ph_dmg": 16 },
+	"stats" : {	"physical_damage": 16 },
 	"material"  : [0,4],
 	"scaling": {"streng": 1}
 }
