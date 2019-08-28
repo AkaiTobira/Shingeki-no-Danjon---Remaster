@@ -1,313 +1,272 @@
 extends "res://Scripts/BaseEnemy.gd"
 
-var dead = false
-var time_of_being_dead  = 0.0
-var time_of_using_skill = 0.0
-var in_special_state = false
-var status = ""
-var stacks_of_skill_block = 0
-const TIME_OF_BLOCK = 5.0
+const SKILL_NAME = ["Summon", "FireBomb", "Payback"]
 
-var points_of_tiredness = 150
+var active_skill = "Rest"
+var timer        = 0.0
+var tiredness    = 150
 
-const PAYBACK_DMG       = 75
-const PAYBACK_KNOCKBACK = 250
+var timers = {
+	"Payback" : 4,
+	"Dead"    : 10
+}
 
-var in_action          = false
-var BLOCK_PAYBACK      = false
-var SUMMON             = true
-var FIRE_BOMB          = true
-
-var block_payback_prob = 100
-var summon_prob        = 1000
-var fire_bomb_prob     = 250
-
-var max_hp = 1500
-
-
- 
-var damage = 0
-var knockback = 0
+var skills = {
+	"Payback" : {
+		"prob"      : 100,
+		"dmg"       : 75,
+		"knockback" : 250,
+		"is_ready"  : false,
+		"animation" : "ShieldBlockON",
+		"sample"    : "MechanicPaybackInitiate",
+		"stacks"    : 0,
+	},
+	"Summon" : {
+		"prob"      : 1000,
+		"dmg"       : 0,
+		"knockback" : 0,
+		"is_ready"  : false,
+		"animation" : "Idle",
+		"sample"    : "SummonStart"	
+	},
+	"FireBomb" : {
+		"prob"      : 250,
+		"dmg"       : 12,
+		"knockback" : 0,
+		"is_ready"  : false,
+		"animation" : "Idle",
+		"sample"    : "MechanicExplosionInitiate"
+	}
+}
 
 var follow = false
 
-var ar = 0.999
 var RShieldON = true
 var LShieldON = true
 
-#var MAT2 = load("res://Resources/Materials/ColorShader.tres")
-#var MAT_RED  = load("res://Resources/Materials/ColorShader.tres")
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
-#var summoned_monsters = 0
+var base_resists = [ 60, 60, 60, 60, 450 ]
 
 
 func _ready():
+	max_health = 1500
+	level      = PlayerStats.level
+	randomize_shields_resistances()
 	._ready()
-	#$"AnimationPlayer".play("Down")
-	.set_statistics(max_hp, 10000, 0.99)
-	#MAT.set_shader_param("ucolor", Color(0.1, 0.4, 1))
-	#MAT_RED .set_shader_param("ucolor", Color(0.8, 0.1, 0))
-	# Called every time the node is added to the scene.
-	# Initialization here
+	.set_resists_to_bar()
+
 	$"AttackCollider/Shape".disabled = true
 	
-	damage = 0
-	knockback = 0
-	
-	$Sprites.material = null
-	$"LeftShield/Sprite".material = null
+	$Sprites.material              = null
+	$"LeftShield/Sprite" .material = null
 	$"RightShield/Sprite".material = null
-	pass
 
-func check_probs():
-	if !BLOCK_PAYBACK:
-		if randi()%block_payback_prob == 0: BLOCK_PAYBACK = true
-	if !SUMMON :
-		if randi()%summon_prob        == 0: SUMMON        = true
-	if !FIRE_BOMB:
-		if randi()%fire_bomb_prob     == 0: FIRE_BOMB     = true
+func update_skills_probs():
+	for skill in SKILL_NAME:
+		if not skills[skill]["is_ready"]:
+			if randi() % skills[skill]["prob"] == 0 : skills[skill]["is_ready"] = true
 
-func _physics_process(delta):
-	#position += Vector2(0.0, 0.5)
-	
-	if dead:
-		time_of_being_dead += delta
-		if time_of_being_dead > 10.0:
-			call_deferred("queue_free")
-		return
-	
+func check_shields():
 	if RShieldON:
-		if $"RightShield".destroyed :
-			ar -= 0.125
-			.scale_stats_to( max_hp, ar )
+		if $"RightShield".destroyed : 
+			randomize_shields_resistances()
 			RShieldON = false
 	if LShieldON :
-		if $"LeftShield".destroyed :
-			ar -= 0.125
-			.scale_stats_to( max_hp , ar )
+		if $"LeftShield".destroyed  : 
+			randomize_shields_resistances()
 			LShieldON = false
+
+func is_dead(delta):
+	if active_skill == "Dead":
+		timer += delta
+		if timer > timers["Dead"]: call_deferred("queue_free")
+		return true
+	return false	
+
+func randomize_shields_resistances():
+	
+	if RShieldON: $RightShield.update_resists()
+	if LShieldON:  $LeftShield.update_resists()
+	
+	for index in range(len(resists)):
+		resists[index] = base_resists[index]
+		if RShieldON: resists[index] += $RightShield.resists[index]
+		if LShieldON: resists[index] +=  $LeftShield.resists[index]
+	
+	.set_resists_to_bar()
+
+func _physics_process(delta):
+
+	if is_dead(delta): return
+	check_shields()
 			
-			
-	if points_of_tiredness > 100:
-		in_action = true
+	if tiredness > 100:
+		active_skill = "Tired"
 		play_animation_if_not_playing("Tired")
-		turn_shields(false)
+		switch_playing_shields_animation(false)
 		return
 	
-	if !in_action and follow:
-		check_probs()
+	if active_skill == "Rest" and follow:
+		update_skills_probs()
 		
-		if SUMMON :
-			in_action = true
-			status  = "Summoning"
-			play_animation_if_not_playing("Idle")
-			in_special_state = true
-			SUMMON = false
-			
-			Res.play_sample(self, "SummonStart")
+		for skill in SKILL_NAME:
+			if skills[skill]["is_ready"]:
+				timer        = 0
+				active_skill = skill
+				play_animation_if_not_playing(skills[skill]["animation"])
+				skills[skill]["is_ready"] = false
+				Res.play_sample(self, skills[skill]["sample"])
+				activate_efects()
+				if skills[skill].has("stacks") : skills[skill]["stacks"] = 0
+				return
+
+	else : update_skills(delta)
+	
+func activate_efects():
+	match(active_skill):
+		"Payback" :
+			switch_playing_shields_animation(false)
+			switch_effects_visible(true)
+		"Summon"  :
 			$EfectsAnimator/EfectPlayer.play("Summon")
-			return 
-		
-		if FIRE_BOMB :
-			in_action = true
-			status  = "Fire"
-			play_animation_if_not_playing("Idle")
-			in_special_state = true
-			FIRE_BOMB = false
-			
-			
-			Res.play_sample(self, "MechanicExplosionInitiate")
+		"FireBomb":
 			$EfectsAnimator/EfectPlayer.play("FireProof")
-			return 
-		
-		if BLOCK_PAYBACK :
-			Res.play_sample(self, "MechanicPaybackInitiate")
-			in_action = true
-			status = "Payback"
-			play_animation_if_not_playing("ShieldBlockON")
-			
-			in_special_state = true
-			BLOCK_PAYBACK = false
-			turn_shields(false)
-			$EfectsAnimator/Payback.visible = true
-			$EfectsAnimator/Payback.frame = 0
-			return 
-			
 
-	elif in_special_state :
-		check_status(delta)
-		pass
-	
-	pass
-	
-func endAction():
-	in_action        = false
-	points_of_tiredness += 25
-	status = ""
-	in_special_state = false
-	
+func switch_effects_visible( turn ):
+	$EfectsAnimator/Payback.visible = turn
+	$EfectsAnimator/Payback.frame   = 0	
 
-func bombing():
-	var how_many = randi()%2 + 1
+func on_skill_end():
+	if active_skill == "Dead":return
+	skills[active_skill]["is_ready"] = false
+	active_skill = "Rest"
+	tiredness   +=   20
+
+func update_skills(delta):
+
+	match(active_skill):
+		"Payback":
+			timer += delta
+			if skills[active_skill]["stacks"] >= 3:
+				timer = 0
+				Res.play_sample(self, "MechanicPayback")
+				play_animation_if_not_playing("ShieldBlockPayback")
+				switch_shields_visible( false )
+				return
+			if timer > timers[active_skill]:
+				timer = 0 
+				play_animation_if_not_playing("ShieldBlockOFF")
+
+func set_firebombs():
+	var directionList = [ Vector2(100,100), Vector2(100, -100), Vector2(-90, 90 ), Vector2(-90, -90 ) ] 
+
+	var number_of_bombs = randi()%2 + 1
+	for a in range(number_of_bombs):
+		var instance = Res.get_node("Projectiles/FireBomb").instance()
+		Res.play_sample(instance, "MechanicExplosionMark")
+		get_parent().add_child(instance)
 	
-	var directionList = [ Vector2(100,100), Vector2(100, -100), Vector2(-90, 90 ), Vector2(-90, -90 ) ] 	
-	
-	for i in range(how_many):
-		var ug_inst = Res.get_node("Projectiles/FireBomb").instance()
-		Res.play_sample(ug_inst, "MechanicExplosionMark")
-		#ug_inst.position = position + Vector2( 1 * (randi()%50+100), 1 * (randi()%50+100))
-		get_parent().add_child(ug_inst)
-	
-func summoned():
-	Res.play_sample(self, "Summon")
-	var how_many = randi()%5 + 2
-	
+func summon():
 	var dis = 120
-	
-	var directionList = [ Vector2(dis+20, 0 ), Vector2(-dis-20,0), Vector2(0,dis+20), Vector2(0,-dis-20), Vector2(dis,dis), Vector2(dis, -dis), Vector2(-dis, dis ), Vector2(-dis, -dis ) ] 	
-	var freeDirerction = [ true,true,true,true,true, true, true, true ]
-	
-	
-	for i in range(how_many):
-		var ug_inst = preload("res://Nodes/Projectiles/Summon_Mob.tscn").instance()
+	var directionList = [ Vector2( dis +20,        0), 
+						  Vector2(-dis -20,        0), 
+						  Vector2(       0, dis + 20), 
+						  Vector2(       0,-dis - 20), 
+						  Vector2(     dis,      dis), 
+						  Vector2(     dis,     -dis), 
+						  Vector2(    -dis,      dis), 
+						  Vector2(    -dis,     -dis) ] 	
+	var freeDirection = [ true, true, true, true, true, true, true, true ]
 
-		var u = randi()%len(freeDirerction)
-		while( !freeDirerction[u] ):
-			u = randi()%len(freeDirerction)
-
-		ug_inst.position = position + directionList[u]
-		freeDirerction[u] = false
-		
-		get_parent().add_child(ug_inst)
+	Res.play_sample(self, "Summon")
+	var number_of_enemies = randi()%5 + 2	
+	for a in range(number_of_enemies):
+		var instance = preload("res://Nodes/Projectiles/Summon_Mob.tscn").instance()
+		var direction = randi() % len(freeDirection)
+		while( !freeDirection[direction] ): direction = randi()%len(freeDirection)
+		instance.position         = position + directionList[direction]
+		freeDirection[direction]  = false
+		get_parent().add_child(instance)
 	
-	
-func check_status(delta):
-	if "ayba" in status :
-		time_of_using_skill += delta
-		if stacks_of_skill_block >= 3 :
-			stacks_of_skill_block = 0
-			if damage != PAYBACK_DMG: Res.play_sample(self, "MechanicPayback")
-			play_animation_if_not_playing("ShieldBlockPayback")
-			damage = PAYBACK_DMG
-			knockback = PAYBACK_KNOCKBACK
-			
-			if RShieldON: $RightShield.visible = false
-			if LShieldON: $LeftShield.visible = false
-			
-			return
-		if time_of_using_skill > TIME_OF_BLOCK:
-			play_animation_if_not_playing("ShieldBlockOFF")
-			return
-		pass
-
-func play_animation_if_not_playing(anim, fb = false):
-	if $AnimationPlayer.current_animation != anim:
-		$"AnimationPlayer".play(anim)
-		
-	if fb:
-		$"AnimationPlayer".play_backwards(anim)
-
 func _on_animation_finished(anim_name):
 	#print(anim_name)
-	if "ShieldBlockOFF" in anim_name :
-		
-		time_of_using_skill   = 0.0
-		
-		in_action        = false
-		points_of_tiredness += 30
-		status = ""
-		in_special_state = false
-		
-		turn_shields(true)
-		
-		$EfectsAnimator/Payback.visible = false
-		$EfectsAnimator/Payback.frame = 0
-		
-		damage = 0
-		knockback = 0
-		
-		$"AnimationPlayer".play("Idle")
-	if "Payback" in anim_name:
-		play_animation_if_not_playing("ShieldBlockOFF")
-		status = ""
-		in_special_state = false
-		turn_shields(true)
-		
-		$EfectsAnimator/Payback.visible = false
-		$EfectsAnimator/Payback.frame = 0
-		
-		damage = PAYBACK_DMG
-		knockback = PAYBACK_KNOCKBACK
-		
-		if RShieldON:
-			$RightShield.visible = true
-			
-		if LShieldON:
-			$LeftShield.visible = true
-		
-		#play_animation_if_not_playing("ShieldBlockOff")
-	if "ShieldBlockON" in anim_name:
-		play_animation_if_not_playing("ShieldBlockHOLD")
-	if "Tired" in anim_name:
-		$"AnimationPlayer".play("Idle")
-		points_of_tiredness = 0
-		in_action = false
-		
-		turn_shields(true)
-		
-	if "Dead" in anim_name:
-		$AnimationPlayer.stop()
-	pass # replace with function body
+
+	match( anim_name ):
+		"ShieldBlockOFF" : 
+			timer        = 0.0
+			tiredness   += 30
+			active_skill = "Rest"
+			switch_playing_shields_animation(true)
+			switch_effects_visible(false)
+			play_animation_if_not_playing("Idle")
+		"ShieldBlockPayback":
+			active_skill = "Rest"
+			switch_playing_shields_animation(true)
+			switch_effects_visible(false)
+			switch_shields_visible(true )
+			play_animation_if_not_playing("ShieldBlockOFF")
+		"ShieldBlockON":
+			play_animation_if_not_playing("ShieldBlockHOLD")
+		"Tired":
+			randomize_shields_resistances()
+			tiredness = 0
+			active_skill = "Rest"
+			switch_playing_shields_animation(true)
+			play_animation_if_not_playing("Idle")
+		"Dead":
+			$AnimationPlayer.stop()
 
 
 func _on_animation_started(anim_name):
 	pass # replace with function body
-
 
 func _on_Radar_body_entered(body):
 	if body.name == "Player":
 		follow = true;
 	pass # replace with function body
 
-func turn_shields( play ):
-	
-	if play:
-		if RShieldON:
-			$RightShield/AnimationPlayer.play("Idle")	
-		if LShieldON:
-			$LeftShield/AnimationPlayer.play("Idle")
+func switch_shields_visible( flag ):
+	if flag:
+		if RShieldON: $RightShield.visible = true
+		if LShieldON: $LeftShield.visible  = true
 	else:
-		if RShieldON:
-			$RightShield/AnimationPlayer.stop()	
-		if LShieldON:
-			$LeftShield/AnimationPlayer.stop()
+		if RShieldON: $RightShield.visible = false
+		if LShieldON: $LeftShield.visible  = false
+
+func switch_playing_shields_animation( play ):
+	match(play):
+		true:
+			if RShieldON: $RightShield/AnimationPlayer.play("Idle")	
+			if LShieldON: $LeftShield/AnimationPlayer.play("Idle")
+		false:
+			if RShieldON: $RightShield/AnimationPlayer.stop()	
+			if LShieldON: $LeftShield/AnimationPlayer.stop()
 		
-
-
 func _on_dead():
-	dead = true
+	active_skill = "Dead"
 	play_animation_if_not_playing("Dead")
 	
 	$"Shape".call_deferred("queue_free")
 	$"DamageCollider/Shape".call_deferred("queue_free")
 	$"AttackCollider/Shape".call_deferred("queue_free")
 	$"EfectsAnimator".visible = false
-	if RShieldON:
-		$"RightShield".kill_shield() 
-	if LShieldON:
-		$"LeftShield".kill_shield() 
-	
 
+	if RShieldON: $"RightShield".kill_shield() 
+	if LShieldON: $"LeftShield".kill_shield() 
+	
 func _on_damage():
-	if "ayback" in status:
+	if "Payback" == active_skill :
 		Res.play_sample(self, "MechanicPaybackTrigger")
-		stacks_of_skill_block += 1
-		if stacks_of_skill_block < 4:
-			$EfectsAnimator/Payback.frame = stacks_of_skill_block
+		skills["Payback"]["stacks"] += 1
+		if skills["Payback"]["stacks"] < 4: $EfectsAnimator/Payback.frame = skills["Payback"]["stacks"]
 	else:
 		var fx = Res.create_instance("Effects/MetalHitFX")
 		fx.position = (position + Res.game.player.position)/2
 		get_parent().add_child(fx)
+
+
+func _on_payback_attack(collider):
+	if collider.get_parent().is_in_group("players"):
+		collider.get_parent().damage(self, 
+			skills["Payback"]["dmg"], 
+			skills["Payback"]["knockback"],
+			"Chaos" )

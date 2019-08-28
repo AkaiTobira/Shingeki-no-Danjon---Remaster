@@ -41,6 +41,7 @@ func generate():
 	empty_spots.append({"pos": start, "is_start": true})
 
 	while len(empty_spots) > 0:
+		print( " LG:: generate while" )
 #		#print( len(graph) )
 		empty_spots   = shuffleList(empty_spots)
 		var next_spot = empty_spots[0]

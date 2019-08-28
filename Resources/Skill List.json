@@ -52,7 +52,7 @@
 	"Tornado": [
 		{
 			"stat": "AirMagic",
-			"value": 50
+			"value": 22
 		}
 	],
 	"FireShield": [
@@ -100,7 +100,24 @@
 		}
 	],
 
-
+	"DualSpark":[
+		{
+			"stat": "FireMagic",
+			"value": 50
+		},
+		{
+			"stat": "WaterMagic",
+			"value": 50
+		},
+		{
+			"stat": "EarthMagic",
+			"value": 50
+		},
+		{
+			"stat": "AirMagic",
+			"value": 50
+		}
+	],
 	
 	"RockFist": [
 		{

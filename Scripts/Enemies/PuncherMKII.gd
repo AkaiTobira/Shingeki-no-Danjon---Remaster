@@ -1,5 +1,11 @@
 extends "res://Scripts/BaseEnemy.gd"
 
+
+#127
+#35
+#100
+
+
 func _ready():
 	._ready()
 

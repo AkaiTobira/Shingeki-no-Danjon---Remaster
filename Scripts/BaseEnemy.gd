@@ -75,16 +75,14 @@ func set_resists_to_bar():
 	health_bar.get_node("Level").text       = str(level + 1)
 
 	var resist_sum = 0 
-	var sorted = [ ]
+
 	for resist in range(len(resists)):
 		resist_sum += resists[resist] + resists_modif[resist]
-		sorted.append([ resists[resist] + resists_modif[resist], resist + 1 ])
 
 	if resist_sum <= 0 : return
 	
 	var max_value = 100
 	for value_index in range(len(resists)):
-		var values    = sorted[value_index]
 		var node      = health_bar.get_node("Resist" + str(value_index + 1) )
 		node.value    = max_value
 		max_value    -= int( (resists[value_index] + resists_modif[value_index]) * 100 /resist_sum)
@@ -133,10 +131,8 @@ func meansure_dead_timeout(delta):
 	if timeout_dead > TIME_TO_DISAPEARD: call_deferred("queue_free")
 
 func play_animation_if_not_playing(anim, fb = false):
-	if $AnimationPlayer.current_animation != anim:
-		$"AnimationPlayer".play(anim)
-	if fb:
-		$"AnimationPlayer".play_backwards(anim)
+	if $AnimationPlayer.current_animation != anim: $"AnimationPlayer".play(anim)
+	if fb: $"AnimationPlayer".play_backwards(anim)
 
 func _physics_process(delta):
 	timeout_bar -= 1
@@ -194,7 +190,9 @@ func is_close_enough():
 	
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("players"):
+		print("Get Collider")
 		if current_atack == "Wait" or current_atack == "Dead": return
+		
 		collider.get_parent().damage(self, 
 			damages[ABILITY_TYPE[current_atack]] + damages_modif[ABILITY_TYPE[current_atack]], 
 			knockbacks[ABILITY_TYPE[current_atack]],
@@ -352,12 +350,6 @@ func scale_stats_to( max_hp, ar ):
 	set_resists_to_bar()
 	max_health = max_hp
 
-
-func set_statistics(max_hp, given_exp, ar):
-	max_health = max_hp
-	health = max_hp
-	set_resists_to_bar()
-	experience = given_exp 
 	
 func damage(amount, source = "", type = ""):
 	if current_state == "Dead" : return
@@ -371,7 +363,7 @@ func damage(amount, source = "", type = ""):
 	set_resists_to_bar()
 	
 	if resists[DAMAGE_TYPE.find("Physical") - 1] == 0 and type == "Physical" : 
-		damage *= 1.5
+		damage *= 2
 
 	if randi()%100 < PlayerStats.statistic["critical_chance"][0]*100 and source == "player": 
 		damage += PlayerStats.statistic["critical_damage"][0]

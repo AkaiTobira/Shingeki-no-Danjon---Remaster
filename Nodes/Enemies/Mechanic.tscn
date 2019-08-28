@@ -32,43 +32,91 @@ var armour    = 0.8
 
 var time = 0.0
 var freeze = false
-var bar_timeout = 0
 var _dead = false
 
 onready var health_bar = $HealthBar2
+
+var resists = [ 0,0,0,0,0 ]
+
+func randomize_resists():
+	for i in range(len( resists )):
+		resists[i] = randi()% 20 + 10
+
+	resists[randi()%4] = 0 
+	resists[4] *= 2
+
+func update_resists():
+	randomize_resists()
+	var resist_sum = 0 
+	for resist in range(len(resists)):
+		resist_sum += resists[resist] 
+
+	if resist_sum <= 0 : return
+
+	var max_value = 100
+	for value_index in range(len(resists)):
+		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
+		node.value    = max_value
+		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		node.visible  = true
+		health_bar.move_child(node, 7)
+
+func set_resists_to_bar():
+	health_bar.get_node(\"Health\").max_value = max_hp
+	health_bar.get_node(\"Health\").value     = hp
+
+	var resist_sum = 0 
+	for resist in range(len(resists)):
+		resist_sum += resists[resist] 
+
+	if resist_sum <= 0 : return
+	
+	var max_value = 100
+	for value_index in range(len(resists)):
+		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
+		node.value    = max_value
+		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		node.visible  = true
+		health_bar.move_child(node, 7)
+
 
 func kill_shield():
 	hp = 0
 	_on_dead()
 
 func _ready():
-	health_bar.get_node(\"Health\").max_value = max_hp
-	health_bar.get_node(\"Health\").value = hp
+	randomize_resists()
+	set_resists_to_bar()
 	$AnimationPlayer.play(\"Idle\")
 	
 	$\"/root/Game\".perma_state(self, \"queue_free\")
 	$\"AnimationPlayer\".play(\"Idle\")
-	
-	pass
 
-func damage(amount, nothing = null, nothin2 = null):
-	if _dead: return
+const DAMAGE_TYPE  = [\"NoDamage\", \"Earth\", \"Fire\", \"Water\", \"Wind\", \"Physical\"]
+
+func damage(amount, source = null, type = null):
+	var damage = amount
+
+	var type_id = DAMAGE_TYPE.find(type) - 1
+	damage = max( 1, int(amount -( resists[type_id] )/2))
+
+	resists[DAMAGE_TYPE.find(\"Physical\") - 1] = max( resists[DAMAGE_TYPE.find(\"Physical\")-1] - damage, 0 )
+	set_resists_to_bar()
 	
-	var damage = max(1, int(amount * (1-armour)))
-	Res.create_instance(\"DamageNumber\").damage(self, damage)
+	if resists[DAMAGE_TYPE.find(\"Physical\") - 1] == 0 and type == \"Physical\" : 
+		damage *= 2
+
+	if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 
+		damage += PlayerStats.statistic[\"critical_damage\"][0]
+		type = \"crit\"
+	Res.create_instance(\"DamageNumber\").damage(self, damage, type)
+
 	hp -= damage
-	
-	health_bar.visible = true
-	health_bar.get_node(\"Health\").value = hp
-	bar_timeout = 180
-	
 	if hp <= 0:
 		$\"/root/Game\".save_state(self)
 		_dead = true
 		health_bar.visible = false
-		
 		_on_dead()
-		
 	else:
 		_on_damage()
 	
@@ -89,10 +137,7 @@ func _on_dead():
 	
 
 func _process(delta):
-	bar_timeout -= 1
-	if bar_timeout == 0: health_bar.visible = false
-	
-	
+
 	if destroyed:
 		#play_animation_if_not_playing(\"Dead\")
 		time+=delta
@@ -195,43 +240,94 @@ var armour    = 0.8
 
 var time = 0.0
 var freeze = false
-var bar_timeout = 0
 var _dead = false
 
 onready var health_bar = $HealthBar2
+
+var resists = [ 0,0,0,0,0 ]
+
+func randomize_resists():
+	for i in range(len( resists )):
+		resists[i] = randi()% 20 + 10
+
+	resists[randi()%4] = 0 
+	resists[4] *= 2
+
+
+func update_resists():
+	randomize_resists()
+	var resist_sum = 0 
+	for resist in range(len(resists)):
+		resist_sum += resists[resist] 
+
+	if resist_sum <= 0 : return
+
+	var max_value = 100
+	for value_index in range(len(resists)):
+		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
+		node.value    = max_value
+		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		node.visible  = true
+		health_bar.move_child(node, 7)
+
+func set_resists_to_bar():
+	health_bar.get_node(\"Health\").max_value = max_hp
+	health_bar.get_node(\"Health\").value     = hp
+
+	var resist_sum = 0 
+	for resist in range(len(resists)):
+		resist_sum += resists[resist] 
+
+	if resist_sum <= 0 : return
+	
+	print( resist_sum , \" \", resists )
+	
+	var max_value = 100
+	for value_index in range(len(resists)):
+		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
+		node.value    = max_value
+		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		node.visible  = true
+		health_bar.move_child(node, 7)
+
 
 func kill_shield():
 	hp = 0
 	_on_dead()
 
 func _ready():
-	health_bar.get_node(\"Health\").max_value = max_hp
-	health_bar.get_node(\"Health\").value = hp
+	randomize_resists()
+	set_resists_to_bar()
 	$AnimationPlayer.play(\"Idle\")
 	
 	$\"/root/Game\".perma_state(self, \"queue_free\")
 	$\"AnimationPlayer\".play(\"Idle\")
-	
-	pass
 
-func damage(amount, nothing = null, nothin2 = null):
-	if _dead: return
+const DAMAGE_TYPE  = [\"NoDamage\", \"Earth\", \"Fire\", \"Water\", \"Wind\", \"Physical\"]
+
+func damage(amount, source = null, type = null):
+	var damage = amount
+
+	var type_id = DAMAGE_TYPE.find(type) - 1
+	damage = max( 1, int(amount -( resists[type_id] )/2))
+
+	resists[DAMAGE_TYPE.find(\"Physical\") - 1] = max( resists[DAMAGE_TYPE.find(\"Physical\")-1] - damage, 0 )
+	set_resists_to_bar()
 	
-	var damage = max(1, int(amount * (1-armour)))
-	Res.create_instance(\"DamageNumber\").damage(self, damage)
+	if resists[DAMAGE_TYPE.find(\"Physical\") - 1] == 0 and type == \"Physical\" : 
+		damage *= 2
+
+	if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 
+		damage += PlayerStats.statistic[\"critical_damage\"][0]
+		type = \"crit\"
+	Res.create_instance(\"DamageNumber\").damage(self, damage, type)
+
 	hp -= damage
-	
-	health_bar.visible = true
-	health_bar.get_node(\"Health\").value = hp
-	bar_timeout = 180
-	
 	if hp <= 0:
 		$\"/root/Game\".save_state(self)
 		_dead = true
 		health_bar.visible = false
-		
 		_on_dead()
-		
 	else:
 		_on_damage()
 	
@@ -252,10 +348,7 @@ func _on_dead():
 	
 
 func _process(delta):
-	bar_timeout -= 1
-	if bar_timeout == 0: health_bar.visible = false
-	
-	
+
 	if destroyed:
 		#play_animation_if_not_playing(\"Dead\")
 		time+=delta
@@ -461,7 +554,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=19]
 length = 2.0
-step = 1.0
+step = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprites/2:frame")
 tracks/0/interp = 1
@@ -481,10 +574,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 2 ),
+"times": PoolRealArray( 0, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=20]
@@ -542,19 +635,19 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
-"method": "bombing"
+"method": "set_firebombs"
 }, {
 "args": [  ],
-"method": "bombing"
+"method": "set_firebombs"
 }, {
 "args": [  ],
-"method": "bombing"
+"method": "set_firebombs"
 }, {
 "args": [  ],
-"method": "bombing"
+"method": "set_firebombs"
 }, {
 "args": [  ],
-"method": "endAction"
+"method": "on_skill_end"
 } ]
 }
 
@@ -596,10 +689,10 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
-"method": "summoned"
+"method": "summon"
 }, {
 "args": [  ],
-"method": "endAction"
+"method": "on_skill_end"
 } ]
 }
 
@@ -667,7 +760,6 @@ scale = Vector2( 1.18542, 3.59853 )
 shape = SubResource( 3 )
 
 [node name="AttackCollider" type="Area2D" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 5.02616, -21.725 )
 scale = Vector2( 1.08223, 1.51097 )
@@ -687,6 +779,7 @@ texture = ExtResource( 6 )
 [node name="RightShield" type="KinematicBody2D" parent="." groups=[
 "enemies",
 ]]
+editor/display_folded = true
 position = Vector2( 108, -12 )
 script = SubResource( 5 )
 
@@ -697,6 +790,7 @@ shape = SubResource( 6 )
 
 [node name="HealthBar2" parent="RightShield" instance=ExtResource( 5 )]
 position = Vector2( -40.9758, -79.4842 )
+rotation = 18.8496
 
 [node name="DamageCollider" type="Area2D" parent="RightShield"]
 position = Vector2( -2.01085, 38.399 )
@@ -724,6 +818,7 @@ anims/Idle = SubResource( 8 )
 [node name="LeftShield" type="KinematicBody2D" parent="." groups=[
 "enemies",
 ]]
+editor/display_folded = true
 position = Vector2( -8.00083, -11.3334 )
 script = SubResource( 9 )
 
@@ -774,7 +869,8 @@ anims/Tired = SubResource( 20 )
 
 [node name="Payback" type="Sprite" parent="EfectsAnimator"]
 visible = false
-position = Vector2( -1.80503, -119.437 )
+position = Vector2( -1.80503, -154.77 )
+z_index = 1
 texture = ExtResource( 8 )
 hframes = 4
 
@@ -798,9 +894,9 @@ position = Vector2( 0, -109.333 )
 scale = Vector2( 1, 0.5 )
 texture = ExtResource( 10 )
 hframes = 10
-frame = 9
+frame = 8
 [connection signal="body_entered" from="Radar" to="." method="_on_Radar_body_entered"]
-[connection signal="area_entered" from="AttackCollider" to="." method="_on_attack_hit"]
+[connection signal="area_entered" from="AttackCollider" to="." method="_on_payback_attack"]
 [connection signal="animation_finished" from="RightShield/AnimationPlayer" to="RightShield" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="LeftShield/AnimationPlayer" to="LeftShield" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

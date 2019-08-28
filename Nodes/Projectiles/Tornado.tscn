@@ -9,24 +9,41 @@ script/source = "extends KinematicBody2D
 const MOVEMENT = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 const SPEED = 5
 
+
+var list_of_collided = []
+
 var direction = 0
 var damage = 0
 
 var sound
 
+func remove_from_list():
+	for collider in list_of_collided:
+		if collider[1] > 1 : list_of_collided.erase(collider)
+
+func update_list(delta):
+	for collider in list_of_collided:
+		collider[1] += delta
+	remove_from_list()
+
 func intiated():
 	sound = Res.play_sample(self, \"Tornado\")
 
 func _physics_process(delta):
+	update_list(delta)
 	if move_and_collide(MOVEMENT[direction] * SPEED):
 		queue_free()
 		if sound.get_ref(): sound.get_ref().queue_free()
 
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group(\"enemies\"):
+		print( collider )
+		for collided in list_of_collided:
+			if collided[0] == collider : return 
 		SkillBase.inc_stat(\"AirMagic\")
 		SkillBase.inc_stat(\"Ranged\")
 		collider.get_parent().damage(damage, \"\", \"Wind\")
+		list_of_collided.append([collider, 0])
 
 func _on_Animation_animation_finished(anim_name):
 	if anim_name == \"Start\": $Animation.play(\"Idle\")"

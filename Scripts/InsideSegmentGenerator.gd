@@ -215,6 +215,7 @@ func generate(dungeon, current_level = 0):
 	initialize_generation(dungeon, current_level)
 	generate_objects()
 	while !is_correct():
+		print( " ISG:: not correct while" )
 		reset()
 		generate_objects()
 	generate_enemies()
@@ -293,6 +294,7 @@ func is_correct():
 	var checked       = []
 
 	while( len(queue) > 0 ):
+		print( " ISG:: inside is_correct" )
 		var position = queue.pop_front()
 		if position in enters: enters_number += 1
 		if position in accesNeed: acces_need += 1

@@ -24,7 +24,7 @@ func intiated():
 
 func _physics_process(delta):
 	time += delta*10
-	if move_and_collide(MOVEMENT[direction] * SPEED + MOVEMENT[direction].rotated(PI/2) * cos(time + phase) * 10):
+	if move_and_collide(MOVEMENT[direction] * SPEED + MOVEMENT[direction].rotated(PI/2) * cos(time + phase) * 5):
 		queue_free()
 
 func new_dir(dir):

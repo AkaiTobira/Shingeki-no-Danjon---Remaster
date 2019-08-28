@@ -59,6 +59,7 @@ size = 20
 font_data = ExtResource( 2 )
 
 [node name="DamageNumber" type="Node2D"]
+scale = Vector2( 1.1, 1.1 )
 z_index = 5
 script = SubResource( 1 )
 
