@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Fast Walk II",
+	"description": "Allows you to travel much more move faster.",
+	"infos": ["Increase moveSpeed during FastWalk by 300%"]
+}

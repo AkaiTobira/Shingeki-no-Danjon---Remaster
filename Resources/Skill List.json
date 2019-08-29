@@ -1,11 +1,18 @@
 {	
-	"FastWalk": [
+	"FastWalkI": [
 		{
 			"stat": "PixelsTravelled",
 			"value": 100000
 		}
 	],
 	
+	"FastWalkII": [
+		{
+			"stat": "PixelsTravelled",
+			"value": 10000000
+		}
+	],
+
 	"FireAffinityI": [
 		{
 			"stat": "FireMagic",

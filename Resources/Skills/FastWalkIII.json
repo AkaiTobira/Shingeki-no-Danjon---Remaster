@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Fast Walk III",
+	"description": "DEBUG RUN",
+	"infos": ["Increase moveSpeed during FastWalk by 800%"]
+}

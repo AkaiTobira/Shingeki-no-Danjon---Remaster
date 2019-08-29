@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-const SPEED = 320
+const SPEED = 220
 const MEDITATION_TIME = 3
 var GHOST = load("res://Nodes/Player.tscn")
 
@@ -127,10 +127,13 @@ func _physics_process(delta):
 	
 	if move.length_squared() == 0: running = false
 
-	if SkillBase.has_skill("FastWalk") and SkillBase.check_combo(["Dir", "Same"]): running = true
+	if SkillBase.has_skill("FastWalkI") and SkillBase.check_combo(["Dir", "Same"]): running = true
 	if !not_move:
 		move = move.normalized() * ( SPEED +  PlayerStats.statistic["move_speed"][0] )
-		if running and !not_move: move *= 2
+		if running and !not_move: 
+			if   SkillBase.has_skill("FastWalkII") : move *= 1.55 
+			elif SkillBase.has_skill("FastWalkIII"): move *= 3 #DEBBUG
+			else : move *= 1.30
 
 	if !elements_on:
 		if Input.is_action_just_pressed("Magic"):#SkillBase.check_combo(["Magic", "Magic_"]):
