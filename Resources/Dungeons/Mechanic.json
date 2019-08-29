@@ -51,14 +51,14 @@
 		        ],
 	
 		"floor" : {
-			"A" : ["Puncher","Grinder","Trochnalis","FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
-			"0" : ["Puncher","Grinder"],
-			"1" : ["Puncher","Grinder","Trochnalis"],
-			"2" : ["Puncher","FLA-S","Trochnalis"],
-			"3" : ["FLA-S", "FLA-B", "Trochnalis"],
-			"4" : ["FLA-S", "FLA-B", "FLA-G"],
-			"5" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
-			"6" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
+			"A" : ["Puncher","Grinder30B","Trochnalis","Grinder31G", "FLA-S", "FLA-B", "Grinder34R", "FLA-G", "PuncherMKII"],
+			"0" : ["Puncher","Grinder30B"],
+			"1" : ["Puncher","Grinder30B","Trochnalis"],
+			"2" : ["Puncher","FLA-S","Grinder31G","Trochnalis"],
+			"3" : ["FLA-S", "FLA-B","Grinder31G", "Trochnalis"],
+			"4" : ["FLA-S", "FLA-B", "FLA-G", "Grinder34R"],
+			"5" : ["FLA-S", "FLA-B", "FLA-G", "Grinder34R", "PuncherMKII"],
+			"6" : ["FLA-S", "FLA-B", "FLA-G", "Grinder34R", "PuncherMKII"],
 			"7" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"],
 			"8" : ["FLA-S", "FLA-B", "FLA-G", "PuncherMKII"]
 		},

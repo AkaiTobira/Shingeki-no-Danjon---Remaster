@@ -54,7 +54,7 @@ func generate():
 
 func _get_not_deadend_segments():
 	var segments = []
-	for segment in segment_list:
+	for segment in Res.segments.values():
 		if not segment["is_deadend"]: segments.append( [ segment, [0,0] ])
 	return segments
 
@@ -62,7 +62,7 @@ func _get_posible_segments( spot):
 	if spot["is_start"]: return _get_not_deadend_segments()
 
 	var segments = []
-	for segment in segment_list:
+	for segment in Res.segments.values():
 		if require_size <= len(graph) and not segment["is_deadend"]: continue
 		if min_size	 >= len(graph) and segment["is_deadend"] : continue
 		var positions = _get_matching_pos( segment, spot["dir"] )
@@ -74,7 +74,7 @@ func _get_posible_segments( spot):
 	return segments
 
 func _get_matching_segment( spot ):
-	for segment in segment_list:
+	for segment in Res.segments.values():
 		var positions = _get_matching_pos( segment, spot["dir"] )
 		for position in positions:
 			if can_fit_by_neighbours(segment, spot, position) and can_fit_by_size(segment["shape"], spot, position):
@@ -161,7 +161,6 @@ func _lock_segment(    segment, spot, seg_shift):
 			graph[ neigh ][ "neighbours" ].append( len(graph)-1 )
 			graph[ len(graph)-1 ]["neighbours"] +=  spot["neighbours"]
 
-
 	for place in segment["shape"].keys():
 		var p = place.split(",")
 		var str_place = str(LU_corner[0]+int(p[0])) + "," + str(LU_corner[1]+int(p[1]))
@@ -226,172 +225,3 @@ func print_locked():
 		s+="\n"
 	#print( s )
 #	dump.write(s)
-
-var segment_list = [
-		{ #C1x1H
-			"name"       : "Corridor1x1H",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "LR"
-			}
-		},
-		{ #C1x1V
-			"name"       : "Corridor1x1V",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "UD"
-			}
-		},
-		{ #C1x1VCraft
-			"name"       : "Corridor1x1VCrafting",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "UD"
-			}
-		},
-		{ #C1x2VSmash
-			"name" : "Corridor1x2Smash",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "U",
-				"0,1" : "D"
-			}       
-		},
-		{ #C3x1VGhost
-			"name" : "Corridor3x1Ghost",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,2" : "U",
-				"0,0" : "D",
-				"0,1" : ""
-			}       
-		},
-		{ #C1x1DL
-		"name" : "Curve1x1DL",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "DL"
-			}
-		},
-		{ #C1x1DR
-		"name" : "Curve1x1DR",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "DR"
-			}
-		},
-		{ #C1x1UL
-		"name" : "Curve1x1UL",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "UL"
-			}
-		},
-		{ #C1x1UR
-		"name" : "Curve1x1UR",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "UR"
-			}
-		},
-
-		{ #C2x2UL
-		"name" : "Curve2x2UL",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "U",
-				"1,0" : "",
-				"0,1" : "L",
-				"1,1" : "",
-			}
-		},
-		{ #D1x1D
-		"name" : "DeadEnd1x1D",
-			"is_deadend" : true,
-			"shape"      : {
-				"0,0" : "D"
-			}
-		},
-		{ #D1x1U
-		"name" : "DeadEnd1x1L",
-			"is_deadend" : true,
-			"shape"      : {
-				"0,0" : "R"
-			}
-		},
-		{ #D1x1R
-		"name" : "DeadEnd1x1R",
-			"is_deadend" : true,
-			"shape"      : {
-				"0,0" : "L"
-			}
-		},
-		{ #D1x1L
-		"name" : "DeadEnd1x1U",
-			"is_deadend" : true,
-			"shape"      : {
-				"0,0" : "U"
-			}
-		},
-		{ #D2x2D
-		"name" : "DeadEnd2x2D",
-			"is_deadend" : true,
-			"shape"      : {
-				"0,0" : "U",
-				"1,0" : "",
-				"0,1" : "",
-				"1,1" : "",
-			}
-		},
-		{ #J1x1DLUR
-		"name" : "Junction1x1",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "DLRU"
-			}
-		},
-		{ #J1x1HD
-		"name" : "Junction1x1HD",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "RLD"
-			}
-		},
-		{ #J1x1HU
-		"name" : "Junction1x1HU",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "URL"
-			}
-		},
-		{ #J1x1VL
-		"name" : "Junction1x1VL",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "DLU"
-			}
-		},
-		{ #J1x1VR
-		"name" : "Junction1x1VR",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "DRU"
-			}
-		},
-		{ #D2x1LSecret
-		"name" : "Secret2x1L",
-			"is_deadend" : true,
-			"shape"      : {
-				"1,0" : "R",
-				"0,0" : ""
-			}
-		},
-		{ #T2x1UU
-		"name" : "Turn2x1U",
-			"is_deadend" : false,
-			"shape"      : {
-				"0,0" : "D",
-				"1,0" : "D"
-			}
-		}
-	]

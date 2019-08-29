@@ -1,8 +1,10 @@
 {
-	"width": 2,
-	"height": 2,
-	"ways0": [true, false],
-	"ways1": [false, false],
-	"ways2": [false, false],
-	"ways3": [false, true]
+	"name" : "Curve2x2UL",
+		"is_deadend" : false,
+		"shape"      : {
+			"0,0" : "U",
+			"1,0" : "",
+			"0,1" : "L",
+			"1,1" : ""
+		}
 }

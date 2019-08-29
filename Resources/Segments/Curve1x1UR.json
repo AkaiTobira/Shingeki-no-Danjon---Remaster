@@ -1,8 +1,7 @@
-{
-	"width": 1,
-	"height": 1,
-	"ways0": [true],
-	"ways1": [true],
-	"ways2": [false],
-	"ways3": [false]
+{ 
+	"name" : "Curve1x1UR",
+		"is_deadend" : false,
+		"shape"      : {
+			"0,0" : "UR"
+		}
 }

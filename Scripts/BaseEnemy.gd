@@ -28,6 +28,7 @@ var personal_space = 40
 var enemy_name = ""
 var level      = 0
 var last_atack_type = 0
+var dungeon_name  = ""
 
 var music 
 var drops 
@@ -37,30 +38,35 @@ var my_id           = -1
 var direction       = "Down"
 
 func initialize(id, dung_name, kind):
+	dungeon_name = dung_name
 	enemy_name = kind
 	my_id      = id
 	level      = max(PlayerStats.level + randi()%6 - 3, 0)
 
-	max_health     = Res.enemies[dung_name][kind]["HP"     ]
-	health         = Res.enemies[dung_name][kind]["HP"     ] 
-	movespeed      = Res.enemies[dung_name][kind]["Speed"  ]
-	experience     = Res.enemies[dung_name][kind]["Exp"    ] 
-	personal_space = Res.enemies[dung_name][kind]["Range"  ]
-	music          = Res.enemies[dung_name][kind]["Music"  ]
-	resists        = [] +Res.enemies[dung_name][kind]["Resists"]
-	drops          = Res.enemies[dung_name][kind]["Drops"  ]
+	var enemy_info = Res.enemies[dung_name][kind]
+
+	max_health     = enemy_info["HP"   ]
+	health         = enemy_info["HP"   ] 
+	movespeed      = enemy_info["Speed"]
+	experience     = enemy_info["Exp"  ] 
+	personal_space = enemy_info["Range"]
+	music          = enemy_info["Music"]
+	resists        = [] + enemy_info["Resists"]
+	drops          = enemy_info["Drops"]
 	
 	for abillity in ABILITY_TYPE.keys():
-		can_use_ability.append(bool(Res.enemies[dung_name][kind][abillity][0]))
-		damages[ABILITY_TYPE[str(abillity)] ]       = Res.enemies[dung_name][kind][str(abillity)][1]
-		knockbacks[ABILITY_TYPE[str(abillity)] ]    = Res.enemies[dung_name][kind][str(abillity)][2]
-		ability_probs[ABILITY_TYPE[str(abillity)] ] = int(Res.enemies[dung_name][kind][str(abillity)][3])
-		damage_type[ABILITY_TYPE[str(abillity)] ]   = DAMAGE_TYPE[Res.enemies[dung_name][kind][str(abillity)][4]]
+		var ability_info = enemy_info[abillity]
+		can_use_ability.append(bool(ability_info[0]))
+		var ability_type = ABILITY_TYPE[str(abillity)]
+		damages      [ability_type] = ability_info[1]
+		knockbacks   [ability_type] = ability_info[2]
+		ability_probs[ability_type] = int(ability_info[3])
+		damage_type  [ability_type] = DAMAGE_TYPE[ability_info[4]]
 
 	scale_enemy_level()
 
 func scale_enemy_level():
-	var level_scale = 1.0 + level/10.0
+	var level_scale = 1.0 + level/5.0
 
 	max_health     *=  level_scale
 	health         *=  level_scale
@@ -88,6 +94,7 @@ func set_resists_to_bar():
 		max_value    -= int( (resists[value_index] + resists_modif[value_index]) * 100 /resist_sum)
 		node.visible  = true
 		health_bar.move_child(node, 7)
+
 
 
 var timeout_bar   = 0.0
@@ -118,12 +125,11 @@ func select_shader(shader_color):
 
 func prepeare_ability():
 	for abillity in ABILITY_TYPE.keys():
-		
-		if !ability_ready[ABILITY_TYPE[str(abillity)] ] and can_use_ability[ABILITY_TYPE[str(abillity)]]:  
-			ability_ready[ABILITY_TYPE[str(abillity)] ]  = (
-				randi()%(
-					ability_probs[ABILITY_TYPE[str(abillity)]] + 
-					ab_prob_modif[ABILITY_TYPE[str(abillity)]]) == 0)
+		var ability_type = ABILITY_TYPE[str(abillity)]
+		if !ability_ready[ability_type] and can_use_ability[ability_type]:  
+			ability_ready[ability_type]  = (
+				randi()%( ability_probs[ability_type] + ab_prob_modif[ability_type] ) == 0
+				)
 
 func meansure_dead_timeout(delta):
 	if timeout_dead == 0 : create_drop()
@@ -221,26 +227,16 @@ func move_along_path(distance):
 
 
 func find_path():
-	
 	var player_position  = Vector2(int(player.position.x/80),int(player.position.y/80))
 	var current_posiiton = Vector2(int(position.x/80),int(position.y/80)) 
-	
-	var distance = abs(player_position.x - current_posiiton.x ) + abs(player_position.y - current_posiiton.y) 
+	var distance         = abs(player_position.x - current_posiiton.x ) + abs(player_position.y - current_posiiton.y) 
 
-	#print( distance )
 	if distance >= len(path) - 1:
-		
-	#if path_length * 0.6 >= len(path) or len(path) == 1:
-#		path_length =  len(path)
 		path = Map.nav.get_point_path(
 			Map.nav.get_closest_point(Vector3(position.x,position.y,0)),
 			Map.nav.get_closest_point(Vector3(player.position.x,player.position.y,0))
 			)
-		path.remove(0)
-	#	print( position, path )
-	#if len(path) != 0 : path.remove(0)
-
-
+		if len(path) > 0: path.remove(0)
 
 func  _move5(delta):
 	find_path()
@@ -248,7 +244,7 @@ func  _move5(delta):
 	move_along_path(movespeed*delta)
 
 		#TO REFACTOR And Update
-	var move = Vector2(sign(player.position.x - position.x), sign(player.position.y - position.y))
+	var move     = Vector2(sign(player.position.x - position.x), sign(player.position.y - position.y))
 	var distance = (position - player.position ).abs()
 	#var axis     = Vector2( distance.x >= personal_space, distance.y >= personal_space )
 	
@@ -259,7 +255,6 @@ func  _move5(delta):
 		if abs(move.y) != 0: 
 			direction         = "Up"    if move.y > 0 else "Down"
 	play_animation_if_not_playing(direction)
-
 
 func _on_damage():
 	player = Res.game.player
@@ -281,7 +276,6 @@ func _on_animation_finished(anim_name):
 	if "Punch" in anim_name:
 		current_atack = "Wait"
 		block_logic = false
-
 
 func _player_run_away():
 	if position.distance_to(player.position) > 700:
@@ -341,40 +335,27 @@ func _ready():
 	set_resists_to_bar()
 	$"/root/Game".perma_state(self, "queue_free")
 	$"AnimationPlayer".play("Idle")
-	enable_collisions()
-
-
-func scale_stats_to( max_hp, ar ):
-	var t = float(health)/float(max_health)
-	health = t*max_hp
-	set_resists_to_bar()
-	max_health = max_hp
-
+#	enable_collisions()
 	
 func damage(amount, source = "", type = ""):
 	if current_state == "Dead" : return
 	
-	var damage = amount
-
 	var type_id = DAMAGE_TYPE.find(type) - 1
-	damage = max( 1, int(amount -( resists[type_id] + resists_modif[type_id])/2))
+	var damage  = max( 1, int(amount -( resists[type_id] + resists_modif[type_id])/2))
 
 	resists[DAMAGE_TYPE.find("Physical") - 1] = max( resists[DAMAGE_TYPE.find("Physical")-1] - damage, 0 )
+	if resists[DAMAGE_TYPE.find("Physical") - 1] == 0 and type == "Physical" : damage *= 2
 	set_resists_to_bar()
-	
-	if resists[DAMAGE_TYPE.find("Physical") - 1] == 0 and type == "Physical" : 
-		damage *= 2
 
 	if randi()%100 < PlayerStats.statistic["critical_chance"][0]*100 and source == "player": 
 		damage += PlayerStats.statistic["critical_damage"][0]
-		type = "crit"
+		type    = "crit"
+
 	Res.create_instance("DamageNumber").damage(self, damage, type)
 
-	health -= damage
-
-	health_bar.visible = true
+	health                             -= damage
+	health_bar.visible                  = true
 	health_bar.get_node("Health").value = health
-	timeout_bar = 180
 	
 	if health <= 0:
 		$"/root/Game".save_state(self)
@@ -402,28 +383,29 @@ func get_drop_id():
 const MAX_NUMBER_OF_DROPS = 4
 func create_drop():
 
+	var drop = get_drop_id()
+
 	for i in range( MAX_NUMBER_OF_DROPS ):
-		var drop = get_drop_id()
-	
-		if drop > -1:
-			var stack = 1 
-			stack += 1 if randi() % 30  < 15 else 0 
-			stack += 1 if randi() % 60  < 20 else 0  
-			stack += 1 if randi() % 90  < 25 else 0 
-			stack += 1 if randi() % 120 < 30 else 0 
-			
-			var item      = Res.create_instance("Item")
-			item.set_stack(stack)
-			item.position = position + (Vector2( randf() * -1 if randi()%2 == 0 else 1, 
-												 randf() * -1 if randi()%2 == 0 else 1 
-												).normalized() * 40 )
-			item.id       = drop
-			get_parent().add_child(item)
-		elif randi() % 1000 < 300:
+		if randi() % 1000 < 250:
 			var stack     = randi()%121 + 1
 			var item      = Res.create_instance("Money")
 			item.set_stack(stack)
 			item.position = position + (Vector2( randf() * -1 if randi()%2 == 0 else 1, 
 												 randf() * -1 if randi()%2 == 0 else 1 
 												).normalized() * 40 )
+			get_parent().add_child(item)
+		elif drop > -1:
+			var stack = 1 
+			stack += 1 if randi() % 30  < 15 else 0 
+			stack += 1 if randi() % 60  < 20 else 0  
+			stack += 1 if randi() % 90  < 25 else 0 
+			stack += 1 if randi() % 120 < 30 else 0 
+				
+			var item      = Res.create_instance("Item")
+			item.id       = drop
+			item.set_stack(stack)
+			item.position = position + (Vector2( randf() * -1 if randi()%2 == 0 else 1, 
+												 randf() * -1 if randi()%2 == 0 else 1 
+												).normalized() * 40 )
+
 			get_parent().add_child(item)

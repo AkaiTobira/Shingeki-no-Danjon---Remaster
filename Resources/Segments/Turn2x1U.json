@@ -1,8 +1,8 @@
 {
-	"width": 2,
-	"height": 1,
-	"ways0": [false, false],
-	"ways1": [false],
-	"ways2": [true, true],
-	"ways3": [false]
+	"name" : "Turn2x1U",
+		"is_deadend" : false,
+		"shape"      : {
+			"0,0" : "D",
+			"1,0" : "D"
+		}
 }

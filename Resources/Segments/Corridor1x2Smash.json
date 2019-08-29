@@ -1,9 +1,8 @@
 {
-	"width": 1,
-	"height": 2,
-	"ways0": [true],
-	"ways1": [false, false],
-	"ways2": [true],
-	"ways3": [false, false],
-	"no_objects": true
+	"name" : "Corridor1x2Smash",
+	"is_deadend" : false,
+	"shape"      : {
+		"0,0" : "U",
+		"0,1" : "D"
+	}       
 }

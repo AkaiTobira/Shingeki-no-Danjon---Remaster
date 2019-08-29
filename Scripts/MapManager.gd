@@ -155,6 +155,7 @@ func load_worlds():
 		
 		Res.background_generation_lock = false
 		numbers_of_locations.append( [ 1, 1, len( maps[location] ) -2, 0 ] ) # 0 reserved for non_existing_town
+		print(maps)
 
 func _exit_tree():
 	Res.background_generation_lock = true

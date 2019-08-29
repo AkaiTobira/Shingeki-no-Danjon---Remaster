@@ -1,8 +1,7 @@
 {
-	"width": 1,
-	"height": 1,
-	"ways0": [true],
-	"ways1": [false],
-	"ways2": [false],
-	"ways3": [false]
+	"name" : "DeadEnd1x1D",
+		"is_deadend" : true,
+		"shape"      : {
+			"0,0" : "D"
+		}
 }

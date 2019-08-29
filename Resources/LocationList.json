@@ -2,10 +2,10 @@
     "Mechania" : {
         "start_point"     : "JigsawRoom",
         "asset_info"      : "Mechanic",
-        "nmbSmallTowers"  : 3,
-        "nmbSmallFloors"  : 2,
+        "nmbSmallTowers"  : 5,
+        "nmbSmallFloors"  : 3,
         "small_tower_top" : ["ExampleSmallTowerExit"],
-        "nmbBossFloors"   : 3,
+        "nmbBossFloors"   : 6,
         "boss_tower_top"  : "BossRoom",
         "town"            : "",
 

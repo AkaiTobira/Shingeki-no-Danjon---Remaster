@@ -43,6 +43,7 @@ func _ready():
 		segments[segment.name]      = segment.data
 		segments[segment.name].name = segment.name
 		segment_nodes[segment.name] = cache_resource("res://Nodes/Segments/" + segment.name + ".tscn")
+		print( segments )
 	
 	for tileset in get_resource_list("Tilesets"):
 		tilesets[tileset.name] = tileset.data
