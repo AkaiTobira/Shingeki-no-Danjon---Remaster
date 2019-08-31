@@ -170,9 +170,7 @@ func read_json(f):
 	file.close()
 	
 	var json = parse_json(text)
-
 	assert(json != null)
-	
 	return json
 
 func play_sample(source, sample, pausable = true, follow_source = true):

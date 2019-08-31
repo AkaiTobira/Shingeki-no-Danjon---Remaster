@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Earth Affinity V",
+	"description": "Increases damage of earth based spells.",
+	"infos": ["Earth damage is increased by 150%"]
+}

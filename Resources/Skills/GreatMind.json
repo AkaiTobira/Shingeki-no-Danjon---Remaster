@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Great Mind",
+	"description": "You trained your brain hard, your spells become more powerfull.",
+	"infos": ["Magic Damage * 2"]
+}

@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Durable",
+	"description": "Your are body get's more durable",
+	"infos": ["Health Points + 50"]
+}

@@ -46,9 +46,7 @@ func generate(level_name, navigation, current_floor1):
 	current_floor = current_floor1
 	l_generator.generate()
 
-	while( not l_generator.is_correct()):
-		print( " G:: not correct while" )
-		l_generator.generate()
+	while( not l_generator.is_correct()): l_generator.generate()
 		
 	graph = l_generator.graph
 	for segment in graph:
@@ -87,8 +85,6 @@ func create_stairs():
 	var stairs_pos     = segment_enter.get_stairs_position() 
 
 	while(!segment_enter.can_have_stairs or !len(stairs_pos) ):
-		print( " G:: first stairs select" )
-		#print( segment_enter.can_have_stairs, len(stairs_pos)  )
 		segment_enter  = graph[ randi()%len(graph) ]["segment"]
 		stairs_pos     = segment_enter.get_stairs_position() 
 
@@ -108,9 +104,9 @@ func create_stairs():
 	while(!segment_exit.can_have_stairs 
 	   or !len(stairs_pos) 
 	   or segment_exit == segment_enter 
-	   or segment_enter.position.distance_to(segment_exit.position) < 4000
+	   or segment_enter.position.distance_to(segment_exit.position) < 3500
 	):
-		print( " G:: Second Stairs" )
+		print( segment_exit.can_have_stairs , len(stairs_pos) ,segment_exit == segment_enter , segment_enter.position.distance_to(segment_exit.position) < 4000)
 		segment_exit  = graph[ randi()%len(graph) ]["segment"]
 		stairs_pos    = segment_exit.get_stairs_position() 
 

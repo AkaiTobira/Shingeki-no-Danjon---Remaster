@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Covered in Scars",
+	"description": "Your are body is all in scars, which make your skin more durable",
+	"infos": ["Health Points + 100"]
+}

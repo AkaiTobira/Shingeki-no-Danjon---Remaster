@@ -12,38 +12,98 @@
 			"value": 10000000
 		}
 	],
-
 	"FireAffinityI": [
 		{
 			"stat": "FireMagic",
-			"value": 150
+			"value": 50
 		}
 	],
 	"FireAffinityII": [
 		{
 			"stat": "FireMagic",
-			"value": 300
+			"value": 150
 		}
 	],
 	"FireAffinityIII": [
 		{
 			"stat": "FireMagic",
-			"value": 600
+			"value": 300
 		}
 	],
 	"FireAffinityIV": [
 		{
 			"stat": "FireMagic",
-			"value": 1200
+			"value": 700
 		}
 	],
 	"FireAffinityV": [
 		{
 			"stat": "FireMagic",
-			"value": 2400
+			"value": 1000
+		}
+	],	
+	"EarthAffinityI": [
+		{
+			"stat": "EarthMagic",
+			"value": 50
 		}
 	],
-	
+	"EarthAffinityII": [
+		{
+			"stat": "EarthMagic",
+			"value": 150
+		}
+	],
+	"EarthAffinityIII": [
+		{
+			"stat": "EarthMagic",
+			"value": 300
+		}
+	],
+	"EarthAffinityIV": [
+		{
+			"stat": "EarthMagic",
+			"value": 700
+		}
+	],
+	"EarthAffinityV": [
+		{
+			"stat": "EarthMagic",
+			"value": 1000
+		}
+	],	
+	"AirAffinityI": [
+		{
+			"stat": "AirMagic",
+			"value": 50
+		}
+	],
+	"AirAffinityII": [
+		{
+			"stat": "AirMagic",
+			"value": 150
+		}
+	],
+	"AirAffinityIII": [
+		{
+			"stat": "AirMagic",
+			"value": 300
+		}
+	],
+	"AirAffinityIV": [
+		{
+			"stat": "AirMagic",
+			"value": 700
+		}
+	],
+	"AirAffinityV": [
+		{
+			"stat": "AirMagic",
+			"value": 1000
+		}
+	],	
+
+
 	"FireBolt": [
 		{
 			"stat": "FireMagic",
@@ -146,11 +206,24 @@
 			"value": 10
 		}
 	],
-	
+
+	"GreatMind": [
+		{
+			"stat": "Intelligence",
+			"value": 10
+		}
+	],
 	"Fireball": [
 		{
 			"stat": "FireMagic",
 			"value": 100000
+		}
+	],
+
+	"GhostChange":[
+		{
+			"stat": "GhostActive",
+			"value": 1
 		}
 	]
 }

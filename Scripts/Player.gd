@@ -20,7 +20,7 @@ var animations = {Body = "", RightArm = "", LeftArm = ""}
 var sprite_direction = "Front"
 
 var ghost_mode = false
-var is_ghost = false
+var ghost_time = false
 
 var attacking = false
 var shielding = false
@@ -55,23 +55,24 @@ func _ready():
 func _physics_process(delta):
 
 	if dead: return
-	if is_ghost: ##( ･_･)
+	
+	if ghost_time: ##( ･_･)
 		$Body/RightArm/Weapon.visible = false
 		$Body/LeftArm/Shield.visible = false
+		
+		ghost_time -= delta
+		GHOST_EFFECT.material.set_shader_param("noise_power", 0.002 + max(2 - ghost_time, 0) * 0.02)
+		if ghost_time <= 0 : get_parent().cancel_ghost()
+	
 	frame_counter += 1
 	var move = Vector2()
-	
-	if is_ghost:
-		is_ghost -= delta
-		GHOST_EFFECT.material.set_shader_param("noise_power", 0.002 + max(2 - is_ghost, 0) * 0.02)
-		if is_ghost <= 0 - PlayerStats.statistic["ghost_duration"][0]: get_parent().cancel_ghost()
 	
 	static_time += delta
 	motion_time += delta
 #	if static_time >= MEDITATION_TIME: SkillBase.inc_stat("Meditation")
 	
-	var elements_on = (!is_ghost and $Elements.visible)
-	var not_move = (ghost_mode or elements_on or knockback.length_squared() > 0)
+	var elements_on = (!ghost_time and $Elements.visible)
+	var not_move    = (ghost_mode   or elements_on or knockback.length_squared() > 0)
 	
 	if !not_move:
 		if Input.is_action_pressed("Up"):
@@ -92,7 +93,7 @@ func _physics_process(delta):
 		knockback /= 1.5
 		if knockback.length_squared() < 1: knockback = Vector2()
 	
-	if !is_ghost and !attacking and !ghost_mode and !shielding and Input.is_action_just_pressed("Attack"):
+	if !ghost_time and !attacking and !ghost_mode and !shielding and Input.is_action_just_pressed("Attack"):
 		if PlayerStats.get_equipment("weapon"): Res.play_pitched_sample(self, "Sword")
 		else: Res.play_pitched_sample(self, "Punch")
 		change_animation("RightArm", "SwordAttack")
@@ -166,12 +167,24 @@ func _physics_process(delta):
 			Res.ui_sample("SelectElement")
 			$Elements.visible = false
 	
-	if !elements_on and !ghost_mode:# and Input.is_action_pressed("Magic"):
+	#if ghost_time:
+	#	if Input.is_action_just_pressed("Ghost"): trigger_ghost()
+	
+	if !elements_on :# and Input.is_action_pressed("Magic"):
 		if !wind_spam_hack:
 			use_magic()
 			if triggered_skill:
 				triggered_skill[1] -= delta
-				if triggered_skill[1] <= 0: trigger_skill()
+				
+				if (ghost_time or ghost_mode): #block other skill in ghost mode
+					if triggered_skill[0].name == "Ghost Change":
+						if triggered_skill[1] <= 0: trigger_skill()
+					else:
+						triggered_skill = null
+						SkillBase.current_combo.clear()
+				else:
+					if triggered_skill[1] <= 0: trigger_skill()
+					
 			elif water_stream_hack:
 				water_stream_hack -= delta
 				if water_stream_hack <= 0:
@@ -188,24 +201,6 @@ func _physics_process(delta):
 				wind_spam_hack = 0
 				SkillBase.current_combo.clear()
 	
-	if Input.is_action_just_pressed("Ghost"):
-		if is_ghost:
-			get_parent().cancel_ghost()
-		elif !ghost_mode:
-			Res.play_sample(self, "GhostEnter")
-			ghost_mode = GHOST.instance()
-			ghost_mode.modulate = Color(1, 1, 1, 0.5)
-			ghost_mode.is_ghost = 8
-			ghost_mode.position.y += 8
-			ghost_mode.remove_from_group("players")
-			ghost_mode.add_to_group("ghosts")
-			ghost_mode.name = "Ghost" ##tego nie powinno być, ale wrogowie sprawdzają name
-			ghost_mode.get_node("Body/RightArm/Weapon").visible = false
-			ghost_mode.get_node("Body/LeftArm/Shield").visible = false
-			
-			add_child(ghost_mode)
-			GHOST_EFFECT.visible = true
-			GHOST_EFFECT.get_node("../AnimationPlayer").play("Activate")
 	
 	if !damaged and !knockback:
 		if move.length() > 0 and !not_move:
@@ -440,17 +435,47 @@ func cancel_ghost():
 func use_magic(): ##nie tylko magia :|
 	for skill in SkillBase.get_active_skills():
 		skill = Res.skills[skill]
-#		#print(SkillBase.check_combo(["Special_"]))
 		
-		if (!skill.has("magic") or current_element == skill.magic) and SkillBase.check_combo(skill.combo) and (!triggered_skill or skill != triggered_skill[0]
-		and (skill.combo.size() > triggered_skill[0].combo.size() or skill.combo.back().length() > triggered_skill[0].combo.back().length())):
-#			#print(skill)
+		if  ((!skill.has("magic") or (current_element == skill.magic or skill.magic > 4) ) 
+		    and SkillBase.check_combo(skill.combo) 
+			and (!triggered_skill or skill != triggered_skill[0]
+		    and (skill.combo.size() > triggered_skill[0].combo.size() 
+			or skill.combo.back().length() > triggered_skill[0].combo.back().length()))):
 			triggered_skill = [skill, 0.2]
+
+
+
+func trigger_ghost():
+	if ghost_time:
+		get_parent().cancel_ghost()
+	elif !ghost_mode:
+		Res.play_sample(self, "GhostEnter")
+		ghost_mode = GHOST.instance()
+		ghost_mode.modulate = Color(1, 1, 1, 0.5)
+		ghost_mode.ghost_time  = 8 + PlayerStats.statistic["ghost_duration"][0]
+		ghost_mode.position.y += 8
+		ghost_mode.remove_from_group("players")
+		ghost_mode.add_to_group("ghosts")
+		ghost_mode.name = "Ghost" ##tego nie powinno być, ale wrogowie sprawdzają name
+		ghost_mode.get_node("Body/RightArm/Weapon").visible = false
+		ghost_mode.get_node("Body/LeftArm/Shield").visible = false
+			
+		add_child(ghost_mode)
+		GHOST_EFFECT.visible = true
+		GHOST_EFFECT.get_node("../AnimationPlayer").play("Activate")
+
 
 func trigger_skill(skill = triggered_skill[0]):
 	triggered_skill = null
-	attacking = false
-	if is_ghost: return ##;_________;
+	attacking       = false
+	SkillBase.current_combo.clear()
+
+	if skill.has("magic"):
+		if skill.magic == 5: 
+			trigger_ghost()
+			return 
+	
+	if ghost_time : return 
 	
 	if skill.has("cost"):
 		if PlayerStats.mana < skill.cost:
@@ -459,7 +484,7 @@ func trigger_skill(skill = triggered_skill[0]):
 		else: PlayerStats.mana -= skill.cost
 		
 	if skill.has("magic"): change_animation("RightArm", "Magic")
-	SkillBase.current_combo.clear()
+	
 	
 	if skill.has("stats"): for stat in skill.stats: SkillBase.inc_stat(stat)
 	
@@ -497,10 +522,26 @@ func trigger_skill(skill = triggered_skill[0]):
 					if SkillBase.has_skill("WaterAffinityIII"): projectile.damage *= 1.5151
 					if SkillBase.has_skill("WaterAffinityIV"):  projectile.damage *= 1.20
 					if SkillBase.has_skill("WaterAffinityV"):   projectile.damage *= 1.25
+				"3":
+					if SkillBase.has_skill("AirAffinityI"):   projectile.damage *= 1.10
+					if SkillBase.has_skill("AirAffinityII"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("AirAffinityIII"): projectile.damage *= 1.5151
+					if SkillBase.has_skill("AirAffinityIV"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("AirAffinityV"):   projectile.damage *= 1.25
+				"4":
+					if SkillBase.has_skill("EarthAffinityI"):   projectile.damage *= 1.10
+					if SkillBase.has_skill("EarthAffinityII"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("EarthAffinityIII"): projectile.damage *= 1.5151
+					if SkillBase.has_skill("EarthAffinityIV"):  projectile.damage *= 1.20
+					if SkillBase.has_skill("EarthAffinityV"):   projectile.damage *= 1.25
+
 				_: pass
 
 		if skill.name == "Water Bubbles": water_stream_hack = 0.1
 		if skill.name == "Razor Banana": wind_spam_hack = 0.5
+		
+
+
 
 func _on_other_attack_hit(body):
 	if body.is_in_group("secrets"):

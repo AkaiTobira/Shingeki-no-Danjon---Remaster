@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Wound Proof",
+	"description": "Your are body has been wound many times, which make your skin more durable",
+	"infos": ["Health Points + 150"]
+}

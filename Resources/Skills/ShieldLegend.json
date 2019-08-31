@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Shield Legend",
+	"description": "Your are famous master, no one can go though your shield",
+	"infos": ["Block + 40"]
+}

@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Shield Master",
+	"description": "Your trained shield skill so you become local master. You can block even more damage",
+	"infos": ["Block + 20"]
+}

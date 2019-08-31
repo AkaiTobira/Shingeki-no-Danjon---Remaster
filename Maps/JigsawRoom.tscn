@@ -23,6 +23,7 @@ func initialize():
 func _process(delta):
 	if !PlayerStats.events.has(\"jigsaw\") and Res.game.player.position.y < 400:
 		Res.game.player.UI.get_node(\"DialogueBox\").initiate_dialogue(\"Jigsaw\")
+		SkillBase.inc_stat(\"GhostActive\", 1)
 		PlayerStats.events[\"jigsaw\"] = true
 
 func clear(): pass

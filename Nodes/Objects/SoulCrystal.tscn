@@ -7,6 +7,11 @@
 resource_name = "Soul Crystal"
 script/source = "extends StaticBody2D
 
+func initialize(i, dungeon_type, name, current_floor = 0, flip = false): pass
+
+func get_placement_info():
+	return { \"name\" : \"SoulCrystal\", \"type\": Res.EnvironmentType.Chest, \"flip\":false }
+
 func interact():
 	Res.game.player.global_position = $InteractArea.player_in.global_position
 	Res.game.player.cancel_ghost()"

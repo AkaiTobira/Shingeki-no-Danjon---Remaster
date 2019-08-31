@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "ShieldUser",
+	"description": "Your trained shield skill and now you can block more damage",
+	"infos": ["Block + 8"]
+}

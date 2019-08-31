@@ -524,7 +524,9 @@ func update_skills(optional = null):
 	
 	for i in range($Tabs/Skills/ActivePanel/Skills.get_child_count()):
 		if i < skills.size():
-			$Tabs/Skills/ActivePanel/Skills.get_child(i).get_node(\"Icon\").texture = Res.get_skill_texture(skills[i])
+			var node = $Tabs/Skills/ActivePanel/Skills.get_child(i).get_node(\"Icon\")
+			node.texture     = Res.get_skill_hd_texture(skills[i])
+			node.rect_scale  = Vector2( 0.51, 0.51)
 		else: $Tabs/Skills/ActivePanel/Skills.get_child(i).get_node(\"Icon\").texture = null
 
 func get_material_type_texture(id):
@@ -1227,6 +1229,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="Character" type="Control" parent="Tabs"]
+editor/display_folded = true
 margin_right = 1366.0
 margin_bottom = 768.0
 mouse_filter = 1
@@ -2398,7 +2401,6 @@ align = 1
 valign = 1
 
 [node name="Skills" type="Control" parent="Tabs"]
-visible = false
 self_modulate = Color( 1, 0.501961, 0.501961, 0.501961 )
 margin_right = 1366.0
 margin_bottom = 768.0

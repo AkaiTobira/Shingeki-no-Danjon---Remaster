@@ -108,7 +108,7 @@ func check_combo(combo):
 func _process(delta):
 	if process_block: return
 	delta += 1
-	for action in ["Attack", "Magic", "Special", "Shield", "Up", "Right", "Down", "Left"]:
+	for action in ["Attack", "Magic", "Special", "Shield", "Up", "Right", "Down", "Left", "Ghost"]:
 		if Input.is_action_just_pressed(action):
 			current_combo.append({"action": action, "time": OS.get_ticks_msec(), "hold": true})
 	

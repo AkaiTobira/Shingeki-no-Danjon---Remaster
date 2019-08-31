@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Air Affinity III",
+	"description": "Increases air skill based damage.",
+	"infos": ["Air damage is increased by 72%"]
+}

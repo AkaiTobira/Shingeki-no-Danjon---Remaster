@@ -6,6 +6,19 @@
 resource_name = "Gate"
 script/source = "extends StaticBody2D
 
+
+func get_placement_info():
+	return { \"name\" : \"Gate\", \"type\": Res.EnvironmentType.Chest, \"flip\":false }
+
+func _change_sprite( tileset_name = \"Default\" ):
+	if tileset_name == \"Dungeon\":
+		pass
+	elif tileset_name == \"SteamPunk\":
+		$\"Sprite\".texture = load(\"res://Sprites/Objects/GateSteamPunk.png\")
+
+func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip= 0):
+	_change_sprite(Res.dungeons[dungeon_name][\"tileset\"])
+
 func _process(delta):
 	$GateShape.disabled = !!Res.game.player.ghost_mode"
 

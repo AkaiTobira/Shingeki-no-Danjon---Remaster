@@ -1,6 +1,6 @@
 {
 	"type": "passive",
-	"name": "Ultra Strength",
+	"name": "Super Strength",
 	"description": "You trained your muscles too hard.",
 	"infos": ["Physical damage * 5"]
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Sprites/UI/HUD/PlayerBarBottom.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/HUD/PlayerMPMiddle.png" type="Texture" id=2]
@@ -8,8 +8,7 @@
 [ext_resource path="res://Sprites/UI/HUD/ButtonAttack.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/UI/HUD/ButtonShield.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/UI/HUD/ButtonMagic.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/UI/HUD/ButtonGhost.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/UI/HUD/ButtonElement0.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/UI/HUD/ButtonElement0.png" type="Texture" id=9]
 
 [node name="HUD" type="Control"]
 margin_right = 40.0
@@ -63,7 +62,6 @@ rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 5 )
 
 [node name="Controls" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -88,16 +86,9 @@ margin_right = 328.0
 margin_bottom = 756.0
 texture = ExtResource( 8 )
 
-[node name="ButtonGhost" type="TextureRect" parent="Controls"]
-margin_left = 340.0
-margin_top = 680.0
-margin_right = 410.0
-margin_bottom = 756.0
-texture = ExtResource( 9 )
-
 [node name="ButtonElement" type="TextureRect" parent="Controls"]
 margin_left = 176.0
 margin_top = 680.0
 margin_right = 246.0
 margin_bottom = 756.0
-texture = ExtResource( 10 )
+texture = ExtResource( 9 )

@@ -1,0 +1,6 @@
+{
+	"type": "passive",
+	"name": "Chaos Affinity I",
+	"description": "Increases damage of chaos based spells.",
+	"infos": ["Earth damage is increased by 30%"]
+}

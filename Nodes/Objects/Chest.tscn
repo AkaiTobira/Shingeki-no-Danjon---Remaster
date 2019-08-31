@@ -34,6 +34,9 @@ export var item = -1
 func _ready():
 	Res.game.perma_state(self, \"open\")
 
+func get_placement_info():
+	return { \"name\" : \"Chest\", \"type\": Res.EnvironmentType.Chest, \"flip\":false }
+
 func initialize(id, dungeon_name, my_name, dungeon_level = 0):
 	my_id = id
 	var breakable_contains = Res.dungeons[dungeon_name][\"containers_contents\"]

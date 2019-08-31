@@ -1,0 +1,9 @@
+{
+	"type": "active",
+	"name": "Ghost Change",
+	"description": "Allow you to change into a ghost mode for 8 seconds",
+	"infos": ["Press Alt to switch mode"],
+	"combo": ["Ghost"],
+	"magic": 5,
+	"cost": 0
+}

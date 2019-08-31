@@ -41,16 +41,25 @@ func generate():
 	empty_spots.append({"pos": start, "is_start": true})
 
 	while len(empty_spots) > 0:
-		print( " LG:: generate while" )
-#		#print( len(graph) )
+		print( empty_spots )
 		empty_spots   = shuffleList(empty_spots)
 		var next_spot = empty_spots[0]
 
+
+
+		print( )
+		print( next_spot )
 		var segments = _get_posible_segments(next_spot)
 		segments     = shuffleList(segments)
+		for segment in segments:
+			print(segment)
+
+		print( )
 
 		_lock_segment(   segments[0][0], next_spot, segments[0][1] )
 		_add_new_points( segments[0][0], next_spot, segments[0][1] )
+		
+	print_locked()
 
 func _get_not_deadend_segments():
 	var segments = []
@@ -66,7 +75,9 @@ func _get_posible_segments( spot):
 		if require_size <= len(graph) and not segment["is_deadend"]: continue
 		if min_size	 >= len(graph) and segment["is_deadend"] : continue
 		var positions = _get_matching_pos( segment, spot["dir"] )
+#		print( positions )
 		for position in positions:
+			print( position, can_fit_by_size(segment["shape"], spot, position), can_fit_by_neighbours(segment, spot, position) )
 			if can_fit_by_size(segment["shape"], spot, position) and can_fit_by_neighbours(segment, spot, position):
 				segments.append( [segment, position] )
 
@@ -87,13 +98,13 @@ func can_fit_by_neighbours(segment, spot, position):
 	for entry in segment["shape"]:
 		var t = entry.split(",")
 		var pos = [ translation[0] + int(t[0]),  translation[1] + int(t[1]) ]
-
-		# for no enter_exit cell in segment
+		
 		if len(segment["shape"][entry]) == 0:
 			for direction in DIRECTIONS:
 				var str_pos = [ pos[0] + POS_CHANGE[direction][0], pos[1] + POS_CHANGE[direction][1]]
 				for enter in empty_spots:
-					if str_pos == enter["pos"] : return false
+					if str_pos == spot["pos"]: continue
+					if str_pos == enter["pos"]: return false
 
 		for direction in segment["shape"][entry]:
 			var str_pos = str( pos[0] + POS_CHANGE[direction][0]) + "," + str( pos[1] + POS_CHANGE[direction][1])
@@ -155,6 +166,8 @@ func _lock_segment(    segment, spot, seg_shift):
 		"position"  : LU_corner,
 		"neighbours": []
 	}
+	
+	print( segment.name )
 
 	if not spot["is_start"]:
 		for neigh in spot["neighbours"]:
@@ -223,5 +236,5 @@ func print_locked():
 				continue
 			s += (locked_positions[str(y) + "," + str(x)] + "      ").substr(0,5)
 		s+="\n"
-	#print( s )
+	print( s )
 #	dump.write(s)
