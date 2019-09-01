@@ -1230,6 +1230,7 @@ margin_bottom = 40.0
 
 [node name="Character" type="Control" parent="Tabs"]
 editor/display_folded = true
+visible = false
 margin_right = 1366.0
 margin_bottom = 768.0
 mouse_filter = 1
@@ -2481,7 +2482,6 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="LeftHeader" type="TextureRect" parent="Tabs/Skills"]
-visible = false
 margin_left = 23.0
 margin_top = 156.0
 margin_right = 408.0
@@ -2496,6 +2496,7 @@ text = "SKILL INFO"
 align = 1
 
 [node name="Info" type="Control" parent="Tabs/Skills/LeftHeader"]
+visible = false
 margin_left = -45.0
 margin_top = -154.0
 margin_right = -5.0
@@ -2539,12 +2540,10 @@ margin_bottom = 486.0
 texture = ExtResource( 35 )
 
 [node name="LeftHeader2" type="TextureRect" parent="Tabs/Skills"]
-editor/display_folded = true
-visible = false
 margin_left = 25.0
-margin_top = 519.0
+margin_top = 420.0
 margin_right = 410.0
-margin_bottom = 559.0
+margin_bottom = 460.0
 texture = ExtResource( 11 )
 
 [node name="Label" type="Label" parent="Tabs/Skills/LeftHeader2"]
@@ -2555,11 +2554,11 @@ text = "DESCRIPTION"
 align = 1
 
 [node name="Description" type="Label" parent="Tabs/Skills/LeftHeader2"]
-margin_left = 29.0
+margin_left = 4.0
 margin_top = 44.0
-margin_right = 331.0
+margin_right = 377.0
 margin_bottom = 165.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 31 )
 text = "Long gdfg dfgdf gfd gfd gf gf g g f g dfg sdf gf decscite tdfgdf gdf gdfgsdfg"
 autowrap = true
 

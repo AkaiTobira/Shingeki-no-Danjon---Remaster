@@ -41,25 +41,14 @@ func generate():
 	empty_spots.append({"pos": start, "is_start": true})
 
 	while len(empty_spots) > 0:
-		print( empty_spots )
 		empty_spots   = shuffleList(empty_spots)
 		var next_spot = empty_spots[0]
 
-
-
-		print( )
-		print( next_spot )
 		var segments = _get_posible_segments(next_spot)
 		segments     = shuffleList(segments)
-		for segment in segments:
-			print(segment)
-
-		print( )
-
 		_lock_segment(   segments[0][0], next_spot, segments[0][1] )
 		_add_new_points( segments[0][0], next_spot, segments[0][1] )
-		
-	print_locked()
+
 
 func _get_not_deadend_segments():
 	var segments = []
@@ -236,5 +225,5 @@ func print_locked():
 				continue
 			s += (locked_positions[str(y) + "," + str(x)] + "      ").substr(0,5)
 		s+="\n"
-	print( s )
+#	print( s )
 #	dump.write(s)

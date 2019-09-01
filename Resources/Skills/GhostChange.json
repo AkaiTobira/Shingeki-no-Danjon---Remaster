@@ -1,7 +1,7 @@
 {
 	"type": "active",
 	"name": "Ghost Change",
-	"description": "Allow you to change into a ghost mode for 8 seconds",
+	"description": "Allow you to change into a ghost mode for 8 seconds, in ghost mode you can walk through cloesd gate and teleport to purple soulstone",
 	"infos": ["Press Alt to switch mode"],
 	"combo": ["Ghost"],
 	"magic": 5,
