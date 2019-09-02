@@ -121,7 +121,10 @@ func _physics_process(delta):
 #	if Input.is_action_just_pressed("Spell1") and PlayerStats.get_skill(0) and PlayerStats.mana > PlayerStats.get_skill(0).cost:
 #		cast_spell(0)
 	
-	if PlayerStats.mana < PlayerStats.statistic["max_mana"][0] and frame_counter % 20 == 0: PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mana_regeneration"][0], PlayerStats.statistic["max_mana"][0])
+	if PlayerStats.mana < PlayerStats.statistic["max_mana"][0]:
+		PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mana_regeneration"][0] * delta, PlayerStats.statistic["max_mana"][0])
+	
+
 #	if PlayerStats.hp   < PlayerStats.max_hp   and frame_counter % 20 == 0: PlayerStats.hp   = min(PlayerStats.hp + 1, PlayerStats.max_hp)
 
 	UI.soft_refresh()
@@ -224,53 +227,55 @@ func _physics_process(delta):
 #	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
 
 
-func damage(attacker, amount, _knockback, type = "NoDamage"):
+func match_resistance_to_damage( type ):
+	match ( type ):
+		"Earth":    return PlayerStats.statistic["earth_resistance"][0]
+		"Fire":     return PlayerStats.statistic["fire_resistance" ][0]
+		"Water":    return PlayerStats.statistic["water_resistance"][0]
+		"Wind":     return PlayerStats.statistic["wind_resistance" ][0]
+		"Chaos":    return (PlayerStats.statistic["earth_resistance"][0] + 
+							PlayerStats.statistic["fire_resistance" ][0] + 
+							PlayerStats.statistic["water_resistance"][0] + 
+							PlayerStats.statistic["wind_resistance" ][0])/8.0
+		"Physical": return PlayerStats.statistic["armour"][0] / 2.0
+	return 0
+
+
+func damage(attacker, amount_array, _knockback):
 	if dead: return
-	if type == "NoDamage" : return
-	
-	var defence = 0.0
-	
-	match(type):
-		"Earth":
-			defence = PlayerStats.statistic["earth_resistance"][0]
-		"Fire":
-			defence = PlayerStats.statistic["fire_resistance"][0]
-		"Water":
-			defence = PlayerStats.statistic["water_resistance"][0]
-		"Wind":
-			defence = PlayerStats.statistic["wind_resistance"][0]
-		"Physical":
-			defence = PlayerStats.statistic["armour"][0]
+	damaged = 16 #Hack for old system
 
-	damaged = 16
-	Res.play_pitched_sample(self, "PlayerHurt")
+	for index in range(len(amount_array)):
+		var amount = amount_array[index][0]
+		var type   = amount_array[index][1]
 
-	var damage = max(1, amount - defence/2 )
-	
-	if shielding : 
-		damage = amount - PlayerStats.shield_amout
-		
-		if damage < 0:
-			SkillBase.inc_stat("ShieldBlocks")
-			PlayerStats.damage_equipment("shield")
-			Res.play_sample(self, "ShieldBlock")
-			damage = "BLOCKED"
-			
+		var resisit = match_resistance_to_damage(type)
+		var damage = amount - resisit
+
+		if damage > 0:
+			if shielding :
+				damage -= PlayerStats.statistic["block"][0]/2.0 if type == "Physical" else PlayerStats.statistic["block"][0]/4.0
+				if damage <= 0 :
+					SkillBase.inc_stat("ShieldBlocks")
+					PlayerStats.damage_equipment("shield")
+					Res.play_sample(self, "ShieldBlock")
+				else:
+					SkillBase.inc_stat("DamageTaken", damage)
+					PlayerStats.health -= damage
+					PlayerStats.damage_equipment("shield")
+					PlayerStats.damage_equipment("armor", 2)
+					PlayerStats.damage_equipment("helmet")
+				Res.create_instance("DamageNumber").blocked_damage(self, damage, type)
+			else:
+				SkillBase.inc_stat("DamageTaken", damage)
+				PlayerStats.health -= damage
+				PlayerStats.damage_equipment("armor", 2)
+				PlayerStats.damage_equipment("helmet")
+				Res.create_instance("DamageNumber").damage(self, damage, type)			
 		else:
-			
-			SkillBase.inc_stat("DamageTaken", damage)
-			PlayerStats.health -= damage
-			PlayerStats.damage_equipment("shield")
-			PlayerStats.damage_equipment("armor", 2)
-			PlayerStats.damage_equipment("helmet")
-			
-	else:
-		SkillBase.inc_stat("DamageTaken", damage)
-		PlayerStats.health -= damage
-		PlayerStats.damage_equipment("armor", 2)
-		PlayerStats.damage_equipment("helmet")
-		
-	Res.create_instance("DamageNumber").damage(self, damage, type)
+			Res.create_instance("DamageNumber").damage(self, damage, type)
+
+	Res.play_pitched_sample(self, "PlayerHurt")
 	UI.soft_refresh()
 	
 	knockback += (position - attacker.position).normalized() * _knockback
@@ -302,7 +307,7 @@ func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("enemies"):
 		SkillBase.inc_stat("OneHanded")
 		SkillBase.inc_stat("Melee")
-		collider.get_parent().damage(PlayerStats.get_damage(),"player",  active_damage_type)
+		collider.get_parent().damage( PlayerStats.get_damage() ,"player" )
 
 func change_dir(dir, force = false):
 	if !force and (direction == dir or !dead and (Input.is_action_pressed("Attack") or Input.is_action_pressed("Shield"))): return
@@ -452,7 +457,7 @@ func trigger_ghost():
 		Res.play_sample(self, "GhostEnter")
 		ghost_mode = GHOST.instance()
 		ghost_mode.modulate = Color(1, 1, 1, 0.5)
-		ghost_mode.ghost_time  = 8 + PlayerStats.statistic["ghost_duration"][0]
+		ghost_mode.ghost_time  = 11 + PlayerStats.statistic["ghost_duration"][0]
 		ghost_mode.position.y += 8
 		ghost_mode.remove_from_group("players")
 		ghost_mode.add_to_group("ghosts")

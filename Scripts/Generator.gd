@@ -106,7 +106,7 @@ func create_stairs():
 	   or segment_exit == segment_enter 
 	   or segment_enter.position.distance_to(segment_exit.position) < 3500
 	):
-		print( segment_exit.can_have_stairs , len(stairs_pos) ,segment_exit == segment_enter , segment_enter.position.distance_to(segment_exit.position) < 4000)
+		print( segment_exit.can_have_stairs , len(stairs_pos) ,segment_exit == segment_enter , segment_enter.position.distance_to(segment_exit.position) < 3500)
 		segment_exit  = graph[ randi()%len(graph) ]["segment"]
 		stairs_pos    = segment_exit.get_stairs_position() 
 

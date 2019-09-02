@@ -279,7 +279,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=12]
-extents = Vector2( 4.16951, 10 )
+extents = Vector2( 4.16951, 3.35882 )
 
 [sub_resource type="CircleShape2D" id=13]
 radius = 15.4731
@@ -335,8 +335,7 @@ anims/Special = SubResource( 10 )
 anims/Up = SubResource( 11 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( -2.90001, -5.55091 )
+position = Vector2( -2.90001, -15.5509 )
 scale = Vector2( 5.41221, 1.41971 )
 shape = SubResource( 12 )
 

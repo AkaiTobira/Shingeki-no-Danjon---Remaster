@@ -64,9 +64,7 @@ func _get_posible_segments( spot):
 		if require_size <= len(graph) and not segment["is_deadend"]: continue
 		if min_size	 >= len(graph) and segment["is_deadend"] : continue
 		var positions = _get_matching_pos( segment, spot["dir"] )
-#		print( positions )
 		for position in positions:
-			print( position, can_fit_by_size(segment["shape"], spot, position), can_fit_by_neighbours(segment, spot, position) )
 			if can_fit_by_size(segment["shape"], spot, position) and can_fit_by_neighbours(segment, spot, position):
 				segments.append( [segment, position] )
 
@@ -155,8 +153,6 @@ func _lock_segment(    segment, spot, seg_shift):
 		"position"  : LU_corner,
 		"neighbours": []
 	}
-	
-	print( segment.name )
 
 	if not spot["is_start"]:
 		for neigh in spot["neighbours"]:

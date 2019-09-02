@@ -28,7 +28,7 @@ func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group(\"enemies\"):
 		SkillBase.inc_stat(\"AirMagic\")
 		SkillBase.inc_stat(\"Ranged\")
-		collider.get_parent().damage(damage, \"\", \"Wind\")
+		collider.get_parent().damage( [[damage,\"Wind\"]], \"\" )
 		queue_free()"
 
 [sub_resource type="Animation" id=2]

@@ -47,14 +47,14 @@ func disable_collisions():
 	
 func _process(delta):
 	if $Sprite.frame > 5 and $Sprite.frame < 10:	
-		Res.play_sample(self, \"Explosion\")
+		Res.play_sample(self, \"Fire\")
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 15, 0, \"Explosion\")
+		body.get_parent().damage(self, [[15,\"Fire\" ]], 0)
 		
 	if body.get_parent().is_in_group(\"enemies\"):
-		body.get_parent().damage(5, \"\", \"Explosion\")
+		body.get_parent().damage([[5,\"Fire\" ]], \"\")
 
 func _on_Triger_body_entered(body):
 	if !disabled : $\"AnimationPlayer\".play(\"Explode\")

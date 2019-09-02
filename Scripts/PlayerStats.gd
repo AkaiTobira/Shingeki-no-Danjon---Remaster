@@ -18,35 +18,38 @@ var shield_block = 0.7
 var shield_amout = 12
 
 var statistic = {
-				#sum, base, item, skill, mod
-	"streng"            : [    1,   1,0,0,0],
-	"dexter"            : [    1,   1,0,0,0],
-	"smart"             : [    1,   1,0,0,0],
-	"vital"             : [    1,   1,0,0,0],
-	"physical_damage"   : [    1,   1,0,0,0],
-	"critical_damage"   : [    2,   2,0,0,0],
-	"wind_resistance"   : [  0.0,   0,0,0,0],
-	"critical_chance"   : [ 0.05,0.05,0,0,0],
-	"attack_speed"      : [    1,   1,0,0,0],
-	"move_speed"        : [    1,   1,0,0,0],
-	"earth_resistance"  : [  0.0,   0,0,0,0],
-	"spell_power"       : [    1,   1,0,0,0],
-	"max_health"        : [  100, 100,0,0,0],
-	"max_mana"          : [  100, 100,0,0,0],
-	"water_resistance"  : [  0.0,   0,0,0,0],
-	"ghost_duration"    : [    1,   1,0,0,0],
-	"mana_regeneration" : [    1,   1,0,0,0],
-	"fire_resistance"   : [  0.0,   0,0,0,0],
-	"block"             : [  0.0,   0,0,0,0],
-	"armour"            : [  0.0,   0,0,0,0]
+				            #sum,    base, item, skill, mod, level
+	"streng"            : [    1,   1,0,0,0,0],
+	"dexter"            : [    1,   1,0,0,0,0],
+	"smart"             : [    1,   1,0,0,0,0],
+	"vital"             : [    1,   1,0,0,0,0],
+	"physical_damage"   : [    3,   3,0,0,0,0],
+	"critical_damage"   : [    6,   6,0,0,0,0],
+	"fire_damage"       : [    0,   0,0,0,0,0],
+	"wind_damage"       : [    0,   0,0,0,0,0],
+	"earth_damage"      : [    0,   0,0,0,0,0],
+	"chaos_damage"      : [    0,   0,0,0,0,0],
+	"water_damage"      : [    0,   0,0,0,0,0],
+	"wind_resistance"   : [  0.0,   0,0,0,0,0],
+	"critical_chance"   : [ 0.05,0.05,0,0,0,0],
+	"attack_speed"      : [ 0.75,0.75,0,0,0,0],
+	"move_speed"        : [    1,   1,0,0,0,0],
+	"earth_resistance"  : [  0.0,   0,0,0,0,0],
+	"spell_power"       : [    1,   1,0,0,0,0],
+	"max_health"        : [  100, 100,0,0,0,0],
+	"max_mana"          : [  100, 100,0,0,0,0],
+	"water_resistance"  : [  0.0,   0,0,0,0,0],
+	"ghost_duration"    : [    3,   3,0,0,0,0],
+	"mana_regeneration" : [    5,   5,0,0,0,0],
+	"fire_resistance"   : [  0.0,   0,0,0,0,0],
+	"block"             : [  0.0,   0,0,0,0,0],
+	"armour"            : [  0.0,   0,0,0,0,0],
 	}
 
 var money = 0
 var inventory = []
 var equipment = []
-var events = {}
-
-
+var events    = {}
 
 signal level_up
 signal got_item
@@ -61,35 +64,32 @@ var increments = [
 
 func update_skills(skill):
 	match(skill):
-		0:
-			statistic["streng"][1] += 1
-		1:
-			statistic["dexter"][1] += 1
-		2:
-			statistic["smart" ][1] += 1
-		3:
-			statistic["vital" ][1] += 1
+		0: statistic["streng"][5] += 1
+		1: statistic["dexter"][5] += 1
+		2: statistic["smart" ][5] += 1
+		3: statistic["vital" ][5] += 1
 	refresh_skill()
 
 
 func refresh_skill():
-	statistic["physical_damage"][1]   = statistic["streng"][1] * increments[0][0]
-	statistic["critical_damage"][1]   = statistic["streng"][1] * increments[0][1]
-	statistic["wind_resistance"][1]   = statistic["streng"][1] * increments[0][2]
-	statistic["critical_chance"][1]   = statistic["dexter"][1] * increments[1][0]
-	statistic["attack_speed"][1]      = statistic["dexter"][1] * increments[1][1] + 0.5
-	statistic["earth_resistance"][1]  = statistic["dexter"][1] * increments[1][2]
-	if statistic["attack_speed"][1] > 5: statistic["attack_speed"][1] = 5.0
-	statistic["water_resistance"][1]  = increments[2][0]*statistic["smart" ][1]
-	statistic["spell_power"][1]       = increments[2][1]*statistic["smart" ][1]
-	statistic["max_mana"][1]          = increments[2][2]*statistic["smart" ][1] + 100
-	mana                              = (increments[2][2]*statistic["smart" ][1] + 100) * mana/statistic["max_mana"][0]
-	statistic["ghost_duration"][1]    = increments[2][3]*statistic["smart" ][1]
-	statistic["max_health"][1]        = increments[3][0]*statistic["vital" ][1] + 100
-	health                            = (increments[3][0]*statistic["vital" ][1] + 100) * health/statistic["max_health"][0]
-	statistic["mana_regeneration"][1] = increments[3][1]*statistic["vital" ][1] 
-	statistic["fire_resistance"][1]   = increments[3][2]*statistic["vital" ][1] 
-	statistic["move_speed"][1]        = increments[3][3]*statistic["vital" ][1] 
+	statistic["physical_damage"][5]   = statistic["streng"][5] * increments[0][0]
+	statistic["critical_damage"][5]   = statistic["streng"][5] * increments[0][1]
+	statistic["wind_resistance"][5]   = statistic["streng"][5] * increments[0][2]
+
+	statistic["critical_chance"][5]   = statistic["dexter"][5] * increments[1][0]
+	statistic["attack_speed"][5]      = statistic["dexter"][5] * increments[1][1]
+	statistic["earth_resistance"][5]  = statistic["dexter"][5] * increments[1][2]
+	if statistic["attack_speed"][5] > 5: statistic["attack_speed"][5] = 4.25
+
+	statistic["water_resistance"][5]  = increments[2][0]*statistic["smart" ][5]
+	statistic["spell_power"][5]       = increments[2][1]*statistic["smart" ][5]
+	statistic["max_mana"][5]          = increments[2][2]*statistic["smart" ][5]
+	statistic["ghost_duration"][5]    = increments[2][3]*statistic["smart" ][5]
+
+	statistic["max_health"][5]        = increments[3][0]*statistic["vital" ][5]
+	statistic["mana_regeneration"][5] = increments[3][1]*statistic["vital" ][5] 
+	statistic["fire_resistance"][5]   = increments[3][2]*statistic["vital" ][5] 
+	statistic["move_speed"][5]        = increments[3][3]*statistic["vital" ][5] 
 
 func _ready():
 	equipment.resize(EQUIPMENT_SLOTS.size())
@@ -107,7 +107,13 @@ func get_stats_from_items():
 	recalc_stats()
 	
 func get_damage():
-	return statistic["physical_damage"][0]
+	var active_dmg = [[statistic["physical_damage"][0], "Physical"]]
+	if statistic["fire_damage"][0]  > 0: active_dmg.append([statistic["fire_damage"][0], "Fire"])
+	if statistic["wind_damage"][0]  > 0: active_dmg.append([statistic["wind_damage"][0], "Wind"])
+	if statistic["earth_damage"][0] > 0: active_dmg.append([statistic["earth_damage"][0], "Earth"])	
+	if statistic["water_damage"][0] > 0: active_dmg.append([statistic["water_damage"][0], "Water"])
+	if statistic["chaos_damage"][0] > 0: active_dmg.append([statistic["chaos_damage"][0], "Chaos"])
+	return active_dmg
 
 func get_equipment(slot_name):
 	return equipment[SLOTS[slot_name]]
@@ -161,12 +167,20 @@ func consume(item):
 		Res.play_sample(Res.game.player, "MenuFailed", false)
 
 func recalc_stats():
+
+	var mana_level   = mana/statistic["max_mana"][0]
+	var health_level = health/statistic["max_health"][0]
+
 	refresh_skill()
+
 	for stat in statistic.keys():
-		statistic[stat][0] =  statistic[stat][1] + statistic[stat][2] + statistic[stat][3] + statistic[stat][4] 
+		statistic[stat][0] =  statistic[stat][1] + statistic[stat][2] + statistic[stat][3] + statistic[stat][4] + statistic[stat][5]
+
+	health = statistic["max_health"][0] * health_level
+	mana   = statistic["max_mana"][0]   * mana_level
 			
 func total_exp(level):
-	return 3 * pow(level, 3) / 3 + level * (level+1) * 3 + 10 * level
+	return 3 * pow(level, 3) / 3 + level * (level+1) * 2 + 5 * level
 
 func add_experience(amount):
 	#print( experience, " ", experience + amount, " ", next_level_exp)
@@ -177,7 +191,7 @@ func add_experience(amount):
 		stat_points += 1
 
 		current_level_exp = next_level_exp
-		next_level_exp    += total_exp(level+1)
+		next_level_exp   += total_exp(level+1)
 	#	print( experience, " ", next_level_exp)
 		emit_signal("level_up")
 

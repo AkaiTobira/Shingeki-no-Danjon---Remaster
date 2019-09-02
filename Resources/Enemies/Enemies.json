@@ -3,13 +3,13 @@
 	"Mechanic" :{
 		"Puncher" : {
 			"HP"    : 100,
-			"Exp"   : 50,
+			"Exp"   : 100,
 			"Speed" : 100,
 			"Range" : 80,
 			"Resists"    : [  10,  20,   0,  25, 20   ],
-			"Skill"      : [   1,   12, 50, 250, 1],
+			"Skill"      : [   1,   11, 50, 250, 1],
 			"Magic"      : [   0,   0,   0,   0, 0],
-			"Atack"      : [   1,    6,  0, 170, 5],
+			"Atack"      : [   1,   6,   0, 170, 5],
 
 			"Music" :   {
 				"Dead"       : "RobotCrash",
@@ -21,7 +21,7 @@
 		},
 		"Grinder30B" : {
 			"HP" : 65,
-			"Exp": 10,
+			"Exp": 60,
 			"Speed": 120,
 			"Range" : 80,
 			"Resists"    : [  7, 0,  12,   4, 12],
@@ -39,7 +39,7 @@
 		},
 		"Grinder31G" : {
 			"HP" : 150,
-			"Exp": 170,
+			"Exp": 200,
 			"Speed": 120,
 			"Range" : 80,
 			"Resists"    : [ 32, 23,  24,   9, 32],
@@ -57,7 +57,7 @@
 		},
 		"Grinder34R" : {
 			"HP" : 324,
-			"Exp": 310,
+			"Exp": 400,
 			"Speed": 120,
 			"Range" : 80,
 			"Resists"    : [  43, 74, 12, 33, 67],
@@ -111,7 +111,7 @@
 		},
 		"Trochnalis" : {
 			"HP" : 300,
-			"Exp": 200,
+			"Exp": 400,
 			"Speed": 100,
 			"Range" : 80,
 			"Resists"    : [ 15, 15, 15, 15, 30],
@@ -129,7 +129,7 @@
 		},
 		"FLA-B" : {
 			"HP" : 200,
-			"Exp": 400,
+			"Exp": 500,
 			"Speed": 130,
 			"Range" : 200,
 			"Resists"    : [ 20, 30, 40, 50, 50],
@@ -148,7 +148,7 @@
 		},
 		"FLA-S" : {
 			"HP" : 400,
-			"Exp": 500,
+			"Exp": 600,
 			"Speed": 110,
 			"Range" : 60,
 			"Resists"    : [ 20, 50, 10, 20, 50],

@@ -267,6 +267,6 @@ func _on_damage():
 func _on_payback_attack(collider):
 	if collider.get_parent().is_in_group("players"):
 		collider.get_parent().damage(self, 
-			skills["Payback"]["dmg"], 
-			skills["Payback"]["knockback"],
-			"Chaos" )
+			[[ skills["Payback"]["dmg"], "Chaos"]],
+			skills["Payback"]["knockback"]
+			 )

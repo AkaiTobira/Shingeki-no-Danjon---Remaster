@@ -94,24 +94,47 @@ func _ready():
 
 const DAMAGE_TYPE  = [\"NoDamage\", \"Earth\", \"Fire\", \"Water\", \"Wind\", \"Physical\"]
 
-func damage(amount, source = null, type = null):
-	var damage = amount
 
-	var type_id = DAMAGE_TYPE.find(type) - 1
-	damage = max( 1, int(amount -( resists[type_id] )/2))
 
-	resists[DAMAGE_TYPE.find(\"Physical\") - 1] = max( resists[DAMAGE_TYPE.find(\"Physical\")-1] - damage, 0 )
-	set_resists_to_bar()
-	
-	if resists[DAMAGE_TYPE.find(\"Physical\") - 1] == 0 and type == \"Physical\" : 
-		damage *= 2
+func get_resist_value(type):
+	var ressist = 0 
+	if type == \"Physical\":
+		var physical_id = DAMAGE_TYPE.find(\"Physical\") - 1
+		ressist = ( resists[physical_id]  )/2.0
+	elif type == \"Chaos\":
+		for damage in DAMAGE_TYPE:
+			if damage == \"Physical\": continue
+			var damage_id = DAMAGE_TYPE.find(damage) - 1
+			ressist += ( resists[damage_id] )/8.0
+	else:
+		var type_id = DAMAGE_TYPE.find(type) - 1
+		ressist += ( resists[type_id] )
+	return ressist
 
-	if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 
-		damage += PlayerStats.statistic[\"critical_damage\"][0]
-		type = \"crit\"
-	Res.create_instance(\"DamageNumber\").damage(self, damage, type)
+func damage(amount_array, source = null):
 
-	hp -= damage
+	for index in range(len(amount_array)):
+		var amount = amount_array[index][0]
+		var type   = amount_array[index][1]
+
+		var ressist = get_resist_value(type)
+		var damage  = amount - ressist
+
+		if type == \"Physical\":
+			var physical_id      = DAMAGE_TYPE.find(\"Physical\") - 1
+			resists[physical_id] = max( resists[physical_id] - amount, 0 )
+			set_resists_to_bar()
+
+		if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 
+			damage += PlayerStats.statistic[\"critical_damage\"][0]
+			if damage > 0: type    = \"crit\"
+
+		Res.create_instance(\"DamageNumber\").damage(self, damage, type, index)
+
+		hp                                 -= damage
+		health_bar.visible                  = true
+		health_bar.get_node(\"Health\").value = hp
+		
 	if hp <= 0:
 		$\"/root/Game\".save_state(self)
 		_dead = true
@@ -280,8 +303,6 @@ func set_resists_to_bar():
 
 	if resist_sum <= 0 : return
 	
-	print( resist_sum , \" \", resists )
-	
 	var max_value = 100
 	for value_index in range(len(resists)):
 		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
@@ -305,24 +326,45 @@ func _ready():
 
 const DAMAGE_TYPE  = [\"NoDamage\", \"Earth\", \"Fire\", \"Water\", \"Wind\", \"Physical\"]
 
-func damage(amount, source = null, type = null):
-	var damage = amount
+func get_resist_value(type):
+	var ressist = 0 
+	if type == \"Physical\":
+		var physical_id = DAMAGE_TYPE.find(\"Physical\") - 1
+		ressist = ( resists[physical_id]  )/2.0
+	elif type == \"Chaos\":
+		for damage in DAMAGE_TYPE:
+			if damage == \"Physical\": continue
+			var damage_id = DAMAGE_TYPE.find(damage) - 1
+			ressist += ( resists[damage_id] )/8.0
+	else:
+		var type_id = DAMAGE_TYPE.find(type) - 1
+		ressist += ( resists[type_id] )
+	return ressist
 
-	var type_id = DAMAGE_TYPE.find(type) - 1
-	damage = max( 1, int(amount -( resists[type_id] )/2))
+func damage(amount_array, source = null):
 
-	resists[DAMAGE_TYPE.find(\"Physical\") - 1] = max( resists[DAMAGE_TYPE.find(\"Physical\")-1] - damage, 0 )
-	set_resists_to_bar()
-	
-	if resists[DAMAGE_TYPE.find(\"Physical\") - 1] == 0 and type == \"Physical\" : 
-		damage *= 2
+	for index in range(len(amount_array)):
+		var amount = amount_array[index][0]
+		var type   = amount_array[index][1]
 
-	if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 
-		damage += PlayerStats.statistic[\"critical_damage\"][0]
-		type = \"crit\"
-	Res.create_instance(\"DamageNumber\").damage(self, damage, type)
+		var ressist = get_resist_value(type)
+		var damage  = amount - ressist
 
-	hp -= damage
+		if type == \"Physical\":
+			var physical_id      = DAMAGE_TYPE.find(\"Physical\") - 1
+			resists[physical_id] = max( resists[physical_id] - amount, 0 )
+			set_resists_to_bar()
+
+		if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 
+			damage += PlayerStats.statistic[\"critical_damage\"][0]
+			if damage > 0: type    = \"crit\"
+
+		Res.create_instance(\"DamageNumber\").damage(self, damage, type, index)
+
+		hp                                 -= damage
+		health_bar.visible                  = true
+		health_bar.get_node(\"Health\").value = hp
+		
 	if hp <= 0:
 		$\"/root/Game\".save_state(self)
 		_dead = true

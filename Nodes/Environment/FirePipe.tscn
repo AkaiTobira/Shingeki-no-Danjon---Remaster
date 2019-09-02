@@ -118,7 +118,7 @@ func _on_animation_finished(anim_name):
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 10, 0)"
+		body.get_parent().damage(self, [[ 10, \"Fire\"]], 0)"
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 58.4806, 32.4634 )

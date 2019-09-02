@@ -52,10 +52,10 @@ func _process(delta):
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 12, 0, \"Explosion\")
+		body.get_parent().damage(self, [[12,\"Fire\" ]], 0)
 		
 	if body.get_parent().is_in_group(\"enemies\"):
-		body.get_parent().damage(7,\"\",\"Explosion\")
+		body.get_parent().damage([[7,\"Fire\" ]],\"\")
 	pass # replace with function body
 "
 

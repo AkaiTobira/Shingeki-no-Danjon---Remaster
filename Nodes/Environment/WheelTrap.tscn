@@ -41,7 +41,7 @@ var position = Vector2()
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 10, 0)"
+		body.get_parent().damage(self, [[10,\"Fire\" ]], 0)"
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 37.4536, 2.26318 )

@@ -9,6 +9,7 @@ func _ready(): pass
 func parse(segment):
 	s = segment.instance()
 	#print(s.get_node("BottomTiles").get_used_rect() )
+	print(s.name)
 	initialize()
 	return [shape, enters]
 
@@ -48,6 +49,7 @@ func initialize():
     used_rect = s.get_node("BottomTiles").get_used_rect()
     get_important_tile_ids()
     covert_tiles_to_structure()
+	
 
 func covert_tiles_to_structure():
 

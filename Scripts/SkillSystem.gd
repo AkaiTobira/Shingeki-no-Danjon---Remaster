@@ -63,7 +63,6 @@ func get_active_skills():
 		acquired_active_skills.last_size = acquired_skills.size()
 		
 		for skill in acquired_skills:
-			print( skill, acquired_active_skills )
 			if Res.skills[skill].type == "active": acquired_active_skills.skills.append(skill)
 	
 	return acquired_active_skills.skills

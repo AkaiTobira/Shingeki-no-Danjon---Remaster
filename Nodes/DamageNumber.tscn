@@ -19,17 +19,7 @@ const ORANGE = Color(1,0.27,0)
 const YELLOW = Color(1,0.85,0)
 const VIOLET = Color(0.67,0.2,1)
 
-
-func damage(node, amount, type = \"physical\"):
-	node.get_parent().add_child(self)
-	position = node.position - Vector2(0, 128)
-	if typeof( amount ) == TYPE_STRING:
-		$Label.text = \"BLOCKED\"
-		$Sprite.scale.x    = 1.87
-		$Sprite.position.x = 40.647
-	else:
-		$Label.text = str(stepify(amount, 0.01)) #if amount > 0 else \"BLOCKED\"
-
+func add_color_to_label(type):
 	match(type):
 		\"crit\":
 			$Label.add_color_override(\"font_color\", WHITE)
@@ -47,7 +37,32 @@ func damage(node, amount, type = \"physical\"):
 		\"Physical\":
 			$Label.add_color_override(\"font_color\", PURPLE)
 		\"ice\":
-			$Label.add_color_override(\"font_color\", DBLUE)
+			$Label.add_color_override(\"font_color\", DBLUE)	
+
+
+func damage(node, amount, type = \"physical\", index = 0):
+	node.get_parent().add_child(self)
+	position = node.position - Vector2(0, 128 + 20*index)
+	if amount <= 0:
+		if type == \"Physical\": $Label.text = \"ABSORBED\"
+		else: $Label.text = \"INEFFECTIVE\"
+		$Sprite.scale.x    = 1.87
+		$Sprite.position.x = 40.647
+	else:
+		$Label.text = str(stepify(amount, 0.01))
+	add_color_to_label(type)
+
+func blocked_damage(node, amount, type = \"physical\", index = 0):
+	node.get_parent().add_child(self)
+	position = node.position - Vector2(0, 128+ 20*index)
+	if amount <= 0:
+		$Label.text = \"BLOCKED\"
+		$Sprite.scale.x    = 1.87
+		$Sprite.position.x = 40.647
+	else:
+		$Label.text = str(stepify(amount, 0.01))
+	add_color_to_label(type)
+
 
 func _physics_process(delta):
 	position.y -= delta * 50
@@ -69,13 +84,13 @@ scale = Vector2( 1.43342, 1.79466 )
 texture = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = -2.0
-margin_right = 38.0
+margin_left = -1.84901
+margin_right = 62.151
 margin_bottom = 22.0
 custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0.472667, 0.0424652, 0.0424652, 1 )
+custom_colors/font_color = Color( 0.47451, 0.0431373, 0.0431373, 1 )
 custom_colors/font_outline_modulate = Color( 0.521569, 0.0352941, 0.0352941, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
 custom_constants/shadow_offset_y = 0
 text = "100.00"
 align = 1

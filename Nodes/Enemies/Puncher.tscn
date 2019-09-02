@@ -289,7 +289,7 @@ tracks/0/keys = {
 extents = Vector2( 14.008, 10 )
 
 [sub_resource type="RectangleShape2D" id=13]
-extents = Vector2( 3.17211, 2.35094 )
+extents = Vector2( 3.17211, 0.610722 )
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 39.8092, 47.0572 )

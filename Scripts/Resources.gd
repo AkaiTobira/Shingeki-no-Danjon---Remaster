@@ -255,6 +255,7 @@ func cache_segment_structure(segment):
 	var segment_shape_parser   = load( "res://Scripts/SegmentStructureParser.gd" ).new()
 	segment_structure[segment] = segment_shape_parser.parse(Res.segment_nodes[segment])
 #	segment_shape_parser.free()
+	print( "CHACHED" )
 	return segment_structure[segment]
 
 func weighted_random(chances):

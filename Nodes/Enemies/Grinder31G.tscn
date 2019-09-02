@@ -87,7 +87,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=5]
 resource_name = "Magic"
 length = 5.5
 step = 0.5
@@ -104,7 +104,7 @@ tracks/0/keys = {
 "values": [ 10, 11, 12, 13, 14, 15, 16, 17, 18, 10 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 4.0
 step = 0.8
 tracks/0/type = "value"
@@ -132,7 +132,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 4.0
 step = 0.8
 tracks/0/type = "value"
@@ -160,8 +160,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "PunchRight"
+[sub_resource type="Animation" id=8]
 length = 4.0
 step = 0.8
 tracks/0/type = "value"
@@ -201,7 +200,7 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 4.0
 step = 0.8
 tracks/0/type = "value"
@@ -229,8 +228,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "Right"
+[sub_resource type="Animation" id=10]
 length = 4.0
 loop = true
 step = 1.0
@@ -283,7 +281,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
 length = 4.0
 loop = true
 step = 1.0
@@ -300,16 +298,16 @@ tracks/0/keys = {
 "values": [ 4, 5, 6, 7 ]
 }
 
-[sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 6.32098, 4.57783 )
-
 [sub_resource type="RectangleShape2D" id=12]
-extents = Vector2( 39.8092, 47.0572 )
+extents = Vector2( 6.32098, 1.46081 )
 
 [sub_resource type="RectangleShape2D" id=13]
-extents = Vector2( 57.0542, 68.5652 )
+extents = Vector2( 39.8092, 47.0572 )
 
 [sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 57.0542, 68.5652 )
+
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 19.4311, 20.9686 )
 
 [node name="GrinderC" type="KinematicBody2D" groups=[
@@ -355,18 +353,18 @@ anims/Dead = SubResource( 1 )
 anims/Down = SubResource( 2 )
 anims/Idle = SubResource( 3 )
 anims/Left = SubResource( 4 )
-anims/Magic = SubResource( 15 )
-anims/PunchDown = SubResource( 5 )
-anims/PunchLeft = SubResource( 6 )
-anims/PunchRight = SubResource( 7 )
-anims/PunchUp = SubResource( 8 )
-anims/Right = SubResource( 9 )
-anims/Up = SubResource( 10 )
+anims/Magic = SubResource( 5 )
+anims/PunchDown = SubResource( 6 )
+anims/PunchLeft = SubResource( 7 )
+anims/PunchRight = SubResource( 8 )
+anims/PunchUp = SubResource( 9 )
+anims/Right = SubResource( 10 )
+anims/Up = SubResource( 11 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 2.29096, -1.81335 )
+position = Vector2( 2.29096, -3.81335 )
 scale = Vector2( 3.70602, 2.42204 )
-shape = SubResource( 11 )
+shape = SubResource( 12 )
 
 [node name="HealthBar" parent="." instance=ExtResource( 5 )]
 position = Vector2( 0, -92 )
@@ -379,7 +377,7 @@ collision_mask = 2
 [node name="Shape" type="CollisionShape2D" parent="DamageCollider"]
 position = Vector2( 1.17495, -36.8634 )
 scale = Vector2( 0.880224, 1 )
-shape = SubResource( 12 )
+shape = SubResource( 13 )
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false
@@ -387,7 +385,7 @@ visible = false
 [node name="Shape" type="CollisionShape2D" parent="AttackCollider"]
 position = Vector2( 1, -34.5472 )
 scale = Vector2( 1, 1.03559 )
-shape = SubResource( 13 )
+shape = SubResource( 14 )
 disabled = true
 
 [node name="Radar" type="Area2D" parent="."]
@@ -398,7 +396,7 @@ collision_mask = 512
 [node name="Shape" type="CollisionShape2D" parent="Radar"]
 position = Vector2( -13.5791, -10.1375 )
 scale = Vector2( 30.8352, 20.2098 )
-shape = SubResource( 14 )
+shape = SubResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 2.51596, -4.60718 )
@@ -407,7 +405,7 @@ z_index = -1
 texture = ExtResource( 6 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
-position = Vector2( 0.459501, -33.9882 )
+position = Vector2( 0.0413797, -33.9882 )
 scale = Vector2( 3.18444, 4.90934 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_started"]

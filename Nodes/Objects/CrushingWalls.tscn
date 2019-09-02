@@ -69,10 +69,10 @@ func _process(delta):
 
 func _on_attack(body):
 	if body.get_parent().is_in_group(\"players\"):
-		body.get_parent().damage(self, 50, 0, \"Crush\")
+		body.get_parent().damage(self, [[50,\"Earth\" ]], 0)
 		
 	if body.get_parent().is_in_group(\"enemies\"):
-		body.get_parent().damage(10,\"\", \"Crush\")"
+		body.get_parent().damage([[10,\"Earth\" ]],\"\")"
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 80, 40 )

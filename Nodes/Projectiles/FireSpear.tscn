@@ -27,7 +27,7 @@ func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group(\"enemies\"):
 		SkillBase.inc_stat(\"FireMagic\")
 		SkillBase.inc_stat(\"Ranged\")
-		collider.get_parent().damage(damage, \"\", \"Fire\")
+		collider.get_parent().damage([[damage, \"Fire\" ]], \"\")
 
 func _on_Animation_animation_finished(anim_name):
 	if anim_name == \"Start\": $Animation.play(\"Fly\")"

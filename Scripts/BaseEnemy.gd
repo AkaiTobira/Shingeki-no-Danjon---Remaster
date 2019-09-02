@@ -95,8 +95,6 @@ func set_resists_to_bar():
 		node.visible  = true
 		health_bar.move_child(node, 7)
 
-
-
 var timeout_bar   = 0.0
 var timeout_flash = 0.0
 var timeout_dead  = 0.0
@@ -196,13 +194,14 @@ func is_close_enough():
 	
 func _on_attack_hit(collider):
 	if collider.get_parent().is_in_group("players"):
-		print("Get Collider")
 		if current_atack == "Wait" or current_atack == "Dead": return
 		
 		collider.get_parent().damage(self, 
-			damages[ABILITY_TYPE[current_atack]] + damages_modif[ABILITY_TYPE[current_atack]], 
-			knockbacks[ABILITY_TYPE[current_atack]],
-			damage_type[last_atack_type] )
+			[
+				[damages[ABILITY_TYPE[current_atack]] + damages_modif[ABILITY_TYPE[current_atack]], damage_type[last_atack_type]]
+			],
+			knockbacks[ABILITY_TYPE[current_atack]]
+			 )
 
 func move_along_path(distance):
 	#print( distance )
@@ -337,25 +336,46 @@ func _ready():
 	$"AnimationPlayer".play("Idle")
 #	enable_collisions()
 	
-func damage(amount, source = "", type = ""):
+
+func get_resist_value(type):
+	var ressist = 0 
+	if type == "Physical":
+		var physical_id = DAMAGE_TYPE.find("Physical") - 1
+		ressist = ( resists[physical_id] + resists_modif[physical_id] )/2.0
+	elif type == "Chaos":
+		for damage in DAMAGE_TYPE:
+			if damage == "Physical": continue
+			var damage_id = DAMAGE_TYPE.find(damage) - 1
+			ressist = ( resists[damage_id] + resists_modif[damage_id])/8.0
+	else:
+		var type_id = DAMAGE_TYPE.find(type) - 1
+		ressist = ( resists[type_id] + resists_modif[type_id] )
+	return ressist
+
+func damage(amount_array, source = ""):
 	if current_state == "Dead" : return
-	
-	var type_id = DAMAGE_TYPE.find(type) - 1
-	var damage  = max( 1, int(amount -( resists[type_id] + resists_modif[type_id])/2))
 
-	resists[DAMAGE_TYPE.find("Physical") - 1] = max( resists[DAMAGE_TYPE.find("Physical")-1] - damage, 0 )
-	if resists[DAMAGE_TYPE.find("Physical") - 1] == 0 and type == "Physical" : damage *= 2
-	set_resists_to_bar()
+	for index in range(len(amount_array)):
+		var amount = amount_array[index][0]
+		var type   = amount_array[index][1]
 
-	if randi()%100 < PlayerStats.statistic["critical_chance"][0]*100 and source == "player": 
-		damage += PlayerStats.statistic["critical_damage"][0]
-		type    = "crit"
+		var ressist = get_resist_value(type)
+		var damage  = amount - ressist
 
-	Res.create_instance("DamageNumber").damage(self, damage, type)
+		if type == "Physical":
+			var physical_id      = DAMAGE_TYPE.find("Physical") - 1
+			resists[physical_id] = max( resists[physical_id] - amount, 0 )
 
-	health                             -= damage
-	health_bar.visible                  = true
-	health_bar.get_node("Health").value = health
+		if randi()%100 < PlayerStats.statistic["critical_chance"][0]*100 and source == "player": 
+			damage += PlayerStats.statistic["critical_damage"][0]
+			if damage > 0: type    = "crit"
+
+		Res.create_instance("DamageNumber").damage(self, damage, type, index)
+
+		health                             -= max( damage, 0 )
+		health_bar.visible                  = true
+		health_bar.get_node("Health").value = health
+		set_resists_to_bar()
 	
 	if health <= 0:
 		$"/root/Game".save_state(self)
@@ -396,10 +416,10 @@ func create_drop():
 			get_parent().add_child(item)
 		elif drop > -1:
 			var stack = 1 
-			stack += 1 if randi() % 30  < 15 else 0 
-			stack += 1 if randi() % 60  < 20 else 0  
-			stack += 1 if randi() % 90  < 25 else 0 
-			stack += 1 if randi() % 120 < 30 else 0 
+			stack += 1 if randi() % 30  < 10 else 0 
+			stack += 1 if randi() % 60  < 15 else 0  
+			stack += 1 if randi() % 90  < 20 else 0 
+			stack += 1 if randi() % 120 < 25 else 0 
 				
 			var item      = Res.create_instance("Item")
 			item.id       = drop

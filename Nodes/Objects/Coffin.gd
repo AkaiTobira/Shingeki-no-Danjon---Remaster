@@ -128,8 +128,8 @@ func _build_wall( tab = [] ):
 
 func damage(amount, source):
 	Res.play_sample(self, "WoodBreak")
-	if health - amount > 0:
-		health -= amount
+	if health - amount[0][0] > 0:
+		health -= amount[0][0]
 		health_bar.value = health
 		bar_timeout = 180
 		return
