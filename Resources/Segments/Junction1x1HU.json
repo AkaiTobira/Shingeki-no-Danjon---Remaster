@@ -1,7 +1,7 @@
 {
 	"name" : "Junction1x1HU",
-		"is_deadend" : false,
-		"shape"      : {
-			"0,0" : "URL"
-		}
+	"is_deadend" : false,
+	"shape"      : {
+		"0,0" : "URL"
+	}
 }

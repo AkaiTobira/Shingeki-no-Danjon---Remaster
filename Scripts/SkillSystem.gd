@@ -29,9 +29,7 @@ func inc_stat(stat, amount = 1):
 		current_stats[stat] += amount
 	else:
 		current_stats[stat] = amount
-	
-	#print( current_stats )
-	
+
 	for skill in SKILLS.keys():
 		if acquired_skills.has(skill): continue
 		

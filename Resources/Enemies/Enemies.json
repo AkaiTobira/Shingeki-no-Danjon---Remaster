@@ -6,11 +6,35 @@
 			"Exp"   : 100,
 			"Speed" : 100,
 			"Range" : 80,
-			"Resists"    : [  10,  20,   0,  25, 20   ],
-			"Skill"      : [   1,   11, 50, 250, 1],
-			"Magic"      : [   0,   0,   0,   0, 0],
-			"Atack"      : [   1,   6,   0, 170, 5],
 
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 170,
+					"knockback" : 0,
+					"damage"    : [[  6, "Physical"]]
+				},
+				"Skill" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 250,
+					"knockback" : 50,
+					"damage"    : [[ 11, "Earth"]]
+				},
+				"Magic" :{
+					"can_use"   : false
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 10,
+				"Fire"     : 20,
+				"Water"    : 0,
+				"Wind"     : 25,
+				"Physical" : 20
+			},
+			
 			"Music" :   {
 				"Dead"       : "RobotCrash",
 				"Normal"     : "Punch",
@@ -24,11 +48,31 @@
 			"Exp": 60,
 			"Speed": 120,
 			"Range" : 80,
-			"Resists"    : [  7, 0,  12,   4, 12],
-			"Skill"      : [  0, 0,   0,   0,  0],
-			"Magic"      : [  0, 0,   0,   0,  0],
-			"Atack"      : [  1,  3,  0,  75,  3],
-		
+
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 75,
+					"knockback" : 0,
+					"damage"    : [[ 3, "Water"]]
+				},
+				"Skill" :{
+					"can_use"   : false
+				},
+				"Magic" :{
+					"can_use"   : false
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 7,
+				"Fire"     : 0,
+				"Water"    : 12,
+				"Wind"     : 4,
+				"Physical" : 12
+			},
+
 			"Music" :   {
 				"Dead"       : "RobotCrash",
 				"Normal"     : "",
@@ -42,11 +86,35 @@
 			"Exp": 200,
 			"Speed": 120,
 			"Range" : 80,
-			"Resists"    : [ 32, 23,  24,   9, 32],
-			"Skill"      : [  0, 20, 30, 110,  0],
-			"Magic"      : [  1, 20,  0, 600,  0],
-			"Atack"      : [  1, 23,  0,  75,  1],
 		
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 75,
+					"knockback" : 0,
+					"damage"    : [[ 23, "Physical"]]
+				},
+				"Skill" :{
+					"can_use"   : false
+				},
+				"Magic" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 600,
+					"knockback" : 0,
+					"damage"    : []
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 32,
+				"Fire"     : 23,
+				"Water"    : 24,
+				"Wind"     : 9,
+				"Physical" : 32
+			},
+
 			"Music" :   {
 				"Dead"       : "RobotCrash",
 				"Normal"     : "",
@@ -60,11 +128,42 @@
 			"Exp": 400,
 			"Speed": 120,
 			"Range" : 80,
-			"Resists"    : [  43, 74, 12, 33, 67],
+
 			"Skill"      : [  0, 20, 30, 110,  0],
 			"Magic"      : [  1, 20,  0, 400,  0],
 			"Atack"      : [  1, 42,  0,  75,  2],
-		
+
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 75,
+					"knockback" : 0,
+					"damage"    : [[ 42, "Fire"]]
+				},
+				"Skill" :{
+					"can_use"   : true,
+					"is_ready"  : true,
+					"prob"      : 1,
+					"knockback" : 0,
+					"damage"    : []
+				},
+				"Magic" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 400,
+					"knockback" : 0,
+					"damage"    : []
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 43,
+				"Fire"     : 74,
+				"Water"    : 12,
+				"Wind"     : 33,
+				"Physical" : 57
+			},
 			"Music" :   {
 				"Dead"       : "RobotCrash",
 				"Normal"     : "",
@@ -78,11 +177,35 @@
 			"Exp": 1000,
 			"Speed": 100,
 			"Range" : 80,
-			"Resists"    : [ 40, 80, 0, 100, 100],
-			"Skill"      : [ 1, 25, 70, 200, 1],
-			"Magic"      : [ 0, 0, 0, 0, 0],
-			"Atack"      : [ 1, 15, 0, 350, 5],
 			
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 250,
+					"knockback" : 0,
+					"damage"    : [[ 15, "Physical"]]
+				},
+				"Skill" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 350,
+					"knockback" : 70,
+					"damage"    : [[25, "Wind"]]
+				},
+				"Magic" :{
+					"can_use"   : true
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 40,
+				"Fire"     : 80,
+				"Water"    : 0,
+				"Wind"     : 100,
+				"Physical" : 100
+			},
+
 			"Music" :   {
 				"Dead"       : "RobotCrash",
 				"Normal"     : "Punch",
@@ -96,11 +219,39 @@
 			"Exp": 2500,
 			"Speed": 100,
 			"Range" : 80,
-			"Resists"    : [ 70, 150, 20, 190, 300],
-			"Skill"      : [  1,  56, 70,1000,   4],
-			"Magic"      : [  1,   0,  0, 700,   0],
-			"Atack"      : [  1,  32,  0, 350,   5],
-			
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 350,
+					"knockback" : 0,
+					"damage"    : [[ 32, "Earth"]]
+				},
+				"Skill" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 700,
+					"knockback" : 70,
+					"damage"    : [[56, "Wind"]]
+				},
+				"Magic" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 1000,
+					"knockback" : 0,
+					"damage"    : []
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 70,
+				"Fire"     : 150,
+				"Water"    : 20,
+				"Wind"     : 190,
+				"Physical" : 300
+			},
+
+
 			"Music" :   {
 				"Dead"       : "RobotCrash",
 				"Normal"     : "Punch",
@@ -114,10 +265,37 @@
 			"Exp": 400,
 			"Speed": 100,
 			"Range" : 80,
-			"Resists"    : [ 15, 15, 15, 15, 30],
 			"Skill"      : [ 1, 50, 0, 900, 2],
-			"Magic"      : [ 0, 0, 0, 0, 0],
+			"Magic"      : [ 0, 0,  0,   0, 0],
 			"Atack"      : [ 1, 12, 0, 300, 2],
+
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 300,
+					"knockback" : 0,
+					"damage"    : [[ 12, "Fire"]]
+				},
+				"Skill" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 1,
+					"knockback" : 50,
+					"damage"    : [[67, "Fire"]]
+				},
+				"Magic" :{
+					"can_use"   : false
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 15,
+				"Fire"     : 15,
+				"Water"    : 15,
+				"Wind"     : 15,
+				"Physical" : 30
+			},
 
 			"Music" :   {
 				"Dead"       : "RobotCrash",
@@ -132,11 +310,37 @@
 			"Exp": 500,
 			"Speed": 130,
 			"Range" : 200,
-			"Resists"    : [ 20, 30, 40, 50, 50],
+
 			"Skill"      : [ 1, 10, 0, 200, 2],
 			"Magic"      : [ 0, 0,   0, 0,   0],
 			"Atack"      : [ 1, 10,  0, 200, 2],
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 200,
+					"knockback" : 0,
+					"damage"    : [[ 10, "Physical"]]
+				},
+				"Skill" :{
+					"can_use"   : false,
+					"is_ready"  : false,
+					"prob"      : 200,
+					"knockback" : 0,
+					"damage"    : [[10, "Fire"]]
+				},
+				"Magic" :{
+					"can_use"   : false
+				}
+			},
 
+			"Resists"    : {
+				"Earth"    : 20,
+				"Fire"     : 30,
+				"Water"    : 40,
+				"Wind"     : 50,
+				"Physical" : 50
+			},
 			"Music" :   {
 				"Dead"       : "RobotCrash",
 				"Normal"     : "",
@@ -151,10 +355,33 @@
 			"Exp": 600,
 			"Speed": 110,
 			"Range" : 60,
-			"Resists"    : [ 20, 50, 10, 20, 50],
-			"Skill"      : [ 0, 50, 0, 0, 0],
-			"Magic"      : [ 1,  0, 0, 700, 0],
-			"Atack"      : [ 1, 29, 0, 150, 4],
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 150,
+					"knockback" : 0,
+					"damage"    : [[ 29, "Physical"]]
+				},
+				"Skill" :{
+					"can_use"   : false
+				},
+				"Magic" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 700,
+					"knockback" : 0,
+					"damage"    : []
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 20,
+				"Fire"     : 50,
+				"Water"    : 10,
+				"Wind"     : 20,
+				"Physical" : 50
+			},
 
 			"Music" :   {
 				"Dead"       : "RobotCrash",
@@ -169,10 +396,38 @@
 			"Exp": 800,
 			"Speed": 100,
 			"Range" : 120,
-			"Resists"    : [ 40, 10, 30, 30, 100],
-			"Skill"      : [ 1, 45, 5, 500, 2],
-			"Magic"      : [ 1,  0, 0, 600, 0],
-			"Atack"      : [ 1, 25, 5, 250, 5],
+
+			"Actions":{
+				"Attack" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 250,
+					"knockback" : 5,
+					"damage"    : [[ 25, "Physical"]]
+				},
+				"Skill" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 500,
+					"knockback" : 5,
+					"damage"    : [[45, "Fire"]]
+				},
+				"Magic" :{
+					"can_use"   : true,
+					"is_ready"  : false,
+					"prob"      : 600,
+					"knockback" : 0,
+					"damage"    : []
+				}
+			},
+
+			"Resists"    : {
+				"Earth"    : 40,
+				"Fire"     : 10,
+				"Water"    : 30,
+				"Wind"     : 30,
+				"Physical" : 100
+			},
 
 			"Music" :   {
 				"Dead"       : "RobotCrash",

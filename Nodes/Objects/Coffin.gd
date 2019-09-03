@@ -117,14 +117,9 @@ func _ready():
 	
 	Res.game.perma_state(self, "queue_free")
 
-func fill(breakable_contains,dungeon_level):
-	item = -1	
-	pass
+func fill(breakable_contains,dungeon_level): item = -1
 
-func _build_wall( tab = [] ):
-	directions = tab
-#	#print(directions)
-	pass
+func _build_wall( tab = [] ): directions = tab
 
 func damage(amount, source):
 	Res.play_sample(self, "WoodBreak")

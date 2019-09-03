@@ -11,7 +11,6 @@ export var const_object = true
 export(bool) var randomize_speed_of_animation 
 export var need_enemies_list = false
 
-
 export(bool) var need_second_wall
 export(bool) var need_more_space
 export(bool) var walkable = false

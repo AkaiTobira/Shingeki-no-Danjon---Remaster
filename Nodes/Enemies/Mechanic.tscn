@@ -36,28 +36,28 @@ var _dead = false
 
 onready var health_bar = $HealthBar2
 
-var resists = [ 0,0,0,0,0 ]
+var resistance = [ 0,0,0,0,0 ]
 
 func randomize_resists():
-	for i in range(len( resists )):
-		resists[i] = randi()% 20 + 10
+	for i in range(len( resistance )):
+		resistance[i] = randi()% 20 + 10
 
-	resists[randi()%4] = 0 
-	resists[4] *= 2
+	resistance[randi()%4] = 0 
+	resistance[4] *= 2
 
 func update_resists():
 	randomize_resists()
 	var resist_sum = 0 
-	for resist in range(len(resists)):
-		resist_sum += resists[resist] 
+	for resist in range(len(resistance)):
+		resist_sum += resistance[resist] 
 
 	if resist_sum <= 0 : return
 
 	var max_value = 100
-	for value_index in range(len(resists)):
+	for value_index in range(len(resistance)):
 		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
 		node.value    = max_value
-		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		max_value    -= int( resistance[value_index]  * 100 /resist_sum)
 		node.visible  = true
 		health_bar.move_child(node, 7)
 
@@ -65,17 +65,25 @@ func set_resists_to_bar():
 	health_bar.get_node(\"Health\").max_value = max_hp
 	health_bar.get_node(\"Health\").value     = hp
 
+	#Resists = {
+	#	\"Earth\"    : [resistance[0], 0],
+	#	\"Fire\"     : [resistance[1], 0],
+	#	\"Water\"    : [resistance[2], 0],
+	#	\"Wind\"     : [resistance[3], 0],
+	#	\"Physical\" : [resistance[4], 0]
+	#}
+
 	var resist_sum = 0 
-	for resist in range(len(resists)):
-		resist_sum += resists[resist] 
+	for resist in range(len(resistance)):
+		resist_sum += resistance[resist] 
 
 	if resist_sum <= 0 : return
 	
 	var max_value = 100
-	for value_index in range(len(resists)):
+	for value_index in range(len(resistance)):
 		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
 		node.value    = max_value
-		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		max_value    -= int( resistance[value_index]  * 100 /resist_sum)
 		node.visible  = true
 		health_bar.move_child(node, 7)
 
@@ -94,21 +102,19 @@ func _ready():
 
 const DAMAGE_TYPE  = [\"NoDamage\", \"Earth\", \"Fire\", \"Water\", \"Wind\", \"Physical\"]
 
-
-
 func get_resist_value(type):
 	var ressist = 0 
 	if type == \"Physical\":
 		var physical_id = DAMAGE_TYPE.find(\"Physical\") - 1
-		ressist = ( resists[physical_id]  )/2.0
+		ressist = ( resistance[physical_id]  )/2.0
 	elif type == \"Chaos\":
 		for damage in DAMAGE_TYPE:
 			if damage == \"Physical\": continue
 			var damage_id = DAMAGE_TYPE.find(damage) - 1
-			ressist += ( resists[damage_id] )/8.0
+			ressist += ( resistance[damage_id] )/8.0
 	else:
 		var type_id = DAMAGE_TYPE.find(type) - 1
-		ressist += ( resists[type_id] )
+		ressist += ( resistance[type_id] )
 	return ressist
 
 func damage(amount_array, source = null):
@@ -122,7 +128,7 @@ func damage(amount_array, source = null):
 
 		if type == \"Physical\":
 			var physical_id      = DAMAGE_TYPE.find(\"Physical\") - 1
-			resists[physical_id] = max( resists[physical_id] - amount, 0 )
+			resistance[physical_id] = max( resistance[physical_id] - amount, 0 )
 			set_resists_to_bar()
 
 		if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 
@@ -267,29 +273,29 @@ var _dead = false
 
 onready var health_bar = $HealthBar2
 
-var resists = [ 0,0,0,0,0 ]
+var resistance = [ 0,0,0,0,0 ]
 
 func randomize_resists():
-	for i in range(len( resists )):
-		resists[i] = randi()% 20 + 10
+	for i in range(len( resistance )):
+		resistance[i] = randi()% 20 + 10
 
-	resists[randi()%4] = 0 
-	resists[4] *= 2
+	resistance[randi()%4] = 0 
+	resistance[4] *= 2
 
 
 func update_resists():
 	randomize_resists()
 	var resist_sum = 0 
-	for resist in range(len(resists)):
-		resist_sum += resists[resist] 
+	for resist in range(len(resistance)):
+		resist_sum += resistance[resist] 
 
 	if resist_sum <= 0 : return
 
 	var max_value = 100
-	for value_index in range(len(resists)):
+	for value_index in range(len(resistance)):
 		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
 		node.value    = max_value
-		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		max_value    -= int( resistance[value_index]  * 100 /resist_sum)
 		node.visible  = true
 		health_bar.move_child(node, 7)
 
@@ -297,17 +303,25 @@ func set_resists_to_bar():
 	health_bar.get_node(\"Health\").max_value = max_hp
 	health_bar.get_node(\"Health\").value     = hp
 
+	#Resists = {
+	#	\"Earth\"    : [resistance[0], 0],
+	#	\"Fire\"     : [resistance[1], 0],
+	#	\"Water\"    : [resistance[2], 0],
+	#	\"Wind\"     : [resistance[3], 0],
+	#	\"Physical\" : [resistance[4], 0]
+	#}#
+
 	var resist_sum = 0 
-	for resist in range(len(resists)):
-		resist_sum += resists[resist] 
+	for resist in range(len(resistance)):
+		resist_sum += resistance[resist] 
 
 	if resist_sum <= 0 : return
 	
 	var max_value = 100
-	for value_index in range(len(resists)):
+	for value_index in range(len(resistance)):
 		var node      = health_bar.get_node(\"Resist\" + str(value_index + 1) )
 		node.value    = max_value
-		max_value    -= int( resists[value_index]  * 100 /resist_sum)
+		max_value    -= int( resistance[value_index]  * 100 /resist_sum)
 		node.visible  = true
 		health_bar.move_child(node, 7)
 
@@ -330,15 +344,15 @@ func get_resist_value(type):
 	var ressist = 0 
 	if type == \"Physical\":
 		var physical_id = DAMAGE_TYPE.find(\"Physical\") - 1
-		ressist = ( resists[physical_id]  )/2.0
+		ressist = ( resistance[physical_id]  )/2.0
 	elif type == \"Chaos\":
 		for damage in DAMAGE_TYPE:
 			if damage == \"Physical\": continue
 			var damage_id = DAMAGE_TYPE.find(damage) - 1
-			ressist += ( resists[damage_id] )/8.0
+			ressist += ( resistance[damage_id] )/8.0
 	else:
 		var type_id = DAMAGE_TYPE.find(type) - 1
-		ressist += ( resists[type_id] )
+		ressist += ( resistance[type_id] )
 	return ressist
 
 func damage(amount_array, source = null):
@@ -352,7 +366,7 @@ func damage(amount_array, source = null):
 
 		if type == \"Physical\":
 			var physical_id      = DAMAGE_TYPE.find(\"Physical\") - 1
-			resists[physical_id] = max( resists[physical_id] - amount, 0 )
+			resistance[physical_id] = max( resistance[physical_id] - amount, 0 )
 			set_resists_to_bar()
 
 		if randi()%100 < PlayerStats.statistic[\"critical_chance\"][0]*100 and source == \"player\": 

@@ -101,6 +101,9 @@ func create_stairs():
 
 	var segment_exit  = graph[ randi()%len(graph) ]["segment"]
 	stairs_pos = segment_exit.get_stairs_position() 
+
+	var secure_break = 0
+
 	while(!segment_exit.can_have_stairs 
 	   or !len(stairs_pos) 
 	   or segment_exit == segment_enter 
@@ -109,6 +112,10 @@ func create_stairs():
 		print( segment_exit.can_have_stairs , len(stairs_pos) ,segment_exit == segment_enter , segment_enter.position.distance_to(segment_exit.position) < 3500)
 		segment_exit  = graph[ randi()%len(graph) ]["segment"]
 		stairs_pos    = segment_exit.get_stairs_position() 
+		secure_break += 1
+		if secure_break > 100 : 
+			print("SECURE_BREAK_SECOND_STAIRS")
+			break
 
 	stairs_position = stairs_pos[randi()%len(stairs_pos)]*80
 

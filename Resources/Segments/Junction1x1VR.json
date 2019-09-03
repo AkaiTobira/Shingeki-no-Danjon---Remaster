@@ -1,7 +1,7 @@
 { 
 	"name" : "Junction1x1VR",
-		"is_deadend" : false,
-		"shape"      : {
-			"0,0" : "DRU"
-		}
+	"is_deadend" : false,
+	"shape"      : {
+		"0,0" : "DRU"
+	}
 }

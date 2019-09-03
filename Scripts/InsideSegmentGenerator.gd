@@ -213,10 +213,8 @@ func reserve_tile_under_obj( obj_size, i, j, style = Res.EnvironmentType.Decorat
 
 func generate(dungeon, current_level = 0):
 	initialize_generation(dungeon, current_level)
-	print( "GENERATION START" )
 	generate_objects()
 	while !is_correct():
-		print( "RESET")
 		reset()
 		generate_objects()
 	generate_enemies()

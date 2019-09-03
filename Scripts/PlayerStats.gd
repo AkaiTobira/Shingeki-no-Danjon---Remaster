@@ -183,7 +183,6 @@ func total_exp(level):
 	return 3 * pow(level, 3) / 3 + level * (level+1) * 2 + 5 * level
 
 func add_experience(amount):
-	#print( experience, " ", experience + amount, " ", next_level_exp)
 	experience += amount
 	
 	while experience >= next_level_exp:
@@ -192,7 +191,6 @@ func add_experience(amount):
 
 		current_level_exp = next_level_exp
 		next_level_exp   += total_exp(level+1)
-	#	print( experience, " ", next_level_exp)
 		emit_signal("level_up")
 
 func simple_randomizer():

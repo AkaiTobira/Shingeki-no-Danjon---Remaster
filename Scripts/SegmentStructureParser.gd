@@ -8,8 +8,6 @@ func _ready(): pass
 
 func parse(segment):
 	s = segment.instance()
-	#print(s.get_node("BottomTiles").get_used_rect() )
-	print(s.name)
 	initialize()
 	return [shape, enters]
 
@@ -71,11 +69,7 @@ func covert_tiles_to_structure():
         var cell = []
         for j in i:
             cell.append(j)
-        structure.append(cell)	
-        
-#	var time_now = OS.get_unix_time()
-#	#print( "mark_functions : ", (time_now - time_start)) 
-        
+        structure.append(cell)
 
 func mark_walls():
     for i in range(used_rect.end.x+2):

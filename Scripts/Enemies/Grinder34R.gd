@@ -30,12 +30,12 @@ func _process(delta):
 				
 		if current_atack == "Wait":
 			if is_close_enough():
-				if   ability_ready[ABILITY_TYPE["Magic"]] and can_use_ability[ABILITY_TYPE["Magic"]] and !magic_active:
-					_magic()
-				elif ability_ready[ABILITY_TYPE["Skill"]] and can_use_ability[ABILITY_TYPE["Skill"]]:
-					_skill()
-				elif ability_ready[ABILITY_TYPE["Atack"]] and can_use_ability[ABILITY_TYPE["Atack"]]:
-					_atack()
+				if actions["Magic"]["is_ready"] and actions["Magic"]["can_use"] and !magic_active:
+					_use_action( "Magic" )
+				elif actions["Skill"]["is_ready"] and actions["Skill"]["can_use"]:
+					_use_action( "Skill" )
+				elif actions["Attack"]["is_ready"] and actions["Attack"]["can_use"]:
+					_use_action( "Attack" )
 		else:
 			if ameansure_preparation_timeout( delta ):
 				process_atacks()
@@ -51,10 +51,14 @@ func process_atacks():
 			play_animation_if_not_playing("Special"+ direction)
 			Res.play_sample(self, music["Special"])
 			return
-		"Atack":
+		"Attack":
 			play_animation_if_not_playing("Punch" + direction)
 			Res.play_sample(self, music["Normal"])
 			return
+
+const ADDITIONAL_DMG = 12
+const PROBABILITY    = -50
+const MOVESPEED      = -20
 
 func turn_off_magic_state():
 	Res.play_sample(self, "FLABuffCancel")
@@ -63,12 +67,11 @@ func turn_off_magic_state():
 	timeout_magic = 0.0
 	magic_active = false
 	
-	damages_modif[ABILITY_TYPE["Atack"]] = 0
-	ab_prob_modif[ABILITY_TYPE["Atack"]] = 0
-	movespeed              -= 20
+	actions["Attack"]["damage"][0][0] += ADDITIONAL_DMG
+	actions["Attack"]["prob"]         += PROBABILITY
+	movespeed                         += MOVESPEED
 
-	for resist in resists_modif:
-		resist = 0
+	for damage in DAMAGE_TYPE: Resists[damage][1] = 0
 
 	play_animation_if_not_playing("Magic", true)
 
@@ -80,13 +83,11 @@ func turn_on_magic_state():
 	block_logic       = true
 	magic_active      = true
 	
-	damages_modif[ABILITY_TYPE["Atack"]] = 12
-	ab_prob_modif[ABILITY_TYPE["Atack"]] = -50
-	movespeed              += 20
+	actions["Attack"]["damage"][0][0] -= ADDITIONAL_DMG
+	actions["Attack"]["prob"]         -= PROBABILITY
+	movespeed                         -= MOVESPEED
 
-	for i in range(len(resists_modif)):
-		resists_modif[i] = -8
-
+	for damage in DAMAGE_TYPE: Resists[damage][1] = 8
 
 func muliplication_at_dead():
 	if not allow_multiplication: return
@@ -107,9 +108,9 @@ func muliplication_at_dead():
 		health     /=  2
 		experience /=  2
 	
-		for index in range(len(resists)): resists[index] /= 2
-		for index in range(len(damages)): damages[index] /= 2
-		
+		for damage in DAMAGE_TYPE: Resists[damage][0] /= 2
+		for index  in range(len(actions["Attack"]["damage"][0])) : actions["Attack"]["damage"][0][index]/2 
+
 		set_resists_to_bar()
 		get_parent().add_child(instance)
 

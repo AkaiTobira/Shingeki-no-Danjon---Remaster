@@ -1,7 +1,7 @@
 {
 	"name" : "Curve1x1UL",
-		"is_deadend" : false,
-		"shape"      : {
-			"0,0" : "UL"
-		}
+	"is_deadend" : false,
+	"shape"      : {
+		"0,0" : "UL"
+	}
 }

@@ -7,7 +7,7 @@
 	"projectile": "Tornado",
 	"stats": ["OffensiveMagic"],
 	"cost": 70,
-	"damage": 50,
+	"damage": 23,
 	"magic": 3,
 	"elements": {"air": 1},
 	"scalling": {"intelligence": 1}

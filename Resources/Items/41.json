@@ -7,9 +7,9 @@
     "price": 200,
     "stats" : {	 	
         "armour"    : 15,
-		"earth_resistance"  : 22,
+		"earth_resistance" : 22,
 		"wind_resistance"  : 30,
-		"water_resistance"  : 12,
+		"water_resistance" : 12,
         "fire_resistance"  : 19,
         "block"   : 22
 	 },

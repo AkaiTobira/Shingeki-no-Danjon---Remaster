@@ -12,10 +12,12 @@ var map
 var music
 
 var map_manager
+var quest_system = null
 var current_map_id 
 
 func _init():
 	Res.game = self
+	quest_system = load( "res://Scripts/QuestSystem.gd" ).new()
 
 func set_map_manager(location_manager):
 	map_manager    = location_manager

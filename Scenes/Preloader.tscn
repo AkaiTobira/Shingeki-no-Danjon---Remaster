@@ -89,10 +89,6 @@ func start_loading_maps( unused_var ):
 func basic_map_making_ended():
 	loader.wait_to_finish()
 	can_start_game = true
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 "
 
 [node name="Preloader" type="Node2D"]

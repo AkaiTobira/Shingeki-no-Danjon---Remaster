@@ -13,7 +13,7 @@ var direction = 0
 var damage = 0
 
 
-var time_beeing_active = 30
+var time_beeing_active = 20
 var time               = 0
 
 func intiated():

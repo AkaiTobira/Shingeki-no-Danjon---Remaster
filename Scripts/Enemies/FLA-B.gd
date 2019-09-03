@@ -33,20 +33,19 @@ func _physics_process(delta):
 
 		if current_atack == "Wait":
 			if is_close_enough():
-				if   ability_ready[ABILITY_TYPE["Magic"]] and can_use_ability[ABILITY_TYPE["Magic"]] and !magic_active:
-					_magic()
-				elif ability_ready[ABILITY_TYPE["Skill"]] and can_use_ability[ABILITY_TYPE["Skill"]]:
-					_skill()
-				elif ability_ready[ABILITY_TYPE["Atack"]] and can_use_ability[ABILITY_TYPE["Atack"]]:
-					_atack()
+				if actions["Magic"]["is_ready"] and actions["Magic"]["can_use"] and !magic_active:
+					_use_action( "Magic" )
+				elif actions["Skill"]["is_ready"] and actions["Skill"]["can_use"]:
+					_use_action( "Skill" )
+				elif actions["Attack"]["is_ready"] and actions["Attack"]["can_use"]:
+					_use_action( "Attack" )
 		else:
 			if ameansure_preparation_timeout( delta ):
 				process_atacks()
 				block_logic = true
 				pass
 
-
-
+			
 func process_atacks():
 	match(current_atack):
 		"Magic":
@@ -56,7 +55,7 @@ func process_atacks():
 			play_animation_if_not_playing("Special"+ direction)
 			Res.play_sample(self, music["Special"])
 			return
-		"Atack":
+		"Attack":
 			play_animation_if_not_playing("Punch" + direction)
 			Res.play_sample(self, music["Normal"])
 			return
@@ -129,7 +128,7 @@ func shoot_arrow():
 			projectile.direction = 0	
 	
 	projectile.intiated()
-	projectile.damage = damages[ABILITY_TYPE["Atack"]]
+	projectile.damage = actions["Attack"]["damage"][0][0]
 
 func shoot_arrows():
 	Res.play_sample(self, "MultiArrow")
@@ -183,7 +182,7 @@ func shoot_arrows():
 				
 	for arrow in arrows:
 		arrow.intiated()
-		arrow.damage = damages[ABILITY_TYPE["Skill"]]
+		arrow.damage = actions["Skill"]["damage"][0][0]
 		
 func turn_off_magic_state():
 	pass

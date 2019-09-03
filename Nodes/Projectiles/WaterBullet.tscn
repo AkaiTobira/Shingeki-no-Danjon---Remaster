@@ -30,8 +30,7 @@ func _on_attack_hit(collider):
 		SkillBase.inc_stat(\"WaterMagic\")
 		SkillBase.inc_stat(\"Ranged\")
 		collider.get_parent().damage([[damage, \"Water\"]], \"\")
-		call_deferred(\"queue_free\")
-		
+
 		if !no_dup:
 			for i in range(3):
 				var bullet = load(\"res://Nodes/Projectiles/WaterBullet.tscn\").instance()
@@ -41,6 +40,8 @@ func _on_attack_hit(collider):
 				bullet.position = position + MOVEMENT[direction] * 160
 				bullet.damage   = damage
 				get_parent().add_child(bullet)
+
+		call_deferred(\"queue_free\")
 
 
 func _on_Animation_animation_finished(anim_name):

@@ -7,9 +7,9 @@
 	"block"     : 7,
 	"stats" : {	 	
 		"armour"    : 15,
-		"earth_resistance"  : 9,
+		"earth_resistance" : 9,
 		"wind_resistance"  : 9,
-		"water_resistance"  : 9,
+		"water_resistance" : 9,
 		"fire_resistance"  : 9
 	 },
 	"material"  : [0,4]

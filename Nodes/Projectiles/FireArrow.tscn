@@ -9,7 +9,7 @@ const MOVEMENT = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 const SPEED = 10
 
 var direction = 0 setget new_dir
-var damage = 10
+var damage    = 10
 var moveModificator = Vector2(0,0)
 
 var distance = Vector2( 0,0 )
@@ -47,7 +47,7 @@ func new_dir(dir):
 func _on_attack_hit(collider):
 	
 	if collider.get_parent().is_in_group(\"players\"):
-		collider.get_parent().damage(self ,[[damage, \"Fire\" ]], damage, 0 )
+		collider.get_parent().damage(self ,[[damage, \"Fire\" ]], 0 )
 		queue_free()
 
 	#if !collider.get_parent().is_in_group(\"enemies\"):

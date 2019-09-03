@@ -1,7 +1,7 @@
 { 
 	"name" : "Junction1x1VL",
-		"is_deadend" : false,
-		"shape"      : {
-			"0,0" : "DLU"
-		}
+	"is_deadend" : false,
+	"shape"      : {
+		"0,0" : "DLU"
+	}
 }

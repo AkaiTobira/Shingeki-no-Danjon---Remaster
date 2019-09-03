@@ -4,7 +4,6 @@ var DIRECTIONS    = [ "L", "R", "U", "D" ]
 var O_DIRECTION   = { "L":"R", "R":"L", "U":"D", "D":"U" }
 var POS_CHANGE    = { "L": [-1, 0], "R": [1,0], "U": [0,-1], "D":[0,1]}
 
-
 var locked_positions = {}
 var graph		= {}
 var empty_spots	  = []
@@ -49,14 +48,13 @@ func generate():
 		_lock_segment(   segments[0][0], next_spot, segments[0][1] )
 		_add_new_points( segments[0][0], next_spot, segments[0][1] )
 
-
 func _get_not_deadend_segments():
 	var segments = []
 	for segment in Res.segments.values():
 		if not segment["is_deadend"]: segments.append( [ segment, [0,0] ])
 	return segments
 
-func _get_posible_segments( spot):
+func _get_posible_segments(spot):
 	if spot["is_start"]: return _get_not_deadend_segments()
 
 	var segments = []
@@ -71,7 +69,7 @@ func _get_posible_segments( spot):
 	if len( segments ) == 0: return _get_matching_segment(spot)
 	return segments
 
-func _get_matching_segment( spot ):
+func _get_matching_segment(spot):
 	for segment in Res.segments.values():
 		var positions = _get_matching_pos( segment, spot["dir"] )
 		for position in positions:
@@ -136,15 +134,14 @@ func _add_points_by_directions( directions, spot):
 				}
 			empty_spots.append(nn)
 
-func _add_new_points(  segment, spot, seg_shift): 
+func _add_new_points(segment, spot, seg_shift): 
 	for s in segment["shape"]:
 		if segment["shape"][s] == "": continue
 		var t = s.split(",")
 		var new_spot = [ spot["pos"][0] + int(t[0]) - seg_shift[0], spot["pos"][1] + int(t[1]) - seg_shift[1]]
 		_add_points_by_directions( segment["shape"][s], new_spot )
 
-func _lock_segment(    segment, spot, seg_shift): 
-
+func _lock_segment(segment, spot, seg_shift): 
 	var LU_corner = [ spot["pos"][0] - seg_shift[0], spot["pos"][1] - seg_shift[1] ]
 
 	graph[len(graph)] = {
@@ -165,7 +162,7 @@ func _lock_segment(    segment, spot, seg_shift):
 		_remove_from_free_spots( [LU_corner[0] + int(p[0]), LU_corner[1] + int(p[1]) ])
 		locked_positions[str_place] = segment["shape"][place]
 
-func _remove_from_free_spots( to_check):
+func _remove_from_free_spots(to_check):
 
 	for spot in empty_spots:
 		if spot["pos"] == to_check: 

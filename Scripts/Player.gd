@@ -36,8 +36,7 @@ var active_damage_type = "Physical"
 var damaged
 var dead = false
 
-const DAMAGE_TYPE  = ["NoDamage", "Earth", "Fire", "Water", "Wind", "Physical"]
-
+const DAMAGE_TYPE  = ["Earth", "Fire", "Water", "Wind", "Physical"]
 
 func _ready():
 	change_animation("Body", "Idle")
@@ -50,29 +49,22 @@ func _ready():
 	PlayerStats.connect("equipment_changed", self, "update_weapon")
 	PlayerStats.connect("equipment_changed", self, "update_shield")
 
-
-
-func _physics_process(delta):
-
-	if dead: return
-	
-	if ghost_time: ##( ･_･)
-		$Body/RightArm/Weapon.visible = false
-		$Body/LeftArm/Shield.visible = false
+func handle_ghost(delta):
+	 ##( ･_･)
+	$Body/RightArm/Weapon.visible = false
+	$Body/LeftArm/Shield.visible = false
 		
-		ghost_time -= delta
-		GHOST_EFFECT.material.set_shader_param("noise_power", 0.002 + max(2 - ghost_time, 0) * 0.02)
-		if ghost_time <= 0 : get_parent().cancel_ghost()
-	
+	ghost_time -= delta
+	GHOST_EFFECT.material.set_shader_param("noise_power", 0.002 + max(2 - ghost_time, 0) * 0.02)
+	if ghost_time <= 0 : get_parent().cancel_ghost()
+
+func handle_move(not_move, delta):
 	frame_counter += 1
 	var move = Vector2()
 	
 	static_time += delta
 	motion_time += delta
 #	if static_time >= MEDITATION_TIME: SkillBase.inc_stat("Meditation")
-	
-	var elements_on = (!ghost_time and $Elements.visible)
-	var not_move    = (ghost_mode   or elements_on or knockback.length_squared() > 0)
 	
 	if !not_move:
 		if Input.is_action_pressed("Up"):
@@ -92,7 +84,37 @@ func _physics_process(delta):
 		if move.length() > 5000: move = move.normalized() * ( 5000  )
 		knockback /= 1.5
 		if knockback.length_squared() < 1: knockback = Vector2()
+
+	if move.length_squared() == 0: 
+		SkillBase.inc_stat("Meditation", delta)
+		running = false
+
+	if SkillBase.has_skill("FastWalkI") and SkillBase.check_combo(["Dir", "Same"]): running = true
+	if !not_move:
+		move = move.normalized() * ( SPEED +  PlayerStats.statistic["move_speed"][0] )
+		if running and !not_move: 
+			if   SkillBase.has_skill("FastWalkII") : move *= 1.55 
+			elif SkillBase.has_skill("FastWalkIII"): move *= 3 #DEBBUG
+			else : move *= 1.30
+
+	if !damaged and !knockback:
+		if move.length() > 0 and !not_move:
+			static_time = 0
+			PlayerStats.damage_equipment("boots")
+			change_animation("Body", "Walk")
+		else:
+			motion_time = 0
+			change_animation("Body", "Idle")
+	else:
+		damaged -= 1
+		if damaged == 0: damaged = null
 	
+	var rem = move_and_slide(move)
+	if rem.length() == 0: motion_time = 0
+	elif motion_time > 1: SkillBase.inc_stat("PixelsTravelled", int(rem.length()))
+	prev_move = move
+
+func handle_sword_attack(delta):
 	if !ghost_time and !attacking and !ghost_mode and !shielding and Input.is_action_just_pressed("Attack"):
 		if PlayerStats.get_equipment("weapon"): Res.play_pitched_sample(self, "Sword")
 		else: Res.play_pitched_sample(self, "Punch")
@@ -103,13 +125,13 @@ func _physics_process(delta):
 		charge_spin = 1
 	
 	if charge_spin: charge_spin += delta
-	
-#	if Input.is_action_just_released("Attack"):
+	#	if Input.is_action_just_released("Attack"):
 #		if charge_spin and charge_spin > 2:
 #			change_animation("Body", "SpinAttack")
 #			change_animation("LeftArm", "SpinAttack")
 #		charge_spin = null
-	
+
+func handle_shielding():
 	if !attacking and !shielding : 
 		if PlayerStats.get_equipment("shield") and Input.is_action_pressed("Shield"):
 			change_animation("LeftArm", "ShieldOn")
@@ -117,31 +139,10 @@ func _physics_process(delta):
 	elif shielding and Input.is_action_just_released("Shield"):
 		change_animation("LeftArm", "ShieldOff")
 		shielding = false
-	
-#	if Input.is_action_just_pressed("Spell1") and PlayerStats.get_skill(0) and PlayerStats.mana > PlayerStats.get_skill(0).cost:
-#		cast_spell(0)
-	
-	if PlayerStats.mana < PlayerStats.statistic["max_mana"][0]:
-		PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mana_regeneration"][0] * delta, PlayerStats.statistic["max_mana"][0])
-	
 
-#	if PlayerStats.hp   < PlayerStats.max_hp   and frame_counter % 20 == 0: PlayerStats.hp   = min(PlayerStats.hp + 1, PlayerStats.max_hp)
-
-	UI.soft_refresh()
-	
-	if move.length_squared() == 0: running = false
-
-	if SkillBase.has_skill("FastWalkI") and SkillBase.check_combo(["Dir", "Same"]): running = true
-	if !not_move:
-		move = move.normalized() * ( SPEED +  PlayerStats.statistic["move_speed"][0] )
-		if running and !not_move: 
-			if   SkillBase.has_skill("FastWalkII") : move *= 1.55 
-			elif SkillBase.has_skill("FastWalkIII"): move *= 3 #DEBBUG
-			else : move *= 1.30
-
+func handle_magic_menu(elements_on):
 	if !elements_on:
 		if Input.is_action_just_pressed("Magic"):#SkillBase.check_combo(["Magic", "Magic_"]):
-#			#print(SkillBase.current_combo)
 			$Elements.visible = true
 			SkillBase.current_combo.clear()
 	else:
@@ -169,10 +170,8 @@ func _physics_process(delta):
 		if Input.is_action_just_released("Magic"):
 			Res.ui_sample("SelectElement")
 			$Elements.visible = false
-	
-	#if ghost_time:
-	#	if Input.is_action_just_pressed("Ghost"): trigger_ghost()
-	
+
+func handle_skill_cast(elements_on, delta):
 	if !elements_on :# and Input.is_action_pressed("Magic"):
 		if !wind_spam_hack:
 			use_magic()
@@ -203,28 +202,34 @@ func _physics_process(delta):
 			if wind_spam_hack <= 0:
 				wind_spam_hack = 0
 				SkillBase.current_combo.clear()
+
+func atribute_regeneration(delta):
+	if PlayerStats.mana < PlayerStats.statistic["max_mana"][0]:
+		PlayerStats.mana = min(PlayerStats.mana + PlayerStats.statistic["mana_regeneration"][0] * delta, 
+							   PlayerStats.statistic["max_mana"][0]
+							   )
+
+func _physics_process(delta):
+
+	if dead: return	
+	if ghost_time:	handle_ghost(delta)
+
+	var elements_on = (!ghost_time and $Elements.visible)
+	var not_move    = (ghost_mode   or elements_on or knockback.length_squared() > 0)
+
+	handle_move(not_move, delta)
+	handle_sword_attack(delta)
+	handle_shielding()
+	handle_magic_menu(elements_on)
+	handle_skill_cast(elements_on, delta)
 	
-	
-	if !damaged and !knockback:
-		if move.length() > 0 and !not_move:
-			static_time = 0
-			PlayerStats.damage_equipment("boots")
-			change_animation("Body", "Walk")
-		else:
-			motion_time = 0
-			change_animation("Body", "Idle")
-	else:
-		damaged -= 1
-		if damaged == 0: damaged = null
-	
-	var rem = move_and_slide(move)
-	if rem.length() == 0: motion_time = 0
-	elif motion_time > 1: SkillBase.inc_stat("PixelsTravelled", int(rem.length()))
-	prev_move = move
-	
+	atribute_regeneration(delta)
+#	if PlayerStats.hp   < PlayerStats.max_hp   and frame_counter % 20 == 0: PlayerStats.hp   = min(PlayerStats.hp + 1, PlayerStats.max_hp)
+
+	UI.soft_refresh()
+
 	if Input.is_key_pressed(KEY_F3): print(int(position.x / 800), ", ", int(position.y / 800)) ##debug
-	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(10000) ##debug
-#	if Input.is_key_pressed(KEY_F4): PlayerStats.test() ##debug
+	if Input.is_key_pressed(KEY_F1): PlayerStats.add_experience(100000000) ##debug
 
 
 func match_resistance_to_damage( type ):
@@ -250,7 +255,7 @@ func damage(attacker, amount_array, _knockback):
 		var type   = amount_array[index][1]
 
 		var resisit = match_resistance_to_damage(type)
-		var damage = amount - resisit
+		var damage  = amount - resisit
 
 		if damage > 0:
 			if shielding :
@@ -448,8 +453,6 @@ func use_magic(): ##nie tylko magia :|
 			or skill.combo.back().length() > triggered_skill[0].combo.back().length()))):
 			triggered_skill = [skill, 0.2]
 
-
-
 func trigger_ghost():
 	if ghost_time:
 		get_parent().cancel_ghost()
@@ -468,7 +471,6 @@ func trigger_ghost():
 		add_child(ghost_mode)
 		GHOST_EFFECT.visible = true
 		GHOST_EFFECT.get_node("../AnimationPlayer").play("Activate")
-
 
 func trigger_skill(skill = triggered_skill[0]):
 	triggered_skill = null
@@ -489,10 +491,7 @@ func trigger_skill(skill = triggered_skill[0]):
 		else: PlayerStats.mana -= skill.cost
 		
 	if skill.has("magic"): change_animation("RightArm", "Magic")
-	
-	
 	if skill.has("stats"): for stat in skill.stats: SkillBase.inc_stat(stat)
-	
 	if skill.has("projectile"):
 		var projectile = Res.create_instance("Projectiles/" + skill.projectile)
 		projectile.z_index = 2 
@@ -505,12 +504,6 @@ func trigger_skill(skill = triggered_skill[0]):
 		projectile.intiated()
 		
 		projectile.damage = skill.damage + int(PlayerStats.statistic["spell_power"][0])
-
-		#for stat in skill.scalling.keys():
-		#	projectile.damage += int(PlayerStats[level] * skill.scalling[stat])
-		#for stat in skill.scalling.keys():
-		#	projectile.damage += int(PlayerStats[stat] * skill.scalling[stat])
-
 		
 		if skill.has("magic"):
 			match( str(skill.magic) ):
@@ -543,100 +536,16 @@ func trigger_skill(skill = triggered_skill[0]):
 				_: pass
 
 		if skill.name == "Water Bubbles": water_stream_hack = 0.1
-		if skill.name == "Razor Banana": wind_spam_hack = 0.5
-		
-
-
+		if skill.name == "Razor Banana":  wind_spam_hack = 0.5
 
 func _on_other_attack_hit(body):
 	if body.is_in_group("secrets"):
 		body.hit(self)
 		
-func addQuest(ques):
-	if ques in Quests.keys():
-		if !Quests[ques]["Status"]["Aquired"]:
-			Quests[ques]["Status"]["Aquired"] = true
-		else:
-			return
-		
-		for item in PlayerStats.inventory:
-			if item.id in Quests[ques]["Items"].keys():
-				Quests[ques]["Items"][item.id]["Amount"] = PlayerStats.count_item(item.id)
-				if Quests[ques]["Items"][item.id]["Amount"] >= Quests[ques]["Items"][item.id]["Required"]:
-					Quests[ques]["Items"][item.id]["Finished"] = true
-					#print("Checkpoint ", item.id )
-		#print(ques, " in progress")
-		
-func is_quest_done(ques):
-	return Quests[ques]["Status"]["Done"]
-		
-func is_quest_aquired(ques):
-	return Quests[ques]["Status"]["Aquired"]
-		
-func checkQuest(ques):
-	
-	for mob in Quests[ques]["Mob"].keys():
-		if !Quests[ques]["Mob"][mob]["Finished"] : return false
-				
-	for item in Quests[ques]["Items"].keys():
-		if !Quests[ques]["Items"][item]["Finished"] : return false
-		
-	return true
-		
-func updateQuest( mob = null, item = null, place = null ):
 
-	for ques in Quests.keys():
-		if Quests[ques]["Status"]["Aquired"] and !Quests[ques]["Status"]["Done"]:
-			
-			if  mob in Quests[ques]["Mob"].keys():
-				Quests[ques]["Mob"][mob]["AlreadyKilled"] += 1
-				if Quests[ques]["Mob"][mob]["AlreadyKilled"] >= Quests[ques]["Mob"][mob]["NeedToBeKilled"]:
-					Quests[ques]["Mob"][mob]["Finished"] = true
-					#print("Checkpoint ", mob )
-					
-			if item in Quests[ques]["Items"].keys():
-				Quests[ques]["Items"][item]["Amount"] = PlayerStats.count_item(item)
-				if Quests[ques]["Items"][item]["Amount"] >= Quests[ques]["Items"][item]["Required"]:
-					Quests[ques]["Items"][item]["Finished"] = true
-					#print("Checkpoint ", item )
-				else:
-					Quests[ques]["Items"][item]["Finished"] = false
-					
-			if !checkQuest(ques) : continue
-					
-			Quests[ques]["Status"]["Done"] = true
-			#print(ques," Requierments Complete")
-			
-func add_quest_rewards(ques):
-	PlayerStats.add_experience(Quests[ques]["Reward"]["Exp"])
-	PlayerStats.money += Quests[ques]["Reward"]["Money"]
-					
-	for item in Quests[ques]["Reward"]["Items"].keys():
-		for i in range(Quests[ques]["Reward"]["Items"][item]):
-			PlayerStats.add_item(item)
-	
-	#print(ques," Rewards Recived")
 			
 func _input(event):
 	if event is InputEventMouseButton:
 		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
-		#print("Mouse Click/Unclick at: ", get_global_mouse_position())
-#		#print(get_tree().get_root().find_node("Player", true, false).position)
 			
 			
-var Quests = {
-	
-	"Hunt" : { 
-		"Status" : { "Aquired" : false, "Done" : false }, 
-		"Items":{ 1 : { "Amount"   : 0, "Required" : 1, "Finished" : false }, },
-		"Mob" : { "Puncher" : { "AlreadyKilled" : 0 , "NeedToBeKilled" : 1, "Finished" : false } , "Grinder" : { "AlreadyKilled" : 0 ,  "NeedToBeKilled" : 1, "Finished" : false } }, 
-		"Reward" : { "Exp" : 100,  "Money" : 100, "Items" : { 1 : 1,  2 : 2 } } 
-		}   ,
-	"Uganda" : { 
-		"Status" : { "Aquired" : false, "Done" : false }, 
-		"Items":{  },
-		"Mob" : { "Puncher" : { "AlreadyKilled" : 0 , "NeedToBeKilled" : 2, "Finished" : false } , "Grinder" : { "AlreadyKilled" : 0 ,  "NeedToBeKilled" : 2, "Finished" : false } }, 
-		"Reward" : { "Exp" : 100,  "Money" : 100, "Items" : { randi()%20 : 1,  randi()%20 : 2, randi()%20 : 3, randi()%20 : 4  } } 
-		}   
-		
-	}

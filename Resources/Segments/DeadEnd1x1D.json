@@ -1,7 +1,7 @@
 {
 	"name" : "DeadEnd1x1D",
-		"is_deadend" : true,
-		"shape"      : {
-			"0,0" : "D"
-		}
+	"is_deadend" : true,
+	"shape"      : {
+		"0,0" : "D"
+	}
 }

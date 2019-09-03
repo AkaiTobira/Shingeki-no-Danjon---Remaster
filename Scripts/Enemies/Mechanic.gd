@@ -11,6 +11,8 @@ var timers = {
 	"Dead"    : 10
 }
 
+var resistance = [ 0,0,0,0,0 ]
+
 var skills = {
 	"Payback" : {
 		"prob"      : 100,
@@ -44,8 +46,7 @@ var follow = false
 var RShieldON = true
 var LShieldON = true
 
-var base_resists = [ 60, 60, 60, 60, 450 ]
-
+var base_resistance = [ 60, 60, 60, 60, 450 ]
 
 func _ready():
 	max_health = 1500
@@ -87,11 +88,19 @@ func randomize_shields_resistances():
 	if RShieldON: $RightShield.update_resists()
 	if LShieldON:  $LeftShield.update_resists()
 	
-	for index in range(len(resists)):
-		resists[index] = base_resists[index]
-		if RShieldON: resists[index] += $RightShield.resists[index]
-		if LShieldON: resists[index] +=  $LeftShield.resists[index]
+	for index in range(len(resistance)):
+		resistance[index] = base_resistance[index]
+		if RShieldON: resistance[index] += $RightShield.resistance[index]
+		if LShieldON: resistance[index] +=  $LeftShield.resistance[index]
 	
+	Resists = {
+		"Earth"    : [resistance[0], 0],
+		"Fire"     : [resistance[1], 0],
+		"Water"    : [resistance[2], 0],
+		"Wind"     : [resistance[3], 0],
+		"Physical" : [resistance[4], 0]
+	}
+
 	.set_resists_to_bar()
 
 func _physics_process(delta):
