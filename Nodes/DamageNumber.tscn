@@ -46,8 +46,8 @@ func damage(node, amount, type = \"physical\", index = 0):
 	if amount <= 0:
 		if type == \"Physical\": $Label.text = \"ABSORBED\"
 		else: $Label.text = \"INEFFECTIVE\"
-		$Sprite.scale.x    = 1.87
-		$Sprite.position.x = 40.647
+		$Sprite.scale.x    = 2.609
+		$Sprite.position.x = 58.368
 	else:
 		$Label.text = str(stepify(amount, 0.01))
 	add_color_to_label(type)
@@ -62,7 +62,6 @@ func blocked_damage(node, amount, type = \"physical\", index = 0):
 	else:
 		$Label.text = str(stepify(amount, 0.01))
 	add_color_to_label(type)
-
 
 func _physics_process(delta):
 	position.y -= delta * 50
@@ -79,19 +78,19 @@ z_index = 5
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 30.1573, 10.2377 )
-scale = Vector2( 1.43342, 1.79466 )
+position = Vector2( 58.3676, 10.1582 )
+scale = Vector2( 2.60885, 2.32925 )
 texture = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = -1.84901
-margin_right = 62.151
+margin_left = -0.0308282
+margin_right = 115.969
 margin_bottom = 22.0
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.47451, 0.0431373, 0.0431373, 1 )
 custom_colors/font_outline_modulate = Color( 0.521569, 0.0352941, 0.0352941, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
 custom_constants/shadow_offset_y = 0
-text = "100.00"
+text = "INEFFECTIVE"
 align = 1
 valign = 1

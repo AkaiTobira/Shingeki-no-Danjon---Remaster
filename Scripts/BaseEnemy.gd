@@ -65,7 +65,7 @@ func initialize(id, dung_name, kind):
 	dungeon_name = dung_name
 	enemy_name = kind
 	my_id      = id
-	level      = max(PlayerStats.level + randi()%6 - 3, 0)
+	level      = max(PlayerStats.level + randi()%10 - 5, 0)
 
 	var enemy_info = Res.enemies[dung_name][kind]
 
@@ -93,7 +93,7 @@ func initialize(id, dung_name, kind):
 	scale_enemy_level()
 
 func scale_enemy_level():
-	var level_scale = 1.0 + level/5.0
+	var level_scale = 1.0 + level/15.0
 
 	max_health     *=  level_scale
 	health         *=  level_scale
@@ -115,7 +115,7 @@ func set_resists_to_bar():
 	for damage in DAMAGE_TYPE: resist_sum += Resists[damage][0] + Resists[damage][1]
 
 	if resist_sum <= 0 : return
-	
+
 	var max_value = 100
 	for value_index in range(len(resists)):
 		var damage_type = DAMAGE_TYPE[value_index]
@@ -139,7 +139,6 @@ var current_animation = ""
 
 var ability_ready = [ false, false, false ]
 const TIME_TO_DISAPEARD = 4.5
-
 
 func select_shader(shader_color):
 	match(shader_color):

@@ -35,7 +35,7 @@ func _physics_process(delta):
 
 
 func sueside_dead():
-	Res.game.player.updateQuest(enemy_name)
+	Res.game.quest_system.updateQuest(enemy_name)
 	
 	Res.play_sample(self, "RobotCrash")
 	

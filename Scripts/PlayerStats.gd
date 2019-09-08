@@ -74,11 +74,11 @@ func update_skills(skill):
 func refresh_skill():
 	statistic["physical_damage"][5]   = statistic["streng"][5] * increments[0][0]
 	statistic["critical_damage"][5]   = statistic["streng"][5] * increments[0][1]
-	statistic["wind_resistance"][5]   = statistic["streng"][5] * increments[0][2]
+	statistic["wind_resistance"][5]   = statistic["vital"][5] * increments[3][2]
 
 	statistic["critical_chance"][5]   = statistic["dexter"][5] * increments[1][0]
 	statistic["attack_speed"][5]      = statistic["dexter"][5] * increments[1][1]
-	statistic["earth_resistance"][5]  = statistic["dexter"][5] * increments[1][2]
+	statistic["earth_resistance"][5]  = statistic["streng"][5] * increments[0][2]
 	if statistic["attack_speed"][5] > 5: statistic["attack_speed"][5] = 4.25
 
 	statistic["water_resistance"][5]  = increments[2][0]*statistic["smart" ][5]
@@ -88,7 +88,7 @@ func refresh_skill():
 
 	statistic["max_health"][5]        = increments[3][0]*statistic["vital" ][5]
 	statistic["mana_regeneration"][5] = increments[3][1]*statistic["vital" ][5] 
-	statistic["fire_resistance"][5]   = increments[3][2]*statistic["vital" ][5] 
+	statistic["fire_resistance"][5]   = increments[1][2]*statistic[ "dexter" ][5] 
 	statistic["move_speed"][5]        = increments[3][3]*statistic["vital" ][5] 
 
 func _ready():

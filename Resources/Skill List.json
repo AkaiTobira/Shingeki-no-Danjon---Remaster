@@ -193,6 +193,13 @@
 		}
 	],
 
+	"RockBullet": [
+		{
+			"stat": "EarthMagic",
+			"value": 5
+		}
+	],
+
 	"EarthWall": [
 		{
 			"stat": "EarthMagic",
