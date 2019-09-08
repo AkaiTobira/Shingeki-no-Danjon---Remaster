@@ -1,13 +1,13 @@
 {
 	"type": "active",
 	"name": "Rock Bullet",
-	"description": "Shoots a fist-shaped missile made of stone.",
-	"infos": ["Earth elemental", "Long X to use"],
+	"description": "Shoots a rock-shaped bullet.",
+	"infos": ["Earth elemental", "Ctrl to use"],
 	"combo": ["Shield"],
 	"projectile": "SmallRock",
 	"stats": ["OffensiveMagic"],
-	"cost": 14,
-	"damage": 15,
+	"cost": 8,
+	"damage": 9,
 	"magic": 4,
 	"elements": {"earth": 1},
 	"scalling": {"intelligence": 1}
