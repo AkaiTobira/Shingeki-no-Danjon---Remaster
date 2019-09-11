@@ -6,6 +6,13 @@
 		}
 	],
 	
+	"RockCircle": [
+		{
+			"stat": "EarthMagic",
+			"value": 49
+		}
+	],
+
 	"FastWalkII": [
 		{
 			"stat": "PixelsTravelled",

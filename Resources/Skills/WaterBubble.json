@@ -7,7 +7,7 @@
 	"projectile": "WaterBubble",
 	"stats": ["OffensiveMagic"],
 	"cost": 4,
-	"damage": 2,
+	"damage": 4,
 	"magic": 2,
 	"elements": {"water": 1},
 	"scalling": {"intelligence": 1}

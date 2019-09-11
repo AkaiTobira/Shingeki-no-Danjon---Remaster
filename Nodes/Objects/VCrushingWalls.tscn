@@ -1,0 +1,164 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Sprites/Objects/VCrushingWallsSteel.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Objects/VCrushingWalls_Up.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+resource_name = "CrushingWalls"
+script/source = "extends Area2D
+
+enum PLACEMENT{ EVERY_WALL, LEFT_OR_RIGHT_WALL, UP_OR_DOWN_WALL, UP_WALL, DOWN_WALL ,WALL_FREE }
+
+
+export(PLACEMENT) var placement
+export var offset_position = Vector2(0, 0)
+export(Vector2) var size
+export var variants = \"\"
+export var can_flip_h = false
+export var const_object = false 
+export(bool) var need_second_wall
+export(bool) var need_more_space
+export(bool) var walkable = false
+
+export var need_enemies_list = false
+
+var last_frame = 0
+
+func _change_sprite( tileset_name = \"Default\" ): pass
+#	if tileset_name == \"Dungeon\":
+#		pass
+#	elif tileset_name == \"SteamPunk\":
+#		$\"Sprite\".texture = load(\"res://Sprites/Objects/CrushingWallsSteel.png\")
+#		$\"Sprite2\".frame = 1
+
+
+
+func get_placement_info():
+	return { \"name\" : \"VCrushingWalls\", \"type\": Res.EnvironmentType.Trap, \"flip\":false }
+
+func initialize(id, dungeon_name, my_name, dungeon_level = 0, flip= 0):
+	_change_sprite(Res.dungeons[dungeon_name][\"tileset\"])
+
+	if randi()%5 == 0 :
+		$AnimationPlayer.stop()
+		return 
+	
+	if has_node(\"AnimationPlayer\") :
+		var anim = $AnimationPlayer.get_animation_list()
+		if len(anim) :
+			$AnimationPlayer.play(anim[randi()%len(anim)])
+			$AnimationPlayer.advance(randi()% ( int($AnimationPlayer.current_animation_length)  ) )
+
+func enable_collisions():
+	if is_instance_valid($\"LeftWall/Shape\"):  $\"LeftWall/Shape\".set_disabled(false) 
+	if is_instance_valid($\"RightWall/Shape\"): $\"RightWall/Shape\".set_disabled(false) 
+	if is_instance_valid($\"DamageShape\"):     $\"DamageShape\".set_disabled(false) 
+
+func disable_collisions(): 
+	if is_instance_valid($\"LeftWall/Shape\") : $\"LeftWall/Shape\".set_disabled(true) 
+	if is_instance_valid($\"RightWall/Shape\"): $\"RightWall/Shape\".set_disabled(true) 
+	if is_instance_valid($\"DamageShape\")    : $\"DamageShape\".set_disabled(true) 
+
+func _process(delta):
+	$DamageShape.disabled = ($Sprite.frame != 2)
+	if $Sprite.frame != last_frame:
+		$DamageShape.disabled = ($Sprite.frame != 2)
+		last_frame = $Sprite.frame
+		
+		if last_frame == 2: Res.play_sample(self, \"Crush\")
+
+func _on_attack(body):
+	if body.get_parent().is_in_group(\"players\"):
+		body.get_parent().damage(self, [[50,\"Earth\" ]], 0)
+		
+	if body.get_parent().is_in_group(\"enemies\"):
+		body.get_parent().damage([[10,\"Earth\" ]],\"\")"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 43.1698, 650.447 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 32.4966, 40 )
+
+[sub_resource type="Animation" id=4]
+length = 10.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 6, 8, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 1, 0 ]
+}
+
+[node name="VCrushingWalls" type="Area2D" groups=[
+"enviroment",
+]]
+input_pickable = false
+script = SubResource( 1 )
+placement = 2
+size = Vector2( 1, 4 )
+need_second_wall = true
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -40, -320 )
+z_index = 1
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 1, 0 )
+hframes = 4
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( -39, 160 )
+z_index = 10
+texture = ExtResource( 2 )
+centered = false
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite3" type="Sprite" parent="."]
+position = Vector2( -40, -362 )
+z_index = 10
+texture = ExtResource( 2 )
+centered = false
+vframes = 2
+hframes = 2
+frame = 3
+
+[node name="DamageShape" type="CollisionShape2D" parent="."]
+position = Vector2( 2.0105, 119.786 )
+scale = Vector2( 1, 0.0928285 )
+shape = SubResource( 2 )
+disabled = true
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2( 42, 312 )
+
+[node name="Shape" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2( -34.884, -7.2262 )
+shape = SubResource( 3 )
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2( -201, 5 )
+
+[node name="Shape" type="CollisionShape2D" parent="RightWall"]
+position = Vector2( 202.021, -77.3191 )
+shape = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "SMASH"
+playback_speed = 8.0
+anims/SMASH = SubResource( 4 )
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+position = Vector2( -51.9814, -126.254 )
+scale = Vector2( 0.315202, 1.59581 )
+rect = Rect2( 0, 0, 400, 300 )
+[connection signal="area_entered" from="." to="." method="_on_attack"]

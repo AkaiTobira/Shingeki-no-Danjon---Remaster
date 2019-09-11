@@ -38,6 +38,7 @@
 
 		"trap_objects" : [
 			"CrushingWalls",
+			"VCrushingWalls",
 			"FloorTrap",
 			"PipeTrap"
 		],

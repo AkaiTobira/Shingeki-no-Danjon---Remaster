@@ -21,30 +21,38 @@ var damage = 0
 
 var active_level = 1
 
+var enable_mana_drain = true
+
 func intiated():
+	SPEED = 30
+	if Input.is_action_pressed(\"Magic_Special\") and PlayerStats.mana > 0: SPEED = 0
 	Res.play_sample(self, \"RockFist\")
 
 func _physics_process(delta):
-	c_time += delta
+	if Input.is_action_just_released(\"Magic_Special\") :  SPEED = 30 
 
-	if c_time > tim2:
-		if !level_flags[0]:
-			level_flags[0] = true
-			$Animation.play(\"2level\")
-			active_level = 2
+	if SPEED < 30: 
+		if enable_mana_drain :
+			PlayerStats.mana = max( PlayerStats.mana - 1*delta, 0 )
+			if PlayerStats.mana <= PlayerStats.statistic[\"mana_regeneration\"][0]: SPEED = 30
+		c_time += delta
+	
+		if c_time > tim2:
+			if !level_flags[0]:
+				level_flags[0] = true
+				$Animation.play(\"2level\")
+				active_level = 2
+	
+			if c_time > tim3: 
+				if !level_flags[1]:
+					level_flags[1] = true
+					$Animation.play(\"3level\")
+					active_level = 3
+		return
 
-		if c_time > tim3: 
-			if !level_flags[1]:
-				level_flags[1] = true
-				$Animation.play(\"3level\")
-				active_level = 3
-				SPEED = 30
-
-	if SPEED < 30: return 
 
 	$Shadow.play(\"Animation\")
 	$Sprite2.visible = true
-
 
 	if move_and_collide(MOVEMENT[direction] * SPEED):
 		Res.play_sample(self, \"EarthPunch\")
@@ -59,7 +67,7 @@ func _on_attack_hit(collider):
 		Res.play_sample(self, \"EarthPunch\")
 		SkillBase.inc_stat(\"EarthMagic\")
 		SkillBase.inc_stat(\"Ranged\")
-		collider.get_parent().damage([[damage * (active_level/2), \"Earth\" ]], \"\")
+		collider.get_parent().damage([[damage * (active_level) +  damage * (active_level) * c_time/10, \"Earth\" ]], \"\")
 		queue_free()"
 
 [sub_resource type="Animation" id=2]
@@ -79,7 +87,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=3]
 resource_name = "2level"
 length = 2.5
 step = 0.5
@@ -96,7 +104,7 @@ tracks/0/keys = {
 "values": [ 3, 4, 5, 6, 7 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 resource_name = "3level"
 length = 2.0
 step = 0.5
@@ -113,10 +121,10 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10 ]
 }
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 7.02121, 7.17932 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 resource_name = "Animation"
 length = 1.5
 loop = true
@@ -157,12 +165,12 @@ frame = 3
 autoplay = "1level"
 playback_speed = 8.0
 anims/1level = SubResource( 2 )
-anims/2level = SubResource( 6 )
-anims/3level = SubResource( 7 )
+anims/2level = SubResource( 3 )
+anims/3level = SubResource( 4 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1.62016 )
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_layer = 2
@@ -170,10 +178,10 @@ collision_mask = 2
 
 [node name="Shape" type="CollisionShape2D" parent="AttackCollider"]
 position = Vector2( 0, -1.62016 )
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
 [node name="Shadow" type="AnimationPlayer" parent="."]
 autoplay = "Animation"
 playback_speed = 16.0
-anims/Animation = SubResource( 8 )
+anims/Animation = SubResource( 6 )
 [connection signal="area_entered" from="AttackCollider" to="." method="_on_attack_hit"]

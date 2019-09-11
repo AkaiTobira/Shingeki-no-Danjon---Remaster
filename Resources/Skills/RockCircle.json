@@ -1,0 +1,14 @@
+{
+	"type": "active",
+	"name": "Rock Circle",
+	"description": "Creates circle of rocks levitating around player.",
+	"infos": ["Earth elemental", "Hold Ctrl to use, Hold C to make it flying around player"],
+	"combo": ["Shield_"],
+	"projectile": "RockCircle",
+	"stats": ["OffensiveMagic"],
+	"cost": 30,
+	"damage": 4,
+	"magic": 4,
+	"elements": {"earth": 1},
+	"scalling": {"intelligence": 1}
+}

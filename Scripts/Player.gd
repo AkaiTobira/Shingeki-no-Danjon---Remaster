@@ -496,9 +496,9 @@ func trigger_skill(skill = triggered_skill[0]):
 		var projectile = Res.create_instance("Projectiles/" + skill.projectile)
 		projectile.z_index = 2 
 		get_parent().add_child(projectile)
-		projectile.position = position - Vector2(0,45)
+		projectile.position = position - Vector2(0,25)
 		if( direction == 2 ):
-			projectile.position = position + Vector2(0,40)
+			projectile.position = position + Vector2(0,15)
 		
 		projectile.direction = direction
 		projectile.intiated()
@@ -541,11 +541,7 @@ func trigger_skill(skill = triggered_skill[0]):
 func _on_other_attack_hit(body):
 	if body.is_in_group("secrets"):
 		body.hit(self)
-		
 
-			
 func _input(event):
 	if event is InputEventMouseButton:
 		get_tree().get_root().find_node("Player", true, false).position = get_global_mouse_position()
-			
-			

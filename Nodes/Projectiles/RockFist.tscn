@@ -12,11 +12,23 @@ var SPEED = 0.01
 var direction = 0 setget new_dir
 var damage = 0
 
+var time = 0
+
 func intiated():
+	SPEED = 40
+	if Input.is_action_pressed(\"Magic_Special\") and PlayerStats.mana > 1: SPEED = 0
 	Res.play_sample(self, \"RockFist\")
 
 func _physics_process(delta):
-	if SPEED < 40: SPEED *= 1.1
+
+	if Input.is_action_just_released(\"Magic_Special\") :  SPEED = 40 
+
+	if SPEED < 30:
+		time += delta 
+		PlayerStats.mana = max( PlayerStats.mana - 2*delta, 0 )
+		if PlayerStats.mana <= PlayerStats.statistic[\"mana_regeneration\"][0]: SPEED = 40
+		return 
+
 	if move_and_collide(MOVEMENT[direction] * SPEED):
 		Res.play_sample(self, \"EarthPunch\")
 		queue_free()
@@ -30,7 +42,7 @@ func _on_attack_hit(collider):
 		Res.play_sample(self, \"EarthPunch\")
 		SkillBase.inc_stat(\"EarthMagic\")
 		SkillBase.inc_stat(\"Ranged\")
-		collider.get_parent().damage([[damage, \"Earth\" ]], \"\")
+		collider.get_parent().damage([[damage + damage * time/10, \"Earth\" ]], \"\")
 		queue_free()"
 
 [sub_resource type="Animation" id=2]

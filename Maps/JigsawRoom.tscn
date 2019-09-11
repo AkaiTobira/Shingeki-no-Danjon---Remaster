@@ -29,7 +29,6 @@ func _process(delta):
 
 func clear(): pass
 
-
 func fill(): pass
 "
 
